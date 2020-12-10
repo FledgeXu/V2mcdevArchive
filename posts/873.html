@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于世界渲染图片和包含其他模组的问题</title>
+</head>
+<body>
+    <div class="title"><h1>关于世界渲染图片和包含其他模组的问题</h1></div>
+    <div class="post-user" class="user"><h4>jerez</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows10 64位<br>
+你是用的JDK: 1.8.0_261  64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;2020.2.1&gt;<br>
+Forge版本:  &lt;forge-1.12.2-14.23.5.2768&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;<br>
+Mapping 文件版本: &lt;snapshot_20171003&gt;</p>
+<p><strong>问题描述</strong></p>
+<p>Q1. 我想要在forge客户端+spigot服务端中实现一些渲染的功能</p>
+<p>比如我想要在forge客户端的世界里渲染一张图片<br>
+或者类似vexview的头顶功能，由于vexview进行了混淆我无法查看其代码学习</p>
+<p>目前在google搜索过一些资料，奈何英语不好，也可能是关键词查询的有问题<br>
+希望等到一些搜索关键词或者资料</p>
+<p>目前思路是创建一个盔甲架，为盔甲架写入特定nbt，forge客户端在渲染事件里修改渲染？<br>
+不知道有没有更好的解决方案，如果能不在服务端创建新的实体就更好了<br>
+不清楚forge注册entity的时候是否需要通过服务端，如果通过服务端的话服务端应该就获取不到新注册的实体了吧？<br>
+不过应该有办法直接只在客户端渲染的吧？例如粒子效果particle就是直接渲染不通过服务端的</p>
+<p>当我解决后会附上解决代码，感谢</p>
+<p>Q2. 如何引用和打包其他mod在自己的mod里</p>
+<p>比如我想将开源的时装工坊放入我的mod里并且一带打包出去，且会修改部分源码的情况下<br>
+是否只能clone之后将源码部分复制到我的项目里并修改时装工坊的主类到我的主类中？</p>
+<p>因为不只是引用mod，我可能会修改部分内容。</p>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <a href="https://www.google.com/search?q=forge%2Brender%2Bimage%2Binto%2Bworld%2Bsite:forums.minecraftforge.net" target="_blank" rel="noopener nofollow ugc">google.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.google.com/search?q=forge%2Brender%2Bimage%2Binto%2Bworld%2Bsite:forums.minecraftforge.net" target="_blank" rel="noopener nofollow ugc">forge render image into world site:forums.minecraftforge.net - Google Search</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>1.16 Forge 正式版已经发布，本论坛将不再提供1.12的支持。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

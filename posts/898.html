@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Shift展示更多物品信息</title>
+</head>
+<body>
+    <div class="title"><h1>Shift展示更多物品信息</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64<br>
+你是用的JDK: JDK1.8<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.4<br>
+Forge版本:  1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p>在热力膨胀中物品的信息按shift来展示，使用了一个org包的keyboard方法，我不添加包怎么实现类似功能。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>什么叫做不添加包，不添加哪个包？</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p><code>Lnet/minecraft/client/util/InputMappings;isKeyDown(JI)Z</code> 可以用这个判断键盘某一个按钮是否按下。<br>
+第一个参数是 windows 的 handler，第二个是键盘的 Key Id。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>handler是什么知道了，但shift不是16吗，但运行会报错invalid key 16。难道不是16？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>使用了一个org包的keyboard方法</p>
+</blockquote>
+<p>盲猜是 <code>org.lwjgl.*</code> ，这是 Minecraft 自带的依赖</p>
+<p>左 Shift 是 340<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/LWJGL/lwjgl3/blob/3c92f417252da6f2b6cbfba75db9e4c62bc28a9e/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java#L184" target="_blank" rel="noopener nofollow ugc">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/LWJGL/lwjgl3/blob/3c92f417252da6f2b6cbfba75db9e4c62bc28a9e/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java#L184" target="_blank" rel="noopener nofollow ugc">LWJGL/lwjgl3/blob/3c92f417252da6f2b6cbfba75db9e4c62bc28a9e/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java#L184</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="174" style="counter-reset: li-counter 173 ;">
+<li>GLFW_KEY_KP_7          = 327,</li>
+<li>GLFW_KEY_KP_8          = 328,</li>
+<li>GLFW_KEY_KP_9          = 329,</li>
+<li>GLFW_KEY_KP_DECIMAL    = 330,</li>
+<li>GLFW_KEY_KP_DIVIDE     = 331,</li>
+<li>GLFW_KEY_KP_MULTIPLY   = 332,</li>
+<li>GLFW_KEY_KP_SUBTRACT   = 333,</li>
+<li>GLFW_KEY_KP_ADD        = 334,</li>
+<li>GLFW_KEY_KP_ENTER      = 335,</li>
+<li>GLFW_KEY_KP_EQUAL      = 336,</li>
+<li class="selected">GLFW_KEY_LEFT_SHIFT    = 340,</li>
+<li>GLFW_KEY_LEFT_CONTROL  = 341,</li>
+<li>GLFW_KEY_LEFT_ALT      = 342,</li>
+<li>GLFW_KEY_LEFT_SUPER    = 343,</li>
+<li>GLFW_KEY_RIGHT_SHIFT   = 344,</li>
+<li>GLFW_KEY_RIGHT_CONTROL = 345,</li>
+<li>GLFW_KEY_RIGHT_ALT     = 346,</li>
+<li>GLFW_KEY_RIGHT_SUPER   = 347,</li>
+<li>GLFW_KEY_MENU          = 348,</li>
+<li>GLFW_KEY_LAST          = GLFW_KEY_MENU;</li>
+<li>
+</li></ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我也是这么认为的，不过在1.15.2里找不到keyboard整个类了，可能是1.12之后改了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我已经把代码给你贴出来了。<br>
+Minecraft 1.13+ 以来所使用的 LWJGL 3 已经把所有键控代码改到了 <code>org.lwjgl.glfw.GLFW</code> 里，左 Shift 的键控代码值是 <code>GLFW.GLFW_KEY_LEFT_SHIFT</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

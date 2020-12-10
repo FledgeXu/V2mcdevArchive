@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Minecraft mod 开发编程入门</title>
+</head>
+<body>
+    <div class="title"><h1>Minecraft mod 开发编程入门</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <h2>免责声明</h2>
+<p>本教程仅代表我个人看法，如果有意见，我会虚心接收，改不改看情况。</p>
+<h2>前言</h2>
+<p><strong>不要通过写Mod来学习编程！</strong><br>
+<strong>不要通过写Mod来学习编程！</strong><br>
+<strong>不要通过写Mod来学习编程！</strong></p>
+<h2>正文</h2>
+<p>第一件事，你得确认你真的需要写 Mod 吗，你尝试过用原版的知识解决问题吗，你尝试和别人合作过吗？如果你真的确认你要学习如何写 Mod 那么请继续读下去。</p>
+<p>我在这里所推荐的基本是国外内容，学习编程的第一个要点「英文世界的内容普遍比中文世界优秀」。</p>
+<ul>
+<li>
+<p>基础技能（必学）</p>
+<ul>
+<li>学好英文，从用任何<a href="https://apps.ankiweb.net/">背单词的软件</a>每日背一百个新词开始，如果你连是连音标都不怎么会的水平<a href="https://item.jd.com/52574624202.html">「赖世雄美语从头学」</a>是最好的入门。</li>
+<li><strong>你不可能不遇见问题，所以首先你得先学习<a href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md">如何提问</a>。</strong></li>
+<li>学会如何搜索问题，第一，你得放弃百度，学会用Google来搜索技术相关的内容，只要你使用过就能体会我这么做的意义。第二，你得学习一些搜索的技巧，少数派的这篇<a href="https://sspai.com/post/34150">文章</a>会是你的好老师。</li>
+<li>
+<strong>最后且最重要的是请要分享你的想法和经验，不要成为一匹独狼，在你的学习过程中肯定会受到许多人间接和直接的帮助，你也要尽力帮助别人</strong>，可以试着在论坛里回复别人的问题，或者自己搭建博客分享自己的经验。</li>
+</ul>
+</li>
+<li>
+<p>计算机科学常识（必学）</p>
+<ul>
+<li>
+<a href="https://www.bilibili.com/video/BV137411J74P">哈佛大学的CS50</a>，这是少数几门经久不衰的编程入门课，非常适合初学者。</li>
+<li>
+<a href="https://www.bilibili.com/video/BV1EW411u7th">10分钟速成课：计算机科学</a>，这门课在广度和历史背景的介绍上做到了很好的平衡，语速有点快，有时候需要暂停思考一下。</li>
+<li>
+<a href="https://item.jd.com/11116026.html">编码：隐匿在计算机软硬件背后的语言</a>，这本书可以告诉你，这一切的基础是什么。</li>
+</ul>
+</li>
+</ul>
+<p>在你学习完以上的内容以后我相信你已经对什么是「计算机科学」和「计算机科学」是做什么的有所了解了。</p>
+<p>接下来你可以开始学习编程了，虽然你的目标是学习mod开发，或者说学习Java，但是Java本身不算是一个对于没有经验的人好入门的语言，我的建议是从 Python 入门，当你学习的编程语言越多，你学习一门新的编程语言的时间就越少。</p>
+<ul>
+<li>编程语言（可学）
+<ul>
+<li>第一个推荐的是<a href="https://www.bilibili.com/video/av77185239">MIT-Python编程和计算机科学导论</a>，在你学习完这门课以后你应该会有些编程的基础了。当然<a href="https://item.jd.com/28884022693.html">笨方法学Python</a>，也是非常好的资料。</li>
+<li>当你有python编程的经验了之后，我非常建议但不强制你学习<a href="https://item.jd.com/12653166.html">SICP-计算机程序的构造和解释(lisp版)</a>，这本书会有些难，如果要学习的话请确保完成它的习题，<a href="https://sicp.readthedocs.io/en/latest/">这里</a>是答案，你也可以参考作者们的<a href="https://www.bilibili.com/video/av8515129">视频教程</a>学习。</li>
+</ul>
+</li>
+</ul>
+<p>学习Java，接下来你就可以开始学习Java了</p>
+<ul>
+<li>
+<p>Java学习（必学）</p>
+<ul>
+<li>如果你没有按照我的推荐学过以上的内容，我建议你从<a href="https://item.jd.com/10100190.html">Head first Java</a>开始学习，虽然这本书有点老旧了。</li>
+<li>如果有过编程经验的人我建议从<a href="https://item.jd.com/39880254037.html">Java编程思想</a>和<a href="https://item.jd.com/12759308.html">Java核心技术</a>两本书开始，其中「Java编程思想」可以很好解释你会遇见的概念，而「Java核心技术」是一本「案头书」意味着你可以快速的过一遍然后需要的时候再来翻看。</li>
+</ul>
+</li>
+</ul>
+<p>现在你已经有编程基础了，你还需要好好的了解Minecraft这个游戏本身</p>
+<ul>
+<li>
+<p>Minecraft</p>
+<ul>
+<li>这里只有一个链接给你，就是<a href="https://minecraft-zh.gamepedia.com/index.php">Minecraft wiki</a>, 请通读它一遍。</li>
+</ul>
+</li>
+</ul>
+<p>相信你读完Wiki之后对Minecraft游戏本身已经有了足够的了解了，结下你需要对Minecraft本身技术上的细节有所了解。</p>
+<ul>
+<li>首先最重要的自然是Forge自己的<a href="http://mcforge.readthedocs.io/en/latest/">文档</a>，这个文档涉及的到了Forge mod 开发的一些重要概念，但是Forge本身的文档其实相当的不全。</li>
+</ul>
+<ul>
+<li>其次是Sponge的<a href="https://docs.spongepowered.org/">文档</a>，虽然是插件开发，但是一些关键的概念是相通的，而且文档齐全，非常值得一读。</li>
+</ul>
+<p>现在你已经具有 Minecraft 开发所需要的基础了，如果你想继续向下学习，请看下面</p>
+<ul>
+<li>高级篇
+<ul>
+<li>你需要加强算法的知识，这本<a href="https://item.jd.com/11098789.html">「算法」</a> 推荐给你。</li>
+<li>你或许还需要对一些深层渲染的东西有所了解，这里有份<a href="https://learnopengl.com/">OpenGL教程</a>给你，这里是<a href="https://learnopengl-cn.github.io/">中文版</a>。</li>
+</ul>
+</li>
+</ul>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>耗子</h4></div>
+    <br />
+    <div class="post">
+        <p>对于是否应该多学几门语言以及Java是否适合新手入门学习，我对您的观点持反对意见。</p>
+<blockquote>
+<p>接下来你可以开始学习编程了，虽然你的目标是学习mod开发，或者说学习Java，但是Java本身不算是一个对于没有经验的人好入门的语言，我的建议是从Python入门，当你学习的编程语言越多，你学习一门新的编程语言的时间就越少。</p>
+</blockquote>
+<p>以我个人经历，我个人从Java语言入门，从自己最感兴趣的事情做起，学习动力尤为充沛，同时也积极地遵照教程去做。</p>
+<p>早年由于无法配置模组开发环境的原因，使我先将目光转向了Bukkit插件开发。Bukkit插件开发不得不说对我的Java学习影响极大，它能够很快地给我一个积极的反馈，让我感受到了改变游戏世界的成就感，同时它也启迪了我对于架构的理解和对优秀架构追求和渴望。</p>
+<p>学习编程不应该在多门语言之间反复横跳，我学习Java开发6年，基本上没有在别的语言上深入学习，但架构知识始终是我一直在追求的，架构无论在那个语言上都能够适用。在面对缺乏完善架构设计的Minecraft上，优秀的架构设计往往能给你的模组开发产生事半功倍的效果。</p>
+<p>总的来说，现在的教程已经足够手把手地喂饱新手了，<strong>大胆地做你感兴趣的事情吧</strong>！只有这样你才有动力坚持下去。</p>
+<p>当然对于Minecraft开发，我更推荐Java基础-&gt;Bukkit插件开发-&gt;Forge/Fabric模组开发的学习路径，我也相信Bukkit插件开发能让你初步体验到一个优秀架构对于软件开发的重要性。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>………<br>
+你可以去试试学学SICP这本书或者Haskell这门编程语言，不只有OOP，而且也不知只有Java这种OOP实现方式。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>………<br>
+你可以去试试学学SICP这本书或者Haskell这门编程语言，编程范式不只有OOP，而且也不知只有Java这种OOP实现方式。</p>
+<blockquote>
+<p>Learn at least a half dozen programming languages. Include one language that supports class abstractions (like Java or C++), one that supports functional abstraction (like Lisp or ML), one that supports syntactic abstraction (like Lisp), one that supports declarative specifications (like Prolog or C++ templates), one that supports coroutines (like Icon or Scheme), and one that supports parallelism (like Sisal).<br>
+译：至少学6种程序语言。其中包括一种支持类抽象的（Java和C++），一种支持函数抽象的（如Lisp或ML），一种支持语义抽象的（Lisp），一种支援声明规范的（如Prolog或C++模板），还有一种支援协程的（Icon或Scheme），另外一种支持并发的（Sisal）。<br>
+——————By Google 研究总监 Peter Norvig。</p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>耗子</h4></div>
+    <br />
+    <div class="post">
+        <p>没必要把业内的权威都要奉为真理，更何况我们是面向新人，面向基于兴趣学习的人，而不是面向需要向更深刻层面学习的程序员。在我看来，掌握架构实际上比掌握多种编程范式更重要。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果行业权威也不能相信，那要相信什么？<img src="../images/emoji/apple/thinking.png?v=9" title=":thinking:" class="emoji" alt=":thinking:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果行业权威也不能相信，那要相信什么？<img src="../images/emoji/apple/thinking.png?v=9" title=":thinking:" class="emoji" alt=":thinking:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>哪怕是Java这种自称为纯面向对象的语言，也已经加入了函数式编程的内容，mod开发也需要用到，学习多种语言绝对是好事。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>至于架构，架构其实就是一种抽象过程，你在学习各种语言的过程中你也能更好的体会如何抽象。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不过这个教程也只是我个人之言，读者也完全可不遵循这个教程。</p>
+    </div>
+    <br />
+    <div class="user"><h4>耗子</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>如果行业权威也不能相信，那要相信什么？</p>
+</blockquote>
+<blockquote>
+<p>没必要把业内的权威<strong>都要</strong>奉为真理.</p>
+</blockquote>
+<p>你此前都在社区理念上要求尊重自己，不要使 <strong>大佬</strong> 、 <strong>膜拜</strong> 、 <strong>萌新</strong>等词汇了，结果你现在又开始迷信权威，把我的话理解为绝对的话语，学术讨论就在此沦为下流。</p>
+<p>那你现在又提倡相信行业权威，难道我就不是Minecraft开发的行业权威了？那你不相信我，去相信Google一个跟Minecraft八竿子打不着的公司的人的权威，真有够可笑的呢（我是老阴阳人了）。</p>
+<p>我刚看了一下你又把社区理念给改了，难道你也要学Google把“不要作恶”改成“做正确的事”？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="1" data-topic="380">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/380">论坛、编程教程以及其他</a> <a class="badge-wrapper  bullet" href="/c/19-category"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    我写这篇的文章的因为耗子在的我的教程下的反驳。我觉得有必要好好好澄清一下我什么论坛里有一些看上去很奇怪的规定，以及为什么我要写这篇教程，以及为什么这篇教程的内容是如此安排。 
+刚刚来到这个论坛上的人应该会很奇怪于一条规定：「请不要使用类似于 大佬 、 膜拜 、 萌新 这类词」这看上去非常的奇怪，也估计没有其他哪一个论坛里会有这样的限制了把。我之所以会写这一条规定是源于我在日常上网时和别人向我提问时…
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="1" data-topic="380">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/380">论坛、编程教程以及其他</a> <a class="badge-wrapper  bullet" href="/c/19-category"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    我写这篇的文章的因为耗子在的我的教程下的反驳。我觉得有必要好好好澄清一下我什么论坛里有一些看上去很奇怪的规定，以及为什么我要写这篇教程，以及为什么这篇教程的内容是如此安排。 
+刚刚来到这个论坛上的人应该会很奇怪于一条规定：「请不要使用类似于 大佬 、 膜拜 、 萌新 这类词」这看上去非常的奇怪，也估计没有其他哪一个论坛里会有这样的限制了把。我之所以会写这一条规定是源于我在日常上网时和别人向我提问时…
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+</body>
+</html>

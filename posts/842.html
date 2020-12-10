@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>附加的Capability报空值</title>
+</head>
+<body>
+    <div class="title"><h1>附加的Capability报空值</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你是用的JDK: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本: 31.2.36<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200901</p>
+<p><strong>错误情况简述</strong><br>
+依照Neutrino的教程做了一套Capability，额外做了一个用于测试的方块（右击时为附加的capability赋值）和一个用于测试的物品（右击时在控制台输出这个能力包含的值）。目前情况是玩家重生后使用物品或右击方块均会报空值的警告（见报错日志）。<strong>但是在控制台输出有</strong><br>
+<code>[Server thread/DEBUG] [ne.mi.fm.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save Rainbow6 Test</code><br>
+<strong>这句之后</strong>（表面看起来是这样）<strong>，就一切正常不会报空了。</strong>(顺便：这句话的背后做了些什么？</p>
+<p><strong>报错日志</strong><br>
+右击方块</p>
+<pre><code class="lang-auto">[11:50:34] [Server thread/WARN] [ne.mi.co.ut.LazyOptional/CATCHING]: Catching
+java.lang.NullPointerException: Supplier should not return null value
+	at net.minecraftforge.common.util.LazyOptional.getValue(LazyOptional.java:119) ~[?:?] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:159) ~[?:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.blocks.CapabilityTestBlock.onBlockActivated(CapabilityTestBlock.java:28) ~[?:?] {re:classloading}
+	at net.minecraft.block.BlockState.onBlockActivated(BlockState.java:294) ~[?:?] {re:classloading}
+	at net.minecraft.server.management.PlayerInteractionManager.func_219441_a(PlayerInteractionManager.java:343) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.ServerPlayNetHandler.processTryUseItemOnBlock(ServerPlayNetHandler.java:881) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemOnBlockPacket.processPacket(CPlayerTryUseItemOnBlockPacket.java:45) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemOnBlockPacket.processPacket(CPlayerTryUseItemOnBlockPacket.java:12) ~[?:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.lambda$checkThreadAndEnqueue$0(PacketThreadUtil.java:19) ~[?:?] {re:classloading}
+	at net.minecraft.util.concurrent.TickDelayedTask.run(TickDelayedTask.java:20) [?:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:140) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) [?:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:759) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:141) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOneInternal(MinecraftServer.java:742) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOne(MinecraftServer.java:736) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveUntil(ThreadTaskExecutor.java:123) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.runScheduledTasks(MinecraftServer.java:722) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:666) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_251] {}
+</code></pre>
+<p>使用物品</p>
+<pre><code class="lang-auto">[11:50:35] [Server thread/WARN] [ne.mi.co.ut.LazyOptional/CATCHING]: Catching
+java.lang.NullPointerException: Supplier should not return null value
+	at net.minecraftforge.common.util.LazyOptional.getValue(LazyOptional.java:119) ~[?:?] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:159) ~[?:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.items.CapabilityTestItem.onItemRightClick(CapabilityTestItem.java:29) ~[?:?] {re:classloading}
+	at net.minecraft.item.ItemStack.useItemRightClick(ItemStack.java:206) ~[?:?] {re:classloading}
+	at net.minecraft.server.management.PlayerInteractionManager.processRightClick(PlayerInteractionManager.java:293) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.ServerPlayNetHandler.processTryUseItem(ServerPlayNetHandler.java:905) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemPacket.processPacket(CPlayerTryUseItemPacket.java:37) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemPacket.processPacket(CPlayerTryUseItemPacket.java:9) ~[?:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.lambda$checkThreadAndEnqueue$0(PacketThreadUtil.java:19) ~[?:?] {re:classloading}
+	at net.minecraft.util.concurrent.TickDelayedTask.run(TickDelayedTask.java:20) [?:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:140) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) [?:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:759) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:141) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOneInternal(MinecraftServer.java:742) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOne(MinecraftServer.java:736) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveUntil(ThreadTaskExecutor.java:123) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.runScheduledTasks(MinecraftServer.java:722) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:666) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_251] {}
+
+</code></pre>
+<p>不会出现报错的情况：</p>
+<pre><code class="lang-auto">[16:26:50] [Server thread/INFO] [minecraft/MinecraftServer]: Dev试图在熔岩里游泳
+[16:26:50] [Render thread/INFO] [minecraft/NewChatGui]: [CHAT] Dev试图在熔岩里游泳
+[16:27:00] [Server thread/WARN] [ne.mi.co.ut.LazyOptional/CATCHING]:
+......
+[16:27:27] [Server thread/DEBUG] [ne.mi.fm.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save Rainbow6 Test
+[16:27:28] [Server thread/INFO] [co.us.ra.it.CapabilityTestItem/]: operatorless,teamless
+[16:27:29] [Server thread/INFO] [co.us.ra.it.CapabilityTestItem/]: operatorless,teamless
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>CapabilityTestBlock</code></p>
+<pre><code class="lang-auto">    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isRemote){
+            LazyOptional&lt;IR6PlayerCapability&gt; r6PlayerCap = player.getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);
+            r6PlayerCap.ifPresent((cap)-&gt;{
+                        cap.setR6Team("attacker");
+                        cap.setOperator("mira");
+                    }
+            );
+        }
+        return ActionResultType.SUCCESS;
+    }
+</code></pre>
+<p><code>CapabilityTestItem</code></p>
+<pre><code class="lang-auto">    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        if (!worldIn.isRemote){
+            LazyOptional&lt;IR6PlayerCapability&gt; r6PlayerCap = playerIn.getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);
+            r6PlayerCap.ifPresent((cap)-&gt;{
+                        String operator = cap.getOperator();
+                        String r6Team = cap.getR6Team();
+                        LogManager.getLogger().info(operator+","+r6Team);
+                    }
+            );
+        }
+        return new ActionResult&lt;&gt;(ActionResultType.SUCCESS, itemstack);
+    }
+</code></pre>
+<p><code>ModCapabilityAttachEvent</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber()
+public class ModCapabilityAttachEvent {
+    @SubscribeEvent
+    public static void onAttachCapability(AttachCapabilitiesEvent&lt;Entity&gt; event){
+        Entity entity = event.getObject();
+        if (entity instanceof PlayerEntity){
+            event.addCapability(new ResourceLocation("rainbow6","r6player"),new R6PlayerCapabilityProvider());
+        }
+    }
+    @SubscribeEvent
+    public static void onPlayerCloned(PlayerEvent.Clone event){
+        if (!event.isWasDeath()){
+            LazyOptional&lt;IR6PlayerCapability&gt; oldR6Cap = event.getOriginal().getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);
+            LazyOptional&lt;IR6PlayerCapability&gt; newR6Cap = event.getPlayer().getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);
+            if (oldR6Cap.isPresent()&amp;&amp; newR6Cap.isPresent()){
+                newR6Cap.ifPresent((newCap)-&gt;{
+                    oldR6Cap.ifPresent((oldCap)-&gt;{
+                        newCap.deserializeNBT(oldCap.serializeNBT());
+                            }
+
+                    );
+                        }
+
+                );
+            }
+        }
+    }
+}
+</code></pre>
+<p><code>R6PlayerCapabilityProvider</code></p>
+<pre><code class="lang-auto">    private IR6PlayerCapability r6PlayerCapability;
+    @Nonnull
+    @Override
+    public &lt;T&gt; LazyOptional&lt;T&gt; getCapability(@Nonnull Capability&lt;T&gt; cap, @Nonnull Direction side) {
+        return cap ==ModCapabilities.R6_PLAYER_CAPABILITY ? LazyOptional.of(()-&gt; this.r6PlayerCapability).cast():LazyOptional.empty();
+    }
+
+    @Nonnull
+    IR6PlayerCapability getOrCreateCapability(){
+        if (r6PlayerCapability==null){
+            this.r6PlayerCapability = new R6PlayerCapability("operatorless","teamless");
+        }
+        return this.r6PlayerCapability;
+    }
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        return getOrCreateCapability().serializeNBT();
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        getOrCreateCapability().deserializeNBT(nbt);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>补充：我其他有关capability的代码在<a href="https://github.com/USS-Shenzhou/MC-R6mod/tree/master/src/main/java/com/ussshenzhou/rainbow6/capability" rel="nofollow noopener">github</a>上也可以看到。我不太清楚其中哪一些更重要，只选择性发了一部分。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那句话没什么意思。<br>
+你是不是没有复写<code>PlayerEvent.Clone</code>方法……</p>
+<blockquote>
+<p>当玩家死亡后重生或者从末地回到主世界，都会触发这个方法，理论上来说从末地回到主世界应该会自动同步数据，不知道处于什么样子的考虑，这个功能一直没有实现，所以我们需要在这里手动的恢复我们的能力。 <code>event.isWasDeath()</code>  为真时代表玩家死亡后重生，而为假时代表从末地回到主世界。在这里 <code>event.getOriginal()</code>  得到的是玩家之前的实体， <code>event.getPlayer()</code> 代表的是玩家重生之后的实体。<br>
+<a href="https://neutrino.v2mcdev.com/capability/attachcapabilityprovider.html" class="inline-onebox">附加能力提供器 - Minecraft Forge Mod Dev tutorial</a></p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/USS-Shenzhou/MC-R6mod/blob/3c6359f89f08f3b6826e54746fd75940a2c522fe/src/main/java/com/ussshenzhou/rainbow6/capability/ModCapabilityAttachEvent.java#L23" target="_blank" rel="noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/USS-Shenzhou/MC-R6mod/blob/3c6359f89f08f3b6826e54746fd75940a2c522fe/src/main/java/com/ussshenzhou/rainbow6/capability/ModCapabilityAttachEvent.java#L23" target="_blank" rel="noopener">USS-Shenzhou/MC-R6mod/blob/3c6359f89f08f3b6826e54746fd75940a2c522fe/src/main/java/com/ussshenzhou/rainbow6/capability/ModCapabilityAttachEvent.java#L23</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="13" style="counter-reset: li-counter 12 ;">
+<li>public class ModCapabilityAttachEvent {</li>
+<li>    @SubscribeEvent</li>
+<li>    public static void onAttachCapability(AttachCapabilitiesEvent&lt;Entity&gt; event){</li>
+<li>        Entity entity = event.getObject();</li>
+<li>        if (entity instanceof PlayerEntity){</li>
+<li>            event.addCapability(new ResourceLocation("rainbow6","r6player"),new R6PlayerCapabilityProvider());</li>
+<li>        }</li>
+<li>    }</li>
+<li>    @SubscribeEvent</li>
+<li>    public static void onPlayerCloned(PlayerEvent.Clone event){</li>
+<li class="selected">        if (!event.isWasDeath()){</li>
+<li>            LazyOptional&lt;IR6PlayerCapability&gt; oldR6Cap = event.getOriginal().getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);</li>
+<li>            LazyOptional&lt;IR6PlayerCapability&gt; newR6Cap = event.getPlayer().getCapability(ModCapabilities.R6_PLAYER_CAPABILITY);</li>
+<li>            if (oldR6Cap.isPresent()&amp;&amp; newR6Cap.isPresent()){</li>
+<li>                newR6Cap.ifPresent((newCap)-&gt;{</li>
+<li>                    oldR6Cap.ifPresent((oldCap)-&gt;{</li>
+<li>                        newCap.deserializeNBT(oldCap.serializeNBT());</li>
+<li>                            }</li>
+<li>
+</li><li>                    );</li>
+<li>                        }</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+我看了一眼你的代码<code>if (!event.isWasDeath())</code>你没在玩家死亡的时候恢复cap
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>呃。。。看起来不是这里的问题。我直接把if注释掉了（当然中间的代码是留着的） 然后日志是这样的</p>
+<pre><code class="lang-auto">[16:51:34] [Server thread/INFO] [co.us.ra.it.CapabilityTestItem/]: operatorless,teamless
+[16:51:43] [Server thread/INFO] [minecraft/MinecraftServer]: Dev试图在熔岩里游泳
+[16:51:44] [Render thread/INFO] [minecraft/NewChatGui]: [CHAT] Dev试图在熔岩里游泳
+[16:51:45] [Server thread/WARN] [ne.mi.co.ut.LazyOptional/CATCHING]: Catching
+java.lang.NullPointerException: Supplier should not return null value
+	at net.minecraftforge.common.util.LazyOptional.getValue(LazyOptional.java:119) ~[forge-1.15.2-31.2.36_mapped_snapshot_20200901-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.common.util.LazyOptional.ifPresent(LazyOptional.java:159) ~[forge-1.15.2-31.2.36_mapped_snapshot_20200901-1.15.1-recomp.jar:?] {re:classloading}
+	此处at com.ussshenzhou.rainbow6.capability.ModCapabilityAttachEvent.onPlayerCloned(ModCapabilityAttachEvent.java:27) ~[classes/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_5_ModCapabilityAttachEvent_onPlayerCloned_Clone.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.event.ForgeEventFactory.onPlayerClone(ForgeEventFactory.java:474) ~[?:?] {re:classloading}
+	at net.minecraft.entity.player.ServerPlayerEntity.copyFrom(ServerPlayerEntity.java:1088) ~[?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.management.PlayerList.recreatePlayerEntity(PlayerList.java:425) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.ServerPlayNetHandler.processClientStatus(ServerPlayNetHandler.java:1158) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CClientStatusPacket.processPacket(CClientStatusPacket.java:36) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CClientStatusPacket.processPacket(CClientStatusPacket.java:8) ~[?:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.lambda$checkThreadAndEnqueue$0(PacketThreadUtil.java:19) ~[?:?] {re:classloading}
+	at net.minecraft.util.concurrent.TickDelayedTask.run(TickDelayedTask.java:20) [?:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:140) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) [?:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:759) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:141) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOneInternal(MinecraftServer.java:742) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOne(MinecraftServer.java:736) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveUntil(ThreadTaskExecutor.java:123) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.runScheduledTasks(MinecraftServer.java:722) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:666) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_251] {}
+</code></pre>
+<p>去翻了翻<code>FMLWorldPersistenceHook</code>的代码，感觉是NBT保存上的问题？但是不知道具体怎么解决:(</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="USS.Shenzhou" data-post="1" data-topic="842">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/USS.Shenzhou" class="avatar"> USS.Shenzhou:</div>
+<blockquote>
+<p><code> LazyOptional.of(()-&gt; this.r6PlayerCapability).cast()</code></p>
+</blockquote>
+</aside>
+<p>这里好像写错了<br>
+应该是</p>
+<pre><code class="lang-java">LazyOptional.of(()-&gt; getOrCreateCapability()).cast()
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>新 冰川之下？ <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:">（逃</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

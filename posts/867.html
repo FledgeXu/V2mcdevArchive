@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2的mod运行时因为OPENGL问题随机崩溃</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2的mod运行时因为OPENGL问题随机崩溃</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：&lt;win7 64BIT&gt;<br>
+你是用的JDK: &lt;1.8.0_202&gt;<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;IntelliJ IDEA 2020&gt;<br>
+Forge版本:  &lt;Forge 1.15.2 31-2-0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+运行时 提示OpenGL问题，我更新了所有的设备驱动和自己的OpenGL版本，但是这个错误仍然存在，并且这个错误是随机产生的，有的时候不会发生</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[00:08:53] [Render thread/INFO] [minecraft/Minecraft]: Backend library: LWJGL version 3.2.2 build 10
+[00:08:57] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:110]: ---- Minecraft Crash Report ----
+// Quite honestly, I wouldn't worry myself about that.
+
+Time: 20-9-18 ����12:08
+Description: Initializing game
+
+java.lang.RuntimeException: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+	at net.minecraft.client.shader.Framebuffer.checkFramebufferComplete(Framebuffer.java:134) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.shader.Framebuffer.createBuffers(Framebuffer.java:113) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.shader.Framebuffer.resizeRaw(Framebuffer.java:58) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.shader.Framebuffer.resize(Framebuffer.java:46) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.shader.Framebuffer.&lt;init&gt;(Framebuffer.java:37) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:394) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_131] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_131] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_131] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_131] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at net.minecraft.client.shader.Framebuffer.checkFramebufferComplete(Framebuffer.java:134)
+	at net.minecraft.client.shader.Framebuffer.createBuffers(Framebuffer.java:113)
+	at net.minecraft.client.shader.Framebuffer.resizeRaw(Framebuffer.java:58)
+	at net.minecraft.client.shader.Framebuffer.resize(Framebuffer.java:46)
+	at net.minecraft.client.shader.Framebuffer.&lt;init&gt;(Framebuffer.java:37)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:394)
+
+-- Initialization --
+Details:
+Stacktrace:
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.15.2
+	Minecraft Version ID: 1.15.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_131, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 214377488 bytes (204 MB) / 582483968 bytes (555 MB) up to 954728448 bytes (910 MB)
+	CPUs: 4
+	JVM Flags: 1 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump
+	Launched Version: MOD_DEV
+	Backend library: LWJGL version 3.2.2 build 10
+	Backend API: GeForce GTX 550 Ti/PCIe/SSE2 GL version 2.1.2, NVIDIA Corporation
+	GL Caps: Using framebuffer using ARB_framebuffer_object extension
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'forge'
+	Type: Client (map_client.txt)
+	CPU: 4x Intel(R) Xeon(R) CPU X5355 @ 2.66GHz
+[00:08:58] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:110]: #@!@# Game crashed! Crash report saved to: #@!@# H:\MC��������\mdk-1.15.2\run\.\crash-reports\crash-2020-09-18_00.08.57-client.txt
+
+&gt; Task :runClient FAILED
+
+Execution failed for task ':runClient'.
+&gt; Process 'command 'H:\Program Files (x86)\Java\jdk\bin\java.exe'' finished with non-zero exit value -1
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+我现在不太明白这个问题是怎么回事，所以我不知道应当粘贴哪里的代码</p>
+<p><strong>查到的资料</strong><br>
+<a href="https://www.it1352.com/947521.html" class="onebox" target="_blank" rel="nofollow noopener">https://www.it1352.com/947521.html</a><br>
+一个机翻的东西，不知所云的<br>
+</p><aside class="onebox stackexchange">
+  <header class="source">
+      <a href="https://stackoverflow.com/questions/3613889/gl-framebuffer-incomplete-attachment-when-trying-to-attach-texture" target="_blank" rel="nofollow noopener">stackoverflow.com</a>
+  </header>
+  <article class="onebox-body">
+      <a href="https://stackoverflow.com/users/220687/nick" target="_blank" rel="nofollow noopener">
+    <img alt="Nick" src="../uploads/default/original/1X/95b087bf1e344a983c3f80badc88cdc6a43ad596.jpeg" class="thumbnail onebox-avatar" width="128" height="128">
+  </a>
+<h4>
+  <a href="https://stackoverflow.com/questions/3613889/gl-framebuffer-incomplete-attachment-when-trying-to-attach-texture" target="_blank" rel="nofollow noopener">GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT when trying to attach texture</a>
+</h4>
+
+<div class="tags">
+  <strong>opengl-es</strong>
+</div>
+
+<div class="date">
+  asked by
+  
+  <a href="https://stackoverflow.com/users/220687/nick" target="_blank" rel="nofollow noopener">
+    Nick
+  </a>
+  on <a href="https://stackoverflow.com/questions/3613889/gl-framebuffer-incomplete-attachment-when-trying-to-attach-texture" target="_blank" rel="nofollow noopener">11:11PM - 31 Aug 10 UTC</a>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+解决方案中，说这个是纹理不完整导致的。我检查了自己的图片，情况似乎和它并不一样
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来是你渲染部分有地方写错了导致的。但是不清楚你在写什么。<br>
+这里有个类似的问题，你可以看一下。<br>
+</p><aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/ReplayMod/ReplayMod/issues/141" target="_blank" rel="noopener">github.com/ReplayMod/ReplayMod</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/ReplayMod/ReplayMod/issues/141" target="_blank" rel="noopener">1.15.2 crash while rendering (singleplayer)</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2020-04-23" data-time="20:08:44" data-timezone="UTC">08:08PM - 23 Apr 20 UTC</span>
+      </div>
+
+        <div class="date">
+          closed <span class="discourse-local-date" data-format="ll" data-date="2020-05-08" data-time="08:26:59" data-timezone="UTC">08:26AM - 08 May 20 UTC</span>
+        </div>
+
+      <div class="user">
+        <a href="https://github.com/kareemAlramlawi" target="_blank" rel="noopener">
+          <img alt="kareemAlramlawi" src="../uploads/default/original/1X/122d8a0a3a4d8c9b662d867247ed7a7156791f26.png" class="onebox-avatar-inline" width="20" height="20">
+          kareemAlramlawi
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">@Johni0702 here are the logs that I got from startup to crash while rendering:
+21:30:06.255
+Starting C:\Users\karee\AppData\Roaming.minecraft\ffmpeg\bin\ffmpeg.exe with args: -y -f rawvideo -pix_fmt...</p>
+</div>
+
+<div class="labels">
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢您，确实是渲染类出了问题，我也不知道是哪里写错了。我删除了所有的渲染类，重新编写之后正常了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

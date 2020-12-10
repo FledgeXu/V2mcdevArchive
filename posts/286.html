@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么在地图上的指定地方渲染一个模型</title>
+</head>
+<body>
+    <div class="title"><h1>怎么在地图上的指定地方渲染一个模型</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本:Eclipse IDE for Java Developers - 2019-12<br>
+Forge版本:  forge-1.12.2-14.23.5.2768<br>
+Minecraft版本: 1.12</p>
+<p><strong>错误情况简述</strong><br>
+游戏里面没有渲染出我要的模型</p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">        static RenderManager Render_Test_Manager = Minecraft.getMinecraft().getRenderManager();
+	static EntityPlayer players = Minecraft.getMinecraft().player;
+	
+        @SubscribeEvent
+	public static void get_an_player(PlayerLoggedInEvent event) {
+		players = event.player;
+	}
+
+	@SubscribeEvent
+	public static void render_test(RenderPlayerEvent.Post event) {
+		
+		if (players != null) {
+
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.pushMatrix();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                Entity_test entity_test = new Entity_test(players.getEntityWorld());
+
+                Render_Test_Manager.renderEntity(entity_test, 0, 0, 0, 0, 0, false);
+                GlStateManager.popMatrix();
+                GlStateManager.disableRescaleNormal();
+                }
+             }
+</code></pre>
+<p>上面这串代码运行起来是没有问题的，能在玩家脚下看到渲染的模型，但是由于第一人称的时候不渲染玩家，也就没法看到我要渲染的东西了，因此我换了一个事件，如下代码</p>
+<pre><code class="lang-auto">        static RenderManager Render_Test_Manager = Minecraft.getMinecraft().getRenderManager();
+	static EntityPlayer players = Minecraft.getMinecraft().player;
+	
+        @SubscribeEvent
+	public static void get_an_player(PlayerLoggedInEvent event) {
+		players = event.player;
+	}
+
+	@SubscribeEvent
+	public static void render_test(RenderWorldLastEvent event) {
+		
+		if (players != null) {
+
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.pushMatrix();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                Entity_test entity_test = new Entity_test(players.getEntityWorld());
+
+                Render_Test_Manager.renderEntity(entity_test, 0, 80.0D, 0, 0, 0, false);
+                GlStateManager.popMatrix();
+                GlStateManager.disableRescaleNormal();
+                }
+             }
+</code></pre>
+<p>就仅仅只是把RenderPlayerEvent.Post改成了RenderWorldLastEvent，但是进游戏之后在x=0  y=80  z=0 的位置并没有看到要渲染的模型，我还试过RenderTickEvent，但是结果都是失败，这是咋回事？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>那个位置是相对于玩家的，不是在世界坐标系下的。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>噢噢，原来是这样的吗？我以为只有 RenderPlayerEvent.Post 的坐标是相对于玩家的，没想到<br>
+RenderWorldLastEvent也是，但是这样的话好像就没法在地图上的指定位置渲染一个模型了吧？因为相对于玩家的话，玩家动，他也会动，有没有什么解决方法吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你需要渲染什么模型？<br>
+为什么在制定位置渲染模型？<br>
+要指定位置渲染模型不能给方块或者实体指定一个模型吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>做成实体的话就算设置无敌，打到也会有音效和暴击效果，而我不希望这个模型可以被打到，因此才会有直接渲染模型的想法，就像信标那道光束那样</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以取消实体的碰撞箱的啊……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>What should I do?<br>
+不写碰撞箱的话就一直掉血，很难受</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我也没有具体实现过，我也不清楚怎么做。<br>
+会掉血是不是你可以换一个Entity的子类继承，继承那种没有血量的实体。<br>
+但是我觉得你可以看看原版盔甲架或者矿车的写法之类的？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，感谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请选择一个楼层或者自己补充信息作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

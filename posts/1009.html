@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Mod创建失败</title>
+</head>
+<body>
+    <div class="title"><h1>Mod创建失败</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows10-64<br>
+你用的JDK是: 1.8.0-271<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2019.3.5<br>
+Forge版本:  35.1.0<br>
+Minecraft版本: 1.16.4<br>
+Mapping 文件版本: 20201028-1.16.3</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465.png" data-download-href="../uploads/default/9db5b98c83b61cbfd45181b80e4e17e6595d7465" title="1"><img src="../uploads/default/optimized/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465_2_690x376.png" alt="1" data-base62-sha1="mvaiZZvV5GsBNtgxEKMxmQtd3Pn" width="690" height="376" srcset="../uploads/default/optimized/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465_2_690x376.png, ../uploads/default/optimized/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465_2_1035x564.png 1.5x, ../uploads/default/optimized/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465_2_1380x752.png 2x" data-small-upload="../uploads/default/optimized/1X/9db5b98c83b61cbfd45181b80e4e17e6595d7465_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">1</span><span class="informations">1920×1048 318 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+在idea里启动MC，除了forge和minecraft并没有我自己设置的mod<br>
+这是我gradle了很久出来的成果，还没有删除example，不过我认为这种错误不应该出现才对啊？<br>
+后续，我删除了example之后，也是一样的结果，下面是一些报错信息……<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">[25十一月2020 17:26:33.570] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--gameDir, ., --launchTarget, fmluserdevclient, --fml.mcpVersion, 20201102.104115, --fml.mcVersion, 1.16.4, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 35.1.0, --version, MOD_DEV, --assetIndex, 1.16, --assetsDir, C:\Users\Administrator\.gradle\caches\forge_gradle\assets, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[25十一月2020 17:26:33.577] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 8.0.6+85+master.325de55 starting: java version 1.8.0_271 by Oracle Corporation
+[25十一月2020 17:26:34.341] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[25十一月2020 17:26:34.812] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.2 Source=file:/C:/Users/Administrator/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.2/1cf212283d26f706fd3074318870bebd14d2a9ed/mixin-0.8.2.jar Service=ModLauncher Env=CLIENT
+[25十一月2020 17:26:36.054] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ExplodedDirectoryLocator/LOADING]: Failed to find exploded resource mods.toml in directory C:\Users\Administrator\Desktop\build\build\resources\main
+[25十一月2020 17:26:38.122] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevclient' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\Administrator\.gradle\caches\forge_gradle\assets, --assetIndex, 1.16, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[25十一月2020 17:26:49.259] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[25十一月2020 17:26:51.403] [Render thread/ERROR] [net.minecraft.client.Minecraft/]: Failed to verify authentication
+com.mojang.authlib.exceptions.AuthenticationException: Unauthorized
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:119) ~[authlib-2.0.27.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilSocialInteractionsService.checkPrivileges(YggdrasilSocialInteractionsService.java:80) ~[authlib-2.0.27.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilSocialInteractionsService.&lt;init&gt;(YggdrasilSocialInteractionsService.java:34) ~[authlib-2.0.27.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.createSocialInteractionsService(YggdrasilAuthenticationService.java:152) ~[authlib-2.0.27.jar:?]
+	at net.minecraft.client.Minecraft.func_244735_a(Minecraft.java:556) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:388) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:149) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:82) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:66) [modlauncher-8.0.6.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+[25十一月2020 17:26:51.430] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[25十一月2020 17:26:51.703] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[25十一月2020 17:26:52.947] [modloading-worker-2/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 35.1.0, for MC 1.16.4 with MCP 20201102.104115
+[25十一月2020 17:26:52.947] [modloading-worker-2/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v35.1.0 Initialized
+[25十一月2020 17:26:55.780] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[25十一月2020 17:26:56.168] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[25十一月2020 17:26:56.320] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[25十一月2020 17:26:57.835] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 35.1.0 Target: null
+[25十一月2020 17:27:08.205] [Render thread/ERROR] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Error starting SoundSystem. Turning off sounds &amp; music
+java.lang.IllegalStateException: Failed to open OpenAL device
+	at net.minecraft.client.audio.SoundSystem.openDevice(SoundSystem.java:127) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.audio.SoundSystem.init(SoundSystem.java:52) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.audio.SoundEngine.load(SoundEngine.java:92) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.audio.SoundEngine.reload(SoundEngine.java:82) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.audio.SoundHandler.apply(SoundHandler.java:112) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.audio.SoundHandler.apply(SoundHandler.java:34) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.resources.ReloadListener.lambda$reload$1(ReloadListener.java:14) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at java.util.concurrent.CompletableFuture.uniAccept(CompletableFuture.java:670) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire$$$capture(CompletableFuture.java:646) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:456) ~[?:1.8.0_271]
+	at net.minecraft.resources.AsyncReloader.lambda$null$3(AsyncReloader.java:66) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.execute(ThreadTaskExecutor.java:86) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.resources.AsyncReloader.lambda$new$4(AsyncReloader.java:65) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at java.util.concurrent.CompletableFuture$UniCompletion.claim(CompletableFuture.java:543) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture.uniAccept(CompletableFuture.java:667) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire$$$capture(CompletableFuture.java:646) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:488) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:575) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire$$$capture(CompletableFuture.java:649) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java) ~[?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:456) ~[?:1.8.0_271]
+	at com.mojang.blaze3d.systems.RenderSystem.replayQueue(RenderSystem.java:101) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:90) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.MainWindow.flipFrame(MainWindow.java:304) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1022) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:612) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:184) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52) ~[forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:82) [modlauncher-8.0.6.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:66) [modlauncher-8.0.6.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.4-35.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?]
+[25十一月2020 17:27:08.777] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[25十一月2020 17:27:09.335] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x128x4 minecraft:textures/atlas/signs.png-atlas
+[25十一月2020 17:27:09.344] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[25十一月2020 17:27:09.350] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[25十一月2020 17:27:09.359] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[25十一月2020 17:27:09.361] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[25十一月2020 17:27:09.363] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[25十一月2020 17:27:11.975] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[25十一月2020 17:27:12.030] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[25十一月2020 17:27:12.034] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[25十一月2020 17:27:13.109] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: Invalid session id
+[25十一月2020 17:30:23.260] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+</code></pre>
+<p><strong>相关代码</strong><br>
+我好想没有敲过任何一个代码耶？！</p>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://boson.v2mcdev.com/devenvironment/setup.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://boson.v2mcdev.com/devenvironment/setup.html" target="_blank" rel="noopener">boson.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://boson.v2mcdev.com/devenvironment/setup.html" target="_blank" rel="noopener">Forge开发环境的配置 - Boson 1.16 Modding Tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>原因不明，不过我看到了有</p>
+<blockquote>
+<p><code>java.lang.IllegalStateException: Failed to open OpenAL device</code></p>
+</blockquote>
+<p>这个在正常配置好的环境中应该不会出现，估计是你的环境配置出了什么问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>so how to solve it<br>
+should I gradle it again?</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以重新尝试配置环境。<br>
+虽然我看的懂，但请写中文，另外<code>gradle</code>也不是动词，这句话也写错了。<br>
+如果你的英文水平足够，可以直接去Forge Discord提问。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/1af3759a49bc1dcf17a8b0a305d5ccbee17d0944.png" class="site-icon" width="32" height="32">
+      <a href="https://discord.com/invite/UvedJ9m" target="_blank" rel="noopener">Discord</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:512/288;"><img src="../uploads/default/original/1X/24156cfcf4546952ce0e46e8f02fbd5e435cf457.jpeg" class="thumbnail" width="512" height="288"></div>
+
+<h3><a href="https://discord.com/invite/UvedJ9m" target="_blank" rel="noopener">Join the The Forge Project Discord Server!</a></h3>
+
+<p>Check out the The Forge Project community on Discord - hang out with 7,662 other members and enjoy free voice and text chat.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>知道了，我尝试一下，谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你<code>genIntellijRuns</code>了吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>是的，我genIntellijRuns过了<br>
+后来我将.gradle删去后重新gradle了，这下行了》</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

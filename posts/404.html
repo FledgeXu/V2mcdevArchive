@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>回字有四种写法 —— Mixin 有七种引导方式</title>
+</head>
+<body>
+    <div class="title"><h1>回字有四种写法 —— Mixin 有七种引导方式</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><a href="https://github.com/SpongePowered/Mixin" rel="nofollow noopener">Mixin</a> 自 0.8 版本以来支持了被 <a href="https://github.com/cpw/modlauncher" rel="nofollow noopener">ModLauncher</a> 引导，因此对于使用何种引导 Mixin 的方式又有了新的选择。</p>
+<p><em>以下代码皆参照使用 <a href="https://github.com/SpongePowered/Mixin/tree/releases/0.8" rel="nofollow noopener">Mixin 0.8 稳定版本</a></em></p>
+<ul>
+<li>对于使用 <a href="https://github.com/Mojang/LegacyLauncher" rel="nofollow noopener">LaunchWrapper</a> 启动游戏的情况：
+<ul>
+<li>如果你需要的 Mixin 由其他模组提供，且没有对 Mixin 环境做其他设置的需求，那么只需要在 <code>META-INF/MANIFEST.MF</code> 中写入 <code>MixinConfigs</code> 属性即可。</li>
+<li>如果你的模组内置了 Mixin ，由于 Mixin 有自己的 <a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/launchwrapper/java/org/spongepowered/asm/launch/MixinTweaker.java" rel="nofollow noopener">Tweaker</a> ，因此理论上如果自己不写继承于 <a href="https://github.com/Mojang/LegacyLauncher/blob/a4801b70f8a0148c6e6279ec2e91527e8019e1c8/src/main/java/net/minecraft/launchwrapper/ITweaker.java" rel="nofollow noopener"><code>ITweaker</code></a> 的类作为入口时，引导的方法如下：
+<ol>
+<li>在 <code>META-INF/MANIFEST.MF</code> 中添加 <code>TweakClass</code> 用于指定 Mixin 的入口类：<pre><code class="lang-auto">TweakClass: org.spongepowered.asm.launch.MixinTweaker
+MixinConfigs: &lt;mixins.examplemod.json&gt;
+</code></pre>
+</li>
+<li>如果你的模组需要使用 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/87a63bc5e08f7f1e7085fc62c7800a4071c94291/src/main/java/net/minecraftforge/fml/common/Mod.java" rel="nofollow noopener"><code>@Mod</code></a> 注解，由于 FML 搜索此注解时会<a href="https://github.com/MinecraftForge/MinecraftForge/blob/87a63bc5e08f7f1e7085fc62c7800a4071c94291/src/main/java/net/minecraftforge/fml/common/Loader.java#L415-L419" rel="nofollow noopener">忽略</a>具有 TweakClass 属性的 jar 包，所以 Mixin 添加了一个属性 <a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/launchwrapper/java/org/spongepowered/asm/launch/platform/MixinPlatformAgentFMLLegacy.java#L84" rel="nofollow noopener"><code>ForceLoadAsMod</code></a> ，当此属性设置为 <code>true</code> 时，Mixin 会把这个模组从忽略列表中<a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/launchwrapper/java/org/spongepowered/asm/launch/platform/MixinPlatformAgentFMLLegacy.java#L191" rel="nofollow noopener">移除</a>。</li>
+<li>如果你的模组需要使用 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/87a63bc5e08f7f1e7085fc62c7800a4071c94291/src/main/java/net/minecraftforge/fml/relauncher/IFMLLoadingPlugin.java" rel="nofollow noopener"><code>IFMLLoadingPlugin</code></a> ，传统上当 FML 遇到同时具有 <code>TweakClass</code> 和 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/87a63bc5e08f7f1e7085fc62c7800a4071c94291/src/main/java/net/minecraftforge/fml/relauncher/CoreModManager.java#L413" rel="nofollow noopener"><code>FMLCorePlugin</code></a> 属性的 jar 包时，只会加载 <code>TweakClass</code> 而<a href="https://github.com/MinecraftForge/MinecraftForge/blob/87a63bc5e08f7f1e7085fc62c7800a4071c94291/src/main/java/net/minecraftforge/fml/relauncher/CoreModManager.java#L395-L404" rel="nofollow noopener">忽略</a> <code>FMLCorePlugin</code> ，但是 Mixin 做了一些<a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/launchwrapper/java/org/spongepowered/asm/launch/platform/MixinPlatformAgentFMLLegacy.java#L229-L256" rel="nofollow noopener">额外的操作</a>来让二者共存。一个较为完整的 <code>MANIFEST.MF</code> 应该像下面这样：<pre><code class="lang-auto">TweakClass: org.spongepowered.asm.launch.MixinTweaker
+MixinConfigs: &lt;mixins.examplemod.json&gt;
+FMLCorePlugin: &lt;com.example.examplemod.asm.FMLLoadingPlugin&gt;
+ForceLoadAsMod: true
+</code></pre>
+</li>
+</ol>
+</li>
+<li>如果介于某些原因，你的模组内置了 Mixin ，但是又必须使用实现 <code>ITweaker</code> 的类作为入口的话，由于 <code>TweakClass</code> 不能同时填写两个类，因此需要自己完成 Mixin 的引导工作，由于 Mixin 封装程度较高，你只需要添加一行代码即可：<pre><code class="lang-java">package com.example.examplemod.asm;
+import java.io.File;
+import java.util.List;
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.spongepowered.asm.launch.MixinBootstrap;
+
+public class ExampleTweaker implements ITweaker {
+    @Override public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        MixinBootstrap.init(); // &lt;-- 开始 Mixin 的引导工作
+    }
+    @Override public void acceptOptions(List&lt;String&gt; args, File gameDir, File assetsDir, String profile) { }
+    @Override public String getLaunchTarget() { return ""; }
+    @Override public String[] getLaunchArguments() { return new String[0]; }
+}
+</code></pre>
+另外，上面所阐述的所有写进 <code>MANIFEST.MF</code> 的属性在这种情况下依然有效，而且也可以通过代码手动完成：<pre><code class="lang-java">package com.example.examplemod.asm;
+import java.io.File;
+import java.util.List;
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+import net.minecraftforge.fml.relauncher.CoreModManager;
+import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.Mixins;
+
+public class ExampleTweaker implements ITweaker {
+    @Override public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        MixinBootstrap.init();
+        Mixins.addConfiguration("mixins.example.json"); // &lt;-- 添加配置文件
+        try {
+            CoreModManager.getIgnoredMods().remove(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getName()); // &lt;-- 将自身从 CoreMod 忽略列表中移除
+        } catch (Throwable ignored) {}
+    }
+    @Override public void acceptOptions(List&lt;String&gt; args, File gameDir, File assetsDir, String profile) { }
+    @Override public String getLaunchTarget() { return ""; }
+    @Override public String[] getLaunchArguments() { return new String[0]; }
+</code></pre>
+</li>
+</ul>
+</li>
+<li>对于使用 ModLauncher 启动游戏的情况，由于 ModLauncher 使用了 <a href="https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html" rel="nofollow noopener">SPI</a> 作为查找和加载所有实现 <a href="https://github.com/cpw/modlauncher/blob/5.1/src/main/java/cpw/mods/modlauncher/api/ITransformationService.java" rel="nofollow noopener"><code>ITransformationService</code></a> 和 <a href="https://github.com/cpw/modlauncher/blob/5.1/src/api/java/cpw/mods/modlauncher/serviceapi/ILaunchPluginService.java" rel="nofollow noopener"><code>ILaunchPluginService</code></a> 的类的手段，因此即使我们在同一个 jar 包内也使用了这两个接口，我们也无需再额外写代码手动引导 Mixin，同时，<a href="https://github.com/LXGaming/MixinBootstrap" rel="nofollow noopener">MixinBootstrap</a> 模组的出现也大大缓解了「所有人都在 bundle Mixin」的情况：
+<ul>
+<li>如果你的模组没有用到 <code>ITransformationService</code> 接口，并且无需对 Mixin 做任何额外的设置，那么把 <code>MixinConfigs</code> 属性写入 <code>MENIFEST.MF</code> 即可。</li>
+<li>如果你需要对 Mixin 做额外设置，但是不使用 <code>ITransformationService</code> 接口，那么 Mixin 提供了一个需要添加到 <code>MANIFEST.MF</code> 之中的属性 <a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/main/java/org/spongepowered/asm/util/Constants.java#L72" rel="nofollow noopener"><code>MixinConnector</code></a> 用于在预启动阶段<a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/main/java/org/spongepowered/asm/launch/platform/MixinPlatformAgentDefault.java#L57-L60" rel="nofollow noopener">添加</a>所有继承于 <a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/main/java/org/spongepowered/asm/mixin/connect/IMixinConnector.java" rel="nofollow noopener"><code>IMixinConnector</code></a> 的类，在这之中你可以设置 Mixin 环境：<br>
+<code>META-INF/MANIFEST.MF</code> :<pre><code class="lang-auto">MixinConnector: &lt;com.example.examplemod.MixinConnector&gt;
+</code></pre>
+<code>com/example/examplemod/MixinConnector.java</code> :<pre><code class="lang-java">package com.example.examplemod;
+import org.spongepowered.asm.mixin.Mixins;
+import org.spongepowered.asm.mixin.connect.IMixinConnector;
+
+public class MixinConnector implements IMixinConnector {
+    @Override public void connect() {
+        Mixins.addConfiguration("mixins.examplemod.json");
+    }
+}
+</code></pre>
+</li>
+<li>如果你的模组需要使用 <code>ITransformationService</code> 或者 <a href="https://github.com/MinecraftForge/ForgeSPI/blob/2.1/src/main/java/net/minecraftforge/forgespi/locating/IModLocator.java" rel="nofollow noopener"><code>IModLocator</code></a> 接口，由于 FML 扫描模组时会将使用了这两个接口的模组<a href="https://github.com/MinecraftForge/MinecraftForge/blob/29396b6235d1c92bb35fe96f82b3602778b2efb9/src/fmllauncher/java/net/minecraftforge/fml/loading/moddiscovery/ModsFolderLocator.java#L65" rel="nofollow noopener">排除</a>在外，同时由于 Mixin 注入类只能从常规模组中<a href="https://github.com/SpongePowered/Mixin/blob/releases/0.8/src/modlauncher/java/org/spongepowered/asm/launch/MixinLaunchPlugin.java#L198-L233" rel="nofollow noopener">获取</a>到，因此你的模组必须定义 <code>IModLocator</code> 接口以在扫描模组时一并把你的模组定位进去：<br>
+<code>META-INF/services/net.minecraftforge.forgespi.locating.IModLocator</code> :<pre><code class="lang-auto">&lt;com.example.examplemod.ModLocator&gt;
+</code></pre>
+<code>com/example/examplemod/ModLocator.java</code> :<pre><code class="lang-java">package com.example.examplemod;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileLocator;
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.forgespi.locating.IModFile;
+
+public class ModLocator extends AbstractJarFileLocator {
+    @Override public List&lt;IModFile&gt; scanMods() {
+        List&lt;IModFile&gt; list = new ArrayList&lt;&gt;();
+        try {
+            IModFile file = new ModFile(Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()), this); // &lt;-- 把自身添加到常规模组中去
+            this.modJars.compute(file, (mf, fs) -&gt; this.createFileSystem(mf));
+            list.add(file);
+        } catch (Throwable ignored) {}
+        return list;
+    }
+    @Override public String name() { return "Example Mod Locator"; }
+    @Override public void initArguments(Map&lt;String, ?&gt; arguments) { }
+}
+</code></pre>
+同时如果你的模组使用了 <code>ITransformationsService</code> ，由于 ModLauncher 检测到 <code>META-INF/services/cpw.mods.modlauncher.api.ITransformationService</code> 文件后<a href="https://github.com/MinecraftForge/MinecraftForge/blob/29396b6235d1c92bb35fe96f82b3602778b2efb9/src/fmllauncher/java/net/minecraftforge/fml/loading/ModDirTransformerDiscoverer.java#L76-L80" rel="nofollow noopener">不再检测</a> <code>META-INF/services/net.minecraftforge.forgespi.locating.IModLocator</code> 文件，因此你需要手动把模组自身加到 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/29396b6235d1c92bb35fe96f82b3602778b2efb9/src/fmllauncher/java/net/minecraftforge/fml/loading/ModDirTransformerDiscoverer.java#L42" rel="nofollow noopener"><code>locators</code></a> 里去：<pre><code class="lang-java">package com.example.examplemod;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import cpw.mods.modlauncher.api.IEnvironment;
+import cpw.mods.modlauncher.api.ITransformationService;
+import cpw.mods.modlauncher.api.ITransformer;
+import net.minecraftforge.fml.loading.ModDirTransformerDiscoverer;
+
+public class TransformationService implements ITransformationService {
+    @Override public String name() { return "examplemod"; }
+    @Override public void initialize(IEnvironment environment) {
+        try {
+            ModDirTransformerDiscoverer.getExtraLocators().add(Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI())); // &lt;-- 把自身添加到 ModDirTransformerDiscoverer#locators 里去
+        } catch (Throwable ignored) {}
+    }
+    @Override public void beginScanning(IEnvironment environment) { }
+    @Override public void onLoad(IEnvironment env, Set&lt;String&gt; otherServices) { }
+    @Override public List&lt;ITransformer&gt; transformers() { return new ArrayList&lt;&gt;(); }
+}
+</code></pre>
+</li>
+<li>如果你的模组需要内置 Mixin ，那么除了需要做上一条所述的事情之外，还需要做以下额外操作：（以 MixinBootstrap 模组为例）
+<ol>
+<li>由于 Mixin 需要被 <a href="http://www.docjar.com/docs/api/sun/misc/Launcher%24AppClassLoader.html" rel="nofollow noopener"><code>AppClassLoader</code></a> 加载，同时因为 ModLauncher 使用<a href="https://github.com/cpw/modlauncher/blob/5.1/src/main/java/cpw/mods/modlauncher/TransformationServicesHandler.java#L139-L141" rel="nofollow noopener">独立的类加载器</a>来加载这些模组，因此你必须把模组自身<a href="https://github.com/LXGaming/MixinBootstrap/blob/v1.0.3/src/main/java/io/github/lxgaming/mixin/launch/MixinTransformationService.java#L122" rel="nofollow noopener">添加</a>到 <code>AppClassLoader</code> 的 classpath 中去，并且使用 <code>AppClassLoader</code> 来初始化 Mixin 的类。因为自 Java 9 以来，<code>AppClassLoader</code> 不再继承于 <code>URLClassLoader</code>，因此不能简单地使用 <code>URLClassLoader#addURL</code> 方法来添加，所以 MixinBootstrap 模组使用了一套较为复杂的反射来<a href="https://github.com/LXGaming/ClassLoaderUtils/blob/2ca22a19584a6470f131fc69a3b49d051bd6bdb4/src/main/java/io/github/lxgaming/classloader/ClassLoaderUtils.java#L42-L95" rel="nofollow noopener">实现</a>。</li>
+<li>由于 ModLauncher 并不原生支持从模组中加载实现 <code>ILaunchPluginService</code> 的类，因此你需要把 Mixin 实现 <code>ILaunchPluginService</code> 的类手动<a href="https://github.com/LXGaming/MixinBootstrap/blob/v1.0.3/src/main/java/io/github/lxgaming/mixin/launch/MixinTransformationService.java#L202-L229" rel="nofollow noopener">添加</a>到 <a href="https://github.com/cpw/modlauncher/blob/5.1/src/main/java/cpw/mods/modlauncher/LaunchPluginHandler.java#L39" rel="nofollow noopener"><code>LaunchPluginHandler#plugins</code></a> 里去。</li>
+<li>由于 Forge 在运行时并不包含 <a href="https://mvnrepository.com/artifact/org.ow2.asm/asm-analysis" rel="nofollow noopener">asm-analysis</a> 和 <a href="https://mvnrepository.com/artifact/org.ow2.asm/asm-util" rel="nofollow noopener">asm-util</a> 这两个库，但是 Mixin 运行时需要它们，因此打包模组时还需要将这两个库<a href="https://github.com/LXGaming/MixinBootstrap/blob/v1.0.3/build.gradle#L45-L76" rel="nofollow noopener">一并打包</a>。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3>参考项目</h3>
+<h4>ForgeSPI  <a href="https://github.com/MinecraftForge/ForgeSPI" class="inline-onebox" rel="nofollow noopener">GitHub - MinecraftForge/ForgeSPI: Forge SPI</a>
+</h4>
+<h4>LegacyLauncher  <a href="https://github.com/Mojang/LegacyLauncher" class="inline-onebox" rel="nofollow noopener">GitHub - Mojang/LegacyLauncher: Hacky code to launch our old versions from the new launcher!</a>
+</h4>
+<h4>MinecraftForge  <a href="https://github.com/MinecraftForge/MinecraftForge" class="inline-onebox" rel="nofollow noopener">GitHub - MinecraftForge/MinecraftForge: Modifications to the Minecraft base files to assist in compatibility between mods.</a>
+</h4>
+<h4>Mixin  <a href="https://github.com/SpongePowered/Mixin" class="inline-onebox" rel="nofollow noopener">GitHub - SpongePowered/Mixin: Mixin is a trait/mixin and bytecode weaving framework for Java using ASM</a>
+</h4>
+<h4>MixinBootstrap  <a href="https://github.com/LXGaming/MixinBootstrap" class="inline-onebox" rel="nofollow noopener">GitHub - LXGaming/MixinBootstrap: MixinBootstrap is a temporary way of booting Mixin in a MinecraftForge production environment.</a>
+</h4>
+<h4>modlauncher  <a href="https://github.com/cpw/modlauncher" class="inline-onebox" rel="nofollow noopener">GitHub - cpw/modlauncher: Java 8 mod launcher</a>
+</h4>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

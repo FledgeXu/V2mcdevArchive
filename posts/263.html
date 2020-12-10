@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>回复：Gui shitf双击出bug</title>
+</head>
+<body>
+    <div class="title"><h1>回复：Gui shitf双击出bug</h1></div>
+    <div class="post-user" class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><aside class="quote quote-modified" data-post="16" data-topic="226">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/nowandfuture" class="avatar">
+    <a href="../t/topic/226/16">Gui shitf双击出bug</a> <a class="badge-wrapper  bullet" href="/c/5-category"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    这个方法会在客户端和服务端执行，分配slot的点击结果，你直接return，点击就没有任何影响了。 
+你应该没有仔细看我的回复，你那样写是有问题的，但是我也不知道为什么会造成那样的bug，但是可以确定的是，你的物品没渲染出来是因为，那一格真的没有物品，你需要先正确重写那个函数；其次，Capability的保存与否在游戏如果不退出是不会导致问题的。minecraft的slot相关函数，应该是足够健壮…
+  </blockquote>
+</aside>
+<br>
+其实你的回复我仔细看了，并且看了好几遍，有些看懂了，有些没有看懂，很迷糊。我也不断地改那个函数transferStackInSlot，然而bug还在。我估计是因为canTakeStack方法的问题，我把解锁之类的逻辑放在这个方法里面了。后来我寻思把服务端的逻辑删除了，放在了客户端，通过发包来解锁格子，就好了。<br>
+再后来我觉得一格一格解锁太繁琐太费劲，写了一个一键解锁，不再发送空包了在里面放了解锁类型，因为出现了客户端经验不变的bug，我返回了消耗经验数的数据包，这样经验的bug便解决了。但是出现了新bug，就是一键解锁后，界面格子不更新，需要点一下才会更新，怎么样才能让他更新，线程循环更新又不太好，难道应该把这些客户端的挪到服务端吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <pre><code>/**
+ * update the crafting window inventory with the items in the list
+ */
+public void sendAllContents(Container containerToSend, NonNullList&lt;ItemStack&gt; itemsList)
+{
+    this.connection.sendPacket(new SPacketWindowItems(containerToSend.windowId, itemsList));
+    this.connection.sendPacket(new SPacketSetSlot(-1, -1, this.inventory.getItemStack()));
+}
+</code></pre>
+<p>这个方法在EntityPlayerMP中是发送给客户端用来更新对应的槽列表；<br>
+你可以一键解锁后，从服务端发送这些包来同步整个容器的ItemStack列表；<br>
+（如果我没理解错的话，你是要更新整个容器中解锁处的物品吧）</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>找到这个方法了，但是这个参数Container containerToSend如何获得呢，new一个显然不对，那怎么样获取Container对象呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>正在打开的不为空的话<br>
+player.openContainer<br>
+为空说明已经关闭了，下次打开会重新获取一遍；<br>
+你自己看下这个包的收发过程就知道了，直接对inventorySlots进行内容更改也可以达到一样的效果。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <pre><code>还有一个问题，怎么样修改原版的东西，比如自己写个羊替换掉原版的羊。或者修改玩家的背包界面，放一个按钮来进去mod界面啥的。
+我准备写的下一个mod，是一个修仙mod，中国风嘛。但是呢修仙者得辟谷啊，我得让玩家舍弃掉原来的系统，灵气修炼替换掉吃饭睡觉，怎么删掉这个系统啊，让饱食度条改成灵气度条啥的。
+难道要用mixin吗？我也了解过mixin，当时写1.14mod的时候经常用minin。</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>它好了，谢谢您！</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>原版很多东西都是可以直接通过继承修改的对于一些没有暴露的方法，或者需要暴力修改原版逻辑的地方采用asm，简单的方式就是mixin，但是会引入几兆的包，如果没有大量的修改，一般用轻量级的字节码处理方式，java jdk自带了一些工具，但是如果能通过一般的继承，或者反射（没有性能要求）处理的问题尽量不要用这种容易导致兼容问题的方法。</p>
+<p>回到你的问题上，你说的东西不用删除原版的特性，原版（forge）给这些系统留下了接口，你可以让这些东西不产生影响就行，然后自己添加自己的内容，原版从输入(…)，网络(Netty)，渲染（Opengl），声音（openAL，javaSound），这些都是依赖了其他第三方库，在网络方面，Netty预留了足够的接口，而整个mc都是建立在OpenGL绘制的，而声音方面则是包装了第三方的音频系统（所以你看minecraft在实时音频方面十分薄弱，由于第三方音频库有一点bug对裸数据处理方面，minecarft的soundSystem甚至没留任何公开方法），所以你如果不嫌麻烦的话，可以在不同层面找到切入口，注入你的代码。在绘制方面，由于Optifine(GLSL Shader)的存在，在3d场景下，其实能发挥的空间不多，但是在2d的gui方面，你可以找到forge帮你切开的各个切口，打入代码，还是很容易完善的。第一个内容替换原版的羊，对于这种加载时候才会用那么一次的Map你可以反射处理拿到注册表踢掉原版生物，渲染部分也就因为少掉了modle自动失效了，你的需求是大幅修改原版gui这个是非常容易做到的你自己找到原版GuiScreen的绘制起始点，一步步把所有的gui类找齐屏蔽屏蔽他们，然后在合适的渲染位置重新根据原来内容进行渲染就行了，而玩家的逻辑层面，应该留有足够的接口，真的要沿用整个系统的话，这里可能要再每个方法里注入（或者做个代理类在new的时候注入），也没有什么难度，但是工作量会很大。怎么操作都是基于你对mojang的（机智的）gui的渲染过程有足够的了解，我的感受是gui修改不难，但是最复杂的是涉及到网络的内容整个槽系统修改起来会挺麻烦的，因为这里有逻辑内容，比如动态的槽，和复杂gui设计，不是几个简单的贴图可以搞定的，还有在游戏同步方面，容易出问题，怎么屏蔽掉就仁者见仁智者见智了，对于非频繁操作能用反射还是用反射（拿到对象重新给它new一个你自己的代理类进行包装来处理），而且gui中比较幸运的就是单线程的渲染逻辑，所有不用担心线程同步的问题，我记得mojang在GuiScreen那里写了一堆不明所以的继承关系，虽然我不知道这样的gui设计有什么用，但是却对从顶层重新修改gui造成了影响，所以很可能要修改字节码。综上，原版内容要看情况修改，能通过继承修改的内容不要用ASM的方式，能通过反射，不要用ASM的方式，涉及到网络和同步问题，会引起一系列复杂问题，对于GUI本身，修改是比较简单的，并且不会有什么兼容问题，但是在gui中有个槽需要你特别处理。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>我大概了解了。<br>
+还有就是我准备写修仙mod，今天构思了一个小时，大致是玩家修炼得到金丹，使用金丹绑定机器，是个科技mod。我应该用什么api写呢？ 1.12forge有点老了，毕竟现在都快出1.16了，新版呢，mod又过于分散了。</p>
+    </div>
+    <br />
+</body>
+</html>

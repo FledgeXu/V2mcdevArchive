@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>无法在生物群系中添加mod的生物</title>
+</head>
+<body>
+    <div class="title"><h1>无法在生物群系中添加mod的生物</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 64<br>
+你是用的JDK: 不知道那里看<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.2 x64<br>
+Forge版本:  forge-1.15.2-31.2.0-mdk<br>
+Minecraft版本: 1.15</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/76bb48cc0fc4929f739ad692af2d16e29f26fdb5.png" data-download-href="../uploads/default/76bb48cc0fc4929f739ad692af2d16e29f26fdb5" title="image"><img src="../uploads/default/original/1X/76bb48cc0fc4929f739ad692af2d16e29f26fdb5.png" alt="image" data-base62-sha1="gWlAYBBWhS9lx9hFVyiX5NfIugJ" width="690" height="418" data-small-upload="../uploads/default/optimized/1X/76bb48cc0fc4929f739ad692af2d16e29f26fdb5_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">856×519 17.8 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+我想在我mod的生物群系里面添加mod的生物，但是并不行。添加原版的生物就可以。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[06十月2020 10:57:19.984] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--gameDir, ., --launchTarget, fmluserdevclient, --fml.mcpVersion, 20200515.085601, --fml.mcVersion, 1.15.2, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 31.2.0, --version, MOD_DEV, --assetIndex, 1.15, --assetsDir, C:\Users\admin\.gradle\caches\forge_gradle\assets, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[06十月2020 10:57:19.987] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 5.1.2+70+master.2845bb9 starting: java version 1.8.0_265 by AdoptOpenJDK
+[06十月2020 10:57:20.008] [main/DEBUG] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Found launch services [minecraft,fmldevdata,fmldevclient,fmldevserver,fmluserdevserver,testharness,fmluserdevdata,fmlclient,fmluserdevclient,fmlserver]
+[06十月2020 10:57:20.034] [main/DEBUG] [cpw.mods.modlauncher.NameMappingServiceHandler/MODLAUNCHER]: Found naming services : [srgtomcp]
+[06十月2020 10:57:20.051] [main/DEBUG] [cpw.mods.modlauncher.LaunchPluginHandler/MODLAUNCHER]: Found launch plugins: [eventbus,object_holder_definalize,runtime_enum_extender,accesstransformer,capability_inject_definalize,runtimedistcleaner]
+[06十月2020 10:57:20.066] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Discovering transformation services
+[06十月2020 10:57:20.076] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Found additional transformation services from discovery services: []
+[06十月2020 10:57:20.120] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Found transformer services : [fml]
+[06十月2020 10:57:20.121] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Transformation services loading
+[06十月2020 10:57:20.121] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Loading service fml
+[06十月2020 10:57:20.122] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/]: Injecting tracing printstreams for STDOUT/STDERR.
+[06十月2020 10:57:20.125] [main/DEBUG] [net.minecraftforge.fml.loading.LauncherVersion/CORE]: Found FMLLauncher version 31.2
+[06十月2020 10:57:20.126] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: FML 31.2 loading
+[06十月2020 10:57:20.126] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: FML found ModLauncher version : 5.1.2+70+master.2845bb9
+[06十月2020 10:57:20.126] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Initializing modjar URL handler
+[06十月2020 10:57:20.129] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: FML found AccessTransformer version : 2.1.1+55+master.08d32b9
+[06十月2020 10:57:20.130] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: FML found EventBus version : 2.2.0+59+master.4f71e48
+[06十月2020 10:57:20.131] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Found Runtime Dist Cleaner
+[06十月2020 10:57:20.137] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: FML found CoreMod version : 2.0.3+8+master.ca72757
+[06十月2020 10:57:20.139] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Found ForgeSPI package implementation version 2.1.2+9+master.a8b4d92
+[06十月2020 10:57:20.140] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Found ForgeSPI package specification 3
+[06十月2020 10:57:20.903] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[06十月2020 10:57:20.911] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Loaded service fml
+[06十月2020 10:57:20.915] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Configuring option handling for services
+[06十月2020 10:57:20.927] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Transformation services initializing
+[06十月2020 10:57:20.927] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Initializing transformation service fml
+[06十月2020 10:57:20.927] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/CORE]: Setting up basic FML game directories
+[06十月2020 10:57:20.928] [main/DEBUG] [net.minecraftforge.fml.loading.FileUtils/CORE]: Found existing GAMEDIR directory : E:\forge-1.15.2-31.2.0-mdk\run
+[06十月2020 10:57:20.929] [main/DEBUG] [net.minecraftforge.fml.loading.FMLPaths/CORE]: Path GAMEDIR is E:\forge-1.15.2-31.2.0-mdk\run
+[06十月2020 10:57:20.929] [main/DEBUG] [net.minecraftforge.fml.loading.FileUtils/CORE]: Found existing MODSDIR directory : E:\forge-1.15.2-31.2.0-mdk\run\mods
+[06十月2020 10:57:20.930] [main/DEBUG] [net.minecraftforge.fml.loading.FMLPaths/CORE]: Path MODSDIR is E:\forge-1.15.2-31.2.0-mdk\run\mods
+[06十月2020 10:57:20.930] [main/DEBUG] [net.minecraftforge.fml.loading.FileUtils/CORE]: Found existing CONFIGDIR directory : E:\forge-1.15.2-31.2.0-mdk\run\config
+[06十月2020 10:57:20.930] [main/DEBUG] [net.minecraftforge.fml.loading.FMLPaths/CORE]: Path CONFIGDIR is E:\forge-1.15.2-31.2.0-mdk\run\config
+[06十月2020 10:57:20.930] [main/DEBUG] [net.minecraftforge.fml.loading.FMLPaths/CORE]: Path FMLCONFIG is E:\forge-1.15.2-31.2.0-mdk\run\config\fml.toml
+[06十月2020 10:57:20.930] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/CORE]: Loading configuration
+[06十月2020 10:57:20.981] [main/DEBUG] [net.minecraftforge.fml.loading.FileUtils/CORE]: Found existing default config directory directory : E:\forge-1.15.2-31.2.0-mdk\run\defaultconfigs
+[06十月2020 10:57:20.981] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/CORE]: Preparing launch handler
+[06十月2020 10:57:20.981] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Using fmluserdevclient as launch service
+[06十月2020 10:57:22.739] [main/DEBUG] [net.minecraftforge.fml.loading.FMLLoader/CORE]: Received command line version data  : MC Version: '1.15.2' MCP Version: '20200515.085601' Forge Version: '31.2.0' Forge group: 'net.minecraftforge'
+[06十月2020 10:57:22.740] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR forge at path E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:22.741] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR mcdata at path C:\Users\admin\.gradle\caches\forge_gradle\minecraft_repo\versions\1.15.2\client-extra.jar
+[06十月2020 10:57:22.741] [main/DEBUG] [net.minecraftforge.userdev.FMLUserdevLaunchProvider/CORE]: Injecting maven path E:\forge-1.15.2-31.2.0-mdk\build\fg_cache
+[06十月2020 10:57:22.742] [main/DEBUG] [net.minecraftforge.fml.loading.FMLCommonLaunchHandler/CORE]: Got mod coordinates examplemod%%E:/forge-1.15.2-31.2.0-mdk\build\resources\main;examplemod%%E:/forge-1.15.2-31.2.0-mdk\build\classes\java\main from env
+[06十月2020 10:57:22.747] [main/DEBUG] [net.minecraftforge.fml.loading.FMLCommonLaunchHandler/CORE]: Found supplied mod coordinates [{examplemod=[E:\forge-1.15.2-31.2.0-mdk\build\resources\main, E:\forge-1.15.2-31.2.0-mdk\build\classes\java\main]}]
+[06十月2020 10:57:22.760] [main/DEBUG] [net.minecraftforge.fml.loading.LanguageLoadingProvider/CORE]: Found 2 language providers
+[06十月2020 10:57:22.762] [main/DEBUG] [net.minecraftforge.fml.loading.LanguageLoadingProvider/CORE]: Found language provider javafml, version 31.2
+[06十月2020 10:57:22.774] [main/DEBUG] [net.minecraftforge.fml.loading.LanguageLoadingProvider/CORE]: Found language provider minecraft, version 1
+[06十月2020 10:57:22.774] [main/DEBUG] [net.minecraftforge.fml.loading.LanguageLoadingProvider/CORE]: Skipping adding forge jar - javafml is already present
+[06十月2020 10:57:22.781] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Initialized transformation service fml
+[06十月2020 10:57:22.782] [main/DEBUG] [cpw.mods.modlauncher.NameMappingServiceHandler/MODLAUNCHER]: Current naming domain is 'mcp'
+[06十月2020 10:57:22.783] [main/DEBUG] [cpw.mods.modlauncher.NameMappingServiceHandler/MODLAUNCHER]: Identified name mapping providers {srg=srgtomcp:1234}
+[06十月2020 10:57:22.783] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Transformation services begin scanning
+[06十月2020 10:57:22.784] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Beginning scan trigger - transformation service fml
+[06十月2020 10:57:22.784] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/CORE]: Initiating mod scan
+[06十月2020 10:57:22.863] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR classpath_mod at path E:\forge-1.15.2-31.2.0-mdk\build\resources\main
+[06十月2020 10:57:22.863] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR classpath_mod at path E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:22.864] [main/DEBUG] [net.minecraftforge.userdev.ClasspathLocator/CORE]: Found classpath mod: E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:22.869] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\charsets.jar
+[06十月2020 10:57:22.872] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\jce.jar
+[06十月2020 10:57:22.873] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\jfr.jar
+[06十月2020 10:57:22.873] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\jsse.jar
+[06十月2020 10:57:22.874] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\management-agent.jar
+[06十月2020 10:57:22.875] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\resources.jar
+[06十月2020 10:57:22.875] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Program Files\AdoptOpenJDK\jdk-8.0.265.01-hotspot\jre\lib\rt.jar
+[06十月2020 10:57:22.876] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:22.880] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-launcher.jar
+[06十月2020 10:57:22.881] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\forge_gradle\minecraft_repo\versions\1.15.2\client-extra.jar
+[06十月2020 10:57:22.904] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\eventbus\2.2.0\e663ad1f795b81da8a132c8fde40580b05c2343d\eventbus-2.2.0-service.jar
+[06十月2020 10:57:22.906] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\coremods\2.0.3\9e3f5323f6a2c3ac04fa27481cbeeb48f89757bd\coremods-2.0.3.jar
+[06十月2020 10:57:22.907] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\forgespi\2.1.2\867d339ca81f375c560da6d37084066e7f537f15\forgespi-2.1.2.jar
+[06十月2020 10:57:22.908] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\accesstransformers\2.1.1\1d1e439ef345ab5fd76df679de70a0c35f03bf4a\accesstransformers-2.1.1-shadowed.jar
+[06十月2020 10:57:22.910] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\cpw.mods\modlauncher\5.1.2\42f764429585b8a12ba42d43a02c0c9018710052\modlauncher-5.1.2.jar
+[06十月2020 10:57:22.911] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\cpw.mods\modlauncher\5.1.2\63c817b0e96e6accbb602e7de7c938fc444025f3\modlauncher-5.1.2-api.jar
+[06十月2020 10:57:22.912] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.2\25ea2e8b0c338a877313bd4672d3fe056ea78f0d\jsr305-3.0.2.jar
+[06十月2020 10:57:22.913] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mergetool\1.0.9\d1e1ba354a40b5703340b5cb02fdca489cff3646\mergetool-1.0.9-api.jar
+[06十月2020 10:57:22.914] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\7.2\ca2954e8d92a05bacc28ff465b25c70e0f512497\asm-commons-7.2.jar
+[06十月2020 10:57:22.914] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\7.2\3a23cc36edaf8fc5a89cb100182758ccb5991487\asm-tree-7.2.jar
+[06十月2020 10:57:22.914] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\7.2\fa637eb67eb7628c915d73762b681ae7ff0b9731\asm-7.2.jar
+[06十月2020 10:57:22.916] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\cpw.mods\grossjava9hacks\1.3.0\1a922de964d0c19d864fbcba2678c1a1c4602c35\grossjava9hacks-1.3.0.jar
+[06十月2020 10:57:22.916] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecraftforge\unsafe\0.2.0\54d7a0a5e8fdb71b973025caa46f341ae5904f39\unsafe-0.2.0.jar
+[06十月2020 10:57:22.917] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.electronwill.night-config\toml\3.6.2\3ac4263d06433da39a5eee95e2679f1642d921f0\toml-3.6.2.jar
+[06十月2020 10:57:22.918] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.electronwill.night-config\core\3.6.2\56f6500038861d4a8832072676da7bf7916217d0\core-3.6.2.jar
+[06十月2020 10:57:22.918] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.jline\jline\3.12.1\de2bd909cb9f8eaa741bd03df4a1bd3f6eb593c7\jline-3.12.1.jar
+[06十月2020 10:57:22.919] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.maven\maven-artifact\3.6.3\f8ff8032903882376e8d000c51e3e16d20fc7df7\maven-artifact-3.6.3.jar
+[06十月2020 10:57:22.920] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.jodah\typetools\0.8.1\d12de898d333cb7eb0e39a35db03c1e09d92d595\typetools-0.8.1.jar
+[06十月2020 10:57:22.921] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.minecrell\terminalconsoleappender\1.2.0\96d02cd3b384ff015a8fef4223bcb4ccf1717c95\terminalconsoleappender-1.2.0.jar
+[06十月2020 10:57:22.922] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-core\2.11.2\6c2fb3f5b7cd27504726aef1b674b542a0c9cf53\log4j-core-2.11.2.jar
+[06十月2020 10:57:22.923] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-api\2.11.2\f5e9a2ffca496057d6891a3de65128efc636e26e\log4j-api-2.11.2.jar
+[06十月2020 10:57:22.924] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.sf.jopt-simple\jopt-simple\5.0.4\4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c\jopt-simple-5.0.4.jar
+[06十月2020 10:57:22.924] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\patchy\1.1\aef610b34a1be37fa851825f12372b78424d8903\patchy-1.1.jar
+[06十月2020 10:57:22.925] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\oshi-project\oshi-core\1.1\9ddf7b048a8d701be231c0f4f95fd986198fd2d8\oshi-core-1.1.jar
+[06十月2020 10:57:22.926] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna\4.4.0\cb208278274bf12ebdb56c61bd7407e6f774d65a\jna-4.4.0.jar
+[06十月2020 10:57:22.927] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\platform\3.4.0\e3f70017be8100d3d6923f50b3d2ee17714e9c13\platform-3.4.0.jar
+[06十月2020 10:57:22.929] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.ibm.icu\icu4j-core-mojang\51.2\63d216a9311cca6be337c1e458e587f99d382b84\icu4j-core-mojang-51.2.jar
+[06十月2020 10:57:22.930] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\javabridge\1.0.22\6aa6453aa99a52a5cd91749da1af6ab70e082ab3\javabridge-1.0.22.jar
+[06十月2020 10:57:22.931] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\io.netty\netty-all\4.1.25.Final\d0626cd3108294d1d58c05859add27b4ef21f83b\netty-all-4.1.25.Final.jar
+[06十月2020 10:57:22.933] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\21.0\3a3d111be1be1b745edfa7d91678a12d7ed38709\guava-21.0.jar
+[06十月2020 10:57:22.935] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.8.1\6505a72a097d9270f7a9e7bf42c4238283247755\commons-lang3-3.8.1.jar
+[06十月2020 10:57:22.936] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.5\2852e6e05fbb95076fc091f6d1780f1f8fe35e0f\commons-io-2.5.jar
+[06十月2020 10:57:22.937] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient\4.3.3\18f4247ff4572a074444572cee34647c43e7c9c7\httpclient-4.3.3.jar
+[06十月2020 10:57:22.938] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar
+[06十月2020 10:57:22.940] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar
+[06十月2020 10:57:22.941] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\net.java.jutils\jutils\1.0.0\e12fe1fda814bd348c1579329c86943d2cd3c6a6\jutils-1.0.0.jar
+[06十月2020 10:57:22.943] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\brigadier\1.0.17\c6b7dc51dd44379cc751b7504816006e9be4b1e6\brigadier-1.0.17.jar
+[06十月2020 10:57:22.944] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\datafixerupper\2.0.24\944c24a8519981847ffb36c6dcd059d96fcb4b0\datafixerupper-2.0.24.jar
+[06十月2020 10:57:22.945] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.8.0\c4ba5371a29ac9b2ad6129b1d39ea38750043eff\gson-2.8.0.jar
+[06十月2020 10:57:22.946] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\authlib\1.5.25\9834cdf236c22e84b946bba989e2f94ef5897c3c\authlib-1.5.25.jar
+[06十月2020 10:57:22.947] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-compress\1.8.1\a698750c16740fd5b3871425f4cb3bbaa87f529d\commons-compress-1.8.1.jar
+[06十月2020 10:57:22.948] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\commons-logging\commons-logging\1.1.3\f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f\commons-logging-1.1.3.jar
+[06十月2020 10:57:22.948] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.3.2\31fbbff1ddbf98f3aa7377c94d33b0447c646b6e\httpcore-4.3.2.jar
+[06十月2020 10:57:22.949] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\it.unimi.dsi\fastutil\8.2.1\5ad88f325e424f8dbc2be5459e21ea5cab3864e9\fastutil-8.2.1.jar
+[06十月2020 10:57:22.950] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-jemalloc\3.2.2\ee8e57a79300f78294576d87c4a587f8c99402e2\lwjgl-jemalloc-3.2.2.jar
+[06十月2020 10:57:22.952] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-jemalloc\3.2.2\338b25b99da3ba5f441f6492f2ce2a9c608860ed\lwjgl-jemalloc-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.955] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-openal\3.2.2\2b772a102b0a11ee5f2109a5b136f4dc7c630827\lwjgl-openal-3.2.2.jar
+[06十月2020 10:57:22.956] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-openal\3.2.2\ec20a7d42a2438528fca87e60b1705f1e2339ddb\lwjgl-openal-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.957] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-opengl\3.2.2\6ac5bb88b44c43ea195a570aab059f63da004cd8\lwjgl-opengl-3.2.2.jar
+[06十月2020 10:57:22.959] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-opengl\3.2.2\d8dcdc91066cae2d2d8279cb4a9f9f05d9525826\lwjgl-opengl-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.961] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-glfw\3.2.2\d3ad4df38e400b8afba1de63f84338809399df5b\lwjgl-glfw-3.2.2.jar
+[06十月2020 10:57:22.962] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-glfw\3.2.2\dc6826d636bf796b33a49038c354210e661bfc17\lwjgl-glfw-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.963] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-stb\3.2.2\3b8e6ebc5851dd3d17e37e5cadce2eff2a429f0f\lwjgl-stb-3.2.2.jar
+[06十月2020 10:57:22.963] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-stb\3.2.2\811f705cbb29e8ae8d60bdf8fdd38c0c123ad3ef\lwjgl-stb-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.965] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-tinyfd\3.2.2\fcbe606c8f8da6f8f9a05e2c540eb1ee8632b0e9\lwjgl-tinyfd-3.2.2.jar
+[06十月2020 10:57:22.966] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl-tinyfd\3.2.2\e9115958773644e863332a6a06488d26f9e1fc9f\lwjgl-tinyfd-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.967] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl\3.2.2\8ad6294407e15780b43e84929c40e4c5e997972e\lwjgl-3.2.2.jar
+[06十月2020 10:57:22.968] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.lwjgl\lwjgl\3.2.2\5359f3aa50d36352815fc662ea73e1c00d22170\lwjgl-3.2.2-natives-windows.jar
+[06十月2020 10:57:22.968] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\text2speech\1.11.3\f378f889797edd7df8d32272c06ca80a1b6b0f58\text2speech-1.11.3.jar
+[06十月2020 10:57:22.969] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\com.mojang\text2speech\1.11.3\c0b242c0091be5acbf303263c7eeeaedd70544c7\text2speech-1.11.3-natives-windows.jar
+[06十月2020 10:57:22.969] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.antlr\antlr4-runtime\4.7.2\e27d8ab4f984f9d186f54da984a6ab1cccac755e\antlr4-runtime-4.7.2.jar
+[06十月2020 10:57:22.970] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\6.2\a9690730f92cc79eeadc20e400ebb41eccce10b1\asm-util-6.2.jar
+[06十月2020 10:57:22.970] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\7.2\b6e6abe057f23630113f4167c34bda7086691258\asm-analysis-7.2.jar
+[06十月2020 10:57:22.971] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.codehaus.plexus\plexus-utils\3.2.1\13b015768e0d04849d2794e4c47eb02d01a0de32\plexus-utils-3.2.1.jar
+[06十月2020 10:57:22.973] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.jline\jline-reader\3.12.1\4382ab1382c7b6f379377ed5f665dc2f6e1218bc\jline-reader-3.12.1.jar
+[06十月2020 10:57:22.976] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path C:\Users\admin\.gradle\caches\modules-2\files-2.1\org.jline\jline-terminal\3.12.1\c777448314e050d980a6b697c140f3bfe9eb7416\jline-terminal-3.12.1.jar
+[06十月2020 10:57:22.977] [main/DEBUG] [net.minecraftforge.fml.loading.LibraryFinder/CORE]: Found JAR manifest_jar at path E:\IntelliJ IDEA Community Edition 2020.2\lib\idea_rt.jar
+[06十月2020 10:57:22.980] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModListHandler/CORE]: Found mod coordinates from lists: []
+[06十月2020 10:57:23.071] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModDiscoverer/CORE]: Found Mod Locators : (userdev classpath:null),(mods folder:null),(maven libs:null),(exploded directory:null),(minecraft:null)
+[06十月2020 10:57:23.091] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ExplodedDirectoryLocator/LOADING]: Found exploded directory mod manifest at E:\forge-1.15.2-31.2.0-mdk\build\resources\main\META-INF\mods.toml
+[06十月2020 10:57:23.094] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Considering mod file candidate E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:23.138] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileInfo/LOADING]: Found valid mod file forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar with {forge} mods - versions {31.2.0}
+[06十月2020 10:57:23.138] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFile/LOADING]: Loading mod file E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar with language javafml
+[06十月2020 10:57:23.190] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Found coremod fieldtomethodtransformers with Javascript path META-INF/fieldtomethodtransformers.js
+[06十月2020 10:57:23.191] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFile/LOADING]: Found coremod META-INF/fieldtomethodtransformers.js
+[06十月2020 10:57:23.191] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Considering mod file candidate E:\forge-1.15.2-31.2.0-mdk\build\resources\main
+[06十月2020 10:57:23.206] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileInfo/LOADING]: Found valid mod file main with {terraria} mods - versions {NONE}
+[06十月2020 10:57:23.206] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFile/LOADING]: Loading mod file E:\forge-1.15.2-31.2.0-mdk\build\resources\main with language javafml
+[06十月2020 10:57:23.211] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Considering mod file candidate C:\Users\admin\.gradle\caches\forge_gradle\minecraft_repo\versions\1.15.2\client-extra.jar
+[06十月2020 10:57:23.215] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFileInfo/LOADING]: Found valid mod file client-extra.jar with {minecraft} mods - versions {1.15.2}
+[06十月2020 10:57:23.216] [main/DEBUG] [net.minecraftforge.fml.loading.moddiscovery.ModFile/LOADING]: Loading mod file C:\Users\admin\.gradle\caches\forge_gradle\minecraft_repo\versions\1.15.2\client-extra.jar with language minecraft
+[06十月2020 10:57:23.233] [main/DEBUG] [net.minecraftforge.fml.loading.ModSorter/LOADING]: Found 0 mandatory requirements
+[06十月2020 10:57:23.235] [main/DEBUG] [net.minecraftforge.fml.loading.ModSorter/LOADING]: Found 0 mandatory mod requirements missing
+[06十月2020 10:57:23.610] [main/DEBUG] [net.minecraftforge.userdev.MCPNamingService/CORE]: Loaded 12462 method mappings from methods.csv
+[06十月2020 10:57:23.657] [main/DEBUG] [net.minecraftforge.userdev.MCPNamingService/CORE]: Loaded 16430 field mappings from fields.csv
+[06十月2020 10:57:23.674] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: End scan trigger - transformation service fml
+[06十月2020 10:57:23.674] [main/DEBUG] [cpw.mods.modlauncher.TransformationServicesHandler/MODLAUNCHER]: Transformation services loading transformers
+[06十月2020 10:57:23.675] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Initializing transformers for transformation service fml
+[06十月2020 10:57:23.675] [main/DEBUG] [net.minecraftforge.fml.loading.FMLServiceProvider/CORE]: Loading coremod transformers
+[06十月2020 10:57:23.676] [main/DEBUG] [net.minecraftforge.coremod.CoreModEngine/COREMOD]: Loading CoreMod from META-INF/fieldtomethodtransformers.js
+[06十月2020 10:57:23.813] [main/DEBUG] [net.minecraftforge.coremod.CoreModEngine/COREMOD]: CoreMod loaded successfully
+[06十月2020 10:57:23.827] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@5bd73d1a to Target : CLASS {Lnet/minecraft/potion/EffectInstance;} {} {V}
+[06十月2020 10:57:23.831] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@702ed190 to Target : CLASS {Lnet/minecraft/block/FlowingFluidBlock;} {} {V}
+[06十月2020 10:57:23.831] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@173b9122 to Target : CLASS {Lnet/minecraft/item/BucketItem;} {} {V}
+[06十月2020 10:57:23.832] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@7c18432b to Target : CLASS {Lnet/minecraft/block/StairsBlock;} {} {V}
+[06十月2020 10:57:23.832] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@7646731d to Target : CLASS {Lnet/minecraft/block/FlowerPotBlock;} {} {V}
+[06十月2020 10:57:23.832] [main/DEBUG] [cpw.mods.modlauncher.TransformStore/MODLAUNCHER]: Adding transformer net.minecraftforge.coremod.transformer.CoreModClassTransformer@70e29e14 to Target : CLASS {Lnet/minecraft/item/FishBucketItem;} {} {V}
+[06十月2020 10:57:23.833] [main/DEBUG] [cpw.mods.modlauncher.TransformationServiceDecorator/MODLAUNCHER]: Initialized transformers for transformation service fml
+[06十月2020 10:57:23.851] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevclient' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\admin\.gradle\caches\forge_gradle\assets, --assetIndex, 1.15, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[06十月2020 10:57:23.852] [main/DEBUG] [net.minecraftforge.userdev.FMLUserdevClientLaunchProvider/CORE]: Launching minecraft in cpw.mods.modlauncher.TransformingClassLoader@4fdfa676 with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\admin\.gradle\caches\forge_gradle\assets, --assetIndex, 1.15, --username, Dev, --accessToken, DONT_CRASH, --userProperties, {}]
+[06十月2020 10:57:26.823] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[06十月2020 10:57:27.964] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/FlowingFluidBlock
+[06十月2020 10:57:28.122] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/StairsBlock
+[06十月2020 10:57:28.335] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/FlowerPotBlock
+[06十月2020 10:57:35.880] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/item/BucketItem
+[06十月2020 10:57:35.974] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/item/FishBucketItem
+[06十月2020 10:57:36.739] [pool-3-thread-1/DEBUG] [net.minecraftforge.coremod.transformer.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/potion/EffectInstance
+[06十月2020 10:57:43.162] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[06十月2020 10:57:43.768] [Render thread/DEBUG] [net.minecraftforge.fml.ForgeI18n/CORE]: Loading I18N data entries: 4535
+[06十月2020 10:57:43.999] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/CORE]: Loading Network data for FML net version: FML2
+[06十月2020 10:57:44.036] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Using 12 threads for parallel mod-loading
+[06十月2020 10:57:44.039] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.050] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.053] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@4fdfa676 - got cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.053] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Creating FMLModContainer instance for com.myMod.terraria.Terraria with classLoader cpw.mods.modlauncher.TransformingClassLoader@4fdfa676 &amp; cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.062] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loaded modclass com.myMod.terraria.Terraria with cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.062] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.062] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@4fdfa676 - got cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.062] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Creating FMLModContainer instance for net.minecraftforge.common.ForgeMod with classLoader cpw.mods.modlauncher.TransformingClassLoader@4fdfa676 &amp; cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.076] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loaded modclass net.minecraftforge.common.ForgeMod with cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.091] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching parallel event LifecycleEvent:CONSTRUCT
+[06十月2020 10:57:44.099] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loading mod instance terraria of type com.myMod.terraria.Terraria
+[06十月2020 10:57:44.099] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loading mod instance forge of type net.minecraftforge.common.ForgeMod
+[06十月2020 10:57:44.100] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.forge.ForgeVersion/CORE]: Forge Version package package net.minecraftforge.versions.forge, Forge, version 31.2 from cpw.mods.modlauncher.TransformingClassLoader@4fdfa676
+[06十月2020 10:57:44.100] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.forge.ForgeVersion/CORE]: Found Forge version 31.2.0
+[06十月2020 10:57:44.100] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.forge.ForgeVersion/CORE]: Found Forge spec 31.2
+[06十月2020 10:57:44.100] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.forge.ForgeVersion/CORE]: Found Forge group net.minecraftforge
+[06十月2020 10:57:44.103] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.mcp.MCPVersion/CORE]: Found MC version information 1.15.2
+[06十月2020 10:57:44.103] [modloading-worker-2/DEBUG] [net.minecraftforge.versions.mcp.MCPVersion/CORE]: Found MCP version information 20200515.085601
+[06十月2020 10:57:44.104] [modloading-worker-2/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 31.2.0, for MC 1.15.2 with MCP 20200515.085601
+[06十月2020 10:57:44.104] [modloading-worker-2/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v31.2.0 Initialized
+[06十月2020 10:57:44.176] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loaded mod instance terraria of type com.myMod.terraria.Terraria
+[06十月2020 10:57:44.176] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Injecting Automatic event subscribers for terraria
+[06十月2020 10:57:44.842] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for terraria
+[06十月2020 10:57:44.847] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.myMod.terraria.events.PlayerTickEvent to FORGE
+[06十月2020 10:57:44.868] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.myMod.terraria.Terraria to MOD
+[06十月2020 10:57:44.869] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.myMod.terraria.util.ClientEventBusSubscriber to MOD
+[06十月2020 10:57:44.871] [modloading-worker-9/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Completed Automatic event subscribers for terraria
+[06十月2020 10:57:44.888] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Config file forge-client.toml for forge tracking
+[06十月2020 10:57:44.888] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Config file forge-server.toml for forge tracking
+[06十月2020 10:57:44.897] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loaded mod instance forge of type net.minecraftforge.common.ForgeMod
+[06十月2020 10:57:44.897] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Injecting Automatic event subscribers for forge
+[06十月2020 10:57:44.897] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for forge
+[06十月2020 10:57:44.899] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.minecraftforge.client.model.ModelDataManager to FORGE
+[06十月2020 10:57:44.914] [modloading-worker-2/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Completed Automatic event subscribers for forge
+[06十月2020 10:57:44.915] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:CREATE_REGISTRIES
+[06十月2020 10:57:44.916] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.NewRegistry
+[06十月2020 10:57:44.916] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.NewRegistry
+[06十月2020 10:57:44.916] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.NewRegistry
+[06十月2020 10:57:44.916] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.NewRegistry
+[06十月2020 10:57:44.949] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.950] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;minecraft:block&gt;
+[06十月2020 10:57:44.951] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.Register&lt;minecraft:block&gt;
+[06十月2020 10:57:44.951] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;minecraft:block&gt;
+[06十月2020 10:57:44.951] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;minecraft:block&gt;
+[06十月2020 10:57:44.954] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.954] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;minecraft:item&gt;
+[06十月2020 10:57:44.963] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.Register&lt;minecraft:item&gt;
+[06十月2020 10:57:44.963] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;minecraft:item&gt;
+[06十月2020 10:57:44.963] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;minecraft:item&gt;
+[06十月2020 10:57:44.964] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.964] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;forge:loot_modifier_serializers&gt;
+[06十月2020 10:57:44.964] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.Register&lt;forge:loot_modifier_serializers&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;forge:loot_modifier_serializers&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;forge:loot_modifier_serializers&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;forge:moddimensions&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.Register&lt;forge:moddimensions&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;forge:moddimensions&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;forge:moddimensions&gt;
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.965] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;minecraft:activities&gt;
+[06十月2020 10:57:44.966] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid terraria : RegistryEvent.Register&lt;minecraft:activities&gt;
+[06十月2020 10:57:44.966] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;minecraft:activities&gt;
+[06十月2020 10:57:44.966] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;minecraft:activities&gt;
+[06十月2020 10:57:44.966] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[06十月2020 10:57:44.966] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid terraria : RegistryEvent.Register&lt;minecraft:biome&gt;
+[06十月2020 10:57:44.968] [Render thread/ERROR] [net.minecraftforge.fml.javafmlmod.FMLModContainer/]: Exception caught during firing event: Registry Object not present: terraria:example_monster_entity
+	Index: 5
+	Listeners:
+		0: NORMAL
+		1: net.minecraftforge.eventbus.EventBus$$Lambda$2123/487778643@513b52af
+		2: net.minecraftforge.eventbus.EventBus$$Lambda$2123/487778643@5a8c93
+		3: net.minecraftforge.eventbus.EventBus$$Lambda$2123/487778643@3bed3315
+		4: net.minecraftforge.eventbus.EventBus$$Lambda$2123/487778643@119b0892
+		5: net.minecraftforge.eventbus.EventBus$$Lambda$2123/487778643@1a3e8e24
+		6: ASM: class com.myMod.terraria.Terraria onRegisterBiome(Lnet/minecraftforge/event/RegistryEvent;)V
+		7: ASM: class com.myMod.terraria.Terraria onRegistryEntities(Lnet/minecraftforge/event/RegistryEvent;)V
+java.lang.NullPointerException: Registry Object not present: terraria:example_monster_entity
+	at java.util.Objects.requireNonNull(Objects.java:290)
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92)
+	at com.myMod.terraria.world.biomes.ExampleBiome.&lt;init&gt;(ExampleBiome.java:16)
+	at com.myMod.terraria.init.BiomeInit.lambda$static$0(BiomeInit.java:35)
+	at net.minecraftforge.registries.DeferredRegister.lambda$register$0(DeferredRegister.java:84)
+	at net.minecraftforge.registries.DeferredRegister.addEntries(DeferredRegister.java:117)
+	at net.minecraftforge.eventbus.EventBus.doCastFilter(EventBus.java:212)
+	at net.minecraftforge.eventbus.EventBus.lambda$addListener$11(EventBus.java:204)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112)
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:126)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1384)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:647)
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:126)
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96)
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71)
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:214)
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$25(ModLoader.java:206)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:973)
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:206)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113)
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397)
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+
+[06十月2020 10:57:44.970] [Render thread/ERROR] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Caught exception during event RegistryEvent.Register&lt;minecraft:biome&gt; dispatch for modid terraria
+java.lang.NullPointerException: Registry Object not present: terraria:example_monster_entity
+	at java.util.Objects.requireNonNull(Objects.java:290) ~[?:1.8.0_265]
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at com.myMod.terraria.world.biomes.ExampleBiome.&lt;init&gt;(ExampleBiome.java:16) ~[main/:?]
+	at com.myMod.terraria.init.BiomeInit.lambda$static$0(BiomeInit.java:35) ~[main/:?]
+	at net.minecraftforge.registries.DeferredRegister.lambda$register$0(DeferredRegister.java:84) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.registries.DeferredRegister.addEntries(DeferredRegister.java:117) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.eventbus.EventBus.doCastFilter(EventBus.java:212) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.eventbus.EventBus.lambda$addListener$11(EventBus.java:204) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:31.2]
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_265]
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_265]
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:126) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1384) ~[?:1.8.0_265]
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:647) ~[?:1.8.0_265]
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:126) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:214) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$25(ModLoader.java:206) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:973) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:206) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_265]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_265]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_265]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_265]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+[06十月2020 10:57:44.984] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;minecraft:biome&gt;
+[06十月2020 10:57:44.984] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;minecraft:biome&gt;
+[06十月2020 10:57:44.984] [Render thread/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event LOAD_REGISTRIES, 1 errors found
+[06十月2020 10:57:44.984] [Render thread/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_265]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_265]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_265]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_265]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar:?]
+[06十月2020 10:57:45.161] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:terraria for mod file E:\forge-1.15.2-31.2.0-mdk\build\resources\main
+[06十月2020 10:57:45.162] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:45.180] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:terraria for mod file E:\forge-1.15.2-31.2.0-mdk\build\resources\main
+[06十月2020 10:57:45.181] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file E:\forge-1.15.2-31.2.0-mdk\build\fg_cache\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200825-1.15.1-recomp.jar
+[06十月2020 10:57:45.201] [Render thread/DEBUG] [net.minecraftforge.fml.ForgeI18n/CORE]: Loading I18N data entries: 0
+[06十月2020 10:57:48.276] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[06十月2020 10:57:48.393] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[06十月2020 10:57:48.415] [Server-Worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Loading configs type CLIENT
+[06十月2020 10:57:48.417] [Server-Worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigFileTypeHandler/CONFIG]: Built TOML config for E:\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml
+[06十月2020 10:57:48.417] [Server-Worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigFileTypeHandler/CONFIG]: Loaded TOML config file E:\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml
+[06十月2020 10:57:48.421] [Server-Worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigFileTypeHandler/CONFIG]: Watching TOML config file E:\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml for changes
+[06十月2020 10:57:48.424] [Server-Worker-2/DEBUG] [net.minecraftforge.common.ForgeConfig/FORGEMOD]: Loaded forge config file forge-client.toml
+[06十月2020 10:57:48.425] [Server-Worker-2/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Loading configs type COMMON
+[06十月2020 10:57:48.425] [Server-Worker-2/ERROR] [net.minecraftforge.fml.ModLoader/LOADING]: Skipping lifecycle event SETUP, 1 errors found.
+[06十月2020 10:57:48.426] [Server-Worker-2/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event SETUP, 1 errors found
+[06十月2020 10:57:48.426] [Server-Worker-2/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.startModLoading(ClientModLoader.java:123) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$3(ClientModLoader.java:105) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[?:?]
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1640) [?:1.8.0_265]
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1632) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:175) [?:1.8.0_265]
+[06十月2020 10:57:51.222] [Server-Worker-7/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: terraria:blockstates/sunflower.json: java.io.FileNotFoundException: terraria:blockstates/sunflower.json
+[06十月2020 10:57:51.223] [Server-Worker-7/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'terraria:blockstates/sunflower.json' missing model for variant: 'terraria:sunflower#half=lower'
+[06十月2020 10:57:51.223] [Server-Worker-7/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'terraria:blockstates/sunflower.json' missing model for variant: 'terraria:sunflower#half=upper'
+[06十月2020 10:57:51.884] [Server-Worker-7/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Unable to load model: 'terraria:sunflower#inventory' referenced from: terraria:sunflower#inventory: java.io.FileNotFoundException: terraria:models/item/sunflower.json
+[06十月2020 10:57:52.670] [Server-Worker-7/ERROR] [net.minecraftforge.fml.ModLoader/LOADING]: Skipping lifecycle event ENQUEUE_IMC, 1 errors found.
+[06十月2020 10:57:52.670] [Server-Worker-7/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event ENQUEUE_IMC, 1 errors found
+[06十月2020 10:57:52.670] [Server-Worker-7/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.finishModLoading(ClientModLoader.java:137) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$4(ClientModLoader.java:107) ~[?:?]
+	at java.util.concurrent.CompletableFuture.uniRun(CompletableFuture.java:719) [?:1.8.0_265]
+	at java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:701) [?:1.8.0_265]
+	at java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:457) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_265]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:175) [?:1.8.0_265]
+[06十月2020 10:57:53.138] [Render thread/INFO] [net.minecraft.client.audio.SoundSystem/]: OpenAL initialized.
+[06十月2020 10:57:53.139] [Render thread/INFO] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Sound engine started
+[06十月2020 10:57:53.327] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[06十月2020 10:57:53.481] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[06十月2020 10:57:53.481] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[06十月2020 10:57:53.482] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[06十月2020 10:57:53.483] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[06十月2020 10:57:53.483] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[06十月2020 10:57:53.484] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[06十月2020 10:57:53.997] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[06十月2020 10:57:53.999] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[06十月2020 10:57:54.000] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[06十月2020 10:58:02.267] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>ExampleBiome.java</code></p>
+<pre><code class="lang-auto">public class ExampleBiome extends Biome {
+    public ExampleBiome(Builder biomeBuilder) {
+        super(biomeBuilder);
+        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(EntityType.CAT, 3, 8, 8));
+        addSpawn(EntityClassification.MONSTER, new SpawnListEntry(EntityTypeInit.EXAMPLE_MONSTER_ENTITY.get(), 3, 8, 8));
+        addCarver(GenerationStage.Carving.AIR, Biome.createCarver(WorldCarver.CANYON, new ProbabilityConfig(0.2f)));
+        DefaultBiomeFeatures.addOres(this);
+    }
+}
+
+</code></pre>
+<p>BiomeInit.java</p>
+<pre><code class="lang-auto">public class BiomeInit {
+    public static final DeferredRegister&lt;Biome&gt; BIOME = new DeferredRegister&lt;&gt;(ForgeRegistries.BIOMES, Terraria.mod_id);
+
+    public static final RegistryObject&lt;Biome&gt; EXAMPLE_BIOME = BIOME.register("example_biome", () -&gt;
+            new ExampleBiome(new Biome.Builder()
+                    .waterColor(0xFF0157)
+                    .depth(0.125f)
+                    .surfaceBuilder(SurfaceBuilder.DEFAULT,
+                            new SurfaceBuilderConfig(
+                                    Blocks.END_STONE.getDefaultState(),
+                                    Blocks.END_STONE.getDefaultState(),
+                                    Blocks.SLIME_BLOCK.getDefaultState()))
+                    .category(Biome.Category.PLAINS)
+                    .downfall(0.1f)
+                    .temperature(0.3f)
+                    .precipitation(Biome.RainType.RAIN)
+                    .waterFogColor(0x114514)
+                    .scale(0.5f)
+                    .parent(null)));
+
+    public static void registerBiomes(){
+        registerBiome(EXAMPLE_BIOME.get(), Type.PLAINS);
+        BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeManager.BiomeEntry(EXAMPLE_BIOME.get(), 100));
+    }
+
+    private static void registerBiome(Biome biome, Type... types){
+        BiomeDictionary.addTypes(biome, types);
+        BiomeManager.addSpawnBiome(biome);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这算是个坑，因为初始化顺序的问题，你不能像原版一样直接在<code>Biome</code>添加Mod的生物。<br>
+你可以在<code>FMLCommonSetupEvent</code>这个事件里，调用<code>Biome</code>类下面的<code>getSpawns</code>方法，获得到<code>List&lt;Biome.SpawnListEntry&gt;</code>然后添加你自己生物的自然生成。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢，解决了</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎样在GuiContainer的actionPerformed方法中修改服务端中的Slot里的物品？</title>
+</head>
+<body>
+    <div class="title"><h1>怎样在GuiContainer的actionPerformed方法中修改服务端中的Slot里的物品？</h1></div>
+    <div class="post-user" class="user"><h4>宏楼</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+使用的IDE：IntelliJ IDEA<br>
+使用的IDE版本: 2019.3<br>
+Forge版本:  1.12.2-14.23.5.2847<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+请问需要手动向服务端发包吗，是的话请问怎样确定是哪个Container呢…</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>minecraft原版地slot是静态依赖于他所在地container的，而container的创建是随着openGui进行的，而创建过程在handler中，所以你的container所依赖的实体就是你的数据源，你要同步slot就要同步这个依赖实体的具体内容，比如对于一般的槽他所对应的是一个（简化后）itemStack 的 list,那么你要做到随时修改（同步）slot，那就是等效于修改该实体中的那个存储itemStack的list。如何确定的话上面已经讲清楚了，如何确定container等效于如何确定list所在的实体，这个仁者见仁智者见智，你自己可以设计，包括其中的网络同步。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请问你的问题解决了吗？解决了，你选择一个楼层作为答案，或者补充内容作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

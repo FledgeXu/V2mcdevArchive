@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 forge Block贴图错误</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 forge Block贴图错误</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <pre><code class="lang-auto">package rocketman.rocket_mod.block;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import rocketman.rocket_mod.mod.ModBlockEntities;
+import rocketman.rocket_mod.utility.ColorBlock;
+
+import javax.annotation.Nullable;
+
+public class PoweredBlock extends ColorBlock {
+    public PoweredBlock(Properties properties, DyeColor color) {
+        super(properties, color);
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+        boolean flag = worldIn.isBlockPowered(pos);
+        if (blockIn != this &amp;&amp; flag != state.get(BlockStateProperties.POWERED)) {
+            worldIn.playSound((PlayerEntity)null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_METAL_HIT, SoundCategory.NEUTRAL, 0.5F, 0.8F);
+            worldIn.setBlockState(pos, state.with(BlockStateProperties.POWERED, Boolean.valueOf(flag)), 2);
+        }
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
+    }
+
+    @Override
+    public int getLightValue(BlockState state) {
+        return state.get(BlockStateProperties.POWERED) ? super.getLightValue(state) : 0;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if(placer != null) {
+            worldIn.setBlockState(pos, state.with(BlockStateProperties.FACING, getFacingFromEntity(pos, placer)), 3);
+        }
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder&lt;Block, BlockState&gt; builder) {
+        builder.add(BlockStateProperties.FACING, BlockStateProperties.POWERED);
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return ModBlockEntities.POWERED_BLOCK_ENTITY_TYPE.create();
+    }
+}
+</code></pre>
+<p>blockstate</p>
+<pre><code class="lang-auto">{
+    "variants": {
+        "facing=north,powered=false": { "model": "rocket_mod:block/powered_block" },
+        "facing=south,powered=false": { "model": "rocket_mod:block/powered_block", "y": 180 },
+        "facing=west,powered=false":  { "model": "rocket_mod:block/powered_block", "y": 270 },
+        "facing=east,powered=false":  { "model": "rocket_mod:block/powered_block", "y": 90 },
+        "facing=up,powered=false": { "model": "rocket_mod:block/powered_block", "x": -90 },
+        "facing=down,powered=false": { "model": "rocket_mod:block/powered_block", "x": 90 },
+
+        "facing=north,powered=true": { "model": "rocket_mod:block/powered_block_on" },
+        "facing=south,powered=true": { "model": "rocket_mod:block/powered_block_on", "y": 180 },
+        "facing=west,powered=true":  { "model": "rocket_mod:block/powered_block_on", "y": 270 },
+        "facing=east,powered=true":  { "model": "rocket_mod:block/powered_block_on", "y": 90 },
+        "facing=up,powered=true": { "model": "rocket_mod:block/powered_block_on", "x": -90 },
+        "facing=down,powered=true": { "model": "rocket_mod:block/powered_block_on", "x": 90 }
+    }
+}
+</code></pre>
+<p>model</p>
+<pre><code class="lang-auto">{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "rocket_mod:block/powered_block",
+        "front": "rocket_mod:block/powered_block_front",
+        "particle": "#all"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 1, "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 2, "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#front", "tintindex": 3, "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 4, "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 5, "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 6, "cullface": "east" }
+            }
+        }
+    ]
+}
+</code></pre>
+<p>model_on</p>
+<pre><code class="lang-auto">{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "rocket_mod:block/powered_block",
+        "front": "rocket_mod:block/powered_block_front_on",
+        "particle": "#all"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 1, "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 2, "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#front", "tintindex": 3, "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 4, "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 5, "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 6, "cullface": "east" }
+            }
+        }
+    ]
+}
+</code></pre>
+<p>贴图一直显示红黑默认，物品栏方块显示正确</p>
+<pre><code class="lang-auto">[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=east,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=north,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=south,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=west,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=down,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=west,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=up,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=down,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=north,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=south,powered=false': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=east,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' in resourcepack: 'Mod Resources' for variant: 'facing=up,powered=true': Unknown blockstate property: 'powered'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=north'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=south'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=east'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=up'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=down'
+[16:50:12] [Server-Worker-6/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'rocket_mod:blockstates/powered_block.json' missing model for variant: 'rocket_mod:powered_block#facing=west'
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你把你的 blockstate 冒号之后的空格删了试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="rocketman123456" data-post="1" data-topic="50">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/r/91b2a8/40.png" class="avatar"> rocketman123456:</div>
+<blockquote>
+<p>rocket_mod:powered_block#facing=north</p>
+</blockquote>
+</aside>
+<p>我注意到了这点，<code>rocket_mod:powered_block#facing=north</code> 你也可以试试把 <code>powered</code> 和 <code>facing</code> 换个顺序。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>最终结果是我定义block实例的时候，出错，这个代码实际没有问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

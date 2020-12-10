@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.16.3 Fabric 给物品添加自定义样式的方块提示（tooltip）</title>
+</head>
+<body>
+    <div class="title"><h1>1.16.3 Fabric 给物品添加自定义样式的方块提示（tooltip）</h1></div>
+    <div class="post-user" class="user"><h4>小猪之最</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 x64<br>
+你用的JDK是: jdk8u241 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.1<br>
+Fabric-loader版本:  0.10.1+build.209<br>
+Fabric API版本: 0.24.0+build.411-1.16<br>
+Minecraft版本: 1.16.3<br>
+Mapping 文件版本: 1.16.3+build.47<br>
+<strong>问题情况简述</strong><br>
+Fabric官方Wiki中提到创建tooltip需要覆写appendTooltip方法，这样做可以创建一个普通的tooltip。如果想要创建一个带有文本样式（Style），例如颜色、粗体、斜体等效果的tooltip该怎么做？<br>
+<strong>相关代码</strong><br>
+<code>Item</code></p>
+<pre><code class="lang-auto">@Override
+public void appendTooltip(ItemStack itemStack, World world, List&lt;Text&gt; tooltip, TooltipContext tooltipContext) {
+    tooltip.add(new TranslatableText("item.tutorial.fabric_item.tooltip"));
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://fabricmc.net/wiki/_media/favicon.ico" class="site-icon" width="16" height="16">
+      <a href="https://fabricmc.net/wiki/tutorial:tooltip" target="_blank" rel="noopener nofollow ugc">fabricmc.net</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="16" height="16">
+
+<h3><a href="https://fabricmc.net/wiki/tutorial:tooltip" target="_blank" rel="noopener nofollow ugc">tutorial:tooltip [Fabric Wiki]</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你看一下类的继承关系和类的方法不就能知道了吗？而且原版的类里面应该有很多的例子。</p>
+<p><code>TranslatableText</code>继承了<code>BaseText</code>类，而<code>BaseText</code>类里有个<code>setStyle</code>方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

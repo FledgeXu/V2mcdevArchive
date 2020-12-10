@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2构建问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2构建问题</h1></div>
+    <div class="post-user" class="user"><h4>涂鸦灬城市</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64位<br>
+你是用的JDK: jdk1.8.0_251 64位<br>
+你使用的IDE：IntelliJ IDEA (Community Edition)<br>
+你使用的IDE版本: 2020.1.2<br>
+Forge版本:  1.15.2 - 31.2.0<br>
+Minecraft版本: .1.15.2<br>
+Mapping 文件版本: 20200706-1.15.1</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cbaf987b8a6e75e04df2652490e55c6bb1d16d87.png" data-download-href="../uploads/default/cbaf987b8a6e75e04df2652490e55c6bb1d16d87" title="QQ截图20200707141237"><img src="../uploads/default/original/1X/cbaf987b8a6e75e04df2652490e55c6bb1d16d87.png" alt="QQ截图20200707141237" data-base62-sha1="t3T8A3ZtrcMfqEH2sMFAAtSs3DF" width="690" height="33" data-small-upload="../uploads/default/optimized/1X/cbaf987b8a6e75e04df2652490e55c6bb1d16d87_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200707141237</span><span class="informations">876×42 6.36 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div> <img src="../uploads/default/original/1X/1e01fbd80eed38c0ba5a8b9c4e2efd86fbaf6c94.png" alt="QQ截图20200707141242" data-base62-sha1="4hszBEwdjKjTmoMJlp5qiCZ4Vdq" width="151" height="30"><br>
+<strong>错误情况简述</strong><br>
+构建过程提示错误，怎么消除</p>
+<p><strong>相关代码</strong><br>
+build.gradle</p>
+<pre><code class="lang-auto">jar {
+    manifest {
+        attributes([
+            "Specification-Title": "examplemod",
+            "Specification-Vendor": "examplemodsareus",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" :"examplemodsareus",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个没事，不用太在意。<br>
+推荐使用离线包：<a href="../t/topic/249" class="inline-onebox">[1.12-1.15]Minecraft Forge 离线包</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>涂鸦灬城市</h4></div>
+    <br />
+    <div class="post">
+        <p>可以OK</p>
+    </div>
+    <br />
+    <div class="user"><h4>涂鸦灬城市</h4></div>
+    <br />
+    <div class="post">
+        <p>问下，这是因为什么导致这样的，我构建1.14.4怎么没有遇到过</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是很清楚。</p>
+    </div>
+    <br />
+    <div class="user"><h4>涂鸦灬城市</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧好吧</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

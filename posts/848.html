@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何创建不依赖方块实体的container</title>
+</head>
+<body>
+    <div class="title"><h1>如何创建不依赖方块实体的container</h1></div>
+    <div class="post-user" class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你是用的JDK: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.4<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200904</p>
+<p><strong>情况简述</strong><br>
+阅读了neutrino1.15.2教程后，想要制作一个直接用快捷键打开的Container和Gui，请问在没有Block和TileEntity完成INamedContainerProvider接口的情况下如何在服务端创建container</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>有，有个叫做<code>SimpleNamedContainerProvider</code>的类，这个类你看一下<code>INamedContainerProvider</code>的继承树就能看到。</p>
+<blockquote>
+<p><a href="https://neutrino.v2mcdev.com/item/meleeweapons.html#%E5%BC%80%E5%8F%91%E5%B0%8F%E8%AF%BE%E5%A0%82">开发小课堂</a></p>
+<p>在开发的过程中你得熟练使用开发工具，在这里我们的工具是IntelliJ IDEA。有两个快捷键对于理解代码有非常大的帮助。第一个快捷键是 <code>Ctrl+N(Windows)</code> ，这个快捷键可以让你搜索指定的类，这样你就可寻找原版类里在哪里，有什么内容了。另一个快捷键就是 <code>Ctrl+H</code> 当你把鼠标指针放在一个类上时，按下这个快捷键，会在右侧显示这个类的继承关系，也可查看某个接口的具体实现，大家可以自己上网搜索IDEA常用快捷键学习使用。</p>
+<p>另外一个技巧是，当你看到某个方法，想要知道这个方法在哪里调用时，可以右键然后点击 <code>Find Usages（查找使用）</code> ，你就可以看见所有调用这个方法的代码了。</p>
+<p>还有如果你想查看某个类的源代码，只需要按住 <code>Ctrl</code> 键，点击那个类就可以进入到那个类内部查看它的源代码。</p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>在调用NetworkHooks.openGui时需要输入ServerPlayerEntity，但是Minecraft.getInstance().player返回的只有ClientPlayerEntity，请问应该如何获取ServerPlayerEntity.</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看你怎么实现的，一般情况下你重写的方法里都会传染一个PlayerEntity的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>由于我是准备使用快捷键打开ContainerScreen，所以没有重写方法。</p>
+<p><strong>以下是代码</strong></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(value = Dist.CLIENT)
+public class KeyBoardInput {
+    public static final KeyBinding SWORD_BELT_GUI_KEY = new KeyBinding("key.swordBeltGui",
+            KeyConflictContext.IN_GAME,
+            KeyModifier.NONE,
+            InputMappings.Type.KEYSYM,
+            GLFW.GLFW_KEY_B,
+            "key.category.scabbard");
+
+    @SubscribeEvent
+    public static void onKeyBoardInput(InputEvent.KeyInputEvent event){
+        if (SWORD_BELT_GUI_KEY.isPressed()) {
+            openSwordBelt(Minecraft.getInstance().player);
+        }
+    }
+
+    private static void openSwordBelt(PlayerEntity player){
+        if (player instanceof ServerPlayerEntity) {
+            NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return new StringTextComponent("Sword Belt");
+                }
+
+                @Nullable
+                @Override
+                public Container createMenu(int id, PlayerInventory inv, PlayerEntity entity) {
+                    return new SwordBeltContainer(id, inv);
+                }
+            });
+        }
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你这个写法有问题，<code>NetworkHooks.openGui</code>得在服务端调用，你得手动发包到服务端，然后处理数据包到函数的参数里是有<code>ServerPlayer</code>的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

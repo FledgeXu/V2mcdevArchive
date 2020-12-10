@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[Forge1.15.2]流体粘度、密度问题</title>
+</head>
+<body>
+    <div class="title"><h1>[Forge1.15.2]流体粘度、密度问题</h1></div>
+    <div class="post-user" class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Ubuntu20.04 x64<br>
+你是用的JDK: openjdk-8u252<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.2<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200717-1.15.1</p>
+<p><strong>出错图</strong><br>
+（无法用图片描述）</p>
+<p><strong>错误情况简述</strong><br>
+我想在MC加入一种新的流体，在继承<strong>ForgeFlowingFluid</strong>之后，通过ForgeFlowingFluid自带的一些方法，指定了流体的<strong>粘度、密度</strong>等内容。但在游戏中，玩家浸入流体后，却像在空气中一样（即流体粘度为0）。</p>
+<p><strong>相关代码</strong><br>
+<code>ShitFluid.java</code></p>
+<pre><code class="lang-auto">public abstract class ShitFluid extends ForgeFlowingFluid {
+    private static final ResourceLocation STILL = new ResourceLocation(Hamburger.MODID, "block/shit_still");
+    private static final ResourceLocation FLOWING = new ResourceLocation(Hamburger.MODID, "block/shit_flow");
+    private static final ResourceLocation OVERLAY = new ResourceLocation(Hamburger.MODID, "block/shit_overlay");
+    protected ShitFluid() {
+        super(new Properties(() -&gt; Fluids.SHIT, () -&gt; Fluids.FLOWING_SHIT, FluidAttributes.builder(STILL, FLOWING)
+//                .color(0xff643c00)
+                .density(2000) // 粘度
+                .viscosity(4000) // 密度
+                .overlay(OVERLAY)
+                .translationKey("block.hamburger.shit")
+                .temperature(300)
+                )
+                .canMultiply()
+                .slopeFindDistance(4)
+                .levelDecreasePerBlock(1)
+                .bucket(() -&gt; Items.SHIT_BUCKET)
+                .tickRate(6)
+                .explosionResistance(100.0F)
+                .block(() -&gt; (FlowingFluidBlock) Blocks.SHIT_FLUID_BLOCK)
+        );
+    }
+
+    @Override
+    protected void animateTick(World worldIn, BlockPos pos, IFluidState state, Random random) {
+        if (!state.isSource() &amp;&amp; !state.get(FALLING)) {
+            if (random.nextInt(64) == 0) {
+                worldIn.playSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.BLOCKS, random.nextFloat() * 0.25F + 0.75F, random.nextFloat() + 0.5F, false);
+            }
+        } else if (random.nextInt(10) == 0) {
+            worldIn.addParticle(ParticleTypes.UNDERWATER, (double)pos.getX() + (double)random.nextFloat(), (double)pos.getY() + (double)random.nextFloat(), (double)pos.getZ() + (double)random.nextFloat(), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    public static class Flowing extends ShitFluid {
+        protected void fillStateContainer(@Nonnull StateContainer.Builder&lt;Fluid, IFluidState&gt; builder) {
+            super.fillStateContainer(builder);
+            builder.add(LEVEL_1_8);
+        }
+
+        @Override
+        public int getLevel(IFluidState state) {
+            return state.get(LEVEL_1_8);
+        }
+
+        @Override
+        public boolean isSource(IFluidState state) {
+            return false;
+        }
+    }
+
+    public static class Source extends ShitFluid {
+        public int getLevel(@Nonnull IFluidState p_207192_1_) {
+            return 8;
+        }
+
+        public boolean isSource(IFluidState state) {
+            return true;
+        }
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>好像没什么好办法，这个「密度」是和<code>water</code>这个tag绑定的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>这么说，自己注册一个tag？（雾<br>
+（主要问题是<strong>玩家浸没在流体中时就像没有在流体中一样，行动自如</strong>）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>注册Tag应该也没有用。</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>我可能描述的不准确，应该是流体的阻力，这个是肯定有办法的，不然其它模组的流体也会是没有阻力的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>比如说1.15的哪个mod？</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>我看了neutrino的教程，是tag文件的问题，解决了</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

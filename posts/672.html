@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何使放出来的方块和原版熔炉一样面对自己</title>
+</head>
+<body>
+    <div class="title"><h1>如何使放出来的方块和原版熔炉一样面对自己</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows10 64<br>
+你是用的JDK: 1.8 64<br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本:20.1.3<br>
+Forge版本: 32.0.75<br>
+Minecraft版本: 1.16.1</p>
+<p><strong>错误情况简述</strong></p>
+<p><strong>相关代码</strong><br>
+<code>LJB748Generator</code></p>
+<pre><code class="lang-auto">package com.qyr.ljb748.block;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraftforge.common.ToolType;
+
+
+public class LJB748Generator extends Block {
+    public LJB748Generator(){
+        super(Properties.create(Material.ROCK).hardnessAndResistance(20).harvestTool(ToolType.get("pickaxe")).harvestLevel(2));
+    }
+}
+</code></pre>
+<p><code>BlockRegistry</code></p>
+<pre><code class="lang-auto">package com.qyr.ljb748.registry;
+
+import com.qyr.ljb748.block.*;
+import net.minecraft.block.Block;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+public abstract class BlockRegistry {
+    public static final DeferredRegister&lt;Block&gt; BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, "ljb748");
+    public static RegistryObject&lt;Block&gt; LJB748Ore = BLOCKS.register("ljb748_ore", LJB748Ore::new);
+    public static RegistryObject&lt;Block&gt; LJB748MaterialBlock = BLOCKS.register("ljb748_material_block", LJB748MaterialBlock::new);
+    public static RegistryObject&lt;Block&gt; LJB748Generator = BLOCKS.register("ljb748_generator", LJB748Generator::new);
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+使用过McJty的教程代码，但是报错</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>原理很简单：</p>
+<ol>
+<li>添加一个<code>BlockStateProperties.FACING</code>的State，在<a href="https://github.com/McJty/YouTubeModding14/blob/3c4e3c8fa5be5e994414ece0b60e6a0ff42d4936/src/main/java/com/mcjty/mytutorial/blocks/FirstBlock.java#L98">这里</a>添加</li>
+<li>在方块被放下的时候调整这个State的值，具体的代码是<a href="https://github.com/McJty/YouTubeModding14/blob/3c4e3c8fa5be5e994414ece0b60e6a0ff42d4936/src/main/java/com/mcjty/mytutorial/blocks/FirstBlock.java#L68">这里</a>
+</li>
+<li>根据<code>BlockStateProperties.FACING</code>的值旋转方块的模型，具体是<a href="https://github.com/McJty/YouTubeModding14/blob/master/src/main/resources/assets/mytutorial/blockstates/firstblock.json">这里</a>
+</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>材质没显示<br>
+这是模型</p>
+<pre><code class="lang-auto">{
+  "parent": "block/cube",
+  "textures": {
+    "particle": {"model":"ljb748:block/ljb748_material_block"},
+    "north": {"model": "ljb748:/block/ljb748_generator_front"},
+    "south": {"model": "ljb748:/block/ljb748_material_block"},
+    "west": {"model": "ljb748:/block/ljb748_material_block"},
+    "east": {"model": "ljb748:/block/ljb748_material_block"},
+    "up": {"model": "ljb748:/block/ljb748_material_block"},
+    "down": {"model": "ljb748:/block/ljb748_material_block"}
+  }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请补充你的<strong>完整</strong>的日志。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>太长了发不了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://paste.ubuntu.com/" class="onebox" target="_blank">https://paste.ubuntu.com/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562.png" data-download-href="../uploads/default/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562" title="image"><img src="../uploads/default/optimized/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562_2_690x376.png" alt="image" data-base62-sha1="rEkUcI71eveMK0PMyNcAeRPpnnI" width="690" height="376" srcset="../uploads/default/optimized/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562_2_690x376.png, ../uploads/default/optimized/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562_2_1035x564.png 1.5x, ../uploads/default/optimized/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562_2_1380x752.png 2x" data-small-upload="../uploads/default/optimized/1X/c1c9fc9f512e3fe9e1f80373ec562d539e1f0562_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1920×1048 34.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+上传完就这样了。。。。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你网络的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61.png" data-download-href="../uploads/default/3265b616cf26470ddce1ec6073e6221c52b2aa61" title="image"><img src="../uploads/default/optimized/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61_2_690x376.png" alt="image" data-base62-sha1="7bPMUI5DMdFlKq4975mwhuTKElH" width="690" height="376" srcset="../uploads/default/optimized/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61_2_690x376.png, ../uploads/default/optimized/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61_2_1035x564.png 1.5x, ../uploads/default/optimized/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61_2_1380x752.png 2x" data-small-upload="../uploads/default/optimized/1X/3265b616cf26470ddce1ec6073e6221c52b2aa61_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1920×1048 32 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>试试这个：<a href="https://pastebin.com/">https://pastebin.com/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>直接进不去。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://pastebin.ubuntu.com/" class="onebox" target="_blank">https://pastebin.ubuntu.com/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>参考原版熔炉、箱子的代码</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

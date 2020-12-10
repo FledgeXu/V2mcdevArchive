@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何实现一个只在玩家具有某种特殊状态时可用的合成表？</title>
+</head>
+<body>
+    <div class="title"><h1>如何实现一个只在玩家具有某种特殊状态时可用的合成表？</h1></div>
+    <div class="post-user" class="user"><h4>Chlamydomonos</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 64位<br>
+你用的JDK是:  1.8.0_261 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  31.2.35<br>
+Minecraft版本: 1.16.3</p>
+<p><strong>错误情况简述</strong><br>
+该特殊状态用Capability存储在玩家的NBT中</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你是需要一个自定义的原版工作台合成？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Chlamydomonos</h4></div>
+    <br />
+    <div class="post">
+        <p>最好是这样<br>
+如果这样不可行，也可以考虑重新实现一个类似工作台的方块</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>我看的是1.15.2：<br>
+CraftingInventory里面有个Container，WorkbenchContainer和PlayerContainer里面都有player字段，用AT访问。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

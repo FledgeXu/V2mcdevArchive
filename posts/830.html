@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2如何让物品模型显示在玩家的身上</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2如何让物品模型显示在玩家的身上</h1></div>
+    <div class="post-user" class="user"><h4>MietteYi</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows10 x64<br>
+你是用的JDK: jdk8 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.2<br>
+Forge版本: forge1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p>请问如何让某个物品模型显示在玩家身上的某个部位（类似拔刀剑的剑可以背在玩家的背后，又或者类似额外植物学的那些能能显示在玩家头上的一些饰品），我大概是想制作一些乐器，这些乐器放在玩家背包里时，就可以在玩家的身上上看到例如一个“笛子”挂在背上的样子<br>
+之前有去查阅过额外植物学和拔刀剑的代码，但实在不是很清楚具体是如何实现，想请问一下有没有关于实现这一类效果的教程/简略解释之类的，谢谢！</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Forge提供了一个叫做<code>RenderLivingEvent</code>的事件，看起来你可以在这里事件里面做一些和实体有关的特殊的渲染。<br>
+教程和讲解是不用想了，这种小众的需求，你只能看原版或者看别人的代码自己研究弄懂。<br>
+IE里好像有用到这个事件的例子。<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/BluSunrize/ImmersiveEngineering/blob/837a08a7d6f283c6d5afc3fcf285c6a6da035b29/src/main/java/blusunrize/immersiveengineering/client/ClientEventHandler.java" target="_blank" rel="noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/BluSunrize/ImmersiveEngineering/blob/837a08a7d6f283c6d5afc3fcf285c6a6da035b29/src/main/java/blusunrize/immersiveengineering/client/ClientEventHandler.java" target="_blank" rel="noopener">BluSunrize/ImmersiveEngineering/blob/837a08a7d6f283c6d5afc3fcf285c6a6da035b29/src/main/java/blusunrize/immersiveengineering/client/ClientEventHandler.java</a></h4>
+<pre><code class="lang-java">/*
+ * BluSunrize
+ * Copyright (c) 2017
+ *
+ * This code is licensed under "Blu's License of Common Sense"
+ * Details can be found in the license file in the root folder of this project
+ */
+
+package blusunrize.immersiveengineering.client;
+
+import blusunrize.immersiveengineering.ImmersiveEngineering;
+import blusunrize.immersiveengineering.api.Lib;
+import blusunrize.immersiveengineering.api.crafting.BlastFurnaceFuel;
+import blusunrize.immersiveengineering.api.crafting.BlueprintCraftingRecipe;
+import blusunrize.immersiveengineering.api.energy.immersiveflux.IFluxReceiver;
+import blusunrize.immersiveengineering.api.excavator.MineralMix;
+import blusunrize.immersiveengineering.api.shader.CapabilityShader;
+import blusunrize.immersiveengineering.api.tool.ConveyorHandler;
+import blusunrize.immersiveengineering.api.tool.IDrillHead;
+import blusunrize.immersiveengineering.api.tool.ZoomHandler;
+</code></pre>
+
+  This file has been truncated. <a href="https://github.com/BluSunrize/ImmersiveEngineering/blob/837a08a7d6f283c6d5afc3fcf285c6a6da035b29/src/main/java/blusunrize/immersiveengineering/client/ClientEventHandler.java" target="_blank" rel="noopener">show original</a>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+可能还有别的方法可以实现你的需求，比如雪尼的Kiwi里有针对资助者的小装饰，但是我不清楚那个是怎么实现的，你可以去看看Kiwi的代码。
+    </div>
+    <br />
+    <div class="user"><h4>MietteYi</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢，那我多去查查资料</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

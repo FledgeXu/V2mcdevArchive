@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Idea不输出mod开发日志,但是run中的logs文件夹日志还是有的</title>
+</head>
+<body>
+    <div class="title"><h1>Idea不输出mod开发日志,但是run中的logs文件夹日志还是有的</h1></div>
+    <div class="post-user" class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：idea<br>
+你使用的IDE版本:2019.2<br>
+Forge版本:  forgeBin-1.12.2-14.23.5.2768.jar<br>
+Minecraft版本: 1.12.2<br>
+Mapping 文件版本: snapshot_20171003</p>
+<p><strong>错误情况简述</strong><br>
+idea不输出mod日志但是mod的确可以调试成功<br>
+只是日志并不输出</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[08:21:05] [main/INFO]: Extra: []
+[08:21:05] [main/INFO]: Running with arguments: [--userProperties, {}, --assetsDir, F:/MavenRepository-Gradle/.gradle/caches/minecraft/assets, --assetIndex, 1.12, --accessToken{REDACTED}, --version, 1.12.2, --tweakClass, net.minecraftforge.fml.common.launcher.FMLTweaker, --tweakClass, net.minecraftforge.gradle.tweakers.CoremodTweaker]
+[08:21:05] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[08:21:05] [main/INFO]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[08:21:05] [main/INFO]: Loading tweak class name net.minecraftforge.gradle.tweakers.CoremodTweaker
+[08:21:05] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[08:21:05] [main/INFO]: Forge Mod Loader version 14.23.5.2768 for Minecraft 1.12.2 loading
+[08:21:05] [main/INFO]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_221, running on Windows 10:amd64:10.0, installed at D:\JAVA-JDK\jre
+[08:21:05] [main/ERROR]: Apache Maven library folder was not in the format expected. Using default libraries directory.
+[08:21:05] [main/ERROR]: Full: F:\MavenRepository-Gradle\.gradle\caches\modules-2\files-2.1\org.apache.maven\maven-artifact\3.5.3\7dc72b6d6d8a6dced3d294ed54c2cc3515ade9f4\maven-artifact-3.5.3.jar
+[08:21:05] [main/ERROR]: Trimmed: f:/mavenrepository-gradle/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.5.3/
+[08:21:05] [main/INFO]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[08:21:05] [main/INFO]: Detected deobfuscated environment, loading log configs for colored console logs.
+2020-02-25 08:21:06,208 main ERROR Error processing element LoggerNamePatternSelector ([PatternLayout: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,208 main ERROR Error processing element TerminalConsole ([Appenders: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,208 main ERROR Error processing element LoggerNamePatternSelector ([PatternLayout: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,238 main ERROR Unable to locate appender "Console" for logger config "root"
+2020-02-25 08:21:06,538 main ERROR Error processing element LoggerNamePatternSelector ([PatternLayout: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,538 main ERROR Error processing element TerminalConsole ([Appenders: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,538 main ERROR Error processing element LoggerNamePatternSelector ([PatternLayout: null]): CLASS_NOT_FOUND
+2020-02-25 08:21:06,558 main ERROR Unable to locate appender "Console" for logger config "root"
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我看不懂你的问题，请按照模组开发提问区的发帖模版修改你的提问。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不过根据你版本号来看，应该是兼容性的问题。<br>
+1.12.2 的 Forge 的gradle版本默认应该是2.3，IntellJ与之兼容的最新版本是2018.3月的版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>对 我感觉应该也是 但是找不到解决方案 难道只能通过降低idea版本吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请您先修改问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以把gradle升级成4.2版本，不要升级成4.8版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>不是我想升级到4.8的。。。。是他最低要求4.8</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那没有办法你只能降级到2018.3月的版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>原来我用的默认2.3，然后他不行 不兼容，而且报错直接给我打出来了最低4.8，还头疼了我好一阵子，当时比较卡也没有梯子，特慢</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>要不是我试试4.2，是不是很只要把wapper换掉build一下就好了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="mohuangNPC" data-post="10" data-topic="102">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/mohuangNPC" class="avatar"> mohuangNPC:</div>
+<blockquote>
+<p>是很只要把wapper换掉build一下就好了？</p>
+</blockquote>
+</aside>
+<p>应该是。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以查阅这个<a href="https://www.v2mcdev.com/t/topic/18/45">帖子</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>或者你也可以使用捆绑了 JBR 8 的 IntelliJ IDEA，它可以支持更低版本的 Gradle ，虽然 JBR 8 即将在 2020 年首个版本被弃用</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>好的 多谢 我试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>JDK 8？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/RleFUjSGxWrCYQM.png" title="image.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/RleFUjSGxWrCYQM.png" alt="image.png" width="690" height="408"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image.png</span><span class="informations">1243×735</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>JBR 应该是 JetBrains 自己修改过的 JDK ，理论上来说使用其他的 JDK 应该也是基本没有问题的（可能字体需要自己在 JDK 里手动配置一下）</p>
+<p><img src="https://i.loli.net/2020/02/25/UebWGP9iwEzRvIF.png" alt="image.png" width="640" height="400"></p>
+<p>JBR 位于 IDEA 安装目录下的 「jbr」 文件夹里</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>好的 谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>貌似换了gradle还是不行</p>
+    </div>
+    <br />
+    <div class="user"><h4>mohuangNPC</h4></div>
+    <br />
+    <div class="post">
+        <p>虽然没有什么大问题，而且logs里也会有日志输出，但是控制台不出还是感觉有点无语</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>作为一个小的取舍，你试试看把IntelliJ降级到2019.2月版本，我现在正在使用这个版本应该是可以用gradle4.2的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

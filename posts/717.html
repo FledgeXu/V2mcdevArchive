@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何从指定位置加载模型</title>
+</head>
+<body>
+    <div class="title"><h1>如何从指定位置加载模型</h1></div>
+    <div class="post-user" class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 10 64位<br>
+你是用的JDK: 1.8<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3<br>
+Forge版本:  1.15.2-31.2.33<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>简述</strong><br>
+如何从指定位置加载模型，如从这个位置加载：<br>
+<code>resources/assets/modid/models/item/material/qwq.json</code></p>
+<p><strong>由来</strong><br>
+参照的沉浸工艺的资源目录<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/ef81f73b2d4bde9ae6dce8400114ea70c3b2560e.png" data-download-href="../uploads/default/ef81f73b2d4bde9ae6dce8400114ea70c3b2560e" title="image"><img src="../uploads/default/original/1X/ef81f73b2d4bde9ae6dce8400114ea70c3b2560e.png" alt="image" data-base62-sha1="yaMz4NKF7qNEFzbyiGDoa6fzvJk" width="284" height="500" data-small-upload="../uploads/default/optimized/1X/ef81f73b2d4bde9ae6dce8400114ea70c3b2560e_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">480×845 26.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+发现<br>
+<code>immersiveengineering\models\item\material\coal_coke[例].json</code><br>
+能够通过<code>parent:ie_item_base.json</code>实现加载<br>
+该文件位于<code>immersiveengineering\models\item\ie_item_base.json</code></p>
+<p><strong>以下位涉及文件的内容</strong><br>
+<code>coal_coke.json</code></p>
+<pre><code class="lang-auto">{
+	"parent":"immersiveengineering:item/ie_item_base",
+	"textures": {
+		"layer0":"immersiveengineering:items/material_coal_coke"
+	}
+}
+</code></pre>
+<p><code>ie_item_base.json</code></p>
+<pre><code class="lang-auto">{
+	"parent":"item/generated"
+}
+</code></pre>
+<p><strong>我的尝试</strong><br>
+仿照沉浸工艺的结构，我设置了如图的Resource 目录<br>
+<img src="../uploads/default/original/1X/fbacdf40ec6e7276df7429ab1cc6eb51ccd482fe.png" alt="image" data-base62-sha1="zUqdKEOK01L7nkNL7j2hYhII4BU" width="219" height="192"><br>
+<code>test_item.json</code></p>
+<pre><code class="lang-auto">{
+	"parent":"oneMod:item/item_base",
+	"textures": {
+		"layer0":"oneMod:items/test_item"
+	}
+}
+</code></pre>
+<p><code>item_base.json</code></p>
+<pre><code class="lang-auto">{
+	"parent":"item/generated"
+}
+</code></pre>
+<p>发现游戏中test_item并不能加载模型，但如果将其放置在<code>item/</code>目录下，能够加载</p>
+<p><strong>我的目的</strong><br>
+如何从二级、三级目录下加载模型文件<br>
+如<code>item/dir/model.json</code><br>
+如<code>block/dir/dir/model.json</code></p>
+<p><strong>我的其他状况</strong><br>
+注册了<code>test_item</code>，并能在游戏中出现，但在 我的尝试 中无模型、材质<br>
+一切正常</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>很简单，在你的注册名前面加一个文件夹的名字就行。<br>
+举例来说</p>
+<pre><code class="lang-java">public static final RegistryObject&lt;Item&gt; obsidianAltar = ITEMS.register("test/obsidian_altar", () -&gt; new BlockItem(BlockRegistry.obsidianAltar.get(), new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)));
+</code></pre>
+<pre><code class="lang-auto">item
+└── test
+    └── obsidian_altar.json
+
+1 directory, 1 file
+</code></pre>
+<blockquote>
+<p><strong>这里的加载流程是：游戏先根据的你注册名获取相对应的模型文件，然后通过模型文件中的textures加载对应的材质文件。</strong> - <a href="https://neutrino.v2mcdev.com/item/modelandtextures.html">neutrino</a></p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

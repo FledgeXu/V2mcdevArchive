@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>哪里可以找到 Minecraft 自己的 sounds.json 文件？</title>
+</head>
+<body>
+    <div class="title"><h1>哪里可以找到 Minecraft 自己的 sounds.json 文件？</h1></div>
+    <div class="post-user" class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>如题……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>如果资源不能在版本 jar 中找到，说明被集中储存在了 assets 下，要找到这些资源文件，先查询下面的文件</p>
+<blockquote>
+<p>.minecraft/assets/indexes/&lt;版本&gt;.json</p>
+</blockquote>
+<p>文件结构大概是 <code>"资源名字": {"hash": "哈希码", "size": 文件大小}</code>，搜索你要找的文件名，可以得到它的哈希码。</p>
+<p>然后到你需要的文件就在这里：</p>
+<blockquote>
+<p>.minecraft/assets/objects/&lt;哈希码前两位&gt;/&lt;哈希码&gt;</p>
+</blockquote>
+<p>找到的文件是没有后缀名的，手动加一个就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于粒子生成</title>
+</head>
+<body>
+    <div class="title"><h1>关于粒子生成</h1></div>
+    <div class="post-user" class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Minecraft版本：1.12.2</p>
+<p>使用如下代码后，粒子并不生成。<br>
+生成粒子似乎要在client进行，在server进行无效果。但我不知道怎么实现。<br>
+这段代码位于重写的Block类的neighborChanged方法。</p>
+<pre><code class="lang-auto">if (worldIn.isRemote) {
+    for (int i = 0; i &lt; 120; i++) {
+	    worldIn.spawnParticle(EnumParticleTypes.SNOWBALL,
+        (double)thisPos.getX() + worldIn.rand.nextDouble(),
+        (double)thisPos.getY() +1+ worldIn.rand.nextDouble() * 2D,
+        (double)thisPos.getZ() + worldIn.rand.nextDouble(),
+        0.0D, 0.0D, 0.0D);
+    }
+}
+</code></pre>
+<p>原方法并没有SideOnly的注解</p>
+<pre><code class="lang-auto">@Deprecated
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    {
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>试试<code>World.playEvent</code>?</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>用print检测了一下，neighborChanged似乎只在server调用？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>playEvent看不懂啊。。。type参数是整数完全不知道意义。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>使用 <code>world.addBlockEvent()</code>，配合 <code>block.eventReceived()</code>。 实现可参考 <code>BlockNote</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>可以实现，但是还有问题。<br>
+我的方法中会将原本的方块替换为空气。<br>
+若不执行替换空气，粒子可以生成，但若替换，则不可以。<br>
+源代码中world.addBlockEvent()似乎是根据坐标来找方块，传递的Block参数没用。<br>
+所以若替换为空气，无论代码先后，都不能检测到这个BlockEvent，而应该变成了一个空气的BlockEvent。</p>
+<p>方法的部分：</p>
+<pre><code class="lang-auto">public void neighborChanged(IBlockState state, World worldIn, BlockPos thisPos, Block blockIn, BlockPos firePos) {
+    worldIn.addBlockEvent(thisPos, this, 0, 0);
+    worldIn.setBlockToAir(thisPos);
+}
+</code></pre>
+<p>好吧我成功犯傻了<img src="https://www.v2mcdev.com/images/emoji/apple/sweat.png?v=9" title=":sweat:" class="emoji" alt=":sweat:">把设置为空气写到eventReceived里面就行了呀。。<br>
+成功了，感谢帮助！</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

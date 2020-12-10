@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>在播放声音对时候游戏崩溃</title>
+</head>
+<body>
+    <div class="title"><h1>在播放声音对时候游戏崩溃</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>此贴为提问记录贴</strong><br>
+提问者：<strong>慕凯</strong><br>
+<strong>版本信息</strong><br>
+你使用的IDE：未知<br>
+你使用的IDE版本:未知<br>
+Forge版本: 未知<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+在播放声音对时候游戏崩溃</p>
+<p><strong>报错日志</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/46c0a5e6e9ed25ce53b51dbcb1da5b1afce6d138.png" data-download-href="../uploads/default/46c0a5e6e9ed25ce53b51dbcb1da5b1afce6d138" title="image.png"><img src="../uploads/default/original/1X/46c0a5e6e9ed25ce53b51dbcb1da5b1afce6d138.png" alt="image.png" data-base62-sha1="a5Uavv2Gfe97jwVkma3esRetvi8" width="600" height="500" data-small-upload="../uploads/default/optimized/1X/46c0a5e6e9ed25ce53b51dbcb1da5b1afce6d138_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image.png</span><span class="informations">1089×906 75.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">public class EventLoader {
+	public EventLoader(FMLPreInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	public static final EventBus EVENT_BUS = new EventBus();
+
+	@SubscribeEvent
+	public void hello(PlayerEvent.PlayerLoggedInEvent event) {
+		EntityPlayer player = event.player;
+		String s1 = "\n";
+
+		if (player.getName().equals("Herobrine_CZM")) {
+			player.sendMessage(new TextComponentTranslation("omg.czm", s1));
+		}
+
+	}
+
+	@SubscribeEvent
+	public void PlayMusicRecord(PlaySoundEvent event) {
+		event.getSound();
+		ISound sound = event.getSound();
+
+	}
+
+	/*
+	 * @SubscribeEvent public static void
+	 * onEnchantmentRegistration(RegistryEvent.Register&lt;Enchantment&gt; event) {
+	 * event.getRegistry().registerAll(new
+	 * Enchantment_Music_Kill(Rarity.COMMON).setName("Music_Kill").setRegistryName(
+	 * "Enchantment_Music_Kill")); }
+	 */
+	@SubscribeEvent
+	public void HitDropMusic(LivingHurtEvent event) {
+		Entity hit = event.getEntity();
+		DamageSource source = event.getSource();
+		if (hit instanceof EntityCreature) {
+			if (event.getSource().getTrueSource() instanceof EntityPlayer) {
+				// if (event.getSource().getTrueSource() != null) {
+				EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+				ItemStack item = player.getHeldItemMainhand();
+				if (player.getHeldItemMainhand().isItemEnchanted()) {
+					int lv = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.musichit, item);
+					Random random = new Random();
+					int x = random.nextInt(4);
+					int y = random.nextInt(10);
+					ItemStack[] musics = new ItemStack[4];
+					musics[0] = new ItemStack(ItemLoader.puremax);
+					musics[1] = new ItemStack(ItemLoader.pure);
+					musics[2] = new ItemStack(ItemLoader.far);
+					musics[3] = new ItemStack(ItemLoader.grass);
+					if (lv == 1) {
+						if (y == 1) {
+							hit.entityDropItem(musics[x], 1);
+						}
+					}
+					if (lv == 2) {
+						if (y &lt;= 2) {
+							hit.entityDropItem(musics[x], 1);
+						}
+					}
+					if (lv == 4) {
+						if (y &lt;= 3) {
+							hit.entityDropItem(musics[x], 1);
+						}
+					}
+					if (lv == 4) {
+						if (y &lt;= 4) {
+							hit.entityDropItem(musics[x], 1);
+						}
+					}
+					if (lv == 5) {
+						if (y &lt;= 5) {
+							hit.entityDropItem(musics[x], 1);
+						}
+					}
+					// }
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void KillDropMusic(LivingExperienceDropEvent event) {
+		EntityPlayer player = event.getAttackingPlayer();
+		Entity die = event.getEntity();
+		if (die instanceof EntityCreature) {
+			// DamageSource source = event.getSource();
+			// if(source.getDamageType().equals("Player")) {
+			// List&lt;EntityItem&gt; drops = event.getDrops();
+
+			ItemStack item = player.getHeldItemMainhand();
+			// NBTTagList list;
+			// World world = player.world;
+			// BlockPos pos = event.getEntity().getPosition();
+			// int t = 1;
+			// if (event.getDrops().isEmpty()) {
+			if (player.getHeldItemMainhand().isItemEnchanted()) {
+				// list=player.getHeldItemMainhand().getEnchantmentTagList();
+				int lv = EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.musickill, item);
+				if (lv &gt; 0) {
+					Random random = new Random();
+					int x = random.nextInt(4);
+					int y = random.nextInt(4);
+
+					ItemStack[] musics = new ItemStack[4];
+					musics[0] = new ItemStack(ItemLoader.puremax);
+					musics[1] = new ItemStack(ItemLoader.pure);
+					musics[2] = new ItemStack(ItemLoader.far);
+					musics[3] = new ItemStack(ItemLoader.grass);
+					ItemStack[] musics2 = new ItemStack[4];
+					musics2[0] = new ItemStack(ItemLoader.puremax, 2);
+					musics2[1] = new ItemStack(ItemLoader.pure, 2);
+					musics2[2] = new ItemStack(ItemLoader.far, 2);
+					musics2[3] = new ItemStack(ItemLoader.grass, 2);
+					// EntityItem music = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
+					// musics[x]);
+					if (lv == 1) {
+
+						// drops.add(music);
+						die.entityDropItem(musics[x], 1);
+					}
+					if (lv == 2) {
+
+						// drops.add(music);
+						if (y == 1) {
+							die.entityDropItem(musics2[x], 1);
+						} else {
+							die.entityDropItem(musics[y], 1);
+						}
+					}
+					if (lv == 3) {
+						if (y != 1) {
+							die.entityDropItem(musics2[y], 1);
+						} else {
+							die.entityDropItem(musics[x], 1);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>回答者：<strong>3TUSK</strong></p>
+<pre><code class="lang-auto">@SubscribeEvent
+	public void PlayMusicRecord(PlaySoundEvent event) {
+		event.getSound();
+		ISound sound = event.getSound();
+
+	}
+</code></pre>
+<p><code>PlaySoundEvent</code>是播放声音的事件，不应该在服务端调用，需要单独拆分到另一个事件处理类中。</p>
+<p>可以用注释中的<code>value</code>参数指定注册的端。</p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(modid = "你的 modid", value = Side.CLIENT)
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

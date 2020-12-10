@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.16的Item Property Overrides</title>
+</head>
+<body>
+    <div class="title"><h1>1.16的Item Property Overrides</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你是用的JDK: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本: 34.1.0<br>
+Minecraft版本: 1.16.3</p>
+<p><strong>错误情况简述</strong><br>
+添加<code>Item Property Overrides</code>（物品属性覆盖？不知道怎么翻译好），原版1.15的<code>ItemModelsProperties.registerProperty</code>方法是直接写在各个<code>item</code>的构造器里面的，但是1.16被统一移到了<code>ItemModelsProperties.java</code>里面。我一开始以为影响不大，结果发现如果仍然像1.15那样写咋构造器里面的话，开服务端<code>runServer</code>时就会报错。<br>
+我去看了看<a href="https://mcforge.readthedocs.io/en/latest/models/overrides/" rel="noopener nofollow ugc">1.16的forge文档</a>（部分摘录在下方），基本看懂了但还是不会用 <img src="../images/emoji/apple/sweat.png?v=9" title=":sweat:" class="emoji" alt=":sweat:">主要问题出在<code>addPropertyOverride</code>方法上，一是原版和以前貌似用的是<code>registerProperty</code>，二是我根本没找到这个方法。。。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">-- Head --
+Thread: main
+Stacktrace:
+	at net.minecraftforge.fml.loading.RuntimeDistCleaner.processClassWithFlags(RuntimeDistCleaner.java:71) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-launcher.jar:34.1] {}
+-- MOD rainbow6 --
+Details:
+	Caused by 0: java.lang.ExceptionInInitializerError
+		at com.ussshenzhou.rainbow6.util.RegistryHandler.onItemReg(RegistryHandler.java:32) ~[classes/:?] {re:classloading}
+		at net.minecraftforge.eventbus.ASMEventHandler_9_RegistryHandler_onItemReg_Register.invoke(.dynamic) ~[?:?] {}
+		at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:85) ~[eventbus-3.0.3-service.jar:?] {}
+		at net.minecraftforge.eventbus.EventBus.post(EventBus.java:297) ~[eventbus-3.0.3-service.jar:?] {}
+		at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:34.1] {re:classloading}
+		at net.minecraftforge.fml.ModContainer.lambda$null$4(ModContainer.java:112) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.registries.GameData.lambda$null$13(GameData.java:362) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.ModContainer.lambda$buildTransitionHandler$5(ModContainer.java:112) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at java.util.concurrent.CompletableFuture$AsyncRun.run$$$capture(CompletableFuture.java:1640) ~[?:1.8.0_251] {}
+		at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java) ~[?:1.8.0_251] {}
+		at net.minecraftforge.fml.ModWorkManager$SyncExecutor.driveOne(ModWorkManager.java:56) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.ModWorkManager$DrivenExecutor.drive(ModWorkManager.java:40) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.ModLoader.waitForTransition(ModLoader.java:248) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:235) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:201) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraftforge.fml.server.ServerModLoader.load(ServerModLoader.java:44) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at net.minecraft.server.Main.main(Main.java:96) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+		at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_251] {}
+		at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_251] {}
+		at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_251] {}
+		at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_251] {}
+		at net.minecraftforge.userdev.FMLUserdevServerLaunchProvider.lambda$launchService$0(FMLUserdevServerLaunchProvider.java:54) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {}
+		at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-7.0.1.jar:?] {}
+		at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-7.0.1.jar:?] {}
+		at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-7.0.1.jar:?] {}
+		at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-7.0.1.jar:?] {}
+		at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-7.0.1.jar:?] {}
+		at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {}
+
+	Mod File: resources
+	Failure message: Rainbow6Minesiege (rainbow6) encountered an error during the load_registries event phase
+		java.lang.ExceptionInInitializerError: null
+	Mod Version: 0.1.1.dev1
+	Mod Issue URL: http://my.issue.tracker/
+	Exception message: java.lang.RuntimeException: Attempted to load class net/minecraft/client/world/ClientWorld for invalid dist DEDICATED_SERVER
+Stacktrace:
+	at net.minecraftforge.fml.loading.RuntimeDistCleaner.processClassWithFlags(RuntimeDistCleaner.java:71) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-launcher.jar:34.1] {}
+	at cpw.mods.modlauncher.LaunchPluginHandler.offerClassNodeToPlugins(LaunchPluginHandler.java:85) ~[modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.ClassTransformer.transform(ClassTransformer.java:119) ~[modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.TransformingClassLoader$DelegatedClassLoader.findClass(TransformingClassLoader.java:256) ~[modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.TransformingClassLoader.loadClass(TransformingClassLoader.java:135) ~[modlauncher-7.0.1.jar:?] {re:classloading}
+	at cpw.mods.modlauncher.TransformingClassLoader.loadClass(TransformingClassLoader.java:97) ~[modlauncher-7.0.1.jar:?] {re:classloading}
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) ~[?:1.8.0_251] {}
+此处at com.ussshenzhou.rainbow6.items.FragGrenade.&lt;init&gt;(FragGrenade.java:31) ~[classes/:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.items.ModItems.&lt;clinit&gt;(ModItems.java:20) ~[classes/:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.util.RegistryHandler.onItemReg(RegistryHandler.java:32) ~[classes/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_9_RegistryHandler_onItemReg_Register.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:85) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:297) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:34.1] {re:classloading}
+	at net.minecraftforge.fml.ModContainer.lambda$null$4(ModContainer.java:112) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.registries.GameData.lambda$null$13(GameData.java:362) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModContainer.lambda$buildTransitionHandler$5(ModContainer.java:112) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at java.util.concurrent.CompletableFuture$AsyncRun.run$$$capture(CompletableFuture.java:1640) ~[?:1.8.0_251] {}
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.ModWorkManager$SyncExecutor.driveOne(ModWorkManager.java:56) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModWorkManager$DrivenExecutor.drive(ModWorkManager.java:40) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.waitForTransition(ModLoader.java:248) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:235) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:201) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.server.ServerModLoader.load(ServerModLoader.java:44) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at net.minecraft.server.Main.main(Main.java:96) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {re:classloading}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_251] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_251] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_251] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_251] {}
+	at net.minecraftforge.userdev.FMLUserdevServerLaunchProvider.lambda$launchService$0(FMLUserdevServerLaunchProvider.java:54) ~[forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-7.0.1.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.3-34.1.0_mapped_snapshot_20200916-1.16.2-recomp.jar:?] {}
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>FragGrenade.java</code>构造器部分（1.15正常而1.16报错）</p>
+<pre><code class="lang-auto">public class FragGrenade extends Item {
+    public FragGrenade() {
+        super(new Properties()
+                .group(ModItemGroups.Group1)
+        );
+        this.setRegistryName("fraggrenade");
+        ItemModelsProperties.registerProperty(ModItems.fragGrenade,new ResourceLocation("pulling"),(p_210309_0_, p_210309_1_, p_210309_2_) -&gt; {
+            return p_210309_2_ != null &amp;&amp; p_210309_2_.isHandActive() &amp;&amp; p_210309_2_.getActiveItemStack() == p_210309_0_ ? 1.0F : 0.0F;
+        });
+    }
+</code></pre>
+<p><strong>查到的资料</strong><br>
+1.16.x Forge文档</p>
+<blockquote>
+<h2>Adding Properties to Items</h2>
+<p><code>Item::addPropertyOverride</code>  is used to add a property to an item. The  <code>ResourceLocation</code>  parameter is the name given to the property (e.g.  <code>new ResourceLocation("pull")</code> ). The  <code>IItemPropertyGetter</code>  is a function that takes the  <code>ItemStack</code> , the  <code>World</code>  it’s in, and the  <code>EntityLivingBase</code>  that holds it, returning the  <code>float</code>  value for the property. Some examples are the  <code>"pulling"</code>  and “ <code>pull</code> ” properties in  <code>ItemBow</code> , and the several  <code>static final</code>  ones in  <code>Item</code> . For modded item properties, it is recommended that the modid of the mod is used as the namespace (e.g.  <code>examplemod:property</code>  and not just  <code>property</code> , as that really means  <code>minecraft:property</code> ).</p>
+</blockquote>
+<p>这部分也不太明白</p>
+<blockquote>
+<p>And here’s a hypothetical snippet from the supporting code. (This does not have to be client-only; it will work on a server too. In vanilla, properties are registered in the item’s constructor.)</p>
+<pre><code class="lang-auto">item.addPropertyOverride(new IItemPropertyGetter() {
+  @SideOnly(Side.CLIENT)
+  @Override
+  public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
+    return (float)getPowerLevel(stack) / (float)getMaxPower(stack); // Some external methods
+  }
+}
+</code></pre>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>补充：原本的目的是借用拉弓的动作来渲染一个丢手雷的动作 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得<code>ItemModelsProperties.registerProperty</code>这个方法不应该放在<code>Item</code>类的构造函数里，你应该放到类似于<code>FMLClientSetupEvent</code>这种事件里。</p>
+<pre><code class="lang-java">public static void registerProperty(Item, ResourceLocation, IItemPropertyGetter)
+</code></pre>
+<p>这里三个变量的意思估计是：第一个参数是你要添加<code>Item Property Overrides</code>的物品，第二个参数是这个<code>Property</code>的名字，第三个参数我们先看一下它的类型签名。</p>
+<pre><code class="lang-java"> float call(ItemStack, @Nullable ClientWorld, @Nullable LivingEntity)
+</code></pre>
+<p>根据这个类型签名可以看到，这个是通过传入的三个元素然后返回一个float的值，这个返回的float值就是你在模型文件中<code>predicate</code>做比较的值。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

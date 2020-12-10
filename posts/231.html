@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2 hud渲染问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2 hud渲染问题</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3.3<br>
+Forge版本:  2876<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+通过mc.ingameGUI.drawTexturedModalRect 加载的png图片会炸 会自动填缺口（透明像素）<br>
+<em><strong>图片</strong></em><br>
+<a href="https://sm.ms/image/4McK2yYIe6GFCwz" data-bbcode="true" rel="nofollow noopener"><img src="https://i.loli.net/2020/03/10/4McK2yYIe6GFCwz.png" alt="" width="690" height="355"></a></p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">package cc.kunss.basics.hud;
+
+import cc.kunss.basics.BasicsLibrary;
+import cc.kunss.basics.message.BasicsMessage;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
+public class HealthHud extends AbstractHud{
+
+    public ResourceLocation hud = new ResourceLocation(BasicsLibrary.MOD_ID, "textures/gui/bar.png");
+    private double health = 20;
+    private double maxHealth = 20;
+
+    @Override
+    public void handle(RenderGameOverlayEvent e, Minecraft mc) {
+        if (e.getType().equals(RenderGameOverlayEvent.ElementType.ALL) &amp;&amp; e.isCancelable()) {
+            mc.getTextureManager().bindTexture(hud);
+            int width = (int) ((health / maxHealth) * 200);
+            mc.ingameGUI.drawTexturedModalRect(5, 5, 0, 0, 168, 55);
+        }
+        if ((e.getType().equals(RenderGameOverlayEvent.ElementType.EXPERIENCE) || e.getType().equals(RenderGameOverlayEvent.ElementType.FOOD) || e.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) || e.getType().equals(RenderGameOverlayEvent.ElementType.ARMOR)) &amp;&amp; e.isCancelable()) {
+            e.setCanceled(true);
+        }
+    }
+
+    @Override
+    public void update(BasicsMessage basicsMessage) {
+        animation(this,new String[]{"health"},new double[]{health},new double[]{basicsMessage.getInt("health")},basicsMessage.getDouble("time"));
+        this.maxHealth = basicsMessage.getInt("maxHealth");
+    }
+
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="KunSs" data-post="1" data-topic="231">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/KunSs" class="avatar"> KunSs:</div>
+<blockquote>
+<p>版本: 2019.3.3<br>
+Forge版本: 2876<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+渲染的图会炸<br>
+<em><strong>截图</strong></em></p>
+</blockquote>
+</aside>
+<p>什么叫做「炸图」？<br>
+请修改标题和问题描述。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>已改<br>
+。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java">GL11.glEnableBlend
+</code></pre>
+<blockquote>
+<p>渲染完记得 disable</p>
+</blockquote>
+<p>—Seraph JACK</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的<code>AbstractHud</code>定义在哪里的？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>Abstract是个抽象类。。。</p>
+<pre><code class="lang-auto">
+
+package cc.kunss.basics.hud;
+
+import cc.kunss.basics.message.BasicsMessage;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
+import java.lang.reflect.Field;
+
+public abstract class AbstractHud {
+
+    public abstract void handle(RenderGameOverlayEvent event, Minecraft mc);
+
+    public abstract void update(BasicsMessage basicsMessage);
+
+    public void animation(Object o,String[] strings,double[] old,double[] ints,double time){
+        for (int i = 0; i &lt; strings.length; i++) {
+            String string = strings[i];
+            double value = ints[i];
+            try {
+                Field field = o.getClass().getDeclaredField(string);
+                field.setAccessible(true);
+                double oldValue = old[i];
+                double result = value-oldValue;
+                double sub = result/(time*100);
+                new Thread(() -&gt; {
+                    try {
+                        for(double ii = 0 ; ii &lt; time ; ii +=0.01) {
+                            //20 (8-20)/0.5/100 ， 20+ -12/
+                            double oa = (double) field.get(o);
+                            field.set(o,oa+sub);
+                            Thread.sleep(10);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>有三种方法 还需要参数</p>
+<p><a href="https://sm.ms/image/eiVaZY7mbwALDjp" data-bbcode="true" rel="nofollow noopener"><img src="https://i.loli.net/2020/03/10/eiVaZY7mbwALDjp.png" alt="" width="622" height="151"></a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请提问的时候把代码贴全。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请去Github搜索，别人是怎么写的，模仿着来。<br>
+另外提问前，也请去Github搜索类似代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>提问模版中的相关资料不是一个摆设。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>GlStateManager</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

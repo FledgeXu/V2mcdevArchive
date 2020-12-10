@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>模组开发提问区常见问题维基</title>
+</head>
+<body>
+    <div class="title"><h1>模组开发提问区常见问题维基</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>本贴是模组开发过程中常见问题的索引贴，开放公共编辑，欢迎大家添加内容。</p>
+<h2>环境配置中的网络问题</h2>
+<p>因为版权的规定，所有Minecraft官方内容的下载（Minecraft本体以及资源文件）必须由Mojang分发，而又因为中国大陆的网络封锁，导致访问海外服务器容易出现无法链接等情况。在Forge开发环境配置时，大概率会出现配置失败的问题。<br>
+当你构建时的日志里出现类似于:</p>
+<pre><code class="lang-bash">Could not GET 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+</code></pre>
+<p>这样的日志，就是在网络出现了问题，这里有个典型的<a href="../t/topic/351">帖子</a>。<br>
+这有两种解决办法：</p>
+<p>1.<strong>推荐解决办法</strong>： 如果你有购买代理的话，可以给Gradle配置代理，我这里推荐至少选购有CN2线路或者国内中转节点的代理服务。<br>
+对于Windows用户你可以在<code>%HOMEPATH%\.gradle\gradle.properties</code> 添加代理信息<br>
+对于macOS和Linux用户则是在<code>~/.gradle/.gradle.properties</code>中添加代理信息。<br>
+HTTP/HTTPS 代理:</p>
+<pre><code class="lang-auto">systemProp.http.proxyHost=127.0.0.1
+systemProp.http.proxyPort=7077
+
+systemProp.https.proxyHost=127.0.0.1
+systemProp.https.proxyPort=7077
+</code></pre>
+<p>Socks 代理:</p>
+<pre><code class="lang-auto">org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=代理端口
+</code></pre>
+<ol start="2">
+<li>第二种解决办法就是使用<a href="../t/topic/249">离线包</a>
+</li>
+</ol>
+<p>3.第三种办法，使用<a href="../t/topic/589">ForgeGradleCN</a>，推荐方法。</p>
+<hr>
+<h2>实体之间近距离互动问题</h2>
+<p>例如怪物近战攻击，甚至是 <a href="https://www.v2mcdev.com/t/topic/176">苦力怕的近身爆炸</a>。</p>
+<p>一般会误认为这部分代码在AI部分（Fabric系列被称为 Goal），然而应该做的是检查 <code>collideWithEntity()</code> 和 <code>onPlayerCollision()</code> 方法是否需要重写。</p>
+<hr>
+<h2>关于Forge环境配置中的Zip错误</h2>
+<p>现象:</p>
+<pre><code class="lang-auto">Caused by: java.util.zip.ZipException: error in opening zip file
+</code></pre>
+<p>解决办法：</p>
+<p>到你的gradle缓存下面的<code>.gradle/caches/forge_gradle/maven_downloader/net/minecraftforge/forge/</code>，删除你安装mdk对应版本的文件夹，例如：<code>1.15.2-31.2.0</code>，代表1.15.2版本的Minecraft，31.2.0版本的Forge。</p>
+<hr>
+<h2>1.12 和新版 IntelliJ 兼容性问题</h2>
+<p><strong>请注意 1.12 Forge 官方已经放弃支持，不会再有Bug修复和功能更新，官方论坛也不会再回答相关的问题</strong><br>
+<strong>如果你是初学 Mod 开发，请从1.14+开始学起，因为Forge在1.13时候进行了一次重写</strong></p>
+<ol>
+<li>1.12 旧版 MDK 和最新版的IntelliJ IDEA不兼容，如果你一定要用旧版的MDK，不要点idea的自动升级，而是手动的将 MDK 解压目录下的 <code>gradle/wrapper/gradle-wrapper.properties</code> 中的 <code>distributionUrl</code> 的内容改成 <code>https\://services.gradle.org/distributions/gradle-4.9-bin.zip</code>
+</li>
+<li>如果你不想升级旧版MDK的Gradle，可以安装2019版本bundle Java8 的IDEA，具体方法请在论坛里搜索。</li>
+<li>1.12 的 MDK 目前最新版是 <code>1.12.2 - 14.23.5.2854</code> ，这个版本的MDK引入了FG3，可以和最新版的IDEA兼容，配置方法发生了改变，  <code>2854</code>  版本的 MDK，配置方法和1.14 与 1.15 相同，可以参照高版本的MDK配置方法，论坛里的离线包也已经构建完成了。</li>
+</ol>
+<hr>
+<h2>推荐的 Java 版本</h2>
+<ol>
+<li>如果需要开发 Minecraft 1.7.2 或更老版本的 Mod，建议使用 JDK 1.7，在<a href="https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html">这里</a>可以下载到旧版的 Oracle JDK 1.7（需要注册并登录 Oracle 账号）；</li>
+<li>如果需要开发 Minecraft 1.7.10 或更新版本的 Mod，推荐使用 JDK 1.8 ，在<a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">这里</a>可以下载到最新的 Oracle JDK 1.8（需要注册并登录 Oracle 账号），如果不想注册账号，可以考虑使用 <a href="https://www.adoptopenjdk.net/">AdoptOpenJDK</a> （注意 JVM 必须选 HotSpot，Forge 不支持 OpenJ9 JVM）；</li>
+<li>32 位操作系统下载文件名带有 <code>x86</code> 的安装包，64 位操作系统下载文件名带有 <code>x64</code> 的安装包；</li>
+<li>如果你构建环境时遇到了以下异常，大概率是由于你的 JDK 版本低于 1.8.0_101，请升级你的 JDK 到 1.8.0_101或更高版本：<pre><code class="lang-auto">sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+</code></pre>
+</li>
+<li><s>对于 Minecraft 1.15+ ，可以考虑使用 JDK 11</s></li>
+</ol>
+<hr>
+<h2>修改 Windows 下运行 Java 程序的编码</h2>
+<p>由于在 Windows （简体中文）下运行 Java 程序输出的默认编码是 GBK，导致运行 Eclipse 、 IntelliJ IDEA 等基于 Java 开发的 IDE 时使用的默认编码为 GBK，如果需要一劳永逸地修改成 UTF-8，可以按如下操作（以 Windows 10 为例，对全部的 Java 程序都有效）：</p>
+<ol>
+<li>右键桌面 <code>此电脑</code> → <code>属性</code> → 左侧 <code>高级系统设置</code> → <code>环境变量(N)...</code> → 下方系统变量的 <code>新建(W)...</code> （如果桌面没有 <code>此电脑</code>，<a href="https://zhuanlan.zhihu.com/p/57803820">自行搜索</a>）；</li>
+<li>变量名为 <code>JAVA_TOOL_OPTIONS</code> ，变量值为:<br>
+<code>-Duser.language=en -Dfile.encoding=UTF-8</code>
+</li>
+<li>添加完成后，切记必须全部单击 <code>确定</code> 按钮，绝对不可以单击右上角的 <code>X</code> 关闭窗口，否则无法保存添加环境变量；</li>
+<li>如果在 cmd 或者 PowerShell 中运行 Java 程序，那么需要先输入命令 <code>chcp 65001</code>，会将此时的活动代码页设置为 UTF-8，否则运行的 Java 程序如果输出中含有非 ASCII 字符，那么还是会乱码。</li>
+</ol>
+<hr>
+<h2>修改 Gradle 版本</h2>
+<p>由于 IntelliJ IDEA 2020.1 开始不再支持使用 JDK8 启动，而且如果使用 JDK11 启动，那么将不再支持使用 Gradle 4.7 及更低版本。目前对于 Forge 1.8 ~ 1.12.2 所使用的 ForgeGradle 2.x 最高能兼容 Gradle 4.10.3，可以按照以下方法修改：</p>
+<ol>
+<li>找到位于项目目录下的 <code>./gradle/wrapper/gradle.properties</code>
+</li>
+<li>将其中的 <code>distributionUrl</code> 后的地址修改为 <code>https\://services.gradle.org/distributions/gradle-4.10.3-all.zip</code>
+</li>
+</ol>
+<p>对于 Forge 1.7.10 或更老版本所使用的 ForgeGradle 1.x，目前最高只能兼容 Gradle 4.4.1，可能无法兼容新版 IntelliJ IDEA。</p>
+<hr>
+<h2>修改 Gradle 构建时分配的内存大小</h2>
+<ol>
+<li>
+<p>如果构建时出现以下异常：</p>
+<pre><code class="lang-auto">Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+Invalid maximum heap size: -Xmx3G
+The specified size exceeds the maximum representable size.
+</code></pre>
+<p>确保你使用的是 64 位的操作系统并安装的是 64 位的 JDK；<br>
+如果你使用的是 32 位操作系统，那么找到项目根目录下的 <code>gradle.properties</code> 文件里的 <code>org.gradle.jvmargs</code> 这一项，把后面的 <code>-Xmx3G</code> 修改为 <code>-Xmx1G</code>；<br>
+如果你使用的是 64 位操作系统，检查你是否安装的是 32 位的 JDK （以 Windows 为例）：</p>
+<blockquote>
+<p>打开<code>控制面板</code> → <code>程序和功能</code>，找到名称含有 <code>Java SE Development Kit</code> 的程序，如果程序名称中没有写 <code>(64-bit)</code> ，那说明你安装的是 32 位的 JDK，请卸载它，并卸载含有 <code>Java SE Runtime Environment</code> 的程序，并按照上方的 <strong>推荐的 Java 版本</strong> 重新下载安装 JDK</p>
+</blockquote>
+</li>
+<li>
+<p>如果构建时出现 <code>java.lang.OutOfMemoryError: Java heap space</code> 之类的字样，说明构建时内存分配不足。<br>
+如果你使用的是 32 位操作系统，那么在项目目录下新建一个文件名为 <code>gradle.properties</code>，在其中写入一行： <code>org.gradle.jvmargs=-Xmx1G</code>，如果已有这个文件，并且已有这一行，构建时还抛出这个异常，那说明你构建的版本可能不适合在 32 位操作系统下开发；<br>
+如果你使用的是 64 位操作系统，那么在项目目录下新建一个文件名为 <code>gradle.properties</code>，在其中写入一行： <code>org.gradle.jvmargs=-Xmx3G</code>（一般来说构建 Minecraft 开发环境提供 3 GB 内存足够了）。</p>
+</li>
+</ol>
+<hr>
+<h2>修改 Gradle 缓存位置</h2>
+<p>由于 Gradle 缓存的默认位置在 <code>C:\Users\&lt;用户名&gt;\.gradle</code> (Windows) 或 <code>~/.gradle</code> (UN*X) 目录下，如果需要修改，可以在环境变量中添加一项：变量名为 <code>GRADLE_USER_HOME</code>；变量值为你想修改到的位置，如 <code>D:\Gradle\.gradle</code>。</p>
+<hr>
+<h2>开发环境中正版登录</h2>
+<p>如果有需要开发需要正版登录的模组（比如在正版服务器使用的辅助类型的模组），可以按照以下方法操作：（以 IntelliJ IDEA 为例，我觉得没人想把自己的正版账号和密码写 <code>build.gradle</code> 里）<br>
+菜单栏 <code>Run</code> → <code>Edit Configurations...</code> → <code>Application</code> → <code>runClient</code> → <code>Program Arguments</code> 中添加参数： <code>--username &lt;邮箱&gt; --password &lt;密码&gt;</code>，如果仅仅想以指定用户名离线登录，那么只需要添加 <code>--username &lt;用户名&gt;</code> 即可<br>
+（以上方式仅对使用 <code>ForgeGradle</code> 或由其衍生的项目有效，如果使用 <code>fabric-loom</code>，那么可能需要参考 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/0512a47ebac3dcc30c34372a2b7a6ce1815f77d7/src/userdev/java/net/minecraftforge/userdev/LaunchTesting.java#L143-L165">LaunchTesting</a> 手动搓一套轮子）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>公共编辑的注意事项：<br>
+格式如下:</p>
+<pre><code class="lang-auto">---
+## 这里是标题
+这行起是主题内容
+</code></pre>
+<p>每小节都应该以<code>---</code>分行符号作为开头，<code>##</code> 作为标题。</p>
+    </div>
+    <br />
+</body>
+</html>

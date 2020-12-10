@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>GuiContainer中自己封装类里的GuiTextField无法正常使用</title>
+</head>
+<body>
+    <div class="title"><h1>GuiContainer中自己封装类里的GuiTextField无法正常使用</h1></div>
+    <div class="post-user" class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：windows 64x<br>
+你是用的JDK: java8<br>
+你使用的IDE：Eclipse<br>
+Forge版本:  1.12.2-14.23.5.2838<br>
+Minecraft版本: 1.12.2<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>错误情况简述</strong><br>
+封装后的GuiTextField无法获取焦点，可以输入字符但是无法删除字符,其他功能都可以正常使用。<br>
+但是把GuiTextField作为GuiContainer的成员却可以正常使用。</p>
+<p><strong>相关代码</strong><br>
+<code>GuiContainerSuperiseResource.java</code></p>
+<pre><code class="lang-auto">@SideOnly(Side.CLIENT)
+public class GuiContainerSuperiseResource extends GuiContainer {
+
+	private final static ResourceLocation LOCATION = new ResourceLocation(MidgardReborn.MODID, "textures/gui/container/gui_tile_superise.png");
+	private final static int TEXTURE_SIZE = 512;
+	private final static int PANEL_X_SIZE = 202;
+	private final static int PANEL_Y_SZIE = 148;
+	private final static int TAG_OFFSETX = 199;
+	private GuiGroupList list = new GuiGroupList();
+	private GuiButton option_event_btn;
+	private GuiButton option_moster_btn;
+	private GuiButton option_effects_btn;
+	private GuiTextField offsetX_textField;
+	private GuiTextField offsetY_textField;
+	private GuiTextField offsetZ_textField;
+	private GuiTextField entityDomin_textField;
+	
+	/** {@code GuiContainerSuperiseResource#option_event_btn} slide state*/
+	private boolean isSlide0 = false;
+	/** {@code GuiContainerSuperiseResource#option_moster_btn} slide state*/
+	private boolean isSlide1 = false;
+	/** {@code GuiContainerSuperiseResource#option_effects_btn} slide state*/
+	private boolean isSlide2 = false;
+	private boolean drawSlideState = false;
+	private int drawSlideId = -1;
+	private int slideCount = 0;
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+		Keyboard.enableRepeatEvents(true);
+		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
+		int tag_offsetX = offsetX + 172;
+		
+		if(drawSlideId != -1)
+		{
+			slide(null, drawSlideId);
+			drawSlideId = -1;
+		}
+		
+		list.clearGroup();
+		list.addGroup(1, new GuiGroup() {
+			
+			@Override
+			public void initGroup() {
+				int offsetX0 = offsetX + 172;
+				int offsetY0 = offsetY + 5;
+				int offsetY1 = offsetY + 22;
+				GuiContainerSuperiseResource.this.option_event_btn = setTagButton(new GuiButton(0, tag_offsetX, offsetY + 2, 22, 19, ""));
+				GuiContainerSuperiseResource.this.offsetX_textField = addTextField(new GuiTextField(1, fontRenderer, offsetX0 + 24, offsetY0, 36, 14));
+				GuiContainerSuperiseResource.this.offsetY_textField = addTextField(new GuiTextField(2, fontRenderer, offsetX0 + 78, offsetY0, 36, 14));
+				GuiContainerSuperiseResource.this.offsetZ_textField = addTextField(new GuiTextField(3, fontRenderer, offsetX0 + 132, offsetY0, 36, 14));
+				GuiContainerSuperiseResource.this.entityDomin_textField = addTextField(new GuiTextField(4, fontRenderer, offsetX0 + 60, offsetY1, 109, 14));
+				
+				GuiLabel label_offsetX = new GuiLabel(fontRenderer, 11, offsetX0 + 3, offsetY0, 21, 14, 0);
+				GuiLabel label_offsetY = new GuiLabel(fontRenderer, 12, offsetX0 + 60, offsetY0, 21, 14, 0);
+				GuiLabel label_offsetZ = new GuiLabel(fontRenderer, 13, offsetX0 + 114, offsetY0, 21, 14, 0);
+				GuiLabel label_entityName = new GuiLabel(fontRenderer, 14, offsetX0 + 3, offsetY1, 57, 14, 0);
+				label_offsetX.addLine("gui.midgard_reborn.container.superise.group0.label.offsetX");
+				label_offsetY.addLine("gui.midgard_reborn.container.superise.group0.label.offsetY");
+				label_offsetZ.addLine("gui.midgard_reborn.container.superise.group0.label.offsetZ");
+				label_entityName.addLine("gui.midgard_reborn.container.superise.group0.label.entityName");
+				addLabel(label_offsetX);
+				addLabel(label_offsetY);
+				addLabel(label_offsetZ);
+			}
+			
+			@Override
+			public void actionPerformed(GuiButton button) {
+				switch(button.id)
+				{
+					case 0:
+						if(drawSlideState)
+						{
+							return;
+						}
+						GuiContainerSuperiseResource.this.slide(button, 1);
+						break;
+				}
+			}
+		});
+		
+		list.addGroup(2, new GuiGroup() {
+			
+			@Override
+			public void initGroup() {
+				GuiContainerSuperiseResource.this.option_moster_btn = setTagButton(new GuiButton(0, tag_offsetX, offsetY + 21, 22, 19, ""));
+			}
+			
+			@Override
+			public void actionPerformed(GuiButton button) {
+				switch(button.id)
+				{
+					case 0:
+						if(drawSlideState)
+						{
+							return;
+						}
+						GuiContainerSuperiseResource.this.slide(button, 2);
+						break;
+				}
+			}
+		});
+		
+		list.addGroup(3, new GuiGroup() {
+			
+			@Override
+			public void initGroup() {
+				GuiContainerSuperiseResource.this.option_effects_btn = setTagButton(new GuiButton(0, tag_offsetX, offsetY + 40, 22, 19, ""));
+			}
+			
+			@Override
+			public void actionPerformed(GuiButton button) {
+				switch(button.id)
+				{
+					case 0:
+						if(drawSlideState)
+						{
+							return;
+						}
+						GuiContainerSuperiseResource.this.slide(button, 3);
+						break;
+				}
+			}
+		});
+		
+	}
+	
+	public GuiContainerSuperiseResource(Container inventorySlotsIn) {
+		super(inventorySlotsIn);
+		
+		this.xSize = 194;
+		this.ySize = 148;
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
+		if(drawSlideState)
+		{
+			if(isSlide())
+			{
+				slideCount += 10;
+				if(slideCount &gt;= PANEL_X_SIZE)
+				{
+					drawSlideState = false;
+					slideCount = PANEL_X_SIZE;
+				}
+			}
+			else 
+			{
+				slideCount -= 10;
+				if(slideCount &lt;= 0)
+				{
+					drawSlideState = false;
+					slideCount = 0;
+					drawSlideId = -1;
+				}
+			}
+		}
+		
+		drawGroupBackground(offsetX, offsetY);
+		drawModalRectWithCustomSizedTexture(offsetX, offsetY, 0, 0, 174, ySize, TEXTURE_SIZE, TEXTURE_SIZE);
+		list.drawScreen(mouseX, mouseY, partialTicks);
+		
+		drawTag(offsetX, offsetY);
+	}
+	
+	private void drawGroupBackground(int offsetX, int offsetY)
+	{
+		//此处是绘制逻辑
+	}
+	
+	private void drawTag(int offsetX, int offsetY)
+	{
+		//此处是绘制逻辑
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		//list.mouseClick(mouseX, mouseY, mouseButton);
+		offsetX_textField.mouseClicked(mouseX, mouseY, mouseButton);
+		offsetY_textField.mouseClicked(mouseX, mouseY, mouseButton);
+		offsetZ_textField.mouseClicked(mouseX, mouseY, mouseButton);
+		entityDomin_textField.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state) {
+		super.mouseReleased(mouseX, mouseY, state);
+		list.mouseReleased(mouseX, mouseY, state);
+	}
+	
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		super.keyTyped(typedChar, keyCode);
+		//list.keyTyped(typedChar, keyCode);
+		offsetX_textField.textboxKeyTyped(typedChar, keyCode);
+		offsetY_textField.textboxKeyTyped(typedChar, keyCode);
+		offsetZ_textField.textboxKeyTyped(typedChar, keyCode);
+		entityDomin_textField.textboxKeyTyped(typedChar, keyCode);
+	}
+	
+	@Override
+	public void updateScreen() {
+		super.updateScreen();
+		list.updateScreen();
+	}
+	
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+		super.onGuiClosed();
+	}
+	
+	private boolean isSlide()
+	{
+		return isSlide0 || isSlide1 || isSlide2;
+	}
+	
+	private void slide(@Nullable GuiButton button, int id)
+	{
+		if(isSlide())
+		{
+			switch(id)
+			{
+				case 1:
+					isSlide0 = false;
+					break;
+				case 2:
+					isSlide1 = false;
+					break;
+				case 3:
+					isSlide2 = false;
+					break;
+				default:
+					return;
+			}
+			drawSlideState = true;
+			drawSlideId = id;
+			Optional.ofNullable(button).ifPresent(b -&gt; b.x -= TAG_OFFSETX);
+		}
+		else
+		{
+			switch(id)
+			{
+				case 1:
+					isSlide0 = true;
+					break;
+				case 2:
+					isSlide1 = true;
+					break;
+				case 3:
+					isSlide2 = true;
+					break;
+				default:
+					return;
+			}
+			drawSlideState = true;
+			drawSlideId = id;
+			Optional.ofNullable(button).ifPresent(b -&gt; b.x += TAG_OFFSETX);
+		}
+	}
+}
+
+</code></pre>
+<p><strong>此处是封装好的类</strong><br>
+<code>GuiGroupList.java</code></p>
+<pre><code class="lang-auto">@SideOnly(Side.CLIENT)
+public class GuiGroupList {
+	public final Map&lt;Integer, GuiGroup&gt; groups = Maps.newHashMap();
+	private int action_groups = -1;
+	
+	public void clearGroup()
+	{
+		this.groups.clear();
+		action_groups = -1;
+	}
+	
+	public void addGroup(int id, GuiGroup group)
+	{
+		groups.put(id, group);
+		group.initGroup();
+	}
+	
+	public void updateScreen()
+	{
+		if(action_groups == -1)
+		{
+			return;
+		}
+		groups.get(action_groups).updateGroup();
+	}
+	
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		if(action_groups == -1)
+		{
+			return;
+		}
+		groups.get(action_groups).drawGuiGroup(mouseX, mouseY, partialTicks);
+	}
+	
+	public void setActionId(int groupId)
+	{
+		if(groupId != -1)
+		{
+			GuiGroup action = groups.get(groupId);
+			for(GuiGroup g : groups.values())
+			{
+				if(action != g)
+				{
+					Optional.ofNullable(g.tag_btn).ifPresent(btn -&gt; btn.enabled = false);
+				}
+			}
+		}
+		else
+		{
+			for(GuiGroup g : groups.values())
+			{
+				
+				Optional.ofNullable(g.tag_btn).ifPresent(btn -&gt; btn.enabled = true);
+			}
+		}
+		action_groups = groupId;
+	}
+	
+	public int getActionId()
+	{
+		return action_groups;
+	}
+	
+	public void keyTyped(char typedChar, int keyCode)
+	{
+		if(action_groups == -1)
+		{
+			return;
+		}
+		groups.get(action_groups).keyTyped(typedChar, keyCode);
+	}
+	
+	public boolean mouseClick(int mouseX, int mouseY, int mouseType)
+	{
+		for(Map.Entry&lt;Integer, GuiGroup&gt; g : groups.entrySet())
+		{
+			int type = g.getValue().mouseClicked(mouseX, mouseY, mouseType);
+			if(type == 1)
+			{
+				if(action_groups != -1)
+				{
+					setActionId(-1);
+				}
+				else
+				{
+					setActionId(g.getKey());
+				}
+				return true;
+			}
+			
+			if(type == 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void mouseReleased(int mouseX, int mouseY, int state)
+    {
+		for(GuiGroup g : groups.values())
+		{
+			g.mouseReleased(mouseX, mouseY, state);
+		}
+    }
+}
+
+</code></pre>
+<p><strong>封装的组件</strong><br>
+<code>GuiGroup.java</code></p>
+<pre><code class="lang-auto">@SideOnly(Side.CLIENT)
+public abstract class GuiGroup extends Gui {
+	
+	public final Minecraft mc = Minecraft.getMinecraft();
+	private List&lt;GuiButton&gt; buttons = Lists.newArrayList();
+	private List&lt;GuiTextField&gt; textFields = Lists.newArrayList();
+	private List&lt;GuiLabel&gt; labels = Lists.newArrayList();
+	private GuiButton selectedButton;
+	@Nullable
+	protected GuiButton tag_btn;
+	
+	public abstract void initGroup();
+	
+	public &lt;T extends GuiButton&gt; T addButton(T button)
+	{
+		 this.buttons.add(button);
+	     return button;
+	}
+	
+	public &lt;T extends GuiTextField&gt; T addTextField(T textField)
+	{
+		this.textFields.add(textField);
+		return textField;
+	}
+	
+	public &lt;T extends GuiLabel&gt; T addLabel(T label)
+	{
+		this.labels.add(label);
+		return label;
+	}
+	
+	public void drawGuiGroup(int mouseX, int mouseY, float partialTicks)
+	{
+		for(int i = 0; i &lt; buttons.size(); i++)
+		{
+			buttons.get(i).drawButton(mc, mouseX, mouseY, partialTicks);
+		}
+		
+		for(int j = 0; j &lt; textFields.size(); j++)
+		{
+			textFields.get(j).drawTextBox();
+		}
+		
+		for(int k = 0; k &lt; labels.size(); k++)
+		{
+			labels.get(k).drawLabel(mc, mouseX, mouseY);
+		}
+	}
+	
+	public GuiButton setTagButton(GuiButton button)
+	{
+		this.tag_btn = button;
+		return tag_btn;
+	}
+	
+	public void updateGroup()
+	{
+		for(int i = 0; i &lt; textFields.size(); i++)
+		{
+			textFields.get(i).updateCursorCounter();
+		}
+	}
+	
+	public int mouseClicked(int mouseX, int mouseY, int mouseButton)
+	{
+		int clickType = -1;
+		int size = buttons.size() + 1;
+		if(!textFields.isEmpty())
+		{
+			for(int i = 0; i &lt; textFields.size(); i++)
+			{
+				GuiTextField textfield = textFields.get(i);
+				 boolean flag = mouseX &gt;= textfield.x &amp;&amp; mouseX &lt; textfield.x + textfield.width &amp;&amp; mouseY &gt;= textfield.y &amp;&amp; mouseY &lt; textfield.y + textfield.height;
+				textfield.setFocused(flag);
+			}
+		}
+		
+		for(int i = 0; i &lt; size; i++)
+		{
+			GuiButton button = i == (size - 1) ? tag_btn : buttons.get(i);
+			
+			if(button == null)
+			{
+				return -1;
+			}
+			
+			if(button.mousePressed(mc, mouseX, mouseY))
+			{
+				if(i != size - 1)
+				{
+					clickType = 0;
+				}
+				else
+				{
+					clickType = 1;
+				}
+				
+                 this.selectedButton = button;
+                 button.playPressSound(this.mc.getSoundHandler());
+                 this.actionPerformed(button);
+			}
+		}
+		
+		return clickType;
+	}
+
+	public void mouseReleased(int mouseX, int mouseY, int state)
+    {
+        if (this.selectedButton != null &amp;&amp; state == 0)
+        {
+            this.selectedButton.mouseReleased(mouseX, mouseY);
+            this.selectedButton = null;
+        }
+    }
+	
+	public void keyTyped(char typedChar, int keyCode)
+	{
+		for(int i = 0; i &lt; textFields.size(); i++)
+		{
+			textFields.get(i).textboxKeyTyped(typedChar, typedChar);
+		}
+	}
+	
+	public abstract void actionPerformed(GuiButton button);
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这部分的内容我也不是很清楚，有一个猜测，会不会你的删除按键被上层的GUI给截走了，没有传入下层。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>除了设置焦点外好像没什么问题，真的不好解决可以参考我的代码但是顶层逻辑不大一样<a href="https://github.com/LuZWCHA/Movement/blob/dev/src/main/java/com/nowandfuture/mod/core/common/gui/mygui/compounds/complete/EditorView.java" rel="nofollow noopener">GitHub</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>删除按钮被上层劫走？<br>
+但是我测试过从上层到封装的类传递的参数都一样，唯一不一样的就是GuiTextField放在哪里</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>这个gui控件本质上还是给TextField一个封装吧，那同样的道理为什么会无法获取焦点呢。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>参照您的实现解决了无法获取焦点的问题（虽然还是无法理解为什么之前那种写法无法获取焦点</p>
+<pre><code class="lang-auto">public class InputView implements IInuptView {
+	
+	private GuiTextField textfield;
+	private int id;
+	private int x;
+	private int y;
+	private int w;
+	private int h;
+	private boolean isfocused;
+	private boolean visible = true;
+	private boolean canLoseFocuse = true;
+
+	public InputView(int id, FontRenderer fontrenderer, int x, int y, int w, int h) {
+		this(id, new GuiTextField(id, fontrenderer, x, y, w, h));
+	}
+	
+	public InputView(int id, GuiTextField textField)
+	{
+		this.id = id;
+		this.textfield = textField;
+		this.x = textField.x;
+		this.y = textField.y;
+		this.w = textField.width;
+		this.h = textField.height;
+	}
+	
+	@Override
+	public void draw(int mouseX, int mouseY, float partialTicks) {
+		if(visible)
+		{
+			textfield.drawTextBox();
+		}
+	}
+
+	@Override
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		boolean flag = mouseX &gt;= x &amp;&amp; mouseX &lt; x + w &amp;&amp; mouseY &gt;= y &amp;&amp; mouseY &lt; y + h;
+		setFocused(flag);
+		
+		if(flag &amp;&amp; isfocused)
+		{
+			textfield.mouseClicked(mouseX, mouseY, mouseButton);
+			return true;
+		}
+		else
+		{
+			textfield.setFocused(flag);
+		}
+		return false;
+	}
+
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int state) {
+	}
+
+	@Override
+	public void update() {
+		textfield.updateCursorCounter();
+	}
+
+	@Override
+	public void keyType(char typedChar, int keyCode) {
+		textfield.textboxKeyTyped(typedChar, keyCode);
+	}
+
+	@Override
+	public void setFocused(boolean focused) {
+		if(canLoseFocuse)
+			isfocused = focused;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	@Override
+	public void actionPerformed() {
+	}
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

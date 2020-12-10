@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何通过一个物品去检测指定的方块并使方块执行相应功能？</title>
+</head>
+<body>
+    <div class="title"><h1>如何通过一个物品去检测指定的方块并使方块执行相应功能？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;2019.3.2.0&gt;<br>
+Forge版本:  &lt;1.15.2-31.1.0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>主要问题简述</strong><br>
+我打算制作在MC中添加一个远程控制的工具，可以通过右键来使特定的方块执行相应的功能。我懂得怎么弄物品右键触发事件，但是不知道怎么样通过一个物品来控制一个方块执行对应的功能。对了，这里的方块是自己添加的方块，不是MC原版的方块。<br>
+我想实现的功能：右键指定物品，使这个方块执行爆炸的功能（爆炸我自己会弄）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>很简单，在方块上判定就行，右键触发函数有传入玩家的实例的。<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/FledgeXu/Minecraft1.14ModdingTutorial/blob/290353936b6fa0ae9f956bf4bd1d7e437251b2f0/src/main/java/com/otakusaikou/tour14/blocks/FilterBlock.java#L72" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/FledgeXu/Minecraft1.14ModdingTutorial/blob/290353936b6fa0ae9f956bf4bd1d7e437251b2f0/src/main/java/com/otakusaikou/tour14/blocks/FilterBlock.java#L72" target="_blank">FledgeXu/Minecraft1.14ModdingTutorial/blob/290353936b6fa0ae9f956bf4bd1d7e437251b2f0/src/main/java/com/otakusaikou/tour14/blocks/FilterBlock.java#L72</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="62" style="counter-reset: li-counter 61 ;">
+<li>    return true;</li>
+<li>  }</li>
+<li>
+</li>
+<li>  @Nullable</li>
+<li>  @Override</li>
+<li>  public TileEntity createTileEntity(BlockState state, IBlockReader world) {</li>
+<li>    return ModTileEntitiesType.filterBlockTileEntityType.create();</li>
+<li>  }</li>
+<li>
+</li>
+<li>  @Override</li>
+<li class="selected">  public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos,</li>
+<li>      PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {</li>
+<li>    if(!worldIn.isRemote) {</li>
+<li>      TileEntity tileEntity = worldIn.getTileEntity(pos);</li>
+<li>      if(tileEntity instanceof INamedContainerProvider) {</li>
+<li>        NetworkHooks.openGui((ServerPlayerEntity) player,(INamedContainerProvider)tileEntity, tileEntity.getPos());</li>
+<li>      }</li>
+<li>    }</li>
+<li>    return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);</li>
+<li>  }</li>
+<li>}</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+<p>你可以看到有个  <code>PlayerEntity player</code> ，利用这个实例判断玩家手上拿着的物品就行。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>就是可以通过物品右键空气（不用右击该方块）就可以执行了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我看不懂你在说什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>啊，我大概明白你的意思了，你要实现右击物品但是要让远端的一个方块起效是吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>对的，就是这样的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那你要强制你的方块保持加载，然后通过发送与接受数据包通讯即可。<br>
+但是不建议实现这个功能，因为任何强制方块保持加载都有可能会带来非常严重的性能问题，会严重影响到玩家的游戏体验。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>所以实现起来比较麻烦是吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ul>
+<li>麻烦</li>
+<li>有可能影响性能</li>
+</ul>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>或者通过右键使方块打开一个输入框，输入一些东西并保存，然后再右键该物品打开另一个输入框，输入对应内容后确定，即可使方块执行对应的功能。但是怎么创建一个输入框的Gui界面呢？会不会比那些容器类界面gui的创建过程要麻烦一些？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://b23.tv/av70307586/p10" class="onebox" target="_blank">https://b23.tv/av70307586/p10</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

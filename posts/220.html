@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 通信报错</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 通信报错</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>IDE：IntelliJ IDEA<br>
+IDE版本:2019.3<br>
+Forge版本:  31.1.9<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+服务端与客户端之间de通信问题。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[17:44:20] [Render thread/ERROR] [ne.mi.fm.ne.si.IndexedMessageCodec/SIMPLENET]: Received empty payload on channel fml:handshake
+[17:44:20] [Render thread/FATAL] [minecraft/ThreadTaskExecutor]: Error executing task on Client
+java.lang.IndexOutOfBoundsException: index: 2, length: 123 (expected: range(0, 45))
+	at io.netty.buffer.AbstractByteBuf.checkIndex0(AbstractByteBuf.java:1362) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.AbstractByteBuf.checkIndex(AbstractByteBuf.java:1357) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.PooledUnsafeDirectByteBuf.nioBuffer(PooledUnsafeDirectByteBuf.java:324) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.ByteBufUtil.decodeString(ByteBufUtil.java:769) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.AbstractByteBuf.toString(AbstractByteBuf.java:1222) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at net.minecraft.network.PacketBuffer.toString(PacketBuffer.java:1068) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.PacketBuffer.readString(PacketBuffer.java:319) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.PacketBuffer.readString(PacketBuffer.java:309) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at cc.kunss.packet.ToturPacket.&lt;init&gt;(ToturPacket.java:16) ~[main/:?] {re:classloading}
+	at cc.kunss.packet.ToturPacket.decode(ToturPacket.java:43) ~[main/:?] {re:classloading}
+	at net.minecraftforge.fml.network.simple.IndexedMessageCodec.lambda$tryDecode$0(IndexedMessageCodec.java:116) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at java.util.Optional.map(Optional.java:215) ~[?:1.8.0_202] {}
+	at net.minecraftforge.fml.network.simple.IndexedMessageCodec.tryDecode(IndexedMessageCodec.java:116) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraftforge.fml.network.simple.IndexedMessageCodec.consume(IndexedMessageCodec.java:157) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraftforge.fml.network.simple.SimpleChannel.networkEventListener(SimpleChannel.java:79) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraftforge.eventbus.EventBus.doCastFilter(EventBus.java:212) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.lambda$addListener$11(EventBus.java:204) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.network.NetworkInstance.dispatch(NetworkInstance.java:84) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraftforge.fml.network.NetworkHooks.lambda$onCustomPayload$0(NetworkHooks.java:74) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at java.util.Optional.map(Optional.java:215) ~[?:1.8.0_202] {}
+	at net.minecraftforge.fml.network.NetworkHooks.onCustomPayload(NetworkHooks.java:74) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.client.network.play.ClientPlayNetHandler.handleCustomPayload(ClientPlayNetHandler.java:1868) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.network.play.server.SCustomPayloadPlayPacket.processPacket(SCustomPayloadPlayPacket.java:59) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.play.server.SCustomPayloadPlayPacket.processPacket(SCustomPayloadPlayPacket.java:11) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.func_225383_a(SourceFile:21) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(SourceFile:144) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(SourceFile:23) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(SourceFile:118) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.drainTasks(SourceFile:103) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:898) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:554) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(SourceFile:204) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_202] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_202] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_202] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_202] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {}
+
+</code></pre>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">package cc.kunss.packet;
+
+import cc.kunss.channel.ToturMessage;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
+
+public class ToturPacket {
+
+ private String name;
+ private String json;
+ private ToturMessage toturMessage;
+
+ public ToturPacket(PacketBuffer packetBuffer) {
+     json = packetBuffer.readString();
+     toturMessage = new ToturMessage().fromJSON(json);
+ }
+
+ /**
+  * 序列
+  * @param s
+  * @param packetBuffer
+  */
+ public static void encode(ToturPacket toturPacket, PacketBuffer packetBuffer) {
+     packetBuffer.writeString(toturPacket.toturMessage.toJson());
+ }
+
+ /**
+  * 处理 Handle
+  * @param s
+  * @param contextSupplier
+  * @return true
+  */
+ public static boolean handle(ToturPacket s, Supplier&lt;NetworkEvent.Context&gt; contextSupplier) {
+     System.out.println("ToturMod Debug: "+s.toturMessage.toString());
+     return true;
+ }
+
+ public static ToturPacket decode(PacketBuffer packetBuffer) {
+     return new ToturPacket(packetBuffer);
+ }
+}
+</code></pre>
+<p>注册数据包代码</p>
+<pre><code class="lang-auto">INSTANCE.messageBuilder(ToturPacket.class, id++).encoder(ToturPacket::encode).decoder(ToturPacket::decode).consumer(ToturPacket::handle).add();
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>代码贴的不全，请把包处理整个类的代码贴上来，其次请补充Channel注册的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>ok ， 改了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如你要发送数据包，得自定义Channel，你的Channel注册在哪里了？</p>
+<p>下面是例子：<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/src/main/java/com/mcjty/mytutorial/network/Networking.java#L18" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/src/main/java/com/mcjty/mytutorial/network/Networking.java#L18" target="_blank">McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/src/main/java/com/mcjty/mytutorial/network/Networking.java#L18</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="8" style="counter-reset: li-counter 7 ;">
+<li>public class Networking {</li>
+<li>
+</li>
+<li>    public static SimpleChannel INSTANCE;</li>
+<li>    private static int ID = 0;</li>
+<li>
+</li>
+<li>    public static int nextID() {</li>
+<li>        return ID++;</li>
+<li>    }</li>
+<li>
+</li>
+<li>    public static void registerMessages() {</li>
+<li class="selected">        INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(MyTutorial.MODID, "mytutorial"), () -&gt; "1.0", s -&gt; true, s -&gt; true);</li>
+<li>
+</li>
+<li>        INSTANCE.registerMessage(nextID(),</li>
+<li>                PacketOpenGui.class,</li>
+<li>                PacketOpenGui::toBytes,</li>
+<li>                PacketOpenGui::new,</li>
+<li>                PacketOpenGui::handle);</li>
+<li>        INSTANCE.registerMessage(nextID(),</li>
+<li>                PacketSpawn.class,</li>
+<li>                PacketSpawn::toBytes,</li>
+<li>                PacketSpawn::new,</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这个注册了 没放出来</p>
+<pre><code class="lang-auto">package cc.kunss.channel;
+
+import cc.kunss.Totur;
+import cc.kunss.packet.ToturPacket;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+
+public class ToturNetwork {
+
+
+   private final String PROTOCOL_VERSION = "1";
+   private int id = 0;
+   private static boolean channelEnable = false;
+
+   public SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
+           new ResourceLocation(Totur.MODID, "main"),
+           () -&gt; PROTOCOL_VERSION,
+           (clientProtocol) -&gt; clientProtocol.startsWith("ALLOWVANILLA \uD83D\uDC93\uD83D\uDC93\uD83D\uDC93") || PROTOCOL_VERSION.equals(clientProtocol),
+           (clientProtocol) -&gt; clientProtocol.startsWith("ALLOWVANILLA \uD83D\uDC93\uD83D\uDC93\uD83D\uDC93") || PROTOCOL_VERSION.equals(clientProtocol)
+   );
+
+   public ToturNetwork() {
+       INSTANCE.messageBuilder(ToturPacket.class, id++).encoder(ToturPacket::encode).decoder(ToturPacket::decode).consumer(ToturPacket::handle).add();
+   }
+   
+   public static boolean isChannelEnable() {
+       return channelEnable;
+   }
+
+   public static void setChannelEnable(boolean channelEnable) {
+       ToturNetwork.channelEnable = channelEnable;
+   }
+
+
+   public void sendToServer(Object o){
+       INSTANCE.sendToServer(o);
+   }
+
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你有没有试过把<code>INSTANCE</code>改成静态的。<br>
+其次为什么你要用<code>messageBuilder</code>方法而不是<code>registerMessage</code>？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>试过<br>
+现在换成了registerMessage<br>
+但是现在还是相同的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="KunSs" data-post="1" data-topic="220">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/KunSs" class="avatar"> KunSs:</div>
+<blockquote>
+<pre><code class="lang-auto">java.lang.IndexOutOfBoundsException: index: 2, length: 123 (expected: range(0, 45))
+</code></pre>
+</blockquote>
+</aside>
+<p>看起来是你的json太长了，超出了限制46的限制，把它分成两次试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>{“a”:“b”}<br>
+这是传入的JSON  也没那么长吧…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你发送数据包的代码怎么写的？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><strong>IMessage.java</strong></p>
+<pre><code class="lang-auto">package cc.kunss.expand.message;
+
+import com.google.gson.Gson;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.Hash;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+public class IMessage {
+
+    private Gson gson = new Gson();
+    private Map&lt;String,Object&gt; map = new HashMap&lt;&gt;();
+
+    public IMessage() {
+    }
+
+    public IMessage(Map&lt;String, Object&gt; map) {
+        this.map = map;
+    }
+
+    public IMessage add(String path,Object o){
+        map.put(path,o);
+        return this;
+    }
+
+    public &lt;T&gt; Object get(String path, Class&lt;?&gt; c){
+        return c.cast(map.get(path));
+    }
+
+
+    public IMessage addString(String path,String gbString) {
+        char[] utfBytes = gbString.toCharArray();
+        String unicodeBytes = "";
+        for (int i = 0; i &lt; utfBytes.length; i++) {
+            String hexB = Integer.toHexString(utfBytes[i]);
+            if (hexB.length() &lt;= 2) {
+                hexB = "00" + hexB;
+            }
+            unicodeBytes = unicodeBytes + "\\u" + hexB;
+        }
+        return add(path,unicodeBytes);
+    }
+
+    public IMessage fromMessage(byte[] bytes){
+        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
+        this.map = gson.fromJson(buf.toString(StandardCharsets.UTF_8), HashMap.class);
+        return this;
+    }
+
+    public String toJson(){
+        return gson.toJson(map);
+    }
+
+
+    public byte[] toBytes(){
+        System.out.println(toJson());
+        return toJson().getBytes(StandardCharsets.UTF_8);
+    }
+
+    public ByteBuf toByteBuf(int index){
+        byte[] bytes = toBytes();
+        ByteBuf byteBuf = Unpooled.buffer(bytes.length +1);
+        byteBuf.writeByte(index);
+        byteBuf.writeBytes(bytes);
+        return byteBuf;
+    }
+}
+</code></pre>
+<p>发送的类</p>
+<pre><code class="lang-auto">package cc.kunss.expand.listener;
+
+import cc.kunss.expand.Basics;
+import cc.kunss.expand.message.IMessage;
+import com.google.gson.Gson;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+
+public class PlayerListener implements Listener{
+
+    private Basics basics = Basics.getInstance();
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        Player player = e.getPlayer();
+        try {
+            Class&lt;? extends CommandSender&gt; senderClass = player.getClass();
+            Method addChannel = senderClass.getDeclaredMethod("addChannel", String.class);
+            addChannel.setAccessible(true);
+            addChannel.invoke(player, "totur:main");
+        } catch (Exception es) {
+            es.printStackTrace();
+        }
+        IMessage iMessage = new IMessage();
+        iMessage.add("a","b");
+        byte[] bytes = iMessage.toByteBuf(0).array();
+        e.getPlayer().sendPluginMessage(basics,"totur:main",bytes);
+    }
+}
+
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>ToturMessage</code> 这个类的内容是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">package cc.kunss.channel;
+
+import cc.kunss.Totur;
+import com.google.gson.Gson;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
+import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ToturMessage {
+
+    private Map&lt;String,Object&gt; map = new HashMap&lt;&gt;();
+    private Gson gson = new Gson();
+
+    public ToturMessage() { }
+
+    public ToturMessage(Map&lt;String, Object&gt; map) {
+        this.map = map;
+    }
+
+    public ToturMessage fromJSON(String json){
+        map = gson.fromJson(json,Map.class);
+        return this;
+    }
+
+    public ToturMessage add(String path,Object o){
+        map.put(path,o);
+        return this;
+    }
+
+    public &lt;T&gt; T get(String path, Class&lt;?&gt; c){
+        if (c.getTypeName().equals("int")){
+            return get(path,Integer.class);
+        }else if (c.getTypeName().equals("boolean")){
+            return get(path,Boolean.class);
+        }else if(c.getTypeName().equals("float")){
+            return get(path,Float.class);
+        }else if(c.getTypeName().equals("double")){
+            return get(path,Double.class);
+        }else if(c.getTypeName().equals("long")){
+            return get(path,Long.class);
+        }else if(c.getTypeName().equals("short")){
+            return get(path,Short.class);
+        }else {
+            return (T) c.cast(map.get(path));
+        }
+    }
+
+    public static void main(String[] args) {
+        Class&lt;?&gt; c = int.class;
+        System.out.println(c.getTypeName());
+    }
+
+    public Object assignment(Object o,String[] strings){
+        for (String string : strings) {
+            try {
+                Field field = o.getClass().getDeclaredField(string);
+                field.setAccessible(true);
+                field.set(o,get(string,field.getType()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return o;
+    }
+
+    @Override
+    public String toString() {
+        return gson.toJson(map);
+    }
+
+    public String toJson(){
+
+        return gson.toJson(map);
+    }
+
+    public byte[] toBytes(){
+        return toJson().getBytes(StandardCharsets.UTF_8);
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>PlayerListener.java</p>
+<pre><code class="lang-auto">byte[] bytes = iMessage.toByteBuf(0).array();
+</code></pre>
+<p>这里下个断点，看看具体的长度是多少。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code>bytes.lenght = 10</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="KunSs" data-post="13" data-topic="220">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/KunSs" class="avatar"> KunSs:</div>
+<blockquote>
+<p>Basics</p>
+</blockquote>
+</aside>
+<p><code>Basics.java</code>是什么，贴出来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>e.getPlayer().sendPluginMessage(basics,"totur:main",bytes);</code><br>
+这个是什么函数，好像不是Forge里的。<br>
+其次</p>
+<pre><code class="lang-auto">at io.netty.buffer.AbstractByteBuf.checkIndex0(AbstractByteBuf.java:1362) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.AbstractByteBuf.checkIndex(AbstractByteBuf.java:1357) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.PooledUnsafeDirectByteBuf.nioBuffer(PooledUnsafeDirectByteBuf.java:324) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.ByteBufUtil.decodeString(ByteBufUtil.java:769) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at io.netty.buffer.AbstractByteBuf.toString(AbstractByteBuf.java:1222) ~[netty-all-4.1.25.Final.jar:4.1.25.Final] {}
+	at net.minecraft.network.PacketBuffer.toString(PacketBuffer.java:1068) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.PacketBuffer.readString(PacketBuffer.java:319) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+	at net.minecraft.network.PacketBuffer.readString(PacketBuffer.java:309) ~[forge-1.15.2-31.1.9_mapped_stable_60-1.15.jar:?] {re:classloading}
+</code></pre>
+<p>按照这个顺序一层层打断点，看看到底传过来的是什么值。</p>
+<p>看起来，输入的数据没有问题，应该是<code>sendPluginMessage</code>上出问题了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这是服务端(PaperSpigot Bukkit)向客户端发送的方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>有可能有兼容性的问题，在传输数据的时候添加了某些数据头之类的东西。<br>
+看起来你得向Spigot官方询问这个问题，我并不会Spigot编程。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>之前我测试还好着。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>之前测试？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果之前测试还好的，你恢复之前的代码就行。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>好像是readString问题 之前没用到readString</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决了，请选择一个楼层作为答案。<br>
+如果都不是合适的答案，请自行补充一下解决方法作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>传入的是byte数据  而我read的是String数据 因此无法读取到 应更换为readByte或者传入String</p>
+    </div>
+    <br />
+</body>
+</html>

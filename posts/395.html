@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何自定义或者取消攻击动画</title>
+</head>
+<body>
+    <div class="title"><h1>如何自定义或者取消攻击动画</h1></div>
+    <div class="post-user" class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.1<br>
+Forge版本: 14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p>已经把onEntitySwing设置为true，但是仍然会下沉</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不懂什么意思，什么叫做:</p>
+<blockquote>
+<p>已经把onEntitySwing设置为true，但是仍然会下沉</p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post">
+        <p>原本的攻击动画是一个圆弧形的向下挥击的动作（就好像把锤子举起来自然挥下），我查了点资料，上面说如果要取消这个动画，则需要覆写Item中的onEntitySwing，我覆写后将其直接返回true。所产生的结果就是，现在没有圆弧形向下挥击的动画，变成了整个手向下移动一段举例的动作。<br>
+有没有办法直接取消这个动画效果，如果可以，希望能自定义这个动画。再或者有没有办法取消整个attach事件，来达到不触发这个动画的目的。如果可以取消事件，那应该是哪个事件呢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我没有实现过这个功能。没什么头绪。试试<code>PlayerInteractEvent</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>因为Forge官方以及不支持1.12.2了，所以你可能只能到MMD上去提问了。<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/1af3759a49bc1dcf17a8b0a305d5ccbee17d0944.png" class="site-icon" width="32" height="32">
+      <a href="https://discord.com/invite/EDbExcX" target="_blank">Discord</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:512/288;"><img src="../uploads/default/original/1X/fda9756d74c1800019b3f5bf9fe82cd5561abf2b.jpeg" class="thumbnail" width="512" height="288"></div>
+
+<h3><a href="https://discord.com/invite/EDbExcX" target="_blank">Join the Minecraft Mod Development Discord Server!</a></h3>
+
+<p>Check out the Minecraft Mod Development community on Discord - hang out with 4,955 other members and enjoy free voice and text chat.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post">
+        <p>最后用了强制取消鼠标左键事件来达到这个目的</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

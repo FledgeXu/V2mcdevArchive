@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Gui shitf双击出bug</title>
+</head>
+<body>
+    <div class="title"><h1>Gui shitf双击出bug</h1></div>
+    <div class="post-user" class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本:2019.3.3<br>
+Forge版本:  14.23.5.2847<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+Shift+左击两下物品假消失。<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">完全没有日志
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>transferStackInSlot</code></p>
+<pre><code class="lang-auto">public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+        if (slot != null &amp;&amp; slot.getHasStack() &amp;&amp; !LockItem.isLock(slot.getStack().getItem()))
+        {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            int maxSlot=playerIn.getCapability(DimInvoProvider.DIMINV,null).getUnLockIndex();
+            if (index &lt; maxSlot)
+            {
+                if (!this.mergeItemStack(itemstack1, maxSlot, this.inventorySlots.size(), true))
+                {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else if (!this.mergeItemStack(itemstack1, 0, maxSlot, false))
+            {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty())
+            {
+                slot.putStack(ItemStack.EMPTY);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
+        }
+
+        return itemstack;
+    }
+
+</code></pre>
+<p><code>LockSlot</code></p>
+<pre><code class="lang-auto"> @Override
+    public boolean canTakeStack(EntityPlayer playerIn) {
+        if (LockItem.isLock(this.getStack().getItem())){
+            IDimInvo dimInvo=playerIn.getCapability(DimInvoProvider.DIMINV,null);
+            if (LockItem.isLock(this.getStack().getItem(),LockItem.UN_LOCK_ITEM) &amp;&amp; this.slotNumber ==dimInvo.getUnLockIndex()){
+                unLock(playerIn,dimInvo);
+            }else {
+                format(playerIn);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void format(EntityPlayer player){
+        player.getCapability(DimInvoProvider.DIMINV,null).format();
+    }
+
+    private void unLock(EntityPlayer player,IDimInvo dimInvo){
+        dimInvo.setUnLockIndex(dimInvo.getUnLockIndex()+1);
+        dimInvo.format();
+    }
+</code></pre>
+<p>我自己写了一格一格解锁的箱子，弄了两个物品作为解锁和锁定。设置点击解锁会调用格式化方法，点击锁定无相应。然后和发现一个bug，我只要在这个gui里对着任何物品连续两下shift+左击，那么锁和解锁这俩物品就会有点一下不见再点一下出来的bug，我哪怕重开gui也不行，只有kill和重开游戏。我是用能力存储物品栈的</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你是不是没有实现<code>shift+左击</code>的方法……</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>在服务端吗？ 那个方法叫啥？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>应该是这个函数实现有问题。</p>
+<pre><code class="lang-auto">public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) 
+</code></pre>
+<p>不要在这个函数里加锁，这个函数不是干这件事的地方。<br>
+这个函数尽量应该是一个「纯函数」，不是能有「副作用」<br>
+这里是个例子：<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/d2e895783540e7dab335e0d7cebc23cf22ef9a48/src/main/java/com/mcjty/mytutorial/blocks/FirstBlockContainer.java#L64" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/d2e895783540e7dab335e0d7cebc23cf22ef9a48/src/main/java/com/mcjty/mytutorial/blocks/FirstBlockContainer.java#L64" target="_blank">McJty/YouTubeModding14/blob/d2e895783540e7dab335e0d7cebc23cf22ef9a48/src/main/java/com/mcjty/mytutorial/blocks/FirstBlockContainer.java#L64</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="54" style="counter-reset: li-counter 53 ;">
+<li>public int getEnergy() {</li>
+<li>    return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);</li>
+<li>}</li>
+<li>
+</li>
+<li>@Override</li>
+<li>public boolean canInteractWith(PlayerEntity playerIn) {</li>
+<li>    return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ModBlocks.FIRSTBLOCK);</li>
+<li>}</li>
+<li>
+</li>
+<li>@Override</li>
+<li class="selected">public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {</li>
+<li>    ItemStack itemstack = ItemStack.EMPTY;</li>
+<li>    Slot slot = this.inventorySlots.get(index);</li>
+<li>    if (slot != null &amp;&amp; slot.getHasStack()) {</li>
+<li>        ItemStack stack = slot.getStack();</li>
+<li>        itemstack = stack.copy();</li>
+<li>        if (index == 0) {</li>
+<li>            if (!this.mergeItemStack(stack, 1, 37, true)) {</li>
+<li>                return ItemStack.EMPTY;</li>
+<li>            }</li>
+<li>            slot.onSlotChange(stack, itemstack);</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>没看懂你在说什么，shift+左键 的单击 和 shift+左键 的双击，在不同情况下是不同的，当你点击slot时，鼠标处有一个物品hold的时候，双击shift+左键会在第一次（双击有两次单击）单击时使用普通的 shift+左键在服务端调用一次slotClick，其中的type是QUICK_MOVE，同时缓存shift+左键时点击的槽,当第二次点击生效后，会检测之前的缓存槽记录搜索物品栏中所有可以合并的物件，并各执行一次QUICK_MOVE；当点击slot时没有hold任何一个物品，相当于执行两次普通的shift+左键，第二次因为点击的为空相当于没有效果。</p>
+<p>至于：</p>
+<pre><code class="lang-auto">public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
+</code></pre>
+<p>你的实现应该是正确的，可以把问题排查放在PICK_UP时发生了什么，所以我在看不懂你碰到的问题的情况下不知道怎么寻找问题，可以gif或者重新叙述一次问题吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>不行啊，我不管是不重写还是直接返回Itemstack.EMPTY,都还会那样。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>我先往玩家背包里放一个任意物品，鼠标放在这个物品上，或者放在锁上，鼠标没有物品直接shift按住左击两下，也就是说，需要在shift左击后格子东西不变的时候才会触发bug，然而只有锁会消失，其他物品不会消失。</p>
+<p><code>LockItem</code></p>
+<pre><code class="lang-auto"> public static final LockItem LOCK_ITEM =new LockItem("lock");
+    public static final LockItem UN_LOCK_ITEM =new LockItem("un_lock");
+
+
+    public LockItem(String id) {
+        this.setRegistryName(Diminvo.MODID,id);
+        this.setUnlocalizedName(id);
+        EventHandler.ITEMS.put(id,this);
+        this.setMaxStackSize(1);
+    }
+    public static void initialize(){
+    //在preInit调用这个方法，不然不会加载这个类，也就不会注册这俩物品。
+    }
+
+    @Override
+    public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+        return super.onDroppedByPlayer(item, player);
+    }
+
+    public static boolean isLock(Item item){
+        return isLock(item,UN_LOCK_ITEM) || isLock(item,LOCK_ITEM);
+    }
+
+    public static boolean isLock(Item item0,LockItem item1){
+        if (item0 ==null || item1 ==null){
+            return false;
+        }
+        return item0.getRegistryName().getResourcePath().equals(item1.getRegistryName().getResourcePath());
+    }
+</code></pre>
+<p><code>注册锁</code></p>
+<pre><code class="lang-auto">    public static final Map&lt;String,Item&gt; ITEMS=new HashMap&lt;&gt;();
+
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register&lt;Item&gt; event) {
+        for (Item item : ITEMS.values()) {
+            event.getRegistry().register(item);
+            ModelLoader.setCustomModelResourceLocation(item,0,new ModelResourceLocation(item.getRegistryName(), "inventory"));
+        }
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>github:<a href="https://github.com/dawnflyc/Diminvo" class="inline-onebox" rel="nofollow noopener">GitHub - dawnflyc/Diminvo</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>还是没看懂你的问题，我前面已经说了，你如果没有持物品的话，shift+左键 和 shift+左键双击 最终效果是一样的，只是双击时第二次的shift+左键被阻断在mouseRelease中了，所以我的意思是，你在shift+左键时发生了什么，你可以测试下，理论上这两者应该同样触发bug，当这些发生后物品是不是只是未能正常渲染，渲染的代码，是扫描整个container的slot集合并逐个绘制，没有被绘制说明：它不在物品槽集合中，你可以尝试在container中尝试输出slot集合的数量检查是否被移动到其他容器中导致未正常绘制。因为，槽本身涉及到的东西比较多，包含了网络，绘制和点击逻辑，不太好判断是哪里出了问题，建议给下gif图片，或者普通图片展示下是在怎么样的情况下出了问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>看了下，如果你的代码transferStackInSlot中的mergeItemStack函数的作用是：<br>
+以以下具体形式为例：</p>
+<pre><code class="lang-auto">mergeItemStack(source, start, end, true)
+</code></pre>
+<p>参数source是源物品栈，merge的结果就是将source中的所有物品尝试分配到整个inventorySlots中起始下标start（包含）到结束下标end（不包含）的所有slot中，当source中的物品一个都无法分配时返回false，否则返回true；<br>
+你的源码会导致，将你已解锁部分的分配到未解锁部分或其他容器中，来一幅图就是：<br>
+<img src="data:image/png;base64,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" alt="avatar"><br>
+其中假设红色是已解锁部分，上半部分是你的容器a，下半部分是容器b，你这时候shift+左键点击了黄色部分，那么在客户端和服务端都会调用上述方法，如果你的写法，会将红色部分（包含点击的黄色）尝试分配到剩下的所有白色块（容器a和容器b中的所有可填充槽）；<br>
+对于整个函数，当他返回Empty时表示它完成了 分配/转移，停止循环，否则进行下一次分配尝试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>在mergeItemStack里面判断了没用啊，我也尝试在客户端层面判断，</p>
+<pre><code class="lang-auto">protected void handleMouseClick(Slot slotIn, int slotId, int mouseButton, ClickType type)
+</code></pre>
+<p>这个方法啥也不写直接  return；都不行。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>唯一改变的，就是需要三下才会消失，而且消失了得重新打开界面，否则不出来。有一个疑问，我触发bug，我关闭界面重新打开都不行，这是为啥，只有重新进游戏或者kill才能恢复。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>好像和我保存有点关系，它好像不是客户端问题，我在CapabilityEntity调试，发现他真的会把数组改成全air。一般都是什么时候保存啊，我是这样的<br>
+·DiminvoInventory·</p>
+<pre><code class="lang-auto">    public DiminvoInventory(EntityPlayer player)
+    {
+        if (player.getCapability(DimInvoProvider.DIMINV,null)!=null &amp;&amp; player.getCapability(DimInvoProvider.DIMINV,null).getInventory()!=null){
+            this.player=player;
+            this.inventoryContents=player.getCapability(DimInvoProvider.DIMINV,null).getInventory();
+            this.addInventoryChangeListener(this::update);
+        }else {
+            this.inventoryContents=player.getCapability(DimInvoProvider.DIMINV,null).initialize();
+        }
+    }
+
+    private void update(IInventory iInventory) {
+        player.getCapability(DimInvoProvider.DIMINV,null).setInventory(inventoryContents);
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>代码块用的是`而不是 …也不是·</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="dawnflyc" data-post="13" data-topic="226">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/dawnflyc" class="avatar"> dawnflyc:</div>
+<blockquote>
+<p>端问题，我在CapabilityEntity调试，发现他真的会把数组改成全air。一般都是什么时候保存啊，我是这样的<br>
+·DiminvoInventory·</p>
+</blockquote>
+</aside>
+<p>你的数据<code>markDirty()</code>了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这个方法会在客户端和服务端执行，分配slot的点击结果，你直接return，点击就没有任何影响了。<br>
+你应该没有仔细看我的回复，你那样写是有问题的，但是我也不知道为什么会造成那样的bug，但是可以确定的是，你的物品没渲染出来是因为，那一格真的没有物品，你需要先正确重写那个函数；其次，Capability的保存与否在游戏如果不退出是不会导致问题的。minecraft的slot相关函数，应该是足够健壮的，应该不会有同步导致的问题，你好好检查，下当你shift左键后槽和里面物品的分布有没有问题；</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请问你的问题解决了吗？解决了请选择一个楼层或者自己补充一下，作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>解决了，我把服务端的解锁、判断、格式化都删掉了，客户端点了发个空白包给服务端，服务端判断并解锁，然后就好了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

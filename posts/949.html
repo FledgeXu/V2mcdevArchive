@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>投掷物模型渲染错误问题</title>
+</head>
+<body>
+    <div class="title"><h1>投掷物模型渲染错误问题</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win764位<br>
+你是用的JDK: jdk1.8.0_202 64bit<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2.2<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+制作了一个叫“翔翔（飞翔的翔）”的投掷物，但是这个实体渲染的时候会是一个雪球，继承鸡蛋就会变成鸡蛋，继承ProjectItemEntity的时候会变成一个猪</p>
+<p><strong>相关代码</strong><br>
+<code>FlyingShitEntity.java</code></p>
+<pre><code class="lang-auto">public class FlyingShitEntity extends SnowballEntity {
+    public static final ScoreCriteria FLYING_SHIT = new ScoreCriteria("flying_shit");
+
+    public FlyingShitEntity(EntityType&lt;? extends SnowballEntity&gt; p_i50159_1_, World p_i50159_2_) {
+        super(p_i50159_1_, p_i50159_2_);
+    }
+
+    public FlyingShitEntity(World worldIn, LivingEntity throwerIn) {
+        super(worldIn, throwerIn);
+    }
+
+    public FlyingShitEntity(World worldIn, double x, double y, double z) {
+        super(worldIn, x, y, z);
+    }
+
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult) result).getEntity();
+            entity.attackEntityFrom(ModDamageTypes.STINKY,6);
+        }
+
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte) 3);
+            this.remove();
+        }
+
+    }
+}
+</code></pre>
+<p><code>FlyingShitRenderer.java</code></p>
+<pre><code class="lang-auto">@OnlyIn(Dist.CLIENT)
+public class FlyingShitRenderer extends SpriteRenderer&lt;FlyingShitEntity&gt; {
+    public FlyingShitRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, Minecraft.getInstance().getItemRenderer());
+    }
+}
+</code></pre>
+<p><code>ModRenders.java</code></p>
+<pre><code class="lang-auto">public class ModRenders {
+    public static void register() {
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FEATHERED_SHEEP_ENTITY_ENTITY_TYPE, FeatheredSheepRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.FLYING_SHIT_ENTITY_ENTITY_TYPE, FlyingShitRenderer::new);
+        ModLemon.LOGGER.info("fuzzy");//这一行被调用了
+    }
+}
+</code></pre>
+<p><code>ModLemon.java</code></p>
+<pre><code class="lang-auto">@Mod("cnmb_nmsl")
+@Mod.EventBusSubscriber
+public class ModLemon {
+    public static final String MOD_ID = "cnmb_nmsl";
+    public static final String MOD_NAME = "Lemons are ripen";
+    public static final ItemGroup LEMON_GROUP = new LemonCreativeTab();
+    public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
+    public ModLemon(){
+        ......//有一些无关的东西所以省略了
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+    }
+    @OnlyIn(Dist.CLIENT)
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        ModRenders.register();
+    }
+}
+
+</code></pre>
+<p><strong>查到的资料</strong><br>
+没查到，我完全照ChromeBall抄的，但是还是不对劲</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看一下这个简单的markdown教程，你有很多该删的模版内容没有删去<br>
+<aside class="quote quote-modified" data-post="1" data-topic="881">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/881">Markdown 简明教程</a> <a class="badge-wrapper  bullet" href="/c/19-category/19"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    Markdown 教程
+======
+
+基础
+------------
+
+普通的一段文本。
+
+这是另一段话。
+这句话接上一句话，不会另起一行。  
+如果你一定要另起一行，上一行的结尾得有至少俩空格，就像上面这句话一样。
+
+*斜体*
+
+**粗体**
+
+[链接](https://www.v2mcdev.com)
+
+![我是图](upload://rwK0jhRBWlMz3VojcZk04ve8gJr.…
+  </blockquote>
+</aside>
+</p>
+<aside class="quote no-group" data-username="Dasffafa" data-post="1" data-topic="949">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/dasffafa/40/465_2.png" class="avatar"> Dasffafa:</div>
+<blockquote>
+<p>制作了一个叫“翔翔（飞翔的翔）”的投掷物，但是这个实体渲染的时候会是一个雪球，继承鸡蛋就会变成鸡蛋，继承ProjectItemEntity的时候会变成一个猪</p>
+</blockquote>
+</aside>
+<p>我没懂这个有什么问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java">@Override
+protected Item getDefaultItem() {
+    return yourItem;
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>我像这样写了</p>
+<pre><code class="lang-auto">@Override
+protected Item getDefaultItem() {
+     return ModItems.FLYING_SHIT.get();
+ }
+</code></pre>
+<p>但是还是不行，我是哪里做错了吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>不好意思那天发的时候有些着急了，所以很多东西没有删<br>
+我已经改了</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我重新看了一下 <code>SpiritRenderer</code> 的实现。我没有理解错的话，<code>getDefaultItem()</code> 这个方法需要在你的 <code>FlyingShitEntity</code> 里 override。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>我确实是在FlyingShitEntity里面复写的啊</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>找到了问题：投掷物渲染模型必须implements IRendersAsItem<br>
+添加implement之后成功了<br>
+新的源码：<br>
+<code>FlyingShitEntity.java</code></p>
+<pre><code class="lang-auto">public class FlyingShitEntity extends ProjectileItemEntity implements IRendersAsItem {
+    public static final ScoreCriteria FLYING_SHIT = new ScoreCriteria("flying_shit");
+
+    public FlyingShitEntity(World world, LivingEntity livingEntity) {
+    super(ModEntities.FLYING_SHIT_ENTITY_ENTITY_TYPE, livingEntity, world);
+  }
+    public FlyingShitEntity(EntityType&lt;FlyingShitEntity&gt; flyingShitEntityEntityType, World world) {
+        super(ModEntities.FLYING_SHIT_ENTITY_ENTITY_TYPE,world);
+    }
+    @Nonnull
+    @Override
+    public IPacket&lt;?&gt; createSpawnPacket() {
+      return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    protected @NotNull Item getDefaultItem() {
+        return ModItems.FLYING_SHIT.get();
+    }
+
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult) result).getEntity();
+            entity.attackEntityFrom(ModDamageTypes.causeThrownStinkyDamage(this,this.getThrower()),6);
+        }
+
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte) 3);
+            this.remove();
+        }
+
+    }
+}
+</code></pre>
+    </div>
+    <br />
+</body>
+</html>

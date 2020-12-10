@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何自定义方块被放置/摧毁时的音效</title>
+</head>
+<body>
+    <div class="title"><h1>如何自定义方块被放置/摧毁时的音效</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2019.3.4<br>
+Forge版本:  28.2.3<br>
+Minecraft版本: 1.14.4</p>
+<p><strong>情况简述</strong><br>
+我制作了一个最基本的方块，然后希望将这个方块被放置/摧毁是发出的声音自定义为游戏中没有的新声音。请问我该怎么做？<br>
+我目前是mc mod制作的初学者，主要依赖的教程为 <a class="mention" href="/u/fledgexu">@FledgeXu</a> 在bilibili发布的视频。我在forge论坛和mcwiki上进行了搜索，似乎没有找到有用的内容。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>实际上<a href="https://mcforge-cn.readthedocs.io/zh/latest/effects/sounds/">Forge的文档</a>已经说的挺明白了…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果要教程，这里也有。<br>
+<a href="https://www.bilibili.com/video/BV11g4y1b7vh?p=31" class="onebox" target="_blank">https://www.bilibili.com/video/BV11g4y1b7vh?p=31</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢！不过我在实践时遇到了一点问题：（对应视频的03：46秒处）在1.14.4的block文件中似乎不能override <em>getAmbientSound</em> ,可供override 的相关项似乎只有 <em>getSoundtype</em> 一个。请问我该怎么做？</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>还有一点，如果我希望在RegistryHandler.java而不是比如MyMod.java中注册声音的话，请问需要怎么做呢？我尝试像注册item和block一样去注册声音，但是失败了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>我觉得更合适的方法是修改<code>Block.Properties</code>的<code>SoundType</code>。</li>
+<li>你需要填<code>SoundEvent</code>，事实上所有需要注册的东西都继承了<code>ForgeRegistryEntry</code>。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>感谢您的回答！我在第一个问题上做出了尝试，发现如果使用统一的ModSounds.java(我想模仿教程中的ModBlocks.java)会在修改SoundType时更加简单。但是这引出了第二个问题，三楼教程视频中的写法似乎就变得不太适用了。我尝试模仿着之前block的文件：</p>
+<pre><code class="lang-auto">package com.uss_shenzhou.rainbow6.sounds;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+public class barricade_break extends SoundEvent {
+    public barricade_break(ResourceLocation name) {
+        super(name);
+
+        this.setRegistryName("barricade_break");
+    }
+    ResourceLocation location = new ResourceLocation("rainbow6", "sounds/barricade_break");
+    SoundEvent event = new SoundEvent(location);
+}
+</code></pre>
+<p>但是我不太清楚在</p>
+<pre><code class="lang-auto">public barricade_break(ResourceLocation name) {
+     super(name);
+}
+</code></pre>
+<p>这一段中应该如何修改，以及其余部分是否正确。还望您不吝赐教。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不用这么麻烦，你可以看一下<code>net.minecraft.util.SoundEvents</code>这个类，原版的所有音效全部定义在这里了，你甚至不需要自己继承一个<code>SoundEvent</code><br>
+最简单的用法是</p>
+<pre><code class="lang-auto">    @SubscribeEvent
+    public static void onContainerRegistry(RegistryEvent.Register&lt;SoundEvent&gt; event){
+        event.getRegistry().register(new SoundEvent(new ResourceLocation("路径名")).setRegistryName("注册名"));
+    }
+</code></pre>
+<p>当然我比较推荐把</p>
+<pre><code class="lang-auto">new SoundEvent(new ResourceLocation("路径名")).setRegistryName("注册名")
+</code></pre>
+<p>单独抽出来，变成一个变量，然后再注册。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢！我在sounds.json中遇到了一点小问题，不过已经解决。再次谢谢您的帮助！</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

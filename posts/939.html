@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>开发环境搭建forge-1.15.2-31.2.0-mdk过程出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>开发环境搭建forge-1.15.2-31.2.0-mdk过程出现问题</h1></div>
+    <div class="post-user" class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows10 64位系统<br>
+你是用的JDK: jdk-1.8.0_144<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;请在这里贴入你的IDE版本信息&gt;<br>
+Forge版本:  forge-1.15.2-31.2.0-mdk</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/4aedd4c96b27f5ebd0d2071480c02273496f4d94.png" data-download-href="../uploads/default/4aedd4c96b27f5ebd0d2071480c02273496f4d94" title="image"><img src="../uploads/default/original/1X/4aedd4c96b27f5ebd0d2071480c02273496f4d94.png" alt="image" data-base62-sha1="aGQSNlFfmHqlQClquEazRwazyQI" width="591" height="500" data-small-upload="../uploads/default/optimized/1X/4aedd4c96b27f5ebd0d2071480c02273496f4d94_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">993×839 20.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+环境搭建总报错不管什么版本，</p>
+<p>还想问个问题如果用离线包该怎么操作 离线包按提示拖了.gradle到本用户里后，就不知道该干嘛</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你的内存不足3GB，需要在项目根目录下的gradle.properties里修改</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>运行内存么？有16g呀，，，org.gradle.jvmargs=-Xmx3G   这个改了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>这个3g，算哪里的内存呢，我储存和运行内存都是够的，，减少了会有什么影响么</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你安装的是32位的JDK吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>好像是，，，我重新装一下 刚刚 内存减少可以运行  不过说找不到可用jdk   可能是我jdk问题  <div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/11fd3b070060d60e4747d3a7e37e07fd8049fda9.png" data-download-href="../uploads/default/11fd3b070060d60e4747d3a7e37e07fd8049fda9" title="image"><img src="../uploads/default/original/1X/11fd3b070060d60e4747d3a7e37e07fd8049fda9.png" alt="image" data-base62-sha1="2z8EYTFPCtSp6qUd9bT81n1GvkR" width="591" height="500" data-small-upload="../uploads/default/optimized/1X/11fd3b070060d60e4747d3a7e37e07fd8049fda9_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">993×839 27.3 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你要不就是没有给Gradle设置足够的内存，要不就是装了32位的JDK。<br>
+在CMD或者Powershell里输入:</p>
+<pre><code class="lang-auto">java -version
+</code></pre>
+<p>的结果是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>java version “1.8.0_144”<br>
+Java™ SE Runtime Environment (build 1.8.0_144-b01)<br>
+Java HotSpot™ Client VM (build 25.144-b01, mixed mode)</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来你的Java版本有问题，建议将所有Java卸载掉，然后重新装一下最新版的JDK。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>一个细节，重新安装JDK，并重新设置环境变量后，需要重启PowerShell才能应用新的环境变量</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我比较好奇你的JDK是从哪里下载的</p>
+    </div>
+    <br />
+    <div class="user"><h4>lan</h4></div>
+    <br />
+    <div class="post">
+        <p>官网要登录，懒得整，所以直接点的百度出的下载链接<img src="../images/emoji/apple/cry.png?v=9" title=":cry:" class="emoji" alt=":cry:"> <img src="../images/emoji/apple/cry.png?v=9" title=":cry:" class="emoji" alt=":cry:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

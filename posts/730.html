@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 给物品添加使用cd</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 给物品添加使用cd</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64位<br>
+你是用的JDK: 1.8 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.4<br>
+Forge版本:  1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+目标：右击后向准心方向冲刺，通过读取游戏时间来达到设置CD的效果。<br>
+问题1：:使用时如果持续按住右键或快速连续右击会进入CD但未成功冲刺。<br>
+问题2：如何在触发冲刺后的0.5秒将速度归零。</p>
+<p><strong>相关代码</strong><br>
+<code>&lt;HitShield&gt;</code></p>
+<pre><code class="lang-auto">package com.AnECanSaiTin.MyTest.Item;
+
+import com.AnECanSaiTin.MyTest.Loder.ModGroup;
+import com.AnECanSaiTin.MyTest.Tool.XYZFloat;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
+
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
+
+public class HitShield extends Item {
+
+    long CD = 1 * 20;
+    long endTime ;
+    float totalSpeed = 2.5f;
+
+    public HitShield(){
+        super(new Properties().group(ModGroup.itemGroup).maxStackSize(1));
+    }
+
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        playerIn.setActiveHand(handIn);
+        long gameTime = worldIn.getGameTime();
+        if (endTime &lt; gameTime) {
+            playerIn.addVelocity(EntityAim(playerIn).x , 0 , EntityAim(playerIn).z);
+            endTime = gameTime + CD;
+        }
+        return ActionResult.resultPass(itemstack);
+    }
+
+
+//由和速度(total)计算x,z方向分速度
+    private XYZFloat EntityAim(LivingEntity entity) {
+        XYZFloat xyzFloat = new XYZFloat();
+
+        float RotationX = entity.rotationYaw;
+        xyzFloat.x = 0 - totalSpeed * sin(Math.toRadians(RotationX));
+        xyzFloat.z = totalSpeed * cos(Math.toRadians(RotationX));
+        return xyzFloat;
+
+    }
+}
+</code></pre>
+<p><code>&lt;HitShield&gt;</code></p>
+<pre><code class="lang-auto">package com.AnECanSaiTin.MyTest.Tool;
+
+public class XYZFloat {
+    public double x;
+    public double y;
+    public double z;
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>设置CD你试试<code>setCoolDown</code>这个方法，可以参考原版的末影珍珠和弓。<br>
+关于速度归零，你可以试试<code>scheduleTick</code>（另外，Minecraft的所有时间单位都是tick，请不要用秒来计数）。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>问题1：使用时如果持续按住右键或快速连续右击会进入CD但未成功冲刺。</p>
+</blockquote>
+<p>考虑重载 <code>Item#onItemUseFinish</code> 或 <code>Item#onPlayerStoppedUsing</code>，而不是 <code>Item#onRightClick</code>。前者是原版食物的实现，后者是原版弓的实现。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>没看懂scheduleTick如何使用，需要提供BlockPOS和Block。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那应该不行了，玩家移动应该是一个纯客户端的行为。<br>
+瞬移可以，但是加速不行。<br>
+或许你可以考虑给玩家上一个短暂的速度buff。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>加速已经通过addVelocity实现了，减速同理，但需要来个延迟。直接用wait这类造成阻塞的肯定是不行的，我在想能不能通过新建一个线程来单独处理减速。或者有什么方法提供了类似于until.Timer的方法但是是基于Tick来实现。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>别用开线程来延迟，这是最为愚蠢的方法</strong><br>
+实在不行就写在类似WorldTick的事件里。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>整个思路就是有问题的。冲刺是个状态，应该写在Effect里面。冷却应该通过setCooldown实现。想想在多人服务器里，只有一个CD是可行的吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

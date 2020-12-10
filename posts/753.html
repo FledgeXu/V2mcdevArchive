@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何获得某个区块中有哪些Structure</title>
+</head>
+<body>
+    <div class="title"><h1>如何获得某个区块中有哪些Structure</h1></div>
+    <div class="post-user" class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+Forge版本:  1.15-latest<br>
+Minecraft版本: 1.15</p>
+<p><strong>主要问题</strong><br>
+如何获得某个区块中有哪些Structure？</p>
+<p><strong>一些相关信息</strong><br>
+通过<code>IWorld.getChunk(...)</code>获得<code>Chunk</code>类后有以下与Structure相关的方法：<br>
+<code>getStructureStart(String)</code>:返回StructureStart<br>
+<code>getStructureReferences()</code>:返回Map&lt;String, LongSet&gt;<br>
+<code>getStructureReferences(String)</code>返回LongSet</p>
+<p><strong>相关问题</strong><br>
+<code>getStructureStart(String)</code>的String具体传的是什么值？<br>
+<code>getStructureReferences()</code>的String和LongSet是具体指代什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://forums.minecraftforge.net/topic/50799-check-if-chunk-has-generated-a-structure/?tab=comments#comment-252218" target="_blank">Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://forums.minecraftforge.net/topic/50799-check-if-chunk-has-generated-a-structure/?tab=comments#comment-252218" target="_blank">Check if Chunk has generated a structure?</a></h3>
+
+<p>Every MapGenStructure will contain a list of known structures, keyed by chunk coordinates.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+根据这个<br>
+好像会有一个叫做<code>MapGenStructure</code>的值来保存生成的Structure，但是这个帖子版本应该是旧版本了，新版本还有没有这东西不明。
+    </div>
+    <br />
+    <div class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post">
+        <p>已自行解决qwq<br>
+<code>Chunk</code>中存在方法<code>getStructureStarts()</code>可以获得<code>Map&lt;String,StructureStarts&gt;</code><br>
+进一步处理即可获得所有Structure</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

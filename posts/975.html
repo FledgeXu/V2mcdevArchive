@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>onItemRightClick无反应</title>
+</head>
+<body>
+    <div class="title"><h1>onItemRightClick无反应</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64<br>
+你用的JDK是: JDK8<br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  1.16.3-34.1.0<br>
+Minecraft版本: 1.16.3</p>
+<p><strong>错误情况简述</strong><br>
+覆盖onItemRightClick后右键无反应</p>
+<p><strong>相关代码</strong><br>
+<code>&lt;ToolTemplate&gt;</code></p>
+<pre><code class="lang-auto">public class ToolTemplate extends ToolItem{
+
+    boolean isExpansion = false;
+
+    public ToolTemplate(float attackDamageIn, float attackSpeedIn, IItemTier tier, Properties builderIn) {
+        super(attackDamageIn, attackSpeedIn, tier, new HashSet&lt;&gt;(), builderIn.addToolType(ToolType.AXE, tier.getHarvestLevel())
+                .addToolType(ToolType.HOE, tier.getHarvestLevel())
+                .addToolType(ToolType.PICKAXE, tier.getHarvestLevel())
+                .addToolType(ToolType.SHOVEL, tier.getHarvestLevel())
+        );
+    }
+
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.isIn(Blocks.COBWEB) || state.isIn(BlockTags.LEAVES)) {
+            return 15.0F;
+        }
+        if (state.isIn(BlockTags.WOOL)) {
+            return 5.0F;
+        } else {
+            return this.efficiency;
+        }
+    }
+
+    @Override
+    public ActionResultType onItemUse(ItemUseContext context) {
+        World world = context.getWorld();
+        BlockPos blockpos = context.getPos();
+        BlockState blockstate = world.getBlockState(blockpos);
+        BlockState block = blockstate.getToolModifiedState(world, blockpos, context.getPlayer(), context.getItem(), net.minecraftforge.common.ToolType.AXE);
+        if (context.getPlayer().isSneaking()) {
+            return Items.IRON_SHOVEL.onItemUse(context);
+        }
+        if (block != null) {
+            return Items.IRON_AXE.onItemUse(context);
+        } else {
+            return Items.IRON_HOE.onItemUse(context);
+        }
+    }
+
+    @Override
+    public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        return Items.SHEARS.itemInteractionForEntity(stack, playerIn, target, hand);
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.type.canEnchantItem(Items.DIAMOND_SWORD);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List&lt;ITextComponent&gt; tooltip, ITooltipFlag flagIn) {
+        if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)){
+            tooltip.add(new TranslationTextComponent("information.tool.template2").mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+            tooltip.add(new TranslationTextComponent("information.tool.template3").mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+            tooltip.add(new TranslationTextComponent("information.tool.template4").mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+        }else {
+            tooltip.add(new TranslationTextComponent("information.tool.template1").mergeStyle(TextFormatting.BLUE, TextFormatting.ITALIC));
+        }
+    }
+
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (!worldIn.isRemote &amp;&amp; playerIn.isSneaking() &amp;&amp; handIn == Hand.MAIN_HAND) {
+            if (!isExpansion){
+                playerIn.sendStatusMessage(new TranslationTextComponent("information.tool.template.mode1"),false);
+                isExpansion = true;
+            }else {
+                playerIn.sendStatusMessage(new TranslationTextComponent("information.tool.template.mode2"),false);
+                isExpansion = false;
+            }
+        }
+        return ActionResult.resultPass(playerIn.getHeldItem(handIn));
+    }
+
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+//        if(isExpansion){
+//
+//        }
+        return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我刚刚试了一下可以啊，你不是没有按shift键啊……<br>
+你代码里写了<code>playerIn.isSneaking()</code>了……</p>
+<p>如果问题被解答了的话，请你选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>确实是潜行了，也确实没有反应。重写了个只有onItemRightClick的物品也还是没反应。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../images/emoji/apple/thinking.png?v=9" title=":thinking:" class="emoji" alt=":thinking:">，试试直接运行<code>runClient</code>这个task。可能是因为构建缓存没有被刷新，修改的代码没有起效。</p>
+<p>如果问题被解答了的话，请你选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>也不行，反编译class文件是已经有了内容的。难道和forge版本或mapping版本有关？<a href="https://gitee.com/anecansaitin/AnECanSaiTinsSigmaTools" class="inline-onebox" rel="noopener nofollow ugc">AnECanSaiTin/AnECanSaiTinsSigmaTools</a><br>
+这是仓库的链接。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你是怎么测试可行的，我复现试试看。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我没有做什么测试，只是复制了你贴的代码，然后创建了一个物品运行了一下。<br>
+这里是代码。<br>
+<aside class="onebox githubgist">
+  <header class="source">
+      <a href="https://gist.github.com/discover" target="_blank" rel="noopener">gist.github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://gist.github.com/discover" target="_blank" rel="noopener">https://gist.github.com/discover</a></h4>
+
+<p>
+</p>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+你把工作目录下的<code>build</code>文件夹，删了，然后再运行试试。</p>
+<p>如果问题被解答了的话，请你选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

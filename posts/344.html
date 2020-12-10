@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>搭建forge本身开发环境出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>搭建forge本身开发环境出现问题</h1></div>
+    <div class="post-user" class="user"><h4>beiai</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong> ：<br>
+IDE：IntelliJ IDEA<br>
+IDE版本：2020.1<br>
+Forge版本: MinecraftForge的1.15.x分支和1.12.x分支</p>
+<p><strong>目的</strong> ：搭建MinecraftForge本身开发环境，阅读MinecraftForge源码，不是mod开发环境</p>
+<p><strong>问题</strong> ：编译时出错，在1.15.x分支和1.12.x分支下都有这样的问题<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/80a627bca5a0c33db6b5f63238dfe1eb09d55afc.png" data-download-href="../uploads/default/80a627bca5a0c33db6b5f63238dfe1eb09d55afc" title="编译报错"><img src="../uploads/default/original/1X/80a627bca5a0c33db6b5f63238dfe1eb09d55afc.png" alt="编译报错" data-base62-sha1="im56kCGhfmkMA8GDtd9Nv6hnsvO" width="690" height="285" data-small-upload="../uploads/default/optimized/1X/80a627bca5a0c33db6b5f63238dfe1eb09d55afc_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">编译报错</span><span class="informations">802×332 21.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103.png" data-download-href="../uploads/default/08d56e1cba96eb73f2c6199dbb59037ecd9e5103" title="编译报错"><img src="../uploads/default/optimized/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103_2_690x206.png" alt="编译报错" data-base62-sha1="1g95GuwnLyPouXFOzFiZSh55DdV" width="690" height="206" srcset="../uploads/default/optimized/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103_2_690x206.png, ../uploads/default/optimized/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103_2_1035x309.png 1.5x, ../uploads/default/original/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103.png 2x" data-small-upload="../uploads/default/optimized/1X/08d56e1cba96eb73f2c6199dbb59037ecd9e5103_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">编译报错</span><span class="informations">1316×393 37.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+<p><img src="../uploads/default/original/1X/7dd2a768212ce4bb0e9ac5cf46a95e230cc74f55.png" alt="编译报错" data-base62-sha1="hX50tT4V3BN2RyFj0ih1LkwZey9" width="506" height="244"></p>
+<p><strong>查到的资料</strong> ： 阅读过forge的搭建文档，太旧了好像没有用，forge文档里提供一个cpw的视频，去看了下发现也太旧了，和现版本差距挺大的</p>
+<p><strong>个人的猜测</strong>：两种猜测，一个是编码问题导致的出错，一个是import net.minecraft下面的包时是失效的，是不是漏掉了什么步骤</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Windows的特有问题，GBK编码错误。<br>
+你试试在左下角把文件编码方式改成UTF-8.<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d.png" data-download-href="../uploads/default/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d" title="image"><img src="../uploads/default/optimized/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d_2_690x277.png" alt="image" data-base62-sha1="ygYtpR9oGbqkWCwXLpZoS4tEYYR" width="690" height="277" srcset="../uploads/default/optimized/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d_2_690x277.png, ../uploads/default/original/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d.png 1.5x, ../uploads/default/original/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d.png 2x" data-small-upload="../uploads/default/optimized/1X/f0352761905ccb637a3a9e9d7fc50ba4fdf4443d_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">822×330 45.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>或是试试<code>File-&gt;Other Settings-&gt;Default Settings-&gt;Editor-&gt;File Encodings</code>。<br>
+总之这个是Window上GBK编码和UTF-8转换之间出现的乱码。因为我也没有很长时间没有用过Windows了，所以具体要怎么解决我也不清楚……</p>
+    </div>
+    <br />
+    <div class="user"><h4>beiai</h4></div>
+    <br />
+    <div class="post">
+        <p>VM options 设置为 -Dfile.encoding=UTF-8后，含有GBK的报错信息没有了</p>
+<p>但还是找不到<code>net.minecraft</code>路径下的依赖文件导致大量import失败</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>重新构建一下。</p>
+    </div>
+    <br />
+    <div class="user"><h4>beiai</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决，需要执行Gradle里的downloadLibraries</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

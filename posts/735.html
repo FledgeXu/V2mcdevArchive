@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>TemplateStructurePiece.handleDataMarker(...)的参数问题</title>
+</head>
+<body>
+    <div class="title"><h1>TemplateStructurePiece.handleDataMarker(...)的参数问题</h1></div>
+    <div class="post-user" class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  1.15最新的<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>代码</strong><br>
+以下是<code>Minecraft</code>的<code>OceanRuinPiece.java</code>的<code>handleDataMarker</code>的代码</p>
+<pre><code class="lang-auto">public void handleDataMarker(String function, BlockPos blockPos, IWorld iWorld, Random random, MutableBoundingBox mutableBoundingBox) {
+            if ("chest".equals(function)) {
+                iWorld.setBlockState(blockPos, (BlockState)Blocks.CHEST.getDefaultState().with(ChestBlock.WATERLOGGED, iWorld.getFluidState(blockPos).isTagged(FluidTags.WATER)), 2);
+                TileEntity tileEntity = iWorld.getTileEntity(blockPos);
+                if (tileEntity instanceof ChestTileEntity) {
+                    ((ChestTileEntity)tileEntity).setLootTable(this.isLarge ? LootTables.CHESTS_UNDERWATER_RUIN_BIG : LootTables.CHESTS_UNDERWATER_RUIN_SMALL, random.nextLong());
+                }
+            } else if ("drowned".equals(function)) {
+                DrownedEntity drownedEntity = (DrownedEntity)EntityType.DROWNED.create(iWorld.getWorld());
+                drownedEntity.enablePersistence();
+                drownedEntity.moveToBlockPosAndAngles(blockPos, 0.0F, 0.0F);
+                drownedEntity.onInitialSpawn(iWorld, iWorld.getDifficultyForLocation(blockPos), SpawnReason.STRUCTURE, (ILivingEntityData)null, (CompoundNBT)null);
+                iWorld.addEntity(drownedEntity);
+                if (blockPos.getY() &gt; iWorld.getSeaLevel()) {
+                    iWorld.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 2);
+                } else {
+                    iWorld.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 2);
+                }
+            }
+
+        }
+</code></pre>
+<p><strong>问题</strong><br>
+<code>handleDataMarker</code>的参数<code>String function</code>传入的是什么类型的函数，是在什么时候传入的，或者说具体传了什么东西？</p>
+<p>如果我想在通过读取预定义的nbt结构文件，生成结构的时候，例如生成箱子的时候，在里面动态地放置一些物品，应该如何操作？</p>
+<p><strong>其他相关</strong><br>
+<code>OceanStructurePiece</code>的<code>Piece</code>部分</p>
+<pre><code class="lang-auto">public static class Piece extends TemplateStructurePiece {
+        private final Type biomeType;
+        private final float integrity;
+        private final ResourceLocation templateName;
+        private final Rotation rotation;
+        private final boolean isLarge;
+
+        public Piece(TemplateManager templateManager, ResourceLocation resourceLocation, BlockPos blockPos, Rotation rotation, float v, Type type, boolean b) {
+            super(IStructurePieceType.ORP, 0);
+            this.templateName = resourceLocation;
+            this.templatePosition = blockPos;
+            this.rotation = rotation;
+            this.integrity = v;
+            this.biomeType = type;
+            this.isLarge = b;
+            this.setup(templateManager);
+        }
+
+        public Piece(TemplateManager templateManager, CompoundNBT compoundNBT) {
+            super(IStructurePieceType.ORP, compoundNBT);
+            this.templateName = new ResourceLocation(compoundNBT.getString("Template"));
+            this.rotation = Rotation.valueOf(compoundNBT.getString("Rot"));
+            this.integrity = compoundNBT.getFloat("Integrity");
+            this.biomeType = Type.valueOf(compoundNBT.getString("BiomeType"));
+            this.isLarge = compoundNBT.getBoolean("IsLarge");
+            this.setup(templateManager);
+        }
+//*********************无关********************************
+        private void setup(TemplateManager templateManager) {
+            Template lvt_2_1_ = templateManager.getTemplateDefaulted(this.templateName);
+            PlacementSettings lvt_3_1_ = (new PlacementSettings()).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+            this.setup(lvt_2_1_, this.templatePosition, lvt_3_1_);
+        }
+
+        protected void readAdditional(CompoundNBT compoundNBT) {
+            super.readAdditional(compoundNBT);
+            compoundNBT.putString("Template", this.templateName.toString());
+            compoundNBT.putString("Rot", this.rotation.name());
+            compoundNBT.putFloat("Integrity", this.integrity);
+            compoundNBT.putString("BiomeType", this.biomeType.toString());
+            compoundNBT.putBoolean("IsLarge", this.isLarge);
+        }
+//************************************************************
+        public void handleDataMarker(String function, BlockPos blockPos, IWorld iWorld, Random random, MutableBoundingBox mutableBoundingBox) {
+            if ("chest".equals(function)) {
+                iWorld.setBlockState(blockPos, (BlockState)Blocks.CHEST.getDefaultState().with(ChestBlock.WATERLOGGED, iWorld.getFluidState(blockPos).isTagged(FluidTags.WATER)), 2);
+                TileEntity tileEntity = iWorld.getTileEntity(blockPos);
+                if (tileEntity instanceof ChestTileEntity) {
+                    ((ChestTileEntity)tileEntity).setLootTable(this.isLarge ? LootTables.CHESTS_UNDERWATER_RUIN_BIG : LootTables.CHESTS_UNDERWATER_RUIN_SMALL, random.nextLong());
+                }
+            } else if ("drowned".equals(function)) {
+                DrownedEntity drownedEntity = (DrownedEntity)EntityType.DROWNED.create(iWorld.getWorld());
+                drownedEntity.enablePersistence();
+                drownedEntity.moveToBlockPosAndAngles(blockPos, 0.0F, 0.0F);
+                drownedEntity.onInitialSpawn(iWorld, iWorld.getDifficultyForLocation(blockPos), SpawnReason.STRUCTURE, (ILivingEntityData)null, (CompoundNBT)null);
+                iWorld.addEntity(drownedEntity);
+                if (blockPos.getY() &gt; iWorld.getSeaLevel()) {
+                    iWorld.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 2);
+                } else {
+                    iWorld.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 2);
+                }
+            }
+
+        }
+        public boolean create(IWorld iWorld, ChunkGenerator&lt;?&gt; chunkGenerator, Random random, MutableBoundingBox mutableBoundingBox, ChunkPos chunkPos) {
+            this.placeSettings.clearProcessors().addProcessor(new IntegrityProcessor(this.integrity)).addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+            int height = iWorld.getHeight(net.minecraft.world.gen.Heightmap.Type.OCEAN_FLOOR_WG, this.templatePosition.getX(), this.templatePosition.getZ());
+            this.templatePosition = new BlockPos(this.templatePosition.getX(), height, this.templatePosition.getZ());
+            BlockPos blockPos = Template.getTransformedPos(new BlockPos(this.template.getSize().getX() - 1, 0, this.template.getSize().getZ() - 1), Mirror.NONE, this.rotation, BlockPos.ZERO).add(this.templatePosition);
+            this.templatePosition = new BlockPos(this.templatePosition.getX(), this.fun5(this.templatePosition, iWorld, blockPos), this.templatePosition.getZ());
+            return super.create(iWorld, chunkGenerator, random, mutableBoundingBox, chunkPos);
+        }
+//*********************无关********************************
+        private int fun5(BlockPos blockPos, IBlockReader iBlockReader, BlockPos blockPos1) {
+            int blockPosY = blockPos.getY();
+            int i = 512;
+            int i1 = blockPosY - 1;
+            int i2 = 0;
+            Iterator iterator = BlockPos.getAllInBoxMutable(blockPos, blockPos1).iterator();
+
+            while(iterator.hasNext()) {
+                BlockPos blockPos2 = (BlockPos)iterator.next();
+                int blockPos2X = blockPos2.getX();
+                int blockPos2Z = blockPos2.getZ();
+                int i3 = blockPos.getY() - 1;
+                Mutable mutable = new Mutable(blockPos2X, i3, blockPos2Z);
+                BlockState blockState = iBlockReader.getBlockState(mutable);
+
+                for(IFluidState fluidState = iBlockReader.getFluidState(mutable); (blockState.isAir() || fluidState.isTagged(FluidTags.WATER) || blockState.getBlock().isIn(BlockTags.ICE)) &amp;&amp; i3 &gt; 1; fluidState = iBlockReader.getFluidState(mutable)) {
+                    --i3;
+                    mutable.setPos(blockPos2X, i3, blockPos2Z);
+                    blockState = iBlockReader.getBlockState(mutable);
+                }
+
+                i = Math.min(i, i3);
+                if (i3 &lt; i1 - 2) {
+                    ++i2;
+                }
+            }
+
+            int abs = Math.abs(blockPos.getX() - blockPos1.getX());
+            if (i1 - i &gt; 2 &amp;&amp; i2 &gt; abs - 2) {
+                blockPosY = i + 1;
+            }
+
+            return blockPosY;
+        }
+    }
+</code></pre>
+<p><code>OceanRuinStructure.java</code></p>
+<pre><code class="lang-auto">import com.mojang.datafixers.Dynamic;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.*;
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
+import net.minecraft.world.gen.feature.template.TemplateManager;
+
+public class OceanRuinStructure extends ScatteredStructure&lt;OceanRuinConfig&gt; {
+    public OceanRuinStructure(Function&lt;Dynamic&lt;?&gt;, ? extends OceanRuinConfig&gt; dynamicFunction) {
+        super(dynamicFunction);
+    }
+
+    public String getStructureName() {
+        return "Ocean_Ruin";
+    }
+
+    public int getSize() {
+        return 3;
+    }
+
+    protected int getBiomeFeatureDistance(ChunkGenerator&lt;?&gt; chunkGenerator) {
+        return chunkGenerator.getSettings().getOceanRuinDistance();
+    }
+
+    protected int getBiomeFeatureSeparation(ChunkGenerator&lt;?&gt; chunkGenerator) {
+        return chunkGenerator.getSettings().getOceanRuinSeparation();
+    }
+
+    public IStartFactory getStartFactory() {
+        return Start::new;
+    }
+
+    protected int getSeedModifier() {
+        return 14357621;
+    }
+
+    public static enum Type {
+        WARM("warm"),
+        COLD("cold");
+
+        private static final Map&lt;String, Type&gt; BY_NAME = (Map)Arrays.stream(values()).collect(Collectors.toMap(Type::getName, (type) -&gt; {
+            return type;
+        }));
+        private final String name;
+
+        private Type(String s) {
+            this.name = s;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static Type getType(String s) {
+            return (Type)BY_NAME.get(s);
+        }
+    }
+
+    public static class Start extends StructureStart {
+        public Start(Structure&lt;?&gt; structure, int chunkPosX, int chunkPosZ, MutableBoundingBox bounds, int references, long seed) {
+            super(structure, chunkPosX, chunkPosZ, bounds, references, seed);
+        }
+
+        public void init(ChunkGenerator&lt;?&gt; chunkGenerator, TemplateManager templateManager, int chunkX, int chunkZ, Biome biome) {
+            OceanRuinConfig structureConfig = (OceanRuinConfig)chunkGenerator.getStructureConfig(biome, Feature.OCEAN_RUIN);
+            int tX = chunkX * 16;
+            int tZ = chunkZ * 16;
+            BlockPos blockPos = new BlockPos(tX, 90, tZ);
+            Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+            ModStructurePiece2.fun1(templateManager, blockPos, rotation, this.components, this.rand, structureConfig);
+//fun1()只是传入了添加了new Piece(...)，未涉及handleDataMarker(...)
+            this.recalculateStructureSize();
+        }
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <p>在游戏中创建模板的时候结构方块有个data模式（好像是叫这个？）在这个模式中填入字符串并保存，就能在datamarker中接收到相应的字符串，当接收到的时候就说明当前放置的方块的位置就是你之前放的结构方块的位置，用的时候注意旋转方向。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <p>我指的是在要做成模板的结构里面放上data模式的结构方块并标记</p>
+    </div>
+    <br />
+    <div class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>注意规定，请不要使用「大佬」这个词。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post">
+        <p>@ <a href="../u/dbydd">dbydd</a><br>
+在游戏中创建模板的时候结构方块有个数据模式<br>
+在这个模式中填入数据标签名并保存，就能在handleDataMarker中接收到相应的字符串，<br>
+当接收到的时候就说明当前放置的方块的位置就是你之前放的结构方块的位置，用的时候注意旋转方向。<br>
+即第一个参数String function为数据标签名</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

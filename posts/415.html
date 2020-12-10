@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>使用FledgeXu帖子的离线1.14forge下载包出现错误。</title>
+</head>
+<body>
+    <div class="title"><h1>使用FledgeXu帖子的离线1.14forge下载包出现错误。</h1></div>
+    <div class="post-user" class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IDE：Eclipse<br>
+IDE版本:4.14.0<br>
+Forge版本: 1.14.4-28.2.3<br>
+Minecraft版本: 1.14.4<br>
+<strong>错误情况简述</strong><br>
+在下载完后的压缩包选择解压的地方进入DOS界面输入gradlew eclipse genEclipseRuns，回车之后<br>
+出现BUILD FAILED。<br>
+有将下载后解压的文件中的gradlehome里的内容剪切放到C:\Users\jia.gradle<br>
+打开DOS界面的文件夹路径是C:\Users\jia\Desktop\yuan\build</p>
+<p><strong>出错的DOS界面</strong></p>
+<pre><code class="lang-auto">    Microsoft Windows [版本 10.0.18363.778]
+(c) 2019 Microsoft Corporation。保留所有权利。
+C:\Users\jia\Desktop\yuan\build&gt;gradlew eclipse genEclipseRuns
+Picked up _JAVA_OPTIONS: -Xmx4096m
+To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/4.9/userguide/gradle_daemon.html.
+Daemon will be stopped at the end of the build stopping after processing
+&gt; Configure project :
+New Dep: net.minecraftforge:forge:1.14.4-28.2.3_mapped_snapshot_20190719-1.14.3
+FAILURE: Build failed with an exception.
+What went wrong:
+A problem occurred configuring root project 'build'.
+&gt; Could not resolve all files for configuration ':_compileJava_1'.
+   &gt; Could not download vecmath.jar (java3d:vecmath:1.5.2)
+      &gt; Could not get resource 'https://libraries.minecraft.net/java3d/vecmath/1.5.2/vecmath-1.5.2.jar'.
+         &gt; Could not HEAD 'https://libraries.minecraft.net/java3d/vecmath/1.5.2/vecmath-1.5.2.jar'.
+            &gt; Connect to libraries.minecraft.net:443 [libraries.minecraft.net/54.192.77.146] failed: Connection timed out: connect
+   &gt; Could not download authlib.jar (com.mojang:authlib:1.5.25)
+      &gt; Could not get resource 'https://libraries.minecraft.net/com/mojang/authlib/1.5.25/authlib-1.5.25.jar'.
+         &gt; Could not HEAD 'https://libraries.minecraft.net/com/mojang/authlib/1.5.25/authlib-1.5.25.jar'.
+            &gt; Connect to libraries.minecraft.net:443 [libraries.minecraft.net/54.192.77.146] failed: Connection timed out: connect
+   &gt; Could not download text2speech-natives-windows.jar (com.mojang:text2speech:1.11.3)
+      &gt; Could not get resource 'https://libraries.minecraft.net/com/mojang/text2speech/1.11.3/text2speech-1.11.3-natives-windows.jar'.
+         &gt; Could not HEAD 'https://libraries.minecraft.net/com/mojang/text2speech/1.11.3/text2speech-1.11.3-natives-windows.jar'.
+            &gt; Connect to libraries.minecraft.net:443 [libraries.minecraft.net/54.192.77.146] failed: Read timed out
+Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+Get more help at https://help.gradle.org
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/4.9/userguide/command_line_interface.html#sec:command_line_warnings
+BUILD FAILED in 40s
+</code></pre>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/6024e730ab12029dac15250256b746f772325de7.png" data-download-href="../uploads/default/6024e730ab12029dac15250256b746f772325de7" title="屏幕截图(30)"><img src="../uploads/default/optimized/1X/6024e730ab12029dac15250256b746f772325de7_2_690x431.png" alt="屏幕截图(30)" data-base62-sha1="dIwTTZ44nVxQKfrvs5bVXezi9nh" width="690" height="431" srcset="../uploads/default/optimized/1X/6024e730ab12029dac15250256b746f772325de7_2_690x431.png, ../uploads/default/optimized/1X/6024e730ab12029dac15250256b746f772325de7_2_1035x646.png 1.5x, ../uploads/default/optimized/1X/6024e730ab12029dac15250256b746f772325de7_2_1380x862.png 2x" data-small-upload="../uploads/default/optimized/1X/6024e730ab12029dac15250256b746f772325de7_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">屏幕截图(30)</span><span class="informations">1440×900 97.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div> <div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/a06c856f16aaf336353d1c0024481ae627183074.png" data-download-href="../uploads/default/a06c856f16aaf336353d1c0024481ae627183074" title="屏幕截图(32)"><img src="../uploads/default/optimized/1X/a06c856f16aaf336353d1c0024481ae627183074_2_690x431.png" alt="屏幕截图(32)" data-base62-sha1="mTaTRa7j2RA05q5fiws6wER8GIk" width="690" height="431" srcset="../uploads/default/optimized/1X/a06c856f16aaf336353d1c0024481ae627183074_2_690x431.png, ../uploads/default/optimized/1X/a06c856f16aaf336353d1c0024481ae627183074_2_1035x646.png 1.5x, ../uploads/default/optimized/1X/a06c856f16aaf336353d1c0024481ae627183074_2_1380x862.png 2x" data-small-upload="../uploads/default/optimized/1X/a06c856f16aaf336353d1c0024481ae627183074_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">屏幕截图(32)</span><span class="informations">1440×900 80 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>单纯的网络问题吧</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来是网络问题。<br>
+离线包不起作用可能是因为，离线包和MDK版本不对。<br>
+我给你打包一个28.2.3版本的离线包，你下载试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>万分感谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是吧里下载的离线包，事实上我已经被困在网络问题里有几个礼拜了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>稍微等一下，现在还在构建。<br>
+请注意，新用户的回帖数是有限制的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢。问一下，你要用什么方式传递给我</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="1" data-topic="249">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/249">[1.12-1.15]Minecraft Forge 离线包</a> <a class="badge-wrapper  bullet" href="/c/9-category"><span class="badge-category-bg" style="background-color: #9EB83B;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是发布各种模组相关开发教程的地方。
+如果是转载，必须声明原文链接，而且你不能转载全文。
+如果是自制，在默认情况下本分类下的所有自制内容以以下许可证发布。
+这里不能发布任何教Java的帖子，因为学习编程是一件非常严肃的事情，看帖子学习不是一个好的方法。
+署名-非商业性使用-相同方式共享
+CC BY-NC-SA">模组开发教程</span></a>
+  </div>
+  <blockquote>
+    离线包覆盖的范围
+此离线包是Windows专供 
+1.12 的最新版本，1.14-1.15的每一个版本 
+目前来说Github上没有每一个版本的构建，但是因为基于IPFS和GitHub，本项目可以实现每一个Forge版本都有一个离线包。 
+如果有需要1.14以上特定版本的离线包，请在本帖下方留言，或者在Github上发issue。 
+
+本项目的优势
+
+可以实现每一个版本的Forge都有相对应的离线…
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>我看到了你在github上新发布的内容。万分感谢。我会马上去尝试</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>28.2.3 版本的离线包已经打包好了。<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/FledgeXu/ForgeGradleOffline/releases/tag/1.14.4-28.2.3-2020-05-16-11-41-44-windows" target="_blank">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/418eb88d09d9c7c9e28cacc9cfe59712ceebba66.jpeg" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/FledgeXu/ForgeGradleOffline/releases/tag/1.14.4-28.2.3-2020-05-16-11-41-44-windows" target="_blank">FledgeXu/ForgeGradleOffline</a></h3>
+
+<p>Forge离线包. Contribute to FledgeXu/ForgeGradleOffline development by creating an account on GitHub.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+具体用法请看之前的帖子，在复制并修改<code>gradlehome</code>之前，你可以把之前的<code>.gradle</code>删了。<br>
+我不能保证离线包有效，这种网络问题引起的配置失败，最好还是买一个翻墙服务来解决问题，你可以去搜索看看CN2线路的翻墙服务。
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决了，记得选一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>请问还有什么方式可以联系到你呢。我依旧遇到同样的问题。我用的Java版本是jdk1.8.0_251。<br>
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>或许是我在DOS界面输入的代码不正确。我输入了gradlew eclipse genEclipseRuns</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你应该先输入:</p>
+<pre><code class="lang-auto">.\gradlew eclipse
+</code></pre>
+<p>然后再输入</p>
+<pre><code class="lang-auto">.\gradlew genEclipseRuns
+</code></pre>
+<p>这个警告无视它。</p>
+<pre><code class="lang-auto">Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>这是我在输入.\gradlew eclipse时遇到的错误</p>
+<pre><code class="lang-auto">    C:\Users\jia\Desktop\onemod\003\build&gt;.\gradlew eclipse
+Picked up _JAVA_OPTIONS: -Xmx4096m
+To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/4.9/userguide/gradle_daemon.html.
+Daemon will be stopped at the end of the build stopping after processing
+
+&gt; Configure project :
+New Dep: net.minecraftforge:forge:1.14.4-28.2.3_mapped_snapshot_20190719-1.14.3
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'build'.
+&gt; Could not resolve all files for configuration ':_compileJava_1'.
+   &gt; Could not download oshi-core.jar (oshi-project:oshi-core:1.1)
+      &gt; Could not get resource 'https://libraries.minecraft.net/oshi-project/oshi-core/1.1/oshi-core-1.1.jar'.
+         &gt; Could not HEAD 'https://libraries.minecraft.net/oshi-project/oshi-core/1.1/oshi-core-1.1.jar'.
+            &gt; Connect to libraries.minecraft.net:443 [libraries.minecraft.net/99.86.130.78] failed: Connection timed out: connect
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/4.9/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 33s
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>典型的网络问题，没有办法，中国大陆的网络封锁和对国际流量的限制导致的。<br>
+只有多尝试，要不就是买代理，然后给Gradle配置代理。</p>
+<p>看起来在你的电脑上离线包没有起效，很奇怪。<br>
+你是不是修改过MDK里文件的内容了……如果修改过，请重新解压MDK，然后不要修改里面任何内容，直接运行命令。</p>
+<p>再检查看看你的离线包是不是放错位置了</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>。。。。。难道mdk使用的不是你GITHUB里的吗，或者说那个并不是我应该使用的mdk。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以直接用离线包里自带的MDK，也可以用Forge官网上下载的MDK。<br>
+无所谓，这两个是一样的。<br>
+总而言之，这是网络造成的问题，你在论坛里随便翻翻，可以找到非常多相同的例子。<br>
+我觉得你的离线包的gradlehome可能放错位置了，你应该放在<code>%homepath%</code>（直接在文件管理器输入这个带百分号的地址）这个目录下面。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>写程序，不被大陆的网络折磨一两次是学不会翻墙的重要性的。<br>
+一个好的翻墙服务商（比如有CN2线路的服务商）能解决大半问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>你不用输入“gradlew eclipse”，直接输入“gradlew genEclipseRuns”即可。<br>
+至于为什么，你可以去看MDK包里的README.txt文件。</p>
+<hr>
+<p>只要不是1.12.2或以下版本，照着README.txt说的做是完全没问题的</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"> <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"> <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"> <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"> <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:">终于，半个月了。终于啊。</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="10" data-topic="415">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>CN2线路</p>
+</blockquote>
+</aside>
+<p>你好，你可以说一下你用的是什么vpn或者CN2线路服务吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么添加维度进入方法</title>
+</head>
+<body>
+    <div class="title"><h1>怎么添加维度进入方法</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>minecraft版本：1.15.2<br>
+forge版本：31.2.0<br>
+IDE工具：Intellij Idea<br>
+IDE版本：2019.3.5</p>
+<p><strong>问题描述</strong></p>
+<p><em>我该怎么为维度添加一个可进入的方法？意思就是说我定义了好多个维度，现在我需要让这么多个维度拥有一个可以通过搭方块的方法进入，但是你的教程里最多只写了一个指令进入，我的确用指令进入了，但是我该如何添加一个方块进入的呢？？</em></p>
+<p>我试图查询数据包的信息，但是我添加完成后，MC报错了，进入后维度不见了，既然数据包解决不了，只能来求助forge的代码。</p>
+<p><strong>相关代码</strong><br>
+<em>代码我这里先不提供了。因为添加一个进入方法，我觉得不需要查看我的代码，而且我的代码很多。</em></p>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      
+      <a href="https://zhangshenxing.gitee.io/vanillamodtutorial/#%E7%BB%B4%E5%BA%A6%E5%AE%9E%E4%BE%8B" target="_blank" rel="noopener nofollow ugc">zhangshenxing.gitee.io</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://zhangshenxing.gitee.io/vanillamodtutorial/#%E7%BB%B4%E5%BA%A6%E5%AE%9E%E4%BE%8B" target="_blank" rel="noopener nofollow ugc">Minecraft 原版模组入门教程</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+以及你的neutrino
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以看原版的传送门实现:<code>EndPortalBlock</code>和<code>NetherPortalBlock</code>中的<code>onEntityCollision</code>方法，他们最后都调用了<code>Entity</code>类下面的<code>changeDimension</code>方法。<br>
+有个1.15的写法，1.16还需要更多的研究。<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/6f3502348bb67a10fb5117b3aec256fcbcca376a/src/main/java/com/mcjty/mytutorial/tools/TeleportationTools.java" target="_blank" rel="noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/6f3502348bb67a10fb5117b3aec256fcbcca376a/src/main/java/com/mcjty/mytutorial/tools/TeleportationTools.java" target="_blank" rel="noopener">McJty/YouTubeModding14/blob/6f3502348bb67a10fb5117b3aec256fcbcca376a/src/main/java/com/mcjty/mytutorial/tools/TeleportationTools.java</a></h4>
+<pre><code class="lang-java">package com.mcjty.mytutorial.tools;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.ITeleporter;
+
+import java.util.function.Function;
+
+public class TeleportationTools {
+
+    public static void teleport(ServerPlayerEntity entity, DimensionType destination, BlockPos pos) {
+        entity.changeDimension(destination, new ITeleporter() {
+            @Override
+            public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function&lt;Boolean, Entity&gt; repositionEntity) {
+                entity = repositionEntity.apply(false);
+                entity.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+                return entity;
+</code></pre>
+
+  This file has been truncated. <a href="https://github.com/McJty/YouTubeModding14/blob/6f3502348bb67a10fb5117b3aec256fcbcca376a/src/main/java/com/mcjty/mytutorial/tools/TeleportationTools.java" target="_blank" rel="noopener">show original</a>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

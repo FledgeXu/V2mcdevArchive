@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>自定义方块渲染问题</title>
+</head>
+<body>
+    <div class="title"><h1>自定义方块渲染问题</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 10 64<br>
+你是用的JDK: jdk8 64<br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本:  2019.3.3<br>
+Forge版本:  1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cb30372551b585e0fad97285f771e51641b17a79.png" data-download-href="../uploads/default/cb30372551b585e0fad97285f771e51641b17a79" title="2020-07-22_19.25.21"><img src="../uploads/default/original/1X/cb30372551b585e0fad97285f771e51641b17a79.png" alt="2020-07-22_19.25.21" data-base62-sha1="sZue6GWsq1gyDh9Ki8nXosag2yl" width="690" height="387" data-small-upload="../uploads/default/optimized/1X/cb30372551b585e0fad97285f771e51641b17a79_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-07-22_19.25.21</span><span class="informations">854×480 74 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+写了一个自定义模型，变成了一个紫黑块。<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">[22七月2020 19:23:42.015] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--gameDir, ., --launchTarget, fmluserdevclient, --fml.mcpVersion, 20200515.085601, --fml.mcVersion, 1.15.2, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 31.2.0, --version, MOD_DEV, --assetIndex, 1.15, --assetsDir, C:\Users\huawei\.gradle\caches\forge_gradle\assets, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[22七月2020 19:23:42.021] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 5.1.0+69+master.79f13f7 starting: java version 1.8.0_221 by Oracle Corporation
+[22七月2020 19:23:42.587] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[22七月2020 19:23:45.194] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevclient' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\huawei\.gradle\caches\forge_gradle\assets, --assetIndex, 1.15, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[22七月2020 19:23:49.096] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[22七月2020 19:24:06.983] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[22七月2020 19:24:07.863] [modloading-worker-2/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 31.2.0, for MC 1.15.2 with MCP 20200515.085601
+[22七月2020 19:24:07.863] [modloading-worker-2/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v31.2.0 Initialized
+[22七月2020 19:24:12.656] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[22七月2020 19:24:12.778] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[22七月2020 19:24:13.180] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [crystal] Starting version check at http://myurl.me/
+[22七月2020 19:24:14.066] [Forge Version Check/WARN] [net.minecraftforge.fml.VersionChecker/]: Failed to process update information
+java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_221]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_221]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_221]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1950) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1945) ~[?:1.8.0_221]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1944) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1514) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1498) ~[?:1.8.0_221]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:189) ~[?:?]
+	at net.minecraftforge.fml.VersionChecker$1.process(VersionChecker.java:206) ~[?:?]
+	at java.lang.Iterable.forEach(Iterable.java:75) [?:1.8.0_221]
+	at net.minecraftforge.fml.VersionChecker$1.run(VersionChecker.java:157) [?:?]
+Caused by: java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1900) ~[?:1.8.0_221]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1498) ~[?:1.8.0_221]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[?:1.8.0_221]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:173) ~[?:?]
+	... 3 more
+[22七月2020 19:24:14.069] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[22七月2020 19:24:15.401] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 31.2.0 Target: null
+[22七月2020 19:24:16.671] [Server-Worker-3/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Unable to load model: 'crystal:block/crystal_units' referenced from: crystal:crystal_units#: com.google.gson.JsonSyntaxException: Expected scale[0] to be a Float, was ""
+[22七月2020 19:24:17.640] [Server-Worker-3/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Unable to resolve texture reference: #missingno in crystal:item/crystal_units
+[22七月2020 19:24:20.133] [Render thread/INFO] [net.minecraft.client.audio.SoundSystem/]: OpenAL initialized.
+[22七月2020 19:24:20.134] [Render thread/INFO] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Sound engine started
+[22七月2020 19:24:20.423] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[22七月2020 19:24:20.533] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[22七月2020 19:24:20.534] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[22七月2020 19:24:20.535] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[22七月2020 19:24:20.535] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[22七月2020 19:24:20.536] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[22七月2020 19:24:20.536] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[22七月2020 19:24:21.118] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[22七月2020 19:24:21.120] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[22七月2020 19:24:21.120] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[22七月2020 19:24:22.444] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: Invalid session id
+[22七月2020 19:24:43.302] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[22七月2020 19:24:43.303] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22七月2020 19:24:43.303] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22七月2020 19:24:43.304] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[22七月2020 19:24:43.305] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22七月2020 19:24:43.496] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Starting integrated minecraft server version 1.15.2
+[22七月2020 19:24:43.496] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Generating keypair
+[22七月2020 19:24:43.679] [Server thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this SERVER instance
+[22七月2020 19:24:43.751] [Server thread/INFO] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Block: Found a missing id from the world crystal:graycrystal_ore
+[22七月2020 19:24:44.164] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, main, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar
+[22七月2020 19:24:45.521] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[22七月2020 19:24:47.294] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[22七月2020 19:24:47.862] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[22七月2020 19:24:48.648] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[22七月2020 19:24:48.648] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[22七月2020 19:24:48.982] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：78%
+[22七月2020 19:24:49.148] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Time elapsed: 1177 ms
+[22七月2020 19:24:49.675] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22七月2020 19:24:49.677] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22七月2020 19:24:49.683] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Changing view distance to 11, from 10
+[22七月2020 19:25:01.976] [Netty Local Client IO #0/INFO] [net.minecraftforge.fml.network.NetworkHooks/]: Connected to a modded server.
+[22七月2020 19:25:02.223] [Server thread/INFO] [net.minecraftforge.common.AdvancementLoadFix/]: Using new advancement loading for net.minecraft.advancements.PlayerAdvancements@11e28588
+[22七月2020 19:25:02.254] [Server thread/INFO] [net.minecraft.server.management.PlayerList/]: Dev[local:E:5389dc55] logged in with entity id 205 at (162.47262330113966, 4.0, -27.40346402676061)
+[22七月2020 19:25:02.293] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[22七月2020 19:25:02.772] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[22七月2020 19:25:02.788] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[22七月2020 19:25:03.112] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 78 advancements
+[22七月2020 19:25:21.863] [Render thread/INFO] [net.minecraft.client.gui.NewChatGui/]: [CHAT] 已将截图保存为2020-07-22_19.25.21.png
+[22七月2020 19:27:07.867] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[22七月2020 19:27:07.873] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[22七月2020 19:27:08.727] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Dev lost connection: 连接中止
+[22七月2020 19:27:08.728] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[22七月2020 19:27:08.742] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Stopping singleplayer server as player logged out
+[22七月2020 19:27:08.769] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[22七月2020 19:27:08.770] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[22七月2020 19:27:08.770] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[22七月2020 19:27:08.770] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[22七月2020 19:27:08.830] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[22七月2020 19:27:08.840] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[22七月2020 19:27:09.774] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+
+</code></pre>
+<p><strong>相关代码</strong></p>
+<p>CrystalUnits.class</p>
+<pre><code class="lang-auto">public class CrystalUnits extends Block {
+    public CrystalUnits() {
+        super(Properties.create(Material.ROCK).hardnessAndResistance(5).notSolid());
+    }
+}
+</code></pre>
+<p>ItemRegister</p>
+<pre><code class="lang-auto">    public static RegistryObject&lt;Item&gt; crystalUnits = ITEMS.register("crystal_units",()-&gt;{
+        return new BlockItem(BlockRegistry.crystalUnits.get(), new Item.Properties().group(Mod_Group.itemGroup));
+    });
+</code></pre>
+<p>BlockRegister</p>
+<pre><code class="lang-auto">    public static RegistryObject&lt;Block&gt; crystalUnits = BLOCKS.register("crystal_units", ()-&gt;{
+        return new CrystalUnits();
+    });
+</code></pre>
+<p>blockstates下面的crystal_units.json</p>
+<pre><code class="lang-auto">{
+  "variants": {
+    "": { "model": "crystal:block/crystal_units" }
+  }
+}
+</code></pre>
+<p>模型文件crystal_units.json</p>
+<pre><code class="lang-auto">{
+	"textures": {
+		"0": "crystal:block/crystal_units_texture",
+		"particle": "crystal:block/crystal_units_texture"
+	},
+	"elements": [
+		{
+			"from": [3, 1, 3],
+			"to": [13, 14, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18, 9, 17]},
+			"faces": {
+				"north": {"uv": [0, 0, 10, 13], "texture": "#0"},
+				"east": {"uv": [0, 0, 10, 13], "texture": "#0"},
+				"south": {"uv": [0, 0, 10, 13], "texture": "#0"},
+				"west": {"uv": [0, 0, 10, 13], "texture": "#0"},
+				"up": {"uv": [11, 11, 16, 16], "texture": "#0"},
+				"down": {"uv": [9, 3, 16, 9], "texture": "#0"}
+			}
+		},
+		{
+			"from": [12, 14, 3],
+			"to": [13, 15, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 22, 11]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 10, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [6, 6, 16, 7], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 10], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 10], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [4, 14, 12],
+			"to": [12, 15, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 22, 20]},
+			"faces": {
+				"north": {"uv": [8, 8, 16, 9], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"south": {"uv": [8, 0, 16, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 1], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [3, 14, 3],
+			"to": [4, 15, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 22, 11]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [6, 6, 16, 7], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [6, 6, 16, 7], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 10], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 10], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [4, 14, 3],
+			"to": [12, 15, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 22, 11]},
+			"faces": {
+				"north": {"uv": [7, 7, 15, 8], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"south": {"uv": [8, 7, 16, 8], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"up": {"uv": [5, 7, 13, 8], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 1], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [3, 0, 2],
+			"to": [4, 1, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 8, 9]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 0, 3],
+			"to": [4, 1, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 8, 11]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 0, 12],
+			"to": [4, 1, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 8, 20]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [3, 0, 13],
+			"to": [4, 1, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 8, 21]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [12, 0, 2],
+			"to": [13, 1, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 8, 10]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [13, 0, 3],
+			"to": [14, 1, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [21, 8, 11]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [12, 0, 12],
+			"to": [13, 1, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 8, 21]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [13, 0, 12],
+			"to": [14, 1, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [21, 8, 20]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#missing"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 2.25, -1.5],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 0.25, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"scale": ["", 1, 1]
+		}
+	},
+	"groups": [0,
+		{
+			"name": "top",
+			"origin": [21, 8, 20],
+			"children": [1, 2, 3, 4]
+		},
+		{
+			"name": "group",
+			"origin": [18, 9, 17],
+			"children": [5, 6, 7, 8, 9, 10, 11, 12]
+		}
+	]
+}
+</code></pre>
+<p>item目录下的crystal_units.json文件</p>
+<pre><code class="lang-auto">{
+  "parent": "crystal:block/crystal_units"
+}
+</code></pre>
+<p>assets文件目录结构<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2.png" data-download-href="../uploads/default/d73151c7fc2dbac14ecae847374ece8ed9ae65f2" title="image"><img src="../uploads/default/optimized/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2_2_313x500.png" alt="image" data-base62-sha1="uHGk041dXach1JS31AIgGzoguyu" width="313" height="500" srcset="../uploads/default/optimized/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2_2_313x500.png, ../uploads/default/optimized/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2_2_469x750.png 1.5x, ../uploads/default/original/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2.png 2x" data-small-upload="../uploads/default/optimized/1X/d73151c7fc2dbac14ecae847374ece8ed9ae65f2_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">547×872 33.8 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的材质没有加载出来，请补充一下你的<code>asserts</code>文件夹目录结构。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../uploads/default/original/1X/8beb50e20891ebf7d1ec4c18aad4f8240fdf1649.png" alt="image" data-base62-sha1="jXMwTc8y2KjQ2fCgNtlBNqmdAhz" width="416" height="366"><br>
+你好，这是我的assets目录结构，选中的就是材质文件，在blockbench中打开相应json文件能够识别</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你省略的东西太多了，以后注意要贴<strong>完整</strong>的内容<br>
+把你的BlockState，Model以及报错日志都完整的贴上来。<br>
+另外把你的<code>asserts</code>截图截全，我看你的截图看不见<code>item</code>文件相关的内容。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>省略的信息都放上来了，blockstate就写了那么多…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>根据日志:</p>
+<pre><code class="lang-auto"> com.google.gson.JsonSyntaxException: Expected scale[0] to be a Float, was ""
+</code></pre>
+<aside class="quote no-group" data-username="SmallerCandy" data-post="1" data-topic="651">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/SmallerCandy" class="avatar"> SmallerCandy:</div>
+<blockquote>
+<pre><code class="lang-auto">"firstperson_lefthand": {
+			"scale": ["", 1, 1]
+		}
+</code></pre>
+</blockquote>
+</aside>
+<p>这个地方有问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

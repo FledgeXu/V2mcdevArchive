@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>我的实体的模型没有正确地被渲染/显示</title>
+</head>
+<body>
+    <div class="title"><h1>我的实体的模型没有正确地被渲染/显示</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>我使用的IDE：IDEA<br>
+我使用的IDE版本:2020.1<br>
+Forge版本:  28.2.3<br>
+Minecraft版本: 1.14.4<br>
+Mapping 文件版本: 20200119-1.14.4</p>
+<p>我创建了一个ThrowAbleEntity,并尝试着为它添加一个模型。不幸的是，我尝试了超过一个星期仍然没有成功：这个实体显示为一个（符合我的size所定义的大小的）白色长方体。我感觉是我的renderer文件内容或者是它的注册出现了问题。<br>
+我的model文件：</p>
+<pre><code class="lang-auto">@OnlyIn(Dist.CLIENT)
+public class c4model extends EntityModel&lt;c4entity&gt; {
+    public RendererModel boom;
+    public RendererModel phone;
+
+    public c4model(){
+        this.textureHeight=14;
+        this.textureWidth=14;
+        boom = new RendererModel(this,0,0);
+        boom.addBox(-0.4f,-1.9f,-0.4f,2,2,5,-0.6f);
+        phone = new RendererModel(this,0,5);
+        phone.addBox(-1.2f, -0.8f, 0f, 2, 1, 3, -0.4f);
+        boom.addChild(phone);
+    }
+
+    @Override
+    public void render(c4entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        boom.render(scale);
+        super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+
+    }
+
+    @Override
+    public void setRotationAngles(c4entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+    }
+}
+</code></pre>
+<p>我的renderer文件：</p>
+<pre><code class="lang-auto">@OnlyIn(Dist.CLIENT)
+public class c4renderer extends DefaultRenderer {
+    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("rainbow6", "textures/entity/c4");
+    private static final c4model c4model = new c4model();
+
+    public c4renderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn);
+    }
+
+    public void doRender(c4entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        Tessellator tessellator = Tessellator.getInstance();
+        GlStateManager.pushMatrix();
+        GlStateManager.translated(x,y,z);
+        GlStateManager.rotatef(entity.rotationYaw,0.0f,1.0f,0.0f);
+        this.bindEntityTexture(entity);
+        this.c4model.render(entity,0.0f,0.0f,0.0f,0.0f,0.0f,0.0625f);
+        GlStateManager.popMatrix();
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        tessellator.draw();
+    }
+
+    
+    @Nullable
+    @Override
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        return TEXTURE_LOCATION;
+    }
+}
+</code></pre>
+<p>注册renderer：</p>
+<pre><code class="lang-auto">    @OnlyIn(Dist.CLIENT)
+    public class ModRenderRegistry {
+        public void registryEntityRenders(final FMLClientSetupEvent event){
+            RenderingRegistry.registerEntityRenderingHandler(c4entity.class, c4renderer::new);
+
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>这个实体显示为一个（符合我的size所定义的大小的）白色长方体</p>
+</blockquote>
+<p>这个具体是什么意思？<br>
+和你在这里定义的两个Box大小一致吗？<br>
+建议补充图片。</p>
+<pre><code class="lang-java">  boom = new RendererModel(this,0,0);
+  boom.addBox(-0.4f,-1.9f,-0.4f,2,2,5,-0.6f);
+  phone = new RendererModel(this,0,5);
+  phone.addBox(-1.2f, -0.8f, 0f, 2, 1, 3, -0.4f);
+  boom.addChild(phone);
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>另外请把<code>注册renderer</code>部分的整个类的代码补充完整。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>这个size指游戏中F3+B所看到的碰撞框（白线框），box指模型的各个部分（头、手等）</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>这是我的ModRendererRegistry.class:</p>
+<pre><code class="lang-auto">package com.uss_shenzhou.rainbow6.entities;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+@OnlyIn(Dist.CLIENT)
+public class ModRenderRegistry {
+   public void registryEntityRenders(final FMLClientSetupEvent event){
+       RenderingRegistry.registerEntityRenderingHandler(c4entity.class, c4renderer::new);
+
+   }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来你的<code>public void registryEntityRenders(final FMLClientSetupEvent event)</code>根本没有调用到。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>FMLClientSetupEvent</code> 是个事件。<br>
+如何注册使用事件处理器请看Forge文档。<br>
+<a href="https://mcforge-cn.readthedocs.io/zh/latest/events/intro/" class="onebox" target="_blank">https://mcforge-cn.readthedocs.io/zh/latest/events/intro/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你应该请改成类似这样。</p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ModRenderRegistry {
+    @SubscribeEvent
+    public static void registryEntityRenders(final FMLClientSetupEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(c4entity.class, c4renderer::new);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我在发帖前已经尝试过此种方法，并在刚才又尝试了一遍，也没有起作用。在latest.log和debug.log中均没有任何警告或错误。断点结果也显示注册语句被执行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那我觉得就是你<code>DefaultRenderer</code>的实现有问题，用原版实现好的类似于<code>MobRenderer</code>试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢提醒！我把<code>DeffaultRenderer</code>改成了<code>EntityRenderer&lt;c4entity&gt;</code>，并在renderer文件去掉了<br>
+<code> Tessellator tessellator = Tessellator.getInstance();     tessellator.draw();</code>这两行。现在它的模型能被正确的显示，但是贴图仍然不正确：一些原版中的材质贴图被看起来很胡乱地画在了模型上，而不是我自己指定的图片。除上述之外，我的model文件没有改动,</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>应该是你贴图和模型没有对应上，UV展开有问题。<br>
+这个就要自己慢慢调了，要你自己看情况修改贴图了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>如果是uv展开的话，至少会显示图片中的部分内容吧？但是现在显示的是一些原版的不相干的图片。为方便，图片发在群里。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>补充<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc.png" data-download-href="../uploads/default/be4a939d631c3fa127b0d73c8999ebaf38856bfc" title="2020-04-18_21.08.31"><img src="../uploads/default/optimized/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc_2_690x369.png" alt="2020-04-18_21.08.31" data-base62-sha1="r9ouWnlFK8wJFxNAunOx26YvCXi" width="690" height="369" srcset="../uploads/default/optimized/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc_2_690x369.png, ../uploads/default/optimized/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc_2_1035x553.png 1.5x, ../uploads/default/optimized/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc_2_1380x738.png 2x" data-small-upload="../uploads/default/optimized/1X/be4a939d631c3fa127b0d73c8999ebaf38856bfc_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-04-18_21.08.31</span><span class="informations">1920×1027 194 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个图叫做<code>atlas texture</code>，看起来是你材质绑定错误了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你在<code>doRender</code>最后加上<code> super.doRender(entity, x, y, z, entityYaw, partialTicks);</code>试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我刚刚尝试在<code>    @Nullable     @Override     protected ResourceLocation getEntityTexture(c4entity entity) {         return TEXTURE_LOCATION;     }</code>改成了<code>return null</code>，出现了同样的结果，似乎这个<code>getEntityTexture</code>并没有起作用。<br>
+另外，如何查看在什么情况下材质会变成<code>atlas texture</code>?</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先下个断点试试，看看确实调用到了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来没有 <img src="../images/emoji/apple/sweat.png?v=9" title=":sweat:" class="emoji" alt=":sweat:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你把修改过的<code>Render</code>代码粘贴上来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <pre><code>package com.uss_shenzhou.rainbow6.entities;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.DefaultRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import javax.annotation.Nullable;
+
+@OnlyIn(Dist.CLIENT)
+public class c4renderer extends EntityRenderer&lt;c4entity&gt; {
+    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("rainbow6:textures/entity/c4.png");
+    private static final c4model c4model = new c4model();
+
+    public c4renderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn);
+    }
+
+    public void doRender(c4entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translated(x,y,z);
+        GlStateManager.rotatef(entity.rotationYaw,0.0f,1.0f,0.0f);
+        c4model.render(entity,0.0f,0.0f,0.0f,0.0f,0.0f,0.0625f);
+        GlStateManager.popMatrix();
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    }
+    @Nullable
+    @Override
+    protected ResourceLocation getEntityTexture(c4entity entity) {
+        return TEXTURE_LOCATION;
+    }
+
+}</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这行前面你忘了绑定材质了……</p>
+<pre><code class="lang-auto">c4model.render(entity,0.0f,0.0f,0.0f,0.0f,0.0f,0.0625f);
+</code></pre>
+<p>这行前面加上</p>
+<pre><code class="lang-auto">this.bindEntityTexture(entity);
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>感谢！虽然仍是错位的，不过终于能显示我自己的图片了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

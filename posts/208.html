@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>ForgeGradle 开发之「砖」</title>
+</head>
+<body>
+    <div class="title"><h1>ForgeGradle 开发之「砖」</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>注意本教程关注的点是 <code>ForgeGradle</code> 项目，而不是 <code>MinecraftForge</code> 。</strong><br>
+<strong>本教程假的你有对Gradle有所了解了，不了解的可以看这个<a href="https://www.v2mcdev.com/t/topic/103">Gradle教程</a>。</strong></p>
+<h2>前言</h2>
+<p>这个教程本来是一个系列，但是我发现一个要做一个系列非常的困难，只能将篇幅缩短，作为「抛砖引玉」的「砖」了。</p>
+<h2>什么是 Forge Gradle</h2>
+<p>ForgeGradle（之后用fg代替）是一个Gradle插件，它被创造出来用来构建Minecraft的mod和插件。它负责了你在开发配置环境中的下载资源，反编译，重编译，生成运行脚本，打包mod等工作。<br>
+对于Minecraft mod开发者来说，你们一定会在 <code>build.gradle</code> 中看见过:</p>
+<pre><code class="lang-auto">apply plugin: net.minecraftforge.gradle
+</code></pre>
+<p>这里加载的插件就是 FG。</p>
+<h2>为什么要了解 Forge Gradle</h2>
+<p>因为中国大陆的网络，FG的下载过程会非常漫长甚至无法进行，这导致了中国大陆的开发在配置Forge开发环境中时常失败，绝大部分的新人在配置环境这一步就放弃了。<br>
+但是因为<a href="https://github.com/MinecraftForge/ForgeGradle/pull/662">版权和Lex本人的态度</a>，FG本身不让添加使用镜像功能，所以我们有可能需要对FG进行一些改动，来方便中国的开发者。</p>
+<h2>如何配置 Forge Gradle 的开发环境。</h2>
+<ol>
+<li>你需要下载一个mdk，并正常的解压。</li>
+<li>确认FG的版本，举例来说下面是 <code>1.15.2</code> 版本的 <code>build.gradle</code> 文件节选：</li>
+</ol>
+<pre><code class="lang-auto">buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+</code></pre>
+<p>从<code> </code> <code>version: '3.+'</code> <code> </code>可以看出这里的FG的版本是FG3，所以当你获取的FG版本应该也要是FG3。</p>
+<ol start="3">
+<li>获取 Forge Gradle</li>
+</ol>
+<p>进入你的 MDK 根目录，使用如下命令获取Minecraft Forge（这里用了Git）。</p>
+<pre><code class="lang-auto">git clone https://github.com/MinecraftForge/ForgeGradle.git buildSrc
+</code></pre>
+<p>运行这条命令以后最新版的FG就存放在 <code>buildSrc</code> 文件夹中了（请注意这个文件夹的名字是不能修改的），如果需要旧版的FG请切换分支。<br>
+完成后文件树如下:</p>
+<pre><code class="lang-auto">.
+├── CREDITS.txt
+├── LICENSE.txt
+├── README.txt
+├── build
+│   ├── classes
+│   ├── createMcpToSrg
+│   ├── downloadMCMeta
+│   ├── downloadMcpConfig
+│   ├── extractSrg
+│   ├── natives
+│   ├── resources
+│   └── tmp
+├── build.gradle
+├── buildSrc
+│   ├── HEADER
+│   ├── Jenkinsfile
+│   ├── LICENSE
+│   ├── README.md
+│   ├── build
+│   ├── build.gradle
+│   ├── gradle
+│   ├── gradle.settings
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── settings.gradle
+│   └── src
+├── changelog.txt
+├── forge-1.15.2-31.1.0-mdk.zip
+├── gradle
+│   └── wrapper
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── run
+│   ├── config
+│   ├── defaultconfigs
+│   ├── logs
+│   └── mods
+└── src
+    └── main
+
+22 directories, 18 files
+</code></pre>
+<ol start="4">
+<li>使用本地FG</li>
+</ol>
+<p>在默认情况下，mdk使用的是已经打包好的FG，所以我们得修改成自己本地的FG。<br>
+以 <code>1.15.2</code> 为例，修改mdk根目录下的 <code>build.gradle</code> 文件。<br>
+首先删除或者注释如下语句</p>
+<pre><code class="lang-auto">dependencies {
+    classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+}
+</code></pre>
+<p>然后将</p>
+<pre><code class="lang-auto">apply plugin: net.minecraftforge.gradle
+</code></pre>
+<p>修改为</p>
+<pre><code class="lang-auto">apply plugin: net.minecraftforge.gradle.userdev.UserDevPlugin
+</code></pre>
+<p>其中<code> </code> <code>net.minecraftforge.gradle.userdev. UserDevPlugin</code> <code>  </code>是与<code> buildSrc/src/userdev/resources/META-INF/gradle-plugins/net.minecraftforge.gradle.properties</code> 值相同。</p>
+<ol start="5">
+<li>导入项目</li>
+</ol>
+<p>这里的导入方式没有什么区别，按照正常的导入mdk的方式导入就行。</p>
+<ol start="6">
+<li>调试配置</li>
+</ol>
+<p>在你导入项目之后，你得在进行一些配置才能调试FG，这里以IntelliJ举例。</p>
+<ul>
+<li>首先打开你的 <code>Edit Configurations</code> ，并点击新建一个 <code>Gradle Configuration</code>
+</li>
+</ul>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/03/05/lIJ7Y3rFuS6gnie.png" title="image.png"><img src="https://i.loli.net/2020/03/05/lIJ7Y3rFuS6gnie.png" alt="image.png" width="690" height="433"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image.png</span><span class="informations">2154×1354</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<ul>
+<li>按照以下内容填入</li>
+</ul>
+<p>其中 <code>Gradle project</code> 选择你的mdk根目录的名字。<br>
+<code>Name</code> 的内容可以自己填写。</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/03/05/wys3AEHZkbgCp5I.png" title="image.png"><img src="https://i.loli.net/2020/03/05/wys3AEHZkbgCp5I.png" alt="image.png" width="690" height="431"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image.png</span><span class="informations">2140×1338</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>点击 <code>OK</code> 即可保存配置，然后你就可以在FG内肆意的下断点，然后在Debug面板里选择运行 <code>FG Runclient</code> ，即可触发你的端点。<br>
+另外对于FG3.0来说，FG的入口函数是 <code> buildSrc/src/userdev/java/net/minecraftforge/gradle/userdev/UserDevPlugin</code> 的 <code>apply</code> 。</p>
+<h2>继续开发</h2>
+<p>因为ForgeGradle本身是一个非常庞大的项目。这里我只能做简单的介绍。<br>
+首先ForgeGradle基本上可以分成两个部分（<a href="https://github.com/LexManos/MixinGradle/blob/c366aaabda09ac29138c3417b0d4b114b4c44f0a/src/main/groovy/org/spongepowered/asm/gradle/plugins/MixinExtension.groovy#L96">Lex语</a>）:</p>
+<ol>
+<li>
+<strong>pathcer</strong> <a href="https://github.com/MinecraftForge/ForgeGradle/tree/FG_3.0/src/patcher">部分</a>，pathecer 里面的任务和配置是用来给Forge开发使用的</li>
+<li>
+<strong>userdev</strong> <a href="https://github.com/MinecraftForge/ForgeGradle/tree/FG_3.0/src/userdev">部分</a>，userdev 这里面的任务是用来给Forge Mod开发者使用的。</li>
+</ol>
+<p>除此之外ForgeGradle还有<a href="https://github.com/MinecraftForge/ForgeGradle/tree/FG_3.0/src/mcp">mcp</a>这个包，里面主要是一些放混淆重命名的东西，因为<strong>userdev</strong>和<strong>pathcer</strong>都用的到所以就独立出来了。<br>
+最后一个剩下的是<a href="https://github.com/MinecraftForge/ForgeGradle/tree/FG_3.0/src/common">common</a>部分，这个部分里的代码主要是一些「工具类」的代码，比如下载函数之类的，都放在这个子包中。</p>
+<h2>给ForgeGralde贡献代码的一些经验</h2>
+<ol>
+<li>不要希望会很快得到反馈</li>
+<li>Lex本人对版权问题非常的认真，如果有涉及到对FG内处理Minecraft原版内容的代码，请务必小心，只能使用正版相关东西（包括但不限于正版启动器，正版的地址）</li>
+<li>请多在Forge的<a href="https://discord.gg/UvedJ9m">discord</a>里活跃，混个脸熟对你的PR有帮助。</li>
+<li>我个人认为，Lex还是很希望有人能帮忙改进ForgeGradle的。</li>
+<li>如果你是Linux或者macOS的用户，可以多帮忙测试别人的PR或者尝试解答issue里的问题</li>
+</ol>
+<h2>附录</h2>
+<p><a href="https://docs.gradle.org/4.9/userguide/userguide.html">Gradle 4.9 用户手册</a></p>
+<p><a href="https://docs.gradle.org/4.9/javadoc/">Gradle 4.9 Java Docs</a></p>
+    </div>
+    <br />
+</body>
+</html>

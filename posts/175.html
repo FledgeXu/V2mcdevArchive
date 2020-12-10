@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>为什么我的实体显示的是一个黑色的方块？</title>
+</head>
+<body>
+    <div class="title"><h1>为什么我的实体显示的是一个黑色的方块？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2019.3.2.0<br>
+Forge版本：forge-1.15.2-31.1.0<br>
+Minecraft版本：1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+为什么我按照教程写了一个实体，但是为什么在召唤实体的时候显示的是一个黑色的方块？<br>
+而且文件的路径也没错啊？我是完完全全地按照教程来做的。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">请在两个「```」之间贴入你的日志信息（来自console）
+</code></pre>
+<p><strong>相关代码</strong><br>
+实体的渲染文件代码&lt;SuicideBomberRenderer.class&gt;</p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class SuicideBomberRenderer extends MobRenderer&lt;SuicideBomber, SuicideBomberModel&gt; {
+    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/suicide_bomber.png");
+
+    public SuicideBomberRenderer(EntityRendererManager manager) {
+        super(manager, new SuicideBomberModel(), 0.5f);
+    }
+
+    protected void func_225620_a_(SuicideBomber p_225620_1_, MatrixStack p_225620_2_, float p_225620_3_) {
+        float f = p_225620_1_.getCreeperFlashIntensity(p_225620_3_);
+        float f1 = 1.0F + MathHelper.sin(f * 100.0F) * f * 0.01F;
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
+        f = f * f;
+        f = f * f;
+        float f2 = (1.0F + f * 0.4F) * f1;
+        float f3 = (1.0F + f * 0.1F) / f1;
+        p_225620_2_.func_227862_a_(f2, f3, f2);
+    }
+
+    protected float func_225625_b_(SuicideBomber p_225625_1_, float p_225625_2_) {
+        float f = p_225625_1_.getCreeperFlashIntensity(p_225625_2_);
+        return (int)(f * 10.0F) % 2 == 0 ? 0.0F : MathHelper.clamp(f, 0.5F, 1.0F);
+    }
+
+    public ResourceLocation getEntityTexture(SuicideBomber entity) {
+        return TEXTURE;
+    }
+}
+</code></pre>
+<p>实体的模型文件&lt;SuicideBomberModel.class&gt;</p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class SuicideBomberModel extends net.minecraft.client.renderer.entity.model.EntityModel&lt;SuicideBomber&gt; {
+
+    public ModelRenderer body;
+
+    public SuicideBomberModel(){
+        body = new ModelRenderer(this, 0, 0);
+        body.func_228300_a_(-3, -3, -3, 6, 6, 6);
+    }
+
+    @Override
+    public void func_225597_a_(SuicideBomber p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+
+    }
+
+    @Override
+    public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+        body.func_228309_a_(p_225598_1_,p_225598_2_,p_225598_3_,p_225598_4_,p_225598_5_,p_225598_6_,p_225598_7_,p_225598_8_);
+    }
+
+    @Override
+    public void setLivingAnimations(SuicideBomber entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+        super.setLivingAnimations(entityIn, limbSwing, limbSwingAmount, partialTick);
+    }
+}
+</code></pre>
+<p>注册信息：</p>
+<pre><code class="lang-auto">    @SubscribeEvent
+    public static void onEntityRegistry(final RegistryEvent.Register&lt;EntityType&lt;?&gt;&gt; Event){
+        Event.getRegistry().register(EntityType.Builder.create(SuicideBomber::new, EntityClassification.CREATURE)
+                .size(0.6F,1.95F)
+                .setShouldReceiveVelocityUpdates(false)
+                .build("suicide_bomber")
+                .setRegistryName(SpecialItem.MODID,"suicide_bomber"));
+    }
+</code></pre>
+<p>附上相关的图片（床上的那个黑色东西就是）：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/03/01/2oqFNCly3vVucpS.png" title="2020-03-01_12.56.59.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/03/01/2oqFNCly3vVucpS.png" alt="2020-03-01_12.56.59.png" width="690" height="357"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-03-01_12.56.59.png</span><span class="informations">1360×705</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的<code>Render</code>注册了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>贴图的 ResourceLocation 没有指定命名空间</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>注册了，已经没有出错的信息了，如果不注册的话，召唤实体会造成游戏崩溃。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>那怎么弄？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group quote-modified" data-username="Thiocyanate" data-post="1" data-topic="175">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar"> Thiocyanate:</div>
+<blockquote>
+<p>private static final ResourceLocation TEXTURE = new ResourceLocation(“textures/entity/suicide_bomber.png”);</p>
+</blockquote>
+</aside>
+<pre><code class="lang-java">private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/suicide_bomber.png");
+</code></pre>
+<p>这句有问题，<code>ResourceLocation</code> 有一个两个参数的构造方法，其中第一个参数填你的modID。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>顺便一提我建议你更新一下你的mapping文件。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>怎么更新？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>类似这样<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/build.gradle#L28" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/build.gradle#L28" target="_blank">McJty/YouTubeModding14/blob/4de82f900d2d60aa23be44c45debc3207ebed3b8/build.gradle#L28</a></h4>
+<pre class="onebox"><code class="lang-gradle"><ol class="start lines" start="18" style="counter-reset: li-counter 17 ;">
+<li>archivesBaseName = 'mytutorial'</li>
+<li>
+</li>
+<li>sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.</li>
+<li>
+</li>
+<li>minecraft {</li>
+<li>    // The mappings can be changed at any time, and must be in the following format.</li>
+<li>    // snapshot_YYYYMMDD   Snapshot are built nightly.</li>
+<li>    // stable_#            Stables are built at the discretion of the MCP team.</li>
+<li>    // Use non-default mappings at your own risk. they may not always work.</li>
+<li>    // Simply re-run your setup task after changing the mappings to update your workspace.</li>
+<li class="selected">    mappings channel: 'snapshot', version: '20200127-1.15.1'</li>
+<li>    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.</li>
+<li>    </li>
+<li>    // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')</li>
+<li>
+</li>
+<li>    // Default run configurations.</li>
+<li>    // These can be tweaked, removed, or duplicated as needed.</li>
+<li>    runs {</li>
+<li>        client {</li>
+<li>            workingDirectory project.file('run')</li>
+<li>
+</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+具体的snapshot版本你可以在<a href="http://export.mcpbot.bspk.rs">MCPbot</a>官网上找到。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>直接修改就行了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>改完需要刷新一下gradle。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决了，记得选择一个楼层作为回答。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>弄好了，但是却无法召唤实体。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>弄好什么了？<br>
+怎么无法召唤实体？<br>
+错误日志是什么，有没有图片？<br>
+还有你的<code>Entity</code>的代码是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我好像发现错误在哪了，我再试试看。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>还是不行，虽然说显示了材质，但是还是一个方块的样子。<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/03/01/n6zFLiAwgSXjCcK.png" title="2020-03-01_14.24.05.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/03/01/n6zFLiAwgSXjCcK.png" alt="2020-03-01_14.24.05.png" width="690" height="357"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-03-01_14.24.05.png</span><span class="informations">1360×705</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你模型定义是个方块当然渲染出来的是个方块啊……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>怎么知道模型定义的是什么？改来改去还是不行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Thiocyanate" data-post="1" data-topic="175">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar"> Thiocyanate:</div>
+<blockquote>
+<p>body.func_228300_a_(-3, -3, -3, 6, 6, 6);</p>
+</blockquote>
+</aside>
+<p><code>body.func_228300_a_(-3, -3, -3, 6, 6, 6);</code><br>
+这行，遇到不会的要先研究原版怎么实现的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

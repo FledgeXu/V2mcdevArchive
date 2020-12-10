@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>RegistryEvent > Block 时 Exception caught during firing event: null</title>
+</head>
+<body>
+    <div class="title"><h1>RegistryEvent > Block 时 Exception caught during firing event: null</h1></div>
+    <div class="post-user" class="user"><h4>tangguo</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10_64<br>
+你用的JDK是：1.8.0<br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本：2018<br>
+Forge版本：1.15.2-31.2.0<br>
+Minecraft版本：1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+Firing event for modid power_engineering : RegistryEvent.Register &lt;minecraft:block&gt;<br>
+Exception caught during firing event: null  —&gt;<br>
+class: <code>com.tangguo.pe.handler.RegisterHandle</code> —&gt;<br>
+<code>registerBlock(Lnet/minecraftforge/event/RegistryEvent$Register;)V</code></p>
+<p><strong>报错日志</strong></p>
+<details>
+<summary> * 展开</summary>
+[ ... ... ]
+<pre>e[me[32m[20:04:58] [Render thread/INFO] [minecraft/Minecraft]: Backend library: LWJGL version 3.2.2 build 10
+e[me[36m[20:05:01] [Render thread/DEBUG] [ne.mi.fm.ForgeI18n/CORE]: Loading I18N data entries: 4535
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModLoader/CORE]: Loading Network data for FML net version: FML2
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Using 2 threads for parallel mod-loading
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@aec50a1 - got cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Creating FMLModContainer instance for com.tangguo.pe.PE with classLoader cpw.mods.modlauncher.TransformingClassLoader@aec50a1 &amp; cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded modclass com.tangguo.pe.PE with cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@aec50a1 - got cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Creating FMLModContainer instance for net.minecraftforge.common.ForgeMod with classLoader cpw.mods.modlauncher.TransformingClassLoader@aec50a1 &amp; cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded modclass net.minecraftforge.common.ForgeMod with cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching parallel event LifecycleEvent:CONSTRUCT
+e[me[36m[20:05:02] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loading mod instance power_engineering of type com.tangguo.pe.PE
+e[me[36m[20:05:02] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded mod instance power_engineering of type com.tangguo.pe.PE
+e[me[36m[20:05:02] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Injecting Automatic event subscribers for power_engineering
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loading mod instance forge of type net.minecraftforge.common.ForgeMod
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Forge Version package package net.minecraftforge.versions.forge, Forge, version 31.2 from cpw.mods.modlauncher.TransformingClassLoader@aec50a1
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge version 31.2.0
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge spec 31.2
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge group net.minecraftforge
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.mc.MCPVersion/CORE]: Found MC version information 1.15.2
+e[me[36m[20:05:02] [modloading-worker-0/DEBUG] [ne.mi.ve.mc.MCPVersion/CORE]: Found MCP version information 20200515.085601
+e[me[32m[20:05:02] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 31.2.0, for MC 1.15.2 with MCP 20200515.085601
+e[me[32m[20:05:02] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v31.2.0 Initialized
+e[me[36m[20:05:02] [modloading-worker-1/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for power_engineering
+e[me[36m[20:05:03] [modloading-worker-1/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.tangguo.pe.handler.RegisterHandle to MOD
+e[me[36m[20:05:03] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Completed Automatic event subscribers for power_engineering
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Config file forge-client.toml for forge tracking
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Config file forge-server.toml for forge tracking
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded mod instance forge of type net.minecraftforge.common.ForgeMod
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Injecting Automatic event subscribers for forge
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for forge
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.minecraftforge.client.model.ModelDataManager to FORGE
+e[me[36m[20:05:03] [modloading-worker-0/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Completed Automatic event subscribers for forge
+e[me[36m[20:05:03] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:CREATE_REGISTRIES
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid power_engineering : RegistryEvent.NewRegistry
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid power_engineering : RegistryEvent.NewRegistry
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.NewRegistry
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.NewRegistry
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.re.ObjectHolderRegistry/REGISTRIES]: Processing ObjectHolder annotations
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.re.ObjectHolderRegistry/REGISTRIES]: Found 2580 ObjectHolder annotations
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid power_engineering : RegistryEvent.Register
+e[me[1;31m[20:05:04] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/]: Exception caught during firing event: null
+	Index: 2
+	Listeners:
+		0: NORMAL
+		1: ASM: class com.tangguo.pe.handler.RegisterHandle registerItem(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		2: ASM: class com.tangguo.pe.handler.RegisterHandle registerBlock(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+java.lang.ExceptionInInitializerError
+	at com.tangguo.pe.handler.RegisterHandle.registerBlock(RegisterHandle.java:62)
+	at net.minecraftforge.eventbus.ASMEventHandler_1_RegisterHandle_registerBlock_Register.invoke(.dynamic)
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112)
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:126)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580)
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:126)
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96)
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71)
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:214)
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$25(ModLoader.java:206)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:973)
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:206)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113)
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97)
+	at net.minecraft.client.Minecraft.(Minecraft.java:397)
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+Caused by: java.lang.IllegalArgumentException: Cannot set property IntegerProperty{name=count, clazz=class java.lang.Integer, values=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]} as it does not exist in Block{null}
+	at net.minecraft.state.StateHolder.with(StateHolder.java:103)
+	at com.tangguo.pe.block.BlockRegister$BlockFirewood.(BlockRegister.java:169)
+	at com.tangguo.pe.block.BlockRegister.(BlockRegister.java:232)
+	... 34 more
+<p>e[me[1;31m[20:05:04] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Caught exception during event RegistryEvent.Register<a>minecraft:block</a> dispatch for modid power_engineering<br>
+java.lang.ExceptionInInitializerError: null<br>
+at com.tangguo.pe.handler.RegisterHandle.registerBlock(RegisterHandle.java:62) ~[main/:?] {re:classloading}<br>
+at net.minecraftforge.eventbus.ASMEventHandler_1_RegisterHandle_registerBlock_Register.invoke(.dynamic) ~[?:?] {}<br>
+at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.2.0-service.jar:?] {}<br>
+at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.2.0-service.jar:?] {}<br>
+at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:31.2] {re:classloading}<br>
+at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_202] {}<br>
+at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_202] {}<br>
+at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:126) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382) ~[?:1.8.0_202] {}<br>
+at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580) ~[?:1.8.0_202] {}<br>
+at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:126) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:214) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$25(ModLoader.java:206) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:973) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:206) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraft.client.Minecraft.(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}<br>
+at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_202] {}<br>
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_202] {}<br>
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_202] {}<br>
+at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_202] {}<br>
+at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?] {}<br>
+at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}<br>
+Caused by: java.lang.IllegalArgumentException: Cannot set property IntegerProperty{name=count, clazz=class java.lang.Integer, values=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]} as it does not exist in Block{null}<br>
+at net.minecraft.state.StateHolder.with(StateHolder.java:103) ~[?:?] {re:classloading}<br>
+at com.tangguo.pe.block.BlockRegister$BlockFirewood.(BlockRegister.java:169) ~[?:?] {re:classloading}<br>
+at com.tangguo.pe.block.BlockRegister.(BlockRegister.java:232) ~[?:?] {re:classloading}<br>
+… 34 more<br>
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register<a>minecraft:block</a><br>
+e[me[36m[20:05:04] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register<a>minecraft:block</a><br>
+e[me[1;31m[20:05:04] [Render thread/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event LOAD_REGISTRIES, 1 errors found<br>
+e[me[1;31m[20:05:04] [Render thread/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.<br>
+java.lang.Exception: stacktrace<br>
+at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?] {}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraft.client.Minecraft.(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}<br>
+at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_202] {}<br>
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_202] {}<br>
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_202] {}<br>
+at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_202] {}<br>
+at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?] {}<br>
+at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?] {}<br>
+at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}<br>
+e[me[36m[20:05:05] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:power_engineering for mod file F:\Modding\forge-1.15.2-31.2.0-mdk\build\resources\main<br>
+e[me[36m[20:05:05] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\Administrator.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar<br>
+e[me[36m[20:05:05] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:power_engineering for mod file F:\Modding\forge-1.15.2-31.2.0-mdk\build\resources\main<br>
+e[me[36m[20:05:05] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\Administrator.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar<br>
+e[me[36m[20:05:05] [Render thread/DEBUG] [ne.mi.fm.ForgeI18n/CORE]: Loading I18N data entries: 0<br>
+e[me[32m[20:05:13] [Render thread/INFO] [mojang/NarratorWindows]: Narrator library for x64 successfully loaded<br>
+e[me[32m[20:05:14] [Render thread/INFO] [minecraft/SimpleReloadableResourceManager]: Reloading ResourceManager: Default, Mod Resources<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type CLIENT<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Built TOML config for F:\Modding\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Loaded TOML config file F:\Modding\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Watching TOML config file F:\Modding\forge-1.15.2-31.2.0-mdk\run\config\forge-client.toml for changes<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.co.ForgeConfig/FORGEMOD]: Loaded forge config file forge-client.toml<br>
+e[me[36m[20:05:14] [Server-Worker-1/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type COMMON<br>
+e[me[1;31m[20:05:14] [Server-Worker-1/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event SETUP, 1 errors found.<br>
+e[me[1;31m[20:05:14] [Server-Worker-1/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event SETUP, 1 errors found<br>
+e[me[1;31m[20:05:14] [Server-Worker-1/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.<br>
+java.lang.Exception: stacktrace<br>
+at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?] {}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.startModLoading(ClientModLoader.java:123) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$3(ClientModLoader.java:105) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1626) [?:1.8.0_202] {}<br>
+at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1618) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_202] {}<br>
+e[me[1;31m[20:05:56] [Server-Worker-4/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event ENQUEUE_IMC, 1 errors found.<br>
+e[me[1;31m[20:05:56] [Server-Worker-4/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event ENQUEUE_IMC, 1 errors found<br>
+e[me[1;31m[20:05:56] [Server-Worker-4/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.<br>
+java.lang.Exception: stacktrace<br>
+at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?] {}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.finishModLoading(ClientModLoader.java:137) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$4(ClientModLoader.java:107) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}<br>
+at java.util.concurrent.CompletableFuture.uniRun(CompletableFuture.java:705) [?:1.8.0_202] {}<br>
+at java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:687) [?:1.8.0_202] {}<br>
+at java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:443) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_202] {}<br>
+at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_202] {}<br>
+e[me[32m[20:06:01] [Render thread/INFO] [minecraft/SoundSystem]: OpenAL initialized.<br>
+e[me[32m[20:06:01] [Render thread/INFO] [minecraft/SoundEngine]: Sound engine started<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas<br>
+e[me[32m[20:06:03] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas<br>
+e[me[32m[20:06:05] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas<br>
+e[me[32m[20:06:05] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas<br>
+e[me[32m[20:06:05] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas<br>
+[ … … ]<br>
+</p></pre>
+
+</details>
+<p><strong>相关代码</strong> </p><details>
+<summary> BlockRegister.java</summary>
+<pre>package com.tangguo.pe.block;
+<pre><code>public class BlockRegister {
+
+    public static class BlockItem extends net.minecraft.item.BlockItem {
+        public BlockItem(Block blockIn, String RegistryName) {
+            super ( blockIn, new Item.Properties () .group( PowerEngineeringGroup.POWER_ENGINEERING_GROUP ) );
+            this.setRegistryName ( RegistryName );
+        }
+    }
+
+[ ... ... ]
+
+    public static class BlockFirewood extends Block {
+
+        private static VoxelShape[] shape = new VoxelShape[16];
+        static {
+    	
+            VoxelShape firewood1 = setShape(0, 0);
+            VoxelShape firewood2 = setShape(0, 2);
+            VoxelShape firewood3 = setShape(0, 4);
+            VoxelShape firewood4 = setShape(0, 6);
+            VoxelShape firewood5 = setShape(0, 8);
+            VoxelShape firewood6 = setShape(0, 10);
+            VoxelShape firewood7 = setShape(0, 12);
+        
+            VoxelShape firewood8 = setShape(4, 0);
+            VoxelShape firewood9 = setShape(4, 2);
+            VoxelShape firewood10 = setShape(4, 4);
+            VoxelShape firewood11 = setShape(4, 6);
+            VoxelShape firewood12 = setShape(4, 8);
+            VoxelShape firewood13 = setShape(4, 10);
+            VoxelShape firewood14 = setShape(4, 12);
+        
+            VoxelShape firewood15 = setShape(8, 0);
+            VoxelShape firewood16 = setShape(8, 2);
+            VoxelShape firewood17 = setShape(8, 4);
+            VoxelShape firewood18 = setShape(8, 6);
+            VoxelShape firewood19 = setShape(8, 8);
+            VoxelShape firewood20 = setShape(8, 10);
+            VoxelShape firewood21 = setShape(8, 12);
+
+            VoxelShape firewood22 = setShape(12, 0);
+            VoxelShape firewood23 = setShape(12, 2);
+            VoxelShape firewood24 = setShape(12, 4);
+            VoxelShape firewood25 = setShape(12, 6);
+            VoxelShape firewood26 = setShape(12, 8);
+            VoxelShape firewood27 = setShape(12, 10);
+            VoxelShape firewood28 = setShape(12, 12);
+        
+            shape[0] = firewood4;
+            shape[1] = VoxelShapes.or( firewood3, firewood5 );
+            shape[2] = VoxelShapes.or( firewood2, firewood4, firewood6 );
+            shape[3] = VoxelShapes.or( firewood1, firewood3, firewood5, firewood7 );
+
+            shape[4] = VoxelShapes.or( shape[3], firewood11 );
+            shape[5] = VoxelShapes.or( shape[3], firewood10, firewood12 );
+            shape[6] = VoxelShapes.or( shape[3], firewood9, firewood11, firewood13 );
+            shape[7] = VoxelShapes.or( shape[3], firewood8, firewood10, firewood12, firewood14 );
+        
+            shape[8] = VoxelShapes.or( shape[7], firewood18 );
+            shape[9] = VoxelShapes.or( shape[7], firewood17, firewood19 );
+            shape[10] = VoxelShapes.or( shape[7], firewood16, firewood18, firewood20 );
+            shape[11] = VoxelShapes.or( shape[7], firewood15, firewood17, firewood19, firewood21 );
+        
+            shape[12] = VoxelShapes.or( shape[11], firewood25 );
+            shape[13] = VoxelShapes.or( shape[11], firewood24, firewood26 );
+            shape[14] = VoxelShapes.or( shape[11], firewood23, firewood25, firewood27 );
+            shape[15] = VoxelShapes.or( shape[11], firewood22, firewood24, firewood26, firewood28 );
+        
+        }
+	
+    public BlockFirewood () {
+    	 super( Properties.create ( Material.WOOD, MaterialColor.WOOD ).hardnessAndResistance ( 2.0F / 16 ).sound(SoundType.WOOD).notSolid() );
+	     this.setDefaultState ( this.stateContainer.getBaseState ().with ( ModBlockStateProperties.COUNT_0_15, 0 ) );
+	     this.setRegistryName( "firewood" );
+    }
+	
+        @Override
+        public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		
+		int i_count = state.get(ModBlockStateProperties.COUNT_0_15);
+    	
+		//if ( !worldIn.isRemote() )	//是否为非客户端
+            if ( state.get(ModBlockStateProperties.COUNT_0_15) + 1 &lt;= 16 &amp;&amp; handIn == Hand.MAIN_HAND &amp;&amp; player.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == FIREWOOD_ITEM ) {
+            	
+            	if (!player.abilities.isCreativeMode) {
+            		player.getItemStackFromSlot(EquipmentSlotType.MAINHAND).shrink(1);
+                }
+            	
+            	worldIn.setBlockState(pos, state.with(ModBlockStateProperties.COUNT_0_15, Integer.valueOf( i_count + 1 )), 3 );
+            	
+            	return ActionResultType.SUCCESS;
+            		
+                 
+            }else if ( Screen.hasShiftDown() &amp;&amp; handIn == Hand.MAIN_HAND ) {
+            	
+            	if ( state.get(ModBlockStateProperties.COUNT_0_15) &gt; 0 )
+            		worldIn.setBlockState(pos, state.with(ModBlockStateProperties.COUNT_0_15, Integer.valueOf( i_count - 1 )), 3 );
+            	else
+            		worldIn.removeBlock( pos, false );
+            		
+            	if (player.getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty())
+                    player.setHeldItem( handIn, new ItemStack(FIREWOOD_ITEM) );
+                else if (!player.addItemStackToInventory( new ItemStack(FIREWOOD_ITEM) ))
+                	player.dropItem( new ItemStack(FIREWOOD_ITEM), false );
+            	
+            	return ActionResultType.SUCCESS;
+            }
+
+            return ActionResultType.PASS;
+        
+    }
+     
+        protected void fillStateContainer(StateContainer.Builder&lt;Block, BlockState&gt; builder) {
+    	    builder.add(ModBlockStateProperties.FUEL_0_4);
+    	    super.fillStateContainer(builder);
+        }
+	
+        public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+           return shape[ state.get(ModBlockStateProperties.COUNT_0_15) ];
+        }
+    
+        public static VoxelShape setShape ( double y, double z ) { return Block.makeCuboidShape ( 0, y, z, 16, y + 4, z + 4 ); }
+    
+    }
+
+    public static VoxelShape setShape ( double x, double y, double z, double dx, double dy, double dz ) { return Block.makeCuboidShape ( x, y, z, x + dx, y + dy, z + dz ); }
+
+    public static VoxelShape setShape ( int x, int y, int z, int dx, int dy, int dz ) { return Block.makeCuboidShape ( x, y, z, x + dx, y + dy, z + dz ); }
+
+[ ... ... ]
+
+    public static final BlockFirewood FIREWOOD = new BlockFirewood ();
+    public static final BlockItem FIREWOOD_ITEM = new BlockItem ( FIREWOOD, "firewood_item" );
+
+}
+</code></pre>
+</pre>
+
+</details> 
+<br>
+<details>
+<summary> RegisterHandle.java</summary>
+<pre>package com.tangguo.pe.handler;
+
+import com.tangguo.pe.PE;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import static com.tangguo.pe.item.ItemRegister.*;
+import static com.tangguo.pe.block.BlockRegister.*;
+
+
+@Mod.EventBusSubscriber(modid = PE.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class RegisterHandle {
+
+    @SubscribeEvent
+    public static void registerItem(RegistryEvent.Register event){
+        event.getRegistry().registerAll(
+                STEEL_INGOT_ITEM,
+                STEEL_NUGGET_ITEM,
+                STEEL_DUST_ITEM,
+                /* BlockItem */
+                STEEL_BLOCK_ITEM,
+                SMELTING_FURNACE_ITEM,
+                FIREWOOD_ITEM
+        );
+    }
+    
+    @SubscribeEvent
+    public static void registerFuel(FurnaceFuelBurnTimeEvent event) {
+    	
+    	setFuel ( event, FIREWOOD_ITEM, 150 );
+        
+    }
+
+    @SubscribeEvent
+    public static void registerBlock(RegistryEvent.Register event){
+        event.getRegistry().registerAll(
+                STEEL_BLOCK,
+                SMELTING_FURNACE,
+                FIREWOOD
+        );
+    }
+    
+    private static void setFuel ( FurnaceFuelBurnTimeEvent event, Item item, int burnTime ) { if ( event.getItemStack().getItem() == item ) { event.setBurnTime( burnTime ); } }
+
+}
+
+</pre>
+</details>
+<p>谢谢您的解答（我知道我的问题很**）！</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请使用markdown语法把你的代码和日志重新贴一下，你现在的格式完全看不清，请不要自作主张的使用BBCode格式（非常的难看且难用，虽然也支持就是了）……<br>
+<aside class="quote quote-modified" data-post="1" data-topic="881">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/881">Markdown 简明教程</a> <a class="badge-wrapper  bullet" href="/c/19-category/19"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    Markdown 教程
+======
+
+基础
+------------
+
+普通的一段文本。
+
+这是另一段话。
+这句话接上一句话，不会另起一行。  
+如果你一定要另起一行，上一行的结尾得有至少俩空格，就像上面这句话一样。
+
+*斜体*
+
+**粗体**
+
+[链接](https://www.v2mcdev.com)
+
+![我是图](upload://rwK0jhRBWlMz3VojcZk04ve8gJr.…
+  </blockquote>
+</aside>
+</p>
+<p>另外我想不出任何的可能性需要继承<code>BlockItem</code>类。<br>
+1.15请使用<code>DeferredRegister</code>，不推荐使用事件注册。<br>
+注册方块请遵循这个教程。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/block/firstblock.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/block/firstblock.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/block/firstblock.html" target="_blank" rel="noopener">第一个方块 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p>请不要在一个类里塞一堆 static class。</p>
+<p>总而言之，我不清楚你看的是哪个教程写出来的代码，写的非常不规范。我觉得你可能连Java的基础语法都还没怎么弄懂，可能至少需要补习Java。我严重怀疑你的编程水平还不足以写Mod，请按照指南提升你的编程水平。</p>
+<aside class="quote quote-modified" data-post="16" data-topic="88">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/88/16">Minecraft mod 开发编程入门</a> <a class="badge-wrapper  bullet" href="/c/9-category/9"><span class="badge-category-bg" style="background-color: #9EB83B;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是发布各种模组相关开发教程的地方。
+如果是转载，必须声明原文链接，而且你不能转载全文。
+如果是自制，在默认情况下本分类下的所有自制内容以以下许可证发布。
+这里不能发布任何教Java的帖子，因为学习编程是一件非常严肃的事情，看帖子学习不是一个好的方法。
+署名-非商业性使用-相同方式共享
+CC BY-NC-SA">模组开发教程</span></a>
+  </div>
+  <blockquote>
+    
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

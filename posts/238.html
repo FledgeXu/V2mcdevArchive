@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么修改hud的位置</title>
+</head>
+<body>
+    <div class="title"><h1>怎么修改hud的位置</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:<br>
+Forge版本:  &lt;2768&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+怎么修改hud的位置</p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">&lt;AT&gt;SubscribeEvent
+	public void show(RenderGameOverlayEvent.Text e) {
+		e.left.add("test01");
+}
+</code></pre>
+<pre><code class="lang-auto">@EventHandler
+	public void init(FMLInitializationEvent e) {
+MinecraftForge.EVENT_BUS.register(this);
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你这个代码贴的太少了，问题问的也不够清楚。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我就是想知道怎么修改hud的位置</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group quote-modified" data-username="moder01" data-post="1" data-topic="238">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/moder01" class="avatar"> moder01:</div>
+<blockquote>
+<p>e.left.add(“test01”);</p>
+</blockquote>
+</aside>
+<p>默认显示在游戏左上角 我想移动位置</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>e.left.add(“test01”);</code><br>
+看名字就知道这是绘制在左上角的。<br>
+<code>Minecraft.getMinecraft().fontRenderer</code><br>
+用这个类下面的方法绘制。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>drawString吗?</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>drawString</code>你看名字就知道是画字符串的啊……<br>
+别的函数。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢awa</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

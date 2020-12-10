@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>求助！关于Idea下环境配置问题</title>
+</head>
+<body>
+    <div class="title"><h1>求助！关于Idea下环境配置问题</h1></div>
+    <div class="post-user" class="user"><h4>han</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 64位<br>
+你用的JDK是: JDK1.8.0_261<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:community<br>
+Forge版本:  34.1.0<br>
+Minecraft版本: 1.16.3</p>
+<p><strong>出错图</strong><br>
+<img src="../uploads/default/original/1X/8adc2a65f87ec55ad90464ac9ab58b8abd9380f0.png" alt="image" data-base62-sha1="jOpANJH1XkWdbKu3eNqzjK4MmGI" width="222" height="33"><br>
+<strong>错误情况简述</strong><br>
+从Github上导入的项目，在远程下载依赖包时出现read time out,改为使用gradleforgeCN,依旧出现相同错误，导入之前已经清空.gradle缓存。依据简书（<a href="https://www.jianshu.com/p/8eb65c6aa58f" class="inline-onebox" rel="noopener nofollow ugc">Gradle下载依赖包Read timed out - 简书</a> ）上的方法则会提示unable to find valid certification path to requested target<br>
+如图：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b.png" data-download-href="../uploads/default/8844980bd3334309e8ea720aa71b5f7faf085e6b" title="image"><img src="../uploads/default/optimized/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b_2_690x100.png" alt="image" data-base62-sha1="jrtTF8HlBqdZCxrnnNsMWUTO2cr" width="690" height="100" srcset="../uploads/default/optimized/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b_2_690x100.png, ../uploads/default/optimized/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b_2_1035x150.png 1.5x, ../uploads/default/optimized/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b_2_1380x200.png 2x" data-small-upload="../uploads/default/optimized/1X/8844980bd3334309e8ea720aa71b5f7faf085e6b_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1841×268 48.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      
+      <a href="https://www.jianshu.com/p/8eb65c6aa58f" target="_blank" rel="noopener nofollow ugc">简书</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:690/198;"><img src="../uploads/default/original/1X/c682b7246b77a761cc23bb0bbaff014ad7c4ecb1.png" class="thumbnail" width="690" height="198" data-small-upload="../uploads/default/optimized/1X/c682b7246b77a761cc23bb0bbaff014ad7c4ecb1_2_10x10.png"></div>
+
+<h3><a href="https://www.jianshu.com/p/8eb65c6aa58f" target="_blank" rel="noopener nofollow ugc">Gradle下载依赖包Read timed out</a></h3>
+
+<p>解决方法：build加参数-Dorg.gradle.internal.http.socketTimeout=300000值单位是毫秒，时间长些，多少随意。 缘起：使用Jenk...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>一个<code>Read timed out</code>相当于什么也没说。请你补充全，出现<code>Read timed out</code>的时候的日志。<br>
+请贴全所有的日志，不要只截一部分。<br>
+另外Forge环境配置的时候根本没有<code>clean build docker</code>…</p>
+    </div>
+    <br />
+    <div class="user"><h4>han</h4></div>
+    <br />
+    <div class="post">
+        <p>配置forge确实没有清理缓存，但是换成使用CN的时候帖子里说要清理我就清理了。。。<br>
+一下是日志的一部分：</p>
+<pre><code class="lang-auto">2020-11-28 16:29:46,039 [2249033]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task started 
+2020-11-28 16:29:46,102 [2249096]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 16:29:46,115 [2249109]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 16:29:46,120 [2249114]   INFO -                         STDOUT - Downloading https://services.gradle.org/distributions/gradle-4.10.3-bin.zip 
+2020-11-28 16:29:57,661 [2260655]   INFO -                         STDOUT -  
+2020-11-28 16:29:57,670 [2260664]   INFO - oject.common.GradleInitScripts - init script file sync.studio.tooling contents "initscript {\n    dependencies {\n        classpath files(['F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\lib\\\\kotlin-stdlib-1.3.70.jar'])\n    }\n}\nallprojects {\n    apply plugin: com.android.ide.gradle.model.builder.AndroidStudioToolingPlugin\n}\n" 
+2020-11-28 16:29:57,674 [2260668]   INFO -                         STDOUT - Downloading https://services.gradle.org/distributions/gradle-4.10.3-bin.zip 
+2020-11-28 16:30:11,545 [2274539]   INFO -                         STDOUT -  
+2020-11-28 16:30:11,547 [2274541]   INFO - xecution.GradleExecutionHelper - Passing command-line args to Gradle Tooling API: -Didea.sync.active=true -Didea.resolveSourceSetDependencies=true -Porg.gradle.kotlin.dsl.provider.cid=341981163025300 --init-script C:\Users\ginger\AppData\Local\Temp\sync.studio.tooling4.gradle -Djava.awt.headless=true --stacktrace -Pandroid.injected.build.model.only=true -Pandroid.injected.build.model.only.advanced=true -Pandroid.injected.invoked.from.ide=true -Pandroid.injected.build.model.only.versioned=3 -Pandroid.injected.studio.version=10.4.0.202.8194.7 -Pandroid.injected.build.model.disable.src.download=true -Pidea.gradle.do.not.build.tasks=false --init-script C:\Users\ginger\AppData\Local\Temp\ijinit1.gradle 
+2020-11-28 16:30:11,549 [2274543]   INFO -                         STDOUT - Downloading https://services.gradle.org/distributions/gradle-4.10.3-bin.zip 
+2020-11-28 16:30:23,028 [2286022]   INFO -                         STDOUT -  
+2020-11-28 16:30:23,030 [2286024]   INFO - .project.GradleProjectResolver - Gradle project resolve error 
+org.gradle.tooling.GradleConnectionException: Could not install Gradle distribution from 'https://services.gradle.org/distributions/gradle-4.10.3-bin.zip'.
+	at org.gradle.tooling.internal.consumer.DistributionFactory$ZippedDistribution.getToolingImplementationClasspath(DistributionFactory.java:139)
+	at org.jetbrains.plugins.gradle.GradleConnectorService$DistributionWrapper.getToolingImplementationClasspath(GradleConnectorService.kt:287)
+	at org.gradle.tooling.internal.consumer.loader.CachingToolingImplementationLoader.create(CachingToolingImplementationLoader.java:41)
+	at org.gradle.tooling.internal.consumer.loader.SynchronizedToolingImplementationLoader.create(SynchronizedToolingImplementationLoader.java:44)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.onStartAction(LazyConsumerActionExecutor.java:147)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.run(LazyConsumerActionExecutor.java:129)
+	at org.gradle.tooling.internal.consumer.connection.CancellableConsumerActionExecutor.run(CancellableConsumerActionExecutor.java:45)
+	at org.gradle.tooling.internal.consumer.connection.ProgressLoggingConsumerActionExecutor.run(ProgressLoggingConsumerActionExecutor.java:61)
+	at org.gradle.tooling.internal.consumer.connection.RethrowingErrorsConsumerActionExecutor.run(RethrowingErrorsConsumerActionExecutor.java:38)
+	at org.gradle.tooling.internal.consumer.async.DefaultAsyncConsumerActionExecutor$1$1.run(DefaultAsyncConsumerActionExecutor.java:67)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.io.IOException: Downloading from https://services.gradle.org/distributions/gradle-4.10.3-bin.zip failed: timeout
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:106)
+	at org.gradle.wrapper.Download.download(Download.java:66)
+	at org.gradle.tooling.internal.consumer.DistributionInstaller$1.run(DistributionInstaller.java:128)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:476)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:470)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1354)
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:963)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:292)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:351)
+	at java.base/sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:754)
+	at java.base/sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:689)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1615)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:250)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:83)
+	... 2 more
+2020-11-28 16:30:23,033 [2286027]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task executed in 36994 ms. 
+2020-11-28 16:30:23,361 [2286355]   INFO - ge.ExternalProjectsDataStorage - Save external projects data in 8 ms 
+2020-11-28 16:30:48,939 [2311933]   INFO - j.ide.actions.RevealFileAction - Exit code 1
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>han</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" rel="noopener nofollow ugc">https://services.gradle.org/distributions/gradle-4.10.3-bin.zip</a> &lt;- 这个网址使用浏览器可以正常访问，gradle-4.10.3-bin.zip 这个文件我也能下载下来，关于unable to find valid certification path to requested target，根据网上提供的方案将证书添加依旧报相同的错</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>证书问题基本上Java版本的问题，你运行<code>java -version</code>看看版本。<br>
+看你这个地址下载不下来，不是FGCN的问题。<br>
+<aside class="quote quote-modified" data-post="1" data-topic="155">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/lss233/40/20_2.png" class="avatar">
+    <a href="../t/topic/155">Lss233's.Mirror(); // 一个Minecraft开发镜像源</a> <a class="badge-wrapper  bullet" href="/c/9-category/9"><span class="badge-category-bg" style="background-color: #9EB83B;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是发布各种模组相关开发教程的地方。
+如果是转载，必须声明原文链接，而且你不能转载全文。
+如果是自制，在默认情况下本分类下的所有自制内容以以下许可证发布。
+这里不能发布任何教Java的帖子，因为学习编程是一件非常严肃的事情，看帖子学习不是一个好的方法。
+署名-非商业性使用-相同方式共享
+CC BY-NC-SA">模组开发教程</span></a>
+  </div>
+  <blockquote>
+    Lss233’s.Mirror(); 
+0x00 写在前面
+记得最开始使用Maven的时候，基本上大部分时间都花在寻找依赖和下载依赖上。 
+许多API的作者也都是把自己的工件放在自己的maven仓库上， 
+如果你使用Maven或者Gradle，那么你不仅要在pom.xml中写dependency，还要写一个repository。 
+有些仓库在国内访问还很慢、甚至无法打开，这大大降低了开发效率。 
+如…
+  </blockquote>
+</aside>
+<br>
+你可以看一下这个教程配置一下<code>gradle wrapper</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>han</h4></div>
+    <br />
+    <div class="post">
+        <p>java版本<br>
+<img src="../uploads/default/original/1X/232b4272d3166eed66abab320c147f8850edf275.jpeg" alt="QQ截图20201128165657" data-base62-sha1="517ot3qBB7EvSMbgTvp5ImuRdKB" width="639" height="86"><br>
+错误依旧…</p>
+<pre><code class="lang-auto">2020-11-28 17:07:48,101 [   6817]   INFO - ProjectRootPostStartUpActivity - E:/JAVA/IDEAProj/MC-R6mod/.idea case-sensitivity: expected=false actual=false 
+2020-11-28 17:07:48,132 [   6848]   INFO - .diagnostic.PerformanceWatcher - Post-startup activities under progress took 519ms; general responsiveness: ok; EDT responsiveness: ok 
+2020-11-28 17:07:48,759 [   7475]   INFO - CompilerWorkspaceConfiguration - Available processors: 8 
+2020-11-28 17:07:48,897 [   7613]   INFO - tor.impl.FileEditorManagerImpl - Project opening took 3319 ms 
+2020-11-28 17:07:48,978 [   7694]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task started 
+2020-11-28 17:07:49,448 [   8164]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 17:07:49,489 [   8205]   WARN - com.intellij.util.xmlb.Binding - no accessors for org.jetbrains.kotlin.idea.highlighter.KotlinDefaultHighlightingSettingsProvider 
+2020-11-28 17:07:49,506 [   8222]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 17:07:49,623 [   8339]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:07:53,245 [  11961]   INFO - gnostic.WindowsDefenderChecker - Windows Defender status: not used 
+2020-11-28 17:08:02,911 [  21627]   INFO -                         STDOUT -  
+2020-11-28 17:08:02,919 [  21635]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:08:13,140 [  31856]   INFO -                         STDOUT -  
+2020-11-28 17:08:13,159 [  31875]   INFO - testKnownPluginVersionProvider - 'gradle' plugin missing from the offline Maven repo, will use default 4.0.0 
+2020-11-28 17:08:13,163 [  31879]   INFO - oject.common.GradleInitScripts - init script file sync.studio.tooling contents "initscript {\n    dependencies {\n        classpath files(['F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\lib\\\\kotlin-stdlib-1.3.70.jar'])\n    }\n}\nallprojects {\n    apply plugin: com.android.ide.gradle.model.builder.AndroidStudioToolingPlugin\n}\n" 
+2020-11-28 17:08:13,185 [  31901]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:08:23,343 [  42059]   INFO -                         STDOUT -  
+2020-11-28 17:08:23,346 [  42062]   INFO - xecution.GradleExecutionHelper - Passing command-line args to Gradle Tooling API: -Didea.sync.active=true -Didea.resolveSourceSetDependencies=true -Porg.gradle.kotlin.dsl.provider.cid=344276643719300 --init-script C:\Users\ginger\AppData\Local\Temp\sync.studio.tooling.gradle -Djava.awt.headless=true --stacktrace -Pandroid.injected.build.model.only=true -Pandroid.injected.build.model.only.advanced=true -Pandroid.injected.invoked.from.ide=true -Pandroid.injected.build.model.only.versioned=3 -Pandroid.injected.studio.version=10.4.0.202.8194.7 -Pandroid.injected.build.model.disable.src.download=true -Pidea.gradle.do.not.build.tasks=false --init-script C:\Users\ginger\AppData\Local\Temp\ijinit1.gradle 
+2020-11-28 17:08:23,355 [  42071]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:08:44,475 [  63191]   INFO -                         STDOUT -  
+2020-11-28 17:08:44,477 [  63193]   INFO - .project.GradleProjectResolver - Gradle project resolve error 
+org.gradle.tooling.GradleConnectionException: Could not install Gradle distribution from 'https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip'.
+	at org.gradle.tooling.internal.consumer.DistributionFactory$ZippedDistribution.getToolingImplementationClasspath(DistributionFactory.java:139)
+	at org.jetbrains.plugins.gradle.GradleConnectorService$DistributionWrapper.getToolingImplementationClasspath(GradleConnectorService.kt:287)
+	at org.gradle.tooling.internal.consumer.loader.CachingToolingImplementationLoader.create(CachingToolingImplementationLoader.java:41)
+	at org.gradle.tooling.internal.consumer.loader.SynchronizedToolingImplementationLoader.create(SynchronizedToolingImplementationLoader.java:44)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.onStartAction(LazyConsumerActionExecutor.java:147)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.run(LazyConsumerActionExecutor.java:129)
+	at org.gradle.tooling.internal.consumer.connection.CancellableConsumerActionExecutor.run(CancellableConsumerActionExecutor.java:45)
+	at org.gradle.tooling.internal.consumer.connection.ProgressLoggingConsumerActionExecutor.run(ProgressLoggingConsumerActionExecutor.java:61)
+	at org.gradle.tooling.internal.consumer.connection.RethrowingErrorsConsumerActionExecutor.run(RethrowingErrorsConsumerActionExecutor.java:38)
+	at org.gradle.tooling.internal.consumer.async.DefaultAsyncConsumerActionExecutor$1$1.run(DefaultAsyncConsumerActionExecutor.java:67)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.io.IOException: Downloading from https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip failed: timeout
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:106)
+	at org.gradle.wrapper.Download.download(Download.java:66)
+	at org.gradle.tooling.internal.consumer.DistributionInstaller$1.run(DistributionInstaller.java:128)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:476)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:470)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1354)
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:963)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:292)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:351)
+	at java.base/sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:754)
+	at java.base/sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:689)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1615)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:250)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:83)
+	... 2 more
+2020-11-28 17:08:44,515 [  63231]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task executed in 55537 ms. 
+2020-11-28 17:08:44,531 [  63247]   INFO - .diagnostic.PerformanceWatcher - Pushing properties took 13ms; general responsiveness: ok; EDT responsiveness: ok 
+2020-11-28 17:08:44,938 [  63654]   INFO - ge.ExternalProjectsDataStorage - Save external projects data in 21 ms 
+2020-11-28 17:08:44,959 [  63675]   WARN - com.intellij.util.xmlb.Binding - no accessors for org.jetbrains.kotlin.idea.core.script.configuration.utils.ScriptClassRootsStorage 
+2020-11-28 17:08:46,133 [  64849]   INFO - .diagnostic.PerformanceWatcher - Indexable file iteration took 1602ms; general responsiveness: ok; EDT responsiveness: ok 
+2020-11-28 17:08:46,138 [  64854]   INFO - indexing.UnindexedFilesUpdater - Unindexed files update started: 1 files to index 
+2020-11-28 17:08:46,141 [  64857]   INFO - indexing.UnindexedFilesUpdater - Using 4 threads for indexing 
+2020-11-28 17:08:46,158 [  64874]   INFO - .diagnostic.PerformanceWatcher - Unindexed files update took 19ms; general responsiveness: ok; EDT responsiveness: ok 
+2020-11-28 17:08:46,716 [  65432]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task started 
+2020-11-28 17:08:46,816 [  65532]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 17:08:46,831 [  65547]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from F:/Java/jdk1.8.0_261 
+2020-11-28 17:08:46,834 [  65550]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:08:47,240 [  65956]   INFO - .diagnostic.PerformanceWatcher - Searching for external libraries with Android resources. Found 0 libraries. took 8ms; general responsiveness: ok; EDT responsiveness: ok 
+2020-11-28 17:08:51,471 [  70187]   INFO - tellij.vcs.log.data.VcsLogData - Username not configured for root file://E:/JAVA/IDEAProj/MC-R6mod 
+2020-11-28 17:08:56,936 [  75652]   INFO -                         STDOUT -  
+2020-11-28 17:08:56,941 [  75657]   INFO - oject.common.GradleInitScripts - init script file sync.studio.tooling contents "initscript {\n    dependencies {\n        classpath files(['F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\plugins\\\\android\\\\lib\\\\android.jar', 'F:\\\\IntelliJ IDEA Community Edition 2020.2.4\\\\lib\\\\kotlin-stdlib-1.3.70.jar'])\n    }\n}\nallprojects {\n    apply plugin: com.android.ide.gradle.model.builder.AndroidStudioToolingPlugin\n}\n" 
+2020-11-28 17:08:56,944 [  75660]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:09:07,224 [  85940]   INFO -                         STDOUT -  
+2020-11-28 17:09:07,226 [  85942]   INFO - xecution.GradleExecutionHelper - Passing command-line args to Gradle Tooling API: -Didea.sync.active=true -Didea.resolveSourceSetDependencies=true -Porg.gradle.kotlin.dsl.provider.cid=344320437534500 --init-script C:\Users\ginger\AppData\Local\Temp\sync.studio.tooling1.gradle -Djava.awt.headless=true --stacktrace -Pandroid.injected.build.model.only=true -Pandroid.injected.build.model.only.advanced=true -Pandroid.injected.invoked.from.ide=true -Pandroid.injected.build.model.only.versioned=3 -Pandroid.injected.studio.version=10.4.0.202.8194.7 -Pandroid.injected.build.model.disable.src.download=true -Pidea.gradle.do.not.build.tasks=false --init-script C:\Users\ginger\AppData\Local\Temp\ijinit1.gradle 
+2020-11-28 17:09:07,229 [  85945]   INFO -                         STDOUT - Downloading https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip 
+2020-11-28 17:09:20,446 [  99162]   INFO -                         STDOUT -  
+2020-11-28 17:09:20,448 [  99164]   INFO - .project.GradleProjectResolver - Gradle project resolve error 
+org.gradle.tooling.GradleConnectionException: Could not install Gradle distribution from 'https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip'.
+	at org.gradle.tooling.internal.consumer.DistributionFactory$ZippedDistribution.getToolingImplementationClasspath(DistributionFactory.java:139)
+	at org.jetbrains.plugins.gradle.GradleConnectorService$DistributionWrapper.getToolingImplementationClasspath(GradleConnectorService.kt:287)
+	at org.gradle.tooling.internal.consumer.loader.CachingToolingImplementationLoader.create(CachingToolingImplementationLoader.java:41)
+	at org.gradle.tooling.internal.consumer.loader.SynchronizedToolingImplementationLoader.create(SynchronizedToolingImplementationLoader.java:44)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.onStartAction(LazyConsumerActionExecutor.java:147)
+	at org.gradle.tooling.internal.consumer.connection.LazyConsumerActionExecutor.run(LazyConsumerActionExecutor.java:129)
+	at org.gradle.tooling.internal.consumer.connection.CancellableConsumerActionExecutor.run(CancellableConsumerActionExecutor.java:45)
+	at org.gradle.tooling.internal.consumer.connection.ProgressLoggingConsumerActionExecutor.run(ProgressLoggingConsumerActionExecutor.java:61)
+	at org.gradle.tooling.internal.consumer.connection.RethrowingErrorsConsumerActionExecutor.run(RethrowingErrorsConsumerActionExecutor.java:38)
+	at org.gradle.tooling.internal.consumer.async.DefaultAsyncConsumerActionExecutor$1$1.run(DefaultAsyncConsumerActionExecutor.java:67)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.io.IOException: Downloading from https://lss233.littleservice.cn/repositories/gradle-dist/gradle-4.10.3-bin.zip failed: timeout
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:106)
+	at org.gradle.wrapper.Download.download(Download.java:66)
+	at org.gradle.tooling.internal.consumer.DistributionInstaller$1.run(DistributionInstaller.java:128)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:476)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:470)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1354)
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:963)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:292)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:351)
+	at java.base/sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:754)
+	at java.base/sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:689)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1615)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:250)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:83)
+	... 2 more
+2020-11-28 17:09:20,449 [  99165]   INFO - System.util.ExternalSystemUtil - External project [E:/JAVA/IDEAProj/MC-R6mod] resolution task executed in 33733 ms. 
+2020-11-28 17:09:20,780 [  99496]   INFO - ge.ExternalProjectsDataStorage - Save external projects data in 5 ms 
+2020-11-28 17:09:33,799 [ 112515]   INFO - j.ide.actions.RevealFileAction - Exit code 1 
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那我就不清楚了。你这个明显是某种网络问题，出错的地方太多了，没法弄清楚。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

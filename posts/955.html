@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>IDEA用UI Designer简单创建窗体</title>
+</head>
+<body>
+    <div class="title"><h1>IDEA用UI Designer简单创建窗体</h1></div>
+    <div class="post-user" class="user"><h4>xx</h4></div>
+    <br />
+    <div class="post" class="main">
+        <details>
+<summary>
+前言</summary>
+<p>作者是一个五年级的小学生，语文不好(60-70分)。<br>
+如果有那些地方语言不通顺，就回复一下，说明吧。</p>
+</details>
+<h1>在Mod开发中，有些人不会装Mod启动器(Forge或Fabric)而威胁我们。而这篇文章就可以解决了</h1>
+<h2>一.简单设置</h2>
+<p>首先用gradle或maven新建工程。然后Ctrl+Alt+S打开设置，<br>
+保证UI Designer插件是启用的。<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f.png" data-download-href="../uploads/default/9acc4e4c9f84d8333e860cca75456d05a4e69f0f" title="image"><img src="../uploads/default/optimized/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f_2_517x370.png" alt="image" data-base62-sha1="m5pfJkyYrdCmJK80KyAceVLhrEH" width="517" height="370" srcset="../uploads/default/optimized/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f_2_517x370.png, ../uploads/default/optimized/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f_2_775x555.png 1.5x, ../uploads/default/optimized/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f_2_1034x740.png 2x" data-small-upload="../uploads/default/optimized/1X/9acc4e4c9f84d8333e860cca75456d05a4e69f0f_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1966×1409 167 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+在Editor-&gt;UI Designer里设置Generate Gui into为Java source code,<br>
+Default layout manger随便，<br>
+Default accessible for UI-bound fields为public，其余不动。<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a.png" data-download-href="../uploads/default/86fc72e7fbb4e8d662350503c7aae7748fbbb90a" title="image"><img src="../uploads/default/optimized/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a_2_517x370.png" alt="image" data-base62-sha1="jg8QIdga5jt4i1NMBnUWczVM6Ce" width="517" height="370" srcset="../uploads/default/optimized/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a_2_517x370.png, ../uploads/default/optimized/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a_2_775x555.png 1.5x, ../uploads/default/optimized/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a_2_1034x740.png 2x" data-small-upload="../uploads/default/optimized/1X/86fc72e7fbb4e8d662350503c7aae7748fbbb90a_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1966×1409 156 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+二.正式开始<br>
+新建一个窗体(要下载数据的选Dialog，直接进入选Gui From)<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8.png" data-download-href="../uploads/default/4a3b4d335c8dcbc68894f0326455e63825b101a8" title="image"><img src="../uploads/default/optimized/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8_2_575x500.png" alt="image" data-base62-sha1="aAGnV88KkyVYhaZqSwEJpLlsy3m" width="575" height="500" srcset="../uploads/default/optimized/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8_2_575x500.png, ../uploads/default/optimized/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8_2_862x750.png 1.5x, ../uploads/default/optimized/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8_2_1150x1000.png 2x" data-small-upload="../uploads/default/optimized/1X/4a3b4d335c8dcbc68894f0326455e63825b101a8_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1490×1294 82.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<details>
+<summary>
+选Dialog要看的</summary>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/12ad2940bafc7c7e3175f0bbdc46c781ce2d60f9.png" data-download-href="../uploads/default/12ad2940bafc7c7e3175f0bbdc46c781ce2d60f9" title="image"><img src="../uploads/default/original/1X/12ad2940bafc7c7e3175f0bbdc46c781ce2d60f9.png" alt="image" data-base62-sha1="2FdABUAzF8art9838HWkK6jMXYl" width="517" height="308" data-small-upload="../uploads/default/optimized/1X/12ad2940bafc7c7e3175f0bbdc46c781ce2d60f9_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">726×433 16.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<img src="../uploads/default/original/1X/74162c23872c389b684aad497e7cbf47cd73c909.png" alt="image" data-base62-sha1="gyWTe4fRHIkYLRNfgL0brTRP1sB" width="478" height="357"><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/33b9c30d9d4b3e3af72d93453736b65af0713280.png" data-download-href="../uploads/default/33b9c30d9d4b3e3af72d93453736b65af0713280" title="image"><img src="../uploads/default/optimized/1X/33b9c30d9d4b3e3af72d93453736b65af0713280_2_517x324.png" alt="image" data-base62-sha1="7nAlkF3OTcmwl2textpstkY3dAI" width="517" height="324" srcset="../uploads/default/optimized/1X/33b9c30d9d4b3e3af72d93453736b65af0713280_2_517x324.png, ../uploads/default/optimized/1X/33b9c30d9d4b3e3af72d93453736b65af0713280_2_775x486.png 1.5x, ../uploads/default/optimized/1X/33b9c30d9d4b3e3af72d93453736b65af0713280_2_1034x648.png 2x" data-small-upload="../uploads/default/optimized/1X/33b9c30d9d4b3e3af72d93453736b65af0713280_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1846×1158 221 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+</details>
+<p>这里先运行一下，可以看到这个<img src="../uploads/default/original/1X/be0789697a9e2d08ea6a440a55947d7ebce5b9f0.png" alt="image" data-base62-sha1="r74RK6crpixs1C2Nq1TlDPp0kG4" width="240" height="111"><br>
+<strong>但是这样的话，不能修改表单里的参数，因为</strong><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8cf537110ab952bfe0ba464efc6698da3584eddb.png" data-download-href="../uploads/default/8cf537110ab952bfe0ba464efc6698da3584eddb" title="image"><img src="../uploads/default/optimized/1X/8cf537110ab952bfe0ba464efc6698da3584eddb_2_517x136.png" alt="image" data-base62-sha1="k6YdrnrWHG8OrDzif9G6OE59EE3" width="517" height="136" srcset="../uploads/default/optimized/1X/8cf537110ab952bfe0ba464efc6698da3584eddb_2_517x136.png, ../uploads/default/optimized/1X/8cf537110ab952bfe0ba464efc6698da3584eddb_2_775x204.png 1.5x, ../uploads/default/original/1X/8cf537110ab952bfe0ba464efc6698da3584eddb.png 2x" data-small-upload="../uploads/default/optimized/1X/8cf537110ab952bfe0ba464efc6698da3584eddb_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1016×269 21 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+所以我们要做一个复制品</p>
+<h2>二.制作复制品</h2>
+<p>新建一个类：***_copy(建议,如果是Dialog，记得继承一下)，<br>
+把原来类里的变量<img src="../uploads/default/original/1X/2b2f8cc28c5ae3906c8a673a2ba015e378e096e5.png" alt="image" data-base62-sha1="6a2pbOve2hKpxabtQcitxOCXumh" width="249" height="42"> 复制进去。<br>
+添加构造函数,先new一个原类,再把原类里的构造函数加上，再把复制品类里的空变量设为原类里的变量。<br>
+像这样：</p>
+<pre><code class="lang-auto">    public F_cpy(){
+        f F = new f();
+        this.contentPane = F.contentPane;
+        this.buttonCancel=F.buttonCancel;
+......
+    }
+
+</code></pre>
+<p>再把原类的main函数复制上去就完成了（原类要改为复制类）。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>很抱歉，这个内容和mod开发无关，本帖将会被移动至综合讨论区。</p>
+    </div>
+    <br />
+</body>
+</html>

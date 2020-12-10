@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>开发环境搭建forge-1.15.2-31.2.0-mdk出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>开发环境搭建forge-1.15.2-31.2.0-mdk出现问题</h1></div>
+    <div class="post-user" class="user"><h4>周庸生</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64位<br>
+你用的JDK是: 1.8.0<br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本: 2017.3<br>
+Forge版本:  forge-1.15.2-31.2.0-mdk<br>
+Minecraft版本: 1.15</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1.png" data-download-href="../uploads/default/82d45fd1a3077e12b927d40ae4b1d9395debc5d1" title="image"><img src="../uploads/default/optimized/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1_2_690x284.png" alt="image" data-base62-sha1="iFn51icGmRadeMqEFZV2QH2Eetj" width="690" height="284" srcset="../uploads/default/optimized/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1_2_690x284.png, ../uploads/default/optimized/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1_2_1035x426.png 1.5x, ../uploads/default/optimized/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1_2_1380x568.png 2x" data-small-upload="../uploads/default/optimized/1X/82d45fd1a3077e12b927d40ae4b1d9395debc5d1_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1812×747 76.8 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/f13d2822079ca29ec0313cbd24e3b55b8f1c40e0.png" data-download-href="../uploads/default/f13d2822079ca29ec0313cbd24e3b55b8f1c40e0" title="image"><img src="../uploads/default/original/1X/f13d2822079ca29ec0313cbd24e3b55b8f1c40e0.png" alt="image" data-base62-sha1="yq665inH4k3YoO1jSVad3Zbg2NG" width="690" height="394" data-small-upload="../uploads/default/optimized/1X/f13d2822079ca29ec0313cbd24e3b55b8f1c40e0_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1265×723 37.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+用的 ForgeGradleCN 和shadowsocket代理，看过<a href="../t/topic/825/4">Forge开发环境配置失败</a>这篇帖子，把网易版的我的世界assets/objects目录都删除了build还是失败后，把它卸载了，并把环境配置数据都删除了，也还是不行。<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">
+2020-11-21 11:43:56,306 [5508680]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from D:/java/jdk1.8.0_201 
+2020-11-21 11:43:56,312 [5508686]   INFO - s.plugins.gradle.GradleManager - Instructing gradle to use java from D:/java/jdk1.8.0_201 
+2020-11-21 11:44:02,942 [5515316]   WARN - nal.AbstractExternalSystemTask - Failed to get asset: minecraft/lang/br_fr.json
+Failed to get asset: minecraft/lang/de_ch.json
+Failed to get asset: minecraft/lang/es_cl.json
+Failed to get asset: minecraft/lang/kab_kab.json
+Failed to get asset: minecraft/lang/eu_es.json
+Failed to get asset: minecraft/lang/sl_si.json
+Failed to get asset: minecraft/lang/gv_im.json
+Failed to get asset: minecraft/lang/mt_mt.json
+Failed to get asset: minecraft/lang/sv_se.json
+Failed to get asset: minecraft/lang/tlh_aa.json
+Failed to get asset: minecraft/lang/gd_gb.json
+Failed to get asset: minecraft/lang/is_is.json
+Failed to get asset: minecraft/lang/vec_it.json
+Failed to get asset: minecraft/lang/swg.json
+Failed to get asset: minecraft/lang/he_il.json
+Failed to get asset: realms/lang/be_by.json
+Failed to get asset: realms/lang/ka_ge.json
+Failed to get asset: realms/lang/hy_am.json
+Failed to get asset: realms/lang/yi_de.json
+Failed to get asset: realms/lang/ta_in.json
+Some assets failed to download or validate, try running the task again. 
+com.intellij.openapi.externalSystem.model.ExternalSystemException: Failed to get asset: minecraft/lang/br_fr.json
+Failed to get asset: minecraft/lang/de_ch.json
+Failed to get asset: minecraft/lang/es_cl.json
+Failed to get asset: minecraft/lang/kab_kab.json
+Failed to get asset: minecraft/lang/eu_es.json
+Failed to get asset: minecraft/lang/sl_si.json
+Failed to get asset: minecraft/lang/gv_im.json
+Failed to get asset: minecraft/lang/mt_mt.json
+Failed to get asset: minecraft/lang/sv_se.json
+Failed to get asset: minecraft/lang/tlh_aa.json
+Failed to get asset: minecraft/lang/gd_gb.json
+Failed to get asset: minecraft/lang/is_is.json
+Failed to get asset: minecraft/lang/vec_it.json
+Failed to get asset: minecraft/lang/swg.json
+Failed to get asset: minecraft/lang/he_il.json
+Failed to get asset: realms/lang/be_by.json
+Failed to get asset: realms/lang/ka_ge.json
+Failed to get asset: realms/lang/hy_am.json
+Failed to get asset: realms/lang/yi_de.json
+Failed to get asset: realms/lang/ta_in.json
+Some assets failed to download or validate, try running the task again.
+	at com.android.tools.idea.gradle.project.sync.idea.ProjectImportErrorHandler.getUserFriendlyError(ProjectImportErrorHandler.java:86)
+	at com.android.tools.idea.gradle.project.sync.idea.AndroidGradleProjectResolver.getUserFriendlyError(AndroidGradleProjectResolver.java:364)
+	at org.jetbrains.plugins.gradle.service.project.AbstractProjectResolverExtension.getUserFriendlyError(AbstractProjectResolverExtension.java:158)
+	at org.jetbrains.plugins.gradle.service.project.AbstractProjectResolverExtension.getUserFriendlyError(AbstractProjectResolverExtension.java:158)
+	at org.jetbrains.plugins.gradle.service.project.AbstractProjectResolverExtension.getUserFriendlyError(AbstractProjectResolverExtension.java:158)
+	at org.jetbrains.plugins.gradle.service.task.GradleTaskManager.lambda$executeTasks$0(GradleTaskManager.java:124)
+	at org.jetbrains.plugins.gradle.service.execution.GradleExecutionHelper.execute(GradleExecutionHelper.java:210)
+	at org.jetbrains.plugins.gradle.service.task.GradleTaskManager.executeTasks(GradleTaskManager.java:127)
+	at org.jetbrains.plugins.gradle.service.task.GradleTaskManager.executeTasks(GradleTaskManager.java:57)
+	at com.intellij.openapi.externalSystem.service.remote.RemoteExternalSystemTaskManagerImpl.a(RemoteExternalSystemTaskManagerImpl.java:48)
+	at com.intellij.openapi.externalSystem.service.remote.AbstractRemoteExternalSystemService.execute(AbstractRemoteExternalSystemService.java:59)
+	at com.intellij.openapi.externalSystem.service.remote.RemoteExternalSystemTaskManagerImpl.executeTasks(RemoteExternalSystemTaskManagerImpl.java:47)
+	at com.intellij.openapi.externalSystem.service.remote.wrapper.ExternalSystemTaskManagerWrapper.executeTasks(ExternalSystemTaskManagerWrapper.java:52)
+	at com.intellij.openapi.externalSystem.service.internal.ExternalSystemExecuteTaskTask.doExecute(ExternalSystemExecuteTaskTask.java:171)
+	at com.intellij.openapi.externalSystem.service.internal.AbstractExternalSystemTask.execute(AbstractExternalSystemTask.java:163)
+	at com.intellij.openapi.externalSystem.service.execution.ExternalSystemRunConfiguration$MyRunnableState.a(ExternalSystemRunConfiguration.java:419)
+	at com.intellij.openapi.application.impl.ApplicationImpl$1.run(ApplicationImpl.java:315)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.RuntimeException: Failed to get asset: minecraft/lang/br_fr.json
+Failed to get asset: minecraft/lang/de_ch.json
+Failed to get asset: minecraft/lang/es_cl.json
+Failed to get asset: minecraft/lang/kab_kab.json
+Failed to get asset: minecraft/lang/eu_es.json
+Failed to get asset: minecraft/lang/sl_si.json
+Failed to get asset: minecraft/lang/gv_im.json
+Failed to get asset: minecraft/lang/mt_mt.json
+Failed to get asset: minecraft/lang/sv_se.json
+Failed to get asset: minecraft/lang/tlh_aa.json
+Failed to get asset: minecraft/lang/gd_gb.json
+Failed to get asset: minecraft/lang/is_is.json
+Failed to get asset: minecraft/lang/vec_it.json
+Failed to get asset: minecraft/lang/swg.json
+Failed to get asset: minecraft/lang/he_il.json
+Failed to get asset: realms/lang/be_by.json
+Failed to get asset: realms/lang/ka_ge.json
+Failed to get asset: realms/lang/hy_am.json
+Failed to get asset: realms/lang/yi_de.json
+Failed to get asset: realms/lang/ta_in.json
+Some assets failed to download or validate, try running the task again.
+	at net.minecraftforge.gradle.common.task.DownloadAssets.run(DownloadAssets.java:93)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:73)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:46)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:39)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:26)
+	at org.gradle.api.internal.AbstractTask$TaskActionWrapper.execute(AbstractTask.java:801)
+	at org.gradle.api.internal.AbstractTask$TaskActionWrapper.execute(AbstractTask.java:768)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$1.run(ExecuteActionsTaskExecuter.java:131)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:301)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:293)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:175)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:91)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeAction(ExecuteActionsTaskExecuter.java:120)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeActions(ExecuteActionsTaskExecuter.java:99)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.OutputDirectoryCreatingTaskExecuter.execute(OutputDirectoryCreatingTaskExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipUpToDateTaskExecuter.execute(SkipUpToDateTaskExecuter.java:59)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskOutputCachingStateExecuter.execute(ResolveTaskOutputCachingStateExecuter.java:54)
+	at org.gradle.api.internal.tasks.execution.ValidatingTaskExecuter.execute(ValidatingTaskExecuter.java:59)
+	at org.gradle.api.internal.tasks.execution.SkipEmptySourceFilesTaskExecuter.execute(SkipEmptySourceFilesTaskExecuter.java:101)
+	at org.gradle.api.internal.tasks.execution.FinalizeInputFilePropertiesTaskExecuter.execute(FinalizeInputFilePropertiesTaskExecuter.java:44)
+	at org.gradle.api.internal.tasks.execution.CleanupStaleOutputsExecuter.execute(CleanupStaleOutputsExecuter.java:91)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskArtifactStateTaskExecuter.execute(ResolveTaskArtifactStateTaskExecuter.java:62)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:59)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:54)
+	at org.gradle.api.internal.tasks.execution.ExecuteAtMostOnceTaskExecuter.execute(ExecuteAtMostOnceTaskExecuter.java:43)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:34)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.run(EventFiringTaskExecuter.java:51)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:301)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:293)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:175)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:91)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:46)
+	at org.gradle.execution.taskgraph.LocalTaskInfoExecutor.execute(LocalTaskInfoExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareWorkItemExecutor.execute(DefaultTaskExecutionGraph.java:277)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareWorkItemExecutor.execute(DefaultTaskExecutionGraph.java:262)
+	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor$ExecutorWorker$1.execute(DefaultTaskPlanExecutor.java:135)
+	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor$ExecutorWorker$1.execute(DefaultTaskPlanExecutor.java:130)
+	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor$ExecutorWorker.execute(DefaultTaskPlanExecutor.java:200)
+	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor$ExecutorWorker.executeWithWork(DefaultTaskPlanExecutor.java:191)
+	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor$ExecutorWorker.run(DefaultTaskPlanExecutor.java:130)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+
+</code></pre>
+<p><strong>查到的资料</strong><br>
+<a href="../t/topic/825">Forge开发环境配置失败</a><br>
+<a href="https://github.com/MinecraftForge/ForgeGradle/pull/715" rel="noopener nofollow ugc">Fix the problem when local assets file broke, FG will be stuck</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个看上去应该网络的导致的，说实话我也没什么好办法，只能多试试。<br>
+你可以试试先用<a href="https://www.minecraft.net/zh-hans/get-minecraft">官方启动器</a>启动一次<br>
+不过如果只是资源文件出错，你也可以直接复制对应版本的 <code>assets</code> 文件到<code>.gradle/caches/forge_gradle/assets</code>下面。</p>
+    </div>
+    <br />
+    <div class="user"><h4>周庸生</h4></div>
+    <br />
+    <div class="post">
+        <p>应该不是网络问题，那些下载地址不开代理都可以直接下载的。我手动把那些下载好的文件放进去，runClient还是报一样的错，而且放进去的文件也没了。我看控制台上的Hash failed，我发现assets/index下的json文件里面那些failed的文件名和hash可以对应上，但是size好像是对应不上的</p>
+    </div>
+    <br />
+    <div class="user"><h4>周庸生</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/c4746567cd628ec3610f6d223e36fd61598c3551.png" data-download-href="../uploads/default/c4746567cd628ec3610f6d223e36fd61598c3551" title="image"><img src="../uploads/default/original/1X/c4746567cd628ec3610f6d223e36fd61598c3551.png" alt="image" data-base62-sha1="s1UXCUhB4dIaVemOVgYK4cs4gZH" width="359" height="500" data-small-upload="../uploads/default/optimized/1X/c4746567cd628ec3610f6d223e36fd61598c3551_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">660×919 24.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01.png" data-download-href="../uploads/default/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01" title="image"><img src="../uploads/default/optimized/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01_2_690x25.png" alt="image" data-base62-sha1="l1HxmoMdaxvGb46J6I2LR9qdP9L" width="690" height="25" srcset="../uploads/default/optimized/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01_2_690x25.png, ../uploads/default/optimized/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01_2_1035x37.png 1.5x, ../uploads/default/optimized/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01_2_1380x50.png 2x" data-small-upload="../uploads/default/optimized/1X/935ee9b32a93c8fe8e143b16c0f12bd5ad66bb01_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">2160×81 23.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你试试切换成原版的ForgeGrdle，然后运行<code>runClient</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>周庸生</h4></div>
+    <br />
+    <div class="post">
+        <p>哇，终于打包成功了，并且把客户端运行起来了。免费的节点网速不稳定，打包一下午才成功。多谢老哥 <img src="../images/emoji/apple/grimacing.png?v=9" title=":grimacing:" class="emoji" alt=":grimacing:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

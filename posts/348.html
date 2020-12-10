@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>不更新forge版本对模组开发影响大吗？</title>
+</head>
+<body>
+    <div class="title"><h1>不更新forge版本对模组开发影响大吗？</h1></div>
+    <div class="post-user" class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;IntelliJ IDEA Community Edition 2020.1&gt;<br>
+Forge版本:  &lt;28.2.0&gt;<br>
+Minecraft版本: &lt;1.14.4&gt;</p>
+<p><strong>错误情况简述</strong><br>
+在本人的错误操作下，版本更新错误导致工作区完全无法识别。<br>
+不过，我想问的是，不更新forge版本对模组开发影响大吗？<br>
+（本人认为forge系统开发比较完善，除非重大错误，一般不需要更新）</p>
+<p><strong>查到的资料</strong><br>
+本人在看Mcjty的教程时，他有提到模组作者要时常更新forge版本。<br>
+在翻看别人的模组jar文件时，发现有一部分的模组作者其实是同个游戏版本的模组的是相同的forge版本</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不懂你什么意思……<br>
+1.12的代码和1.14的代码当然不兼容。<br>
+Mcjty说要经常更新是Mapping文件，不是Forge版本……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>不是forge版本？那我再去看看。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>Forge并不完善，Forge的人经常会无脑做一些二进制不兼容的修改<br>
+比如28.1.0和28.2.0</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>但我确实看到Mcjty在build.gradle文件里修改了forge版本号（虽然也更新Mapping）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>哦，那个是因为他做教程的时候高版本的Forge还不稳定，很多功能还缺失，所以需要更新Forge，大部分情况下你并不需要更新Forge版本，只需要更新Mapping文件就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>那么还是问一下，更新Mapping文件的作用是什么呢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Mapping就是SRG和MCP名称的映射。<br>
+至于什么是 notch 名，srg 名 和mcp名，4z的教程里有解释。<br>
+<a href="https://fmltutor.ustc-zzzz.net/%E9%99%84%E5%BD%95C-%E6%B7%B7%E6%B7%86%E4%B8%8E%E5%8F%8D%E5%B0%84.html" class="onebox" target="_blank">https://fmltutor.ustc-zzzz.net/附录C-混淆与反射.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

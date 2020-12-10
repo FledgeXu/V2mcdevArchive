@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2生物召唤之后立即消失</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2生物召唤之后立即消失</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：&lt;win7 64位&gt;<br>
+你是用的JDK: &lt;1.8.0 64bit&gt;<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.2.2&gt;<br>
+Forge版本:  &lt;1.15.2&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+召唤实体羽羊之后，该实体立即消失，使用命令检测不到这个实体</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">没有任何错误信息和提示信息
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>EntityFeatheredSheep.java</code></p>
+<pre><code class="lang-auto">public class EntityFeatheredSheep extends MonsterEntity implements IRangedAttackMob {
+
+    public EntityFeatheredSheep(EntityType&lt;? extends MonsterEntity&gt; type, World worldIn) {
+        super(type, worldIn);
+    }
+        protected void registerAttributes() {
+            super.registerAttributes();
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+            this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+            this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
+        }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1,new RangedBowAttackGoal&lt;&gt;(this,1.0f,10,40));
+        this.goalSelector.addGoal(2, new MoveToBlockGoal(this,1.0F,10) {
+            @Override
+            protected boolean shouldMoveTo(@NotNull IWorldReader worldIn, @NotNull BlockPos pos) {
+                return worldIn.getBlockState(pos).getBlock() instanceof BushBlock;
+            }
+        });
+        this.goalSelector.addGoal(3,new PanicGoal(this,1.0f));
+        this.goalSelector.addGoal(4,new MakeBushDieGoal(this));
+        this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 6.0F, 1.0F));
+//        this.goalSelector.addGoal(3,new WaterAvoidingRandomWalkingGoal(this,0.6F,0.6F));
+        this.targetSelector.addGoal(0,new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal&lt;&gt;(this, AnimalEntity.class, true));
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
+        target.attackEntityFrom(DamageSource.MAGIC,1.0F);
+    }
+}
+
+</code></pre>
+<p><code>ModEntities.java</code></p>
+<pre><code class="lang-auto">public class ModEntities {
+    public static final DeferredRegister&lt;EntityType&lt;?&gt;&gt; ENTITIES = new DeferredRegister&lt;&gt;(ForgeRegistries.ENTITIES,ModLemon.MOD_ID);
+    public static final EntityType&lt;EntityFeatheredSheep&gt; featheredSheep = register("feathered_sheep", EntityType.Builder.create(EntityFeatheredSheep::new, EntityClassification.MONSTER).size(1F, 1.2F).build("feathered_sheep"));
+
+    private static &lt;T extends Entity&gt; EntityType&lt;T&gt; register(String name, EntityType&lt;T&gt; type) {
+        ENTITIES.register(name, () -&gt; type);
+        return type;
+    }
+}
+</code></pre>
+<p><code>MakeBushDieGoal.java</code></p>
+<pre><code class="lang-auto">public class MakeBushDieGoal extends Goal {
+    public CreatureEntity creature;
+    public World world;
+    public MakeBushDieGoal(EntityFeatheredSheep theCreatureIn) {
+        this.creature = theCreatureIn;
+        this.world = theCreatureIn.world;
+    }
+    @Override
+    public boolean shouldExecute() {
+        BlockPos blockPos = new BlockPos(this.creature.getPosX(),this.creature.getPosY(),this.creature.getPosZ());
+        return this.world.getBlockState(blockPos).getBlock() instanceof BushBlock;
+    }
+
+    @Override
+    public void tick() {
+        BlockPos blockpos = new BlockPos(this.creature.getPosX(),this.creature.getPosY()+0.2,this.creature.getPosZ());
+        this.creature.world.setBlockState(blockpos, DeadBushBlock.getStateById(0));
+        super.tick();
+    }
+
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看不出有什么问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>世界上最好的修复莫名其妙的bug方法就是删掉它重新写，我重新写一次试试</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java">@Override
+public IPacket&lt;?&gt; createSpawnPacket() {
+    return NetworkHooks.getEntitySpawningPacket(this);
+}
+</code></pre>
+<p>?</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="3TUSK" data-post="4" data-topic="895">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/3tusk/40/304_2.png" class="avatar"> 3TUSK:</div>
+<blockquote>
+<p><code>createSpawnPacket</code></p>
+</blockquote>
+</aside>
+<p>我觉得这里没什么问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

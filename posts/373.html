@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>有没有办法动态修改模型</title>
+</head>
+<body>
+    <div class="title"><h1>有没有办法动态修改模型</h1></div>
+    <div class="post-user" class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.1<br>
+Forge版本: 14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p>想要制作一个自定义很高的枪械模组。有没有办法动态修改model，比如安装瞄准镜的时候武器的模型对应的修改。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>此帖子被暂时锁定，如果你想要提问，请遵照mod开发提问区模版提问。<br>
+修改完成后，我会解锁帖子。<br>
+若时间修改内容，帖子将被移动至「冰川之下」。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>有的。<br>
+<a href="https://harbinger.covertdragon.team/chapter-11/custom-baked/item-override.html" class="onebox" target="_blank">https://harbinger.covertdragon.team/chapter-11/custom-baked/item-override.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>当然你也可以通过自定义<code>IBakedModel</code>来修改实时的修改物品的模型。</p>
+    </div>
+    <br />
+    <div class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post">
+        <p>如果通过覆写<code>IBakedModel</code>中的<code>getQuads</code>进行修改，有没有办法将其他的json model手持偏移量进行修改</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没懂你想表达什么。<br>
+所有的Josn模型在运行时都会先转换成<code>IModel</code>，然后转换成<code>IBakeModel</code>，进行渲染。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>如果还没解决的话可以看下我的部分代码（这里只是item gui渲染时候的模型，用到第一三人称也是可以的，forge论坛上也有专门的枪械mod作者回答过一样的问题，建议仔细再搜索下）<a href="https://github.com/LuZWCHA/Movement/blob/f2da9e33f8591f073c773980329b52027d9106a0/src/main/java/com/nowandfuture/mod/core/client/renders/CopyBlockItemModel.java#L165" class="inline-onebox" rel="nofollow noopener">Movement/CopyBlockItemModel.java at f2da9e33f8591f073c773980329b52027d9106a0 · LuZWCHA/Movement · GitHub</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>BoxChen</h4></div>
+    <br />
+    <div class="post">
+        <p>感谢感谢</p>
+    </div>
+    <br />
+</body>
+</html>

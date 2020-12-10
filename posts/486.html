@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何向 Fabric Mixin 提供额外的混淆表 —— 一个由 OptiFine 兼容性引发的问题</title>
+</head>
+<body>
+    <div class="title"><h1>如何向 Fabric Mixin 提供额外的混淆表 —— 一个由 OptiFine 兼容性引发的问题</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <h3>参考内容：</h3>
+<p>（内含各种出错日志信息）<br>
+</p><aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/modmuss50/OptiFabric/issues/55" target="_blank" rel="nofollow noopener">github.com/modmuss50/OptiFabric</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/modmuss50/OptiFabric/issues/55" target="_blank" rel="nofollow noopener">Crash with Refined-Machinery</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2019-08-06" data-time="03:35:14" data-timezone="UTC">03:35AM - 06 Aug 19 UTC</span>
+      </div>
+
+
+      <div class="user">
+        <a href="https://github.com/1a2s3d4f1" target="_blank" rel="nofollow noopener">
+          <img alt="1a2s3d4f1" src="../uploads/default/original/1X/d4817b5ef78a51591709ebd2cf8894c7df86d748.jpeg" class="onebox-avatar-inline" width="20" height="20">
+          1a2s3d4f1
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">Crash Report:https://paste.ubuntu.com/p/FTGfXnyvr6/
+mod:Refined-Machinery
+fabric-api-0.3.0+build.207 , fabric-language-kotlin-1.3.40+build.1 , optifabric-0.4.3</p>
+</div>
+
+<div class="labels">
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">bug</span>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/OnyxStudios/Cardinal-Components-API/issues/8" target="_blank" rel="nofollow noopener">github.com/OnyxStudios/Cardinal-Components-API</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/OnyxStudios/Cardinal-Components-API/issues/8" target="_blank" rel="nofollow noopener">Crash at Startup</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2019-08-06" data-time="07:42:43" data-timezone="UTC">07:42AM - 06 Aug 19 UTC</span>
+      </div>
+
+
+      <div class="user">
+        <a href="https://github.com/smop95" target="_blank" rel="nofollow noopener">
+          <img alt="smop95" src="../uploads/default/original/1X/3557096f34982f05ad6acdefcdce54d6a77d7956.png" class="onebox-avatar-inline" width="20" height="20">
+          smop95
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">Crash Report: crash-2019-08-06_00.43.17-client.txt
+Log: 2019-08-06-1.log.gz</p>
+</div>
+
+<div class="labels">
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">bug</span>
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">components-item</span>
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">mod compat</span>
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">optifine</span>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p><strong>缘由</strong><br>
+昨天（2020年6月7号）看到 MutliMC 的 Discord 服务器里有人询问游戏崩溃的问题，然后根据提供的日志信息追踪到了上面两条 issue。感觉对 OptiFine 做兼容是一个很普遍的问题，尤其是在 Fabric 社区鼓励使用 Mixin 制作 CoreMod 的情况下，所以特地开一个提问帖。</p>
+<p><strong>引发问题的原因</strong><br>
+Forge 对 <code>net.minecraft.network.PacketBuffer</code> (MCP name) 进行了如下修改：<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/MinecraftForge/MinecraftForge/blob/5dbea9ea8dbda01ad11d91a713eb29cc973c10eb/patches/minecraft/net/minecraft/network/PacketBuffer.java.patch#L15-L27" target="_blank" rel="nofollow noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/MinecraftForge/MinecraftForge/blob/5dbea9ea8dbda01ad11d91a713eb29cc973c10eb/patches/minecraft/net/minecraft/network/PacketBuffer.java.patch#L15-L27" target="_blank" rel="nofollow noopener">MinecraftForge/MinecraftForge/blob/5dbea9ea8dbda01ad11d91a713eb29cc973c10eb/patches/minecraft/net/minecraft/network/PacketBuffer.java.patch#L15-L27</a></h4>
+<pre class="onebox"><code class="lang-patch"><ol class="start lines" start="15" style="counter-reset: li-counter 14 ;">
+<li>    public PacketBuffer func_150788_a(ItemStack p_150788_1_) {</li>
+<li>+      return writeItemStack(p_150788_1_, true);</li>
+<li>+   }</li>
+<li>+</li>
+<li>+   /**</li>
+<li>+    * Most ItemStack serialization is Server to Client,and doesn't need to know the FULL tag details.</li>
+<li>+    * One exception is items from the creative menu, which must be sent from Client to Server with their full NBT.</li>
+<li>+    * If you want to send the FULL tag set limitedTag to false</li>
+<li>+    */</li>
+<li>+   public PacketBuffer writeItemStack(ItemStack p_150788_1_, boolean limitedTag) {</li>
+<li>       if (p_150788_1_.func_190926_b()) {</li>
+<li>          this.writeBoolean(false);</li>
+<li>       } else {</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p>由于 OptiFine 需要对 Forge 兼容，只能也进行类似的修改，但是 Fabric 并没有修改过这些内容，因此当有 mod 需要用 Mixin 修改这个方法的时候，就会出问题。</p>
+<p>下面是 <a href="https://github.com/OnyxStudios/Cardinal-Components-API" rel="nofollow noopener">Cardinal-Components-API</a> 引发问题的相关代码：<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/OnyxStudios/Cardinal-Components-API/blob/92866d28068197b7f641bafbf8b2a835cdf9b987/cardinal-components-item/src/main/java/nerdhub/cardinal/components/mixins/common/item/MixinPacketByteBuf.java#L44-L48" target="_blank" rel="nofollow noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/OnyxStudios/Cardinal-Components-API/blob/92866d28068197b7f641bafbf8b2a835cdf9b987/cardinal-components-item/src/main/java/nerdhub/cardinal/components/mixins/common/item/MixinPacketByteBuf.java#L44-L48" target="_blank" rel="nofollow noopener">OnyxStudios/Cardinal-Components-API/blob/92866d28068197b7f641bafbf8b2a835cdf9b987/cardinal-components-item/src/main/java/nerdhub/cardinal/components/mixins/common/item/MixinPacketByteBuf.java#L44-L48</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="44" style="counter-reset: li-counter 43 ;">
+<li>@Inject(method = "writeItemStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/PacketByteBuf;writeCompoundTag(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/util/PacketByteBuf;", shift = At.Shift.AFTER), cancellable = true)</li>
+<li>private void writeItemStack(ItemStack stack, CallbackInfoReturnable&lt;PacketByteBuf&gt; cir) {</li>
+<li>    //noinspection ConstantConditions</li>
+<li>    this.writeCompoundTag(((ItemStackAccessor)(Object)stack).cardinal_getComponentContainer().toTag(new CompoundTag()));</li>
+<li>}</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p>在 Mixin refmap 中，<code>writeItemStack</code> 指向的是 <code>Lnet/minecraft/class_2540;method_10793(Lnet/minecraft/class_1799;)Lnet/minecraft/class_2540;</code>，因此无法匹配 OptiFine 修改后的 <code>Lnet/minecraft/class_2540;writeItemStack(Lnet/minecraft/class_1799;Z)Lnet/minecraft/class_2540;</code>，从而引发游戏崩溃。</p>
+<p><strong>做过的尝试</strong><br>
+我对这段代码进行了如下修改：</p>
+<pre><code class="lang-java">import nerdhub.cardinal.components.internal.ItemStackAccessor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.PacketByteBuf;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Surrogate;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+// ...
+
+    @Inject(
+        method = { "writeItemStack(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/PacketByteBuf;", "writeItemStack(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/util/PacketByteBuf;" },
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/PacketByteBuf;writeCompoundTag(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/util/PacketByteBuf;", shift = At.Shift.AFTER)
+    )
+    private void writeItemStack(ItemStack stack, boolean limitedTag, CallbackInfoReturnable&lt;PacketByteBuf&gt; cir) {
+        this.cardinal_writeItemStack(stack);
+    }
+
+    @Surrogate
+    private void writeItemStack(ItemStack stack, CallbackInfoReturnable&lt;PacketByteBuf&gt; cir) {
+        this.cardinal_writeItemStack(stack);
+    }
+
+    @Unique
+    private void cardinal_writeItemStack(ItemStack stack) {
+        //noinspection ConstantConditions
+        this.writeCompoundTag(((ItemStackAccessor)(Object)stack).cardinal_getComponentContainer().toTag(new CompoundTag()));
+    }
+</code></pre>
+<p>很不幸，问题依旧，崩溃原因与上述 issue 中的一致。<br>
+查看了一下编译后的 Mixin refmap，发现 <code>writeItemStack(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/util/PacketByteBuf;</code> 并没有写入 refmap 中，所以如果手动添加一条：</p>
+<pre><code class="lang-json">"writeItemStack(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/util/PacketByteBuf;": "Lnet/minecraft/class_2540;writeItemStack(Lnet/minecraft/class_1799;Z)Lnet/minecraft/class_2540;",
+</code></pre>
+<p>这样可以正常运行的，<br>
+或者在代码中将</p>
+<pre><code class="lang-java">method = { "writeItemStack(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/PacketByteBuf;", "writeItemStack(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/util/PacketByteBuf;" },
+</code></pre>
+<p>修改为</p>
+<pre><code class="lang-java">method = { "writeItemStack(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/util/PacketByteBuf;", "writeItemStack(Lnet/minecraft/class_1799;Z)Lnet/minecraft/class_2540;" },
+</code></pre>
+<p>也可以正常运行。</p>
+<p>但是毕竟这样手动混淆不优雅，并且在原生 Mixin 并配合 MixinGradle 的情况下，可以在 <code>build.gradle</code> 中添加下列内容达到增加混淆表内容的目的：</p>
+<pre><code class="lang-auto">mixin {
+    extraMappings "additional-mappings.tsrg"
+}
+</code></pre>
+<p>但是 Fabric Mixin 下我没有查到类似的东西，我能查到的是这个：<a href="https://fabricmc.net/wiki/tutorial:mappings#using_mappings" class="inline-onebox" rel="nofollow noopener">tutorial:mappings [Fabric Wiki]</a><br>
+但是这是讲的自定义整个混淆表，很明显我们不需要这样的东西，所以就有了标题上的这个问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以考虑换个思路，比如注入其他函数（或者optifine中的函数）;</p>
+<p>这个问题不是很好办，毕竟optifine不是经过mixin注入的，所以处理起来肯定不够优雅。</p>
+<p>CubicChunks还有LittleTiles 这几个mod需要处理Optifine的兼容所以会遇到大量这类问题，你如果想看看有什么具体思路可以找这两个的作者（团队），前者作者十分活跃，我暂时没有碰到这类问题（我的mod前期是直接字节码注入，后来才换成Mixin，所以有部分还没来得及替换），但是未来很可能遇到同样的问题。下面的Issue来自CC的作者，一方面取消了<code>remap</code>然后使用<code>@Dynamic</code>来防止编译期出错。</p>
+<aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/SpongePowered/Mixin/issues/306" target="_blank" rel="nofollow noopener">github.com/SpongePowered/Mixin</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/SpongePowered/Mixin/issues/306" target="_blank" rel="nofollow noopener">Add support for SuppressWarnings annotation in Mixin AP to allow silencing nuisance warnings</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2019-02-19" data-time="23:00:10" data-timezone="UTC">11:00PM - 19 Feb 19 UTC</span>
+      </div>
+
+        <div class="date">
+          closed <span class="discourse-local-date" data-format="ll" data-date="2019-09-16" data-time="15:15:50" data-timezone="UTC">03:15PM - 16 Sep 19 UTC</span>
+        </div>
+
+      <div class="user">
+        <a href="https://github.com/Barteks2x" target="_blank" rel="nofollow noopener">
+          <img alt="Barteks2x" src="../uploads/default/original/1X/293602c4b7b63f66afbc211f891a7db393409983.png" class="onebox-avatar-inline" width="20" height="20">
+          Barteks2x
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">I want to have zero warnings when compiling my code, but currently mixin makes this impossible. This is basically the same...</p>
+</div>
+
+<div class="labels">
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">annotation processor</span>
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">enhancement</span>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>如果单就「其他 Mod 与 OptiFine 兼容」这个问题而言，其实非常大，每个地方都需要具体问题具体分析，因为会遇到各种奇葩的修改，个人认为 Mixin 针对「方法或字段编译时不存在，但是运行时可能存在」的情况已做的工作非常之少。</p>
+<p>我也有个项目用于处理各种 OptiFine 和新版 Forge 之间的兼容性问题：<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/ZekerZhayard/OptiForge" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/42538e7ba8729c60ea35daf80af64ef8c80608e8.jpeg" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/ZekerZhayard/OptiForge" target="_blank" rel="nofollow noopener">ZekerZhayard/OptiForge</a></h3>
+
+<p>Make OptiFine be compatible with Forge. Contribute to ZekerZhayard/OptiForge development by creating an account on GitHub.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p>其中至少遇到过：</p>
+<ul>
+<li>在不把 OptiFine 加入编译时依赖的情况下调用 OptiFine 向 Minecraft 类中添加的方法；</li>
+<li>Forge 在一些方法中加了 <code>try-catch</code> 块，并且 OptiFine 没有适配；</li>
+<li>Forge 修改或添加了某些方法的参数类型，并且 OptiFine 没有适配；</li>
+<li>利用 ASM 处理了上面一条之后，需要 <code>@Shadow</code> 这个运行时 Mixin 应用之前不存在的方法；</li>
+<li>需要 <code>@Shadow</code> 使用了非公有类型的字段和方法 ；</li>
+<li>需要在使用 <code>@Redirect</code> 时使用局部变量；</li>
+</ul>
+<p>为了解决上面的问题，甚至自己造了一套注解，并且在运行时用 ASM 应用这些注解。</p>
+<hr>
+<p>如果就这个提问帖中提到的项目而言，崩溃的原因仅仅是无法匹配需要的注入的地方，并且 OptiFine 没有对这个地方做任何增强，只是单纯地为了兼容 Forge 而修改。</p>
+<p>因此我的想法非常简单：在 <code>@Inject.moethod</code> 中添加 OptiFine 修改后的参数的方法，但是就遇到了没办法重混淆的问题，然后就有了上面这个问题。</p>
+<p>目前已经 PR 了：<br>
+</p><aside class="onebox githubpullrequest">
+  <header class="source">
+      <a href="https://github.com/OnyxStudios/Cardinal-Components-API/pull/28" target="_blank" rel="nofollow noopener">github.com/OnyxStudios/Cardinal-Components-API</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Pull Request">
+    <svg width="60" height="60" class="github-icon" viewBox="0 0 12 16" aria-hidden="true"><path d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/OnyxStudios/Cardinal-Components-API/pull/28" target="_blank" rel="nofollow noopener">Fix the compatibility of OptiFine.</a>
+    </h4>
+
+    <div class="branches">
+      <code>OnyxStudios:master</code> ← <code>ZekerZhayard:fix-optifine</code>
+    </div>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2020-06-08" data-time="15:28:21" data-timezone="UTC">03:28PM - 08 Jun 20 UTC</span>
+      </div>
+
+      <div class="user">
+        <a href="https://github.com/ZekerZhayard" target="_blank" rel="nofollow noopener">
+          <img alt="ZekerZhayard" src="../uploads/default/original/1X/13c692f8e9f6f1490ba943270bbfe4e8d2961db1.jpeg" class="onebox-avatar-inline" width="20" height="20">
+          ZekerZhayard
+        </a>
+      </div>
+
+      <div class="lines" title="1 commits changed 1 files with 24 additions and 1 deletions">
+        <a href="https://github.com/OnyxStudios/Cardinal-Components-API/pull/28/files" target="_blank" rel="nofollow noopener">
+          <span class="added">+24</span>
+          <span class="removed">-1</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

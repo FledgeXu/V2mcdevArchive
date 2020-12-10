@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>MOD idea gradle出错：FAILURE: Build failed with an exception</title>
+</head>
+<body>
+    <div class="title"><h1>MOD idea gradle出错：FAILURE: Build failed with an exception</h1></div>
+    <div class="post-user" class="user"><h4>inrhor</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：<br>
+你是用的JDK: <br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2019&gt;<br>
+Fabric版本:  &lt;1.16.1&gt;<br>
+Minecraft版本: &lt;1.16.1&gt;</p>
+<p><strong>错误情况简述</strong><br>
+离线试过了，代理也试过了，最终结果还是这样如下：</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">22:11:00: Executing task...
+
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'F:\fabric\xxx\build.gradle' line: 2
+
+* What went wrong:
+Plugin [id: 'fabric-loom', version: '0.4-SNAPSHOT'] was not found in any of the following sources:
+
+- Gradle Core Plugins (not a core plugin, please see https://docs.gradle.org/5.5.1/userguide/standard_plugins.html for available core plugins)
+- Plugin Repositories (could not resolve plugin artifact 'fabric-loom:fabric-loom.gradle.plugin:0.4-SNAPSHOT')
+  Searched in the following repositories:
+    BintrayJCenter
+    Fabric(https://maven.fabricmc.net/)
+    Gradle Central Plugin Repository
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 1s
+22:11:02: Task execution finished.
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><aside class="quote quote-modified" data-post="1" data-topic="589">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/589">ForgeGradleCN—Forge 环境配置新解决方案</a> <a class="badge-wrapper  bullet" href="/c/9-category/9"><span class="badge-category-bg" style="background-color: #9EB83B;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是发布各种模组相关开发教程的地方。
+如果是转载，必须声明原文链接，而且你不能转载全文。
+如果是自制，在默认情况下本分类下的所有自制内容以以下许可证发布。
+这里不能发布任何教Java的帖子，因为学习编程是一件非常严肃的事情，看帖子学习不是一个好的方法。
+署名-非商业性使用-相同方式共享
+CC BY-NC-SA">模组开发教程</span></a>
+  </div>
+  <blockquote>
+    这是什么
+ForgeGradleCN 是一个 ForgeGradle3 的 Fork，在保持与原有ForgeGradle的兼容下，添加了有助于大陆地区用户的镜像。 
+注意事项
+ForgeGradleCN 仅支持 1.14+ 版本的Forge环境构建，且没有迁移到1.12版本的打算。 
+使用方法
+
+
+使用前强烈建议先清空你的Gradle缓存，在默认情况下Gradle缓存位于： 
+Windows: %…
+  </blockquote>
+</aside>
+<br>
+试试这个，有个已知的问题是由于镜像源的同步，有时候最新版的MDK可能会构建失败，可以选择降一个Forge的版本，或者等待24h后再来构建。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有什么好的办法，这个看上去就是一个网络问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

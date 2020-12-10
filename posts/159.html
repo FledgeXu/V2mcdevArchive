@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>设置玩家第一次进入游戏的出生点</title>
+</head>
+<body>
+    <div class="title"><h1>设置玩家第一次进入游戏的出生点</h1></div>
+    <div class="post-user" class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Minecraft版本: 1.12.2</p>
+<p><strong>问题</strong><br>
+怎么设置玩家第一次进入游戏的出生点，或者设置世界的出生点。</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">    @SubscribeEvent
+    public static void handleWorldInitializing(WorldEvent.CreateSpawnPosition event) {
+        event.getWorld().setSpawnPoint(new BlockPos(0,45,0));
+        event.setCanceled(true);
+    }
+</code></pre>
+<p>注意取消事件</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何使玩家在持有特定物品时有特定动作</title>
+</head>
+<body>
+    <div class="title"><h1>如何使玩家在持有特定物品时有特定动作</h1></div>
+    <div class="post-user" class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:  28.2.0<br>
+Minecraft版本: 1.14.4<br>
+Mapping 文件版本: 20190719-1.14.3</p>
+<p><strong>情况简述</strong><br>
+像做一个焊工面罩，在手持该物品时，可以有抬起手臂到90°的动作<br>
+希望有方法或前置模组可以实现</p>
+<p><strong>查到的资料</strong><br>
+目前只知道星系mod扛火箭的动作达到了我的理想标准，但由于该模组停留在1.12.2的旧版本而没去翻看</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个功能我也没有具体实现过，我只能根据我查到的资料做一些猜测。</p>
+<p>首先Forge提供了<code>RenderPlayerEvent.Pre</code>和<code>RenderPlayerEvent.Post</code>两个事件来让你可以修改玩家的渲染，其中<code>Pre</code>是在原版渲染之前执行，<code>Post</code>是在原版之后执行。</p>
+<p>玩家的模型是<code>PlayerModel</code>，这个模型的<code>bipedLeftArmwear</code>和<code>bipedRightArmwear</code>，好像分别控制着玩家左右手臂的旋转角度。</p>
+<p>你可以监听<code>RenderPlayerEvent.Pre</code>，判断玩家手中的物品，然后尝试修改玩家的模型手臂的旋转角度，可能就可以实现了。<br>
+相关的类：<br>
+<code>net.minecraft.client.renderer.entity.PlayerRenderer</code><br>
+<code>net.minecraft.client.renderer.entity.model.PlayerModel</code><br>
+相关资料：<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/58819-1112-rotate-player-arms/" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/58819-1112-rotate-player-arms/" target="_blank">[1.11.2] Rotate player arms</a></h3>
+
+<p>Hello, Is there any way how to rotate player arms without creating custom player model? I am sure there has to be some way, because I think Quark mod does exactly that during emote animations. I already tried this: @SideOnly(Side.CLIENT)...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+最简单实体实现:<br>
+<a href="https://neutrino.v2mcdev.com/entity/scratchentity.html" class="onebox" target="_blank">https://neutrino.v2mcdev.com/entity/scratchentity.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

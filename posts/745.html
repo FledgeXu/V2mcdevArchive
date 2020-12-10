@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何实现像玩家一样的实体</title>
+</head>
+<body>
+    <div class="title"><h1>如何实现像玩家一样的实体</h1></div>
+    <div class="post-user" class="user"><h4>xx</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 10 64位<br>
+你是用的JDK:  1.8.0_131 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.2<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: snapshot 20200514-1.15.1</p>
+<p><strong>情况简述</strong><br>
+想创建像玩家一样的实体，尝试过继承PlayerEntity，却无法完成super</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请具体说明一下什么叫做像玩家一样的实体？<br>
+指长得像玩家一样？</p>
+    </div>
+    <br />
+    <div class="user"><h4>xx</h4></div>
+    <br />
+    <div class="post">
+        <p>像玩家一样可以修改Slot(好像叫这个)拿物品，推动和伤害时会有动画</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="xiang" data-post="3" data-topic="745">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/xiang" class="avatar"> xiang:</div>
+<blockquote>
+<p>玩家一样可以修改Slot(好像叫这个)拿物品，推动和伤害时会有动画</p>
+</blockquote>
+</aside>
+<p>我觉得你继承<code>LivingEntity</code>然后套上一个Steve的模型来的比较靠谱……<br>
+那物品直接调用Capability拿就行了，推动和伤害动画你自己实现一个。<br>
+另外PlayEntity本来就不能继承的，你也不应该继承它。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Forge如何实现针对玩家保存数据</title>
+</head>
+<body>
+    <div class="title"><h1>Forge如何实现针对玩家保存数据</h1></div>
+    <div class="post-user" class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>我现在的需求就是，每个玩家有一个像知识库一样的东西，不同玩家的知识库相同，但是“解锁进度”不同，我需要一个办法来将这些数据存档，并在下次读档取用。<br>
+（可能同步的不是少量数据…可能是大量数据）<br>
+这个mod最终要运行在服务器和客户端，因此必须针对玩家保存。<br>
+请问是否有像保存玩家物品栏一样随玩家保存数据的方法呢？还是只能自己实现？<br>
+补充：目前还想到了一个方法即打开知识库时传输数据，但是数据保存依然是问题…<br>
+已经完成了对象的序列化，只需要进行存储</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>建议使用Capability（能力系统来保存数据）。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我仔细看一下那部分（之前没怎么用过）<br>
+是否应当使用附加能力？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对的，你需要自己创建一个能力然后附加到玩家身上。</p>
+    </div>
+    <br />
+</body>
+</html>

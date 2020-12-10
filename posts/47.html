@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>有没有什么方法可以在代码中修改方块部分颜色（类似替换）</title>
+</head>
+<body>
+    <div class="title"><h1>有没有什么方法可以在代码中修改方块部分颜色（类似替换）</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>有没有什么方法可以在代码中修改方块部分颜色（类似替换）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>最简单的<code>BlockState</code>，然后是<code>IBakeModel</code> 最后是<code>TESR</code><br>
+我出过1.14 <code>BlockState</code> 的<a href="https://www.bilibili.com/video/av86100905">视频</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">@OnlyIn(Dist.CLIENT)
+public class CustomBlockColor implements IBlockColor {
+    @Override
+    public int getColor(BlockState state, @Nullable ILightReader light, @Nullable BlockPos pos, int tintIndex) {
+        if(state.getBlock() instanceof ColorBlock) {
+            return ((ColorBlock)(state.getBlock())).getColorValue();
+        } else {
+            return 0x000000;
+        }
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">public class ColorBlock extends Block {
+    protected DyeColor color;
+    public ColorBlock(Properties properties, DyeColor color) {
+        super(properties);
+        this.color = color;
+    }
+    public int getColorValue() {
+        return color.getColorValue();
+    }
+    // default function from source code
+    public static Direction getFacingFromEntity(BlockPos clickedBlock, LivingEntity entity) {
+        Vec3d vec = entity.getPositionVec();
+        return Direction.getFacingFromVector(
+                (float) (vec.x - clickedBlock.getX()),
+                (float) (vec.y - clickedBlock.getY()),
+                (float) (vec.z - clickedBlock.getZ())
+        );
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">@SubscribeEvent
+    public static void onBlockColor(ColorHandlerEvent.Block event) {
+        LOGGER.info("Hello from onBlockColor RegistryClient");
+        event.getBlockColors().register(new CustomBlockColor(),
+                ModBlocks.OBSIDIAN_BLOCK,
+                ModBlocks.OBSIDIAN_BLOCK_RED
+        );
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这个相当于覆盖颜色，可能不完全符合要求，但是是不是可能叠加两层贴图</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="moder01" data-post="1" data-topic="47" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/m/35a633/40.png" class="avatar"> moder01:</div>
+<blockquote>
+<p>有没有什么方法可以在代码中修改方块部分颜色（类似替换）</p>
+</blockquote>
+</aside>
+<p>没看懂你的意思。<br>
+你的代码什么意思。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这个方法就是forge官方文档中提到，IBlockColor与IItemColor方法，ColorBlock类仿照其他可以染色的方块，比如树叶什么的写的，最后需要在客户端注册这个IBlockColor类，并告诉mc，有什么方块类需要用自定义的染色方法来进行渲染，同时模型文件定义时，需要定义一个tintindex的参数。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>IBlcokColor</code> 是只能全换颜色的，如果你要部分的改变颜色要用 <code>IBlockModel</code> 和 <code>TER</code>。</p>
+    </div>
+    <br />
+</body>
+</html>

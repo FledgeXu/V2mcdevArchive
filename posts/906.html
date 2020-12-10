@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何添加方块挖掘等级</title>
+</head>
+<body>
+    <div class="title"><h1>如何添加方块挖掘等级</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows10 x64<br>
+你是用的JDK: jdk8u261 x64<br>
+你使用的IDE：Intellij IDEA<br>
+你使用的IDE版本:2019.3.5<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>问题情况简述</strong><br>
+我该如何将方块添加挖掘等级，我试图做过我能想到的任何事，但都无济于事。我进入游戏，依旧是木镐可以挖掘，但是我想让它只能够被钻石镐以上等级镐子挖掘，我该怎么做？？</p>
+<p><strong>相关代码</strong><br>
+`Block</p>
+<pre><code class="lang-auto">super(Properties.create(Material.ROCK).hardnessAndResistance(5.0f).harvestLevel(3).harvestTool(ToolType.PICKAXE));
+</code></pre>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/block/firstblock.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/block/firstblock.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/block/firstblock.html" target="_blank" rel="noopener">第一个方块 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>
+</li></ol>
+<blockquote>
+<p>"What’s so special about your code that you need to hide it“ ——<a href="https://github.com/cpw/modlauncher/issues/50#issuecomment-663999857">cpw</a><br>
+「您的代码有什么特别之处，您需要将其隐藏？」</p>
+</blockquote>
+<ol start="2">
+<li>
+</li></ol>
+<p>你需要同时设置<code>harvestTool</code>和设置<code>harvestLevel</code>才会起效。</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>所以……同时设置的意思是？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我重新看了一眼你的代码，看起来你已经设置了。你给的信息太少了，看不出有什么问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>那我把我创建方块的类全部给你看一遍吧。</p>
+<pre><code class="lang-auto">public class XXXXXX{
+    public XXXXXX(){
+        super(Properties.create(Material.ROCK).hardnessAndResistance(5.0f).harvestLevel(3).harvestTool(ToolType.PICKAXE));
+    }
+}
+</code></pre>
+<p>你所需要看到的是这个完整的类吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那我就不清楚了，类名都要打码还行……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>minecraft wiki 上关于挖掘的章节</p>
+<blockquote>
+<p><a href="https://minecraft-zh.gamepedia.com/%E6%8C%96%E6%8E%98" class="inline-onebox" rel="noopener nofollow ugc">挖掘 - Minecraft Wiki，最详细的官方我的世界百科</a></p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Recipes对应进度解锁时的工作方块图标设置</title>
+</head>
+<body>
+    <div class="title"><h1>Recipes对应进度解锁时的工作方块图标设置</h1></div>
+    <div class="post-user" class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IDEA 2019.3.5<br>
+Forge版本:  28.2.0<br>
+Minecraft版本: 1.14.4…<br>
+Mapping 文件版本: stable 58-1.14.4</p>
+<p><strong>简述</strong><br>
+我制作了一个新的recipe类型：milling，包括：<br>
+1个IRecipe的实现<code>public class MillRecipe implements IRecipe&lt;IInventory&gt;</code><br>
+1个IRecipeSerializer的实现<code>public static class Serializer extends ForgeRegistryEntry&lt;IRecipeSerializer&lt;?&gt;&gt; implements IRecipeSerializer&lt;MillRecipe&gt;</code><br>
+1个IRecipeType的静态变量。<br>
+经测试完全正常可以使用。</p>
+<p><strong>问题：</strong> 每一个recipe.json有一个对应的进度文件，在配方解锁时，触发进度解锁。这时候游戏右上角不是会显示一个牌子，里面有解锁了什么东西的图标，然后还有一个该配方是在什么工作方块里使用的图标(比如工作台、熔炉、酿造台等等)。我这个自定义的RecipeType用的工作台的图标(工作台可能是缺省或默认值)。怎么设置为我自己的机器图标。</p>
+<p><strong>注：</strong> 虽然我的版本为1.14.4，但1.15的答案也可以。我需要思路，我找不到在哪有这个设置。</p>
+<p><strong>我做的工作</strong><br>
+这方面资料比较少，没找到。<br>
+上述的这几个类里我没找到有设置图标的地方。<br>
+尝试寻找与进度有关的事件，里面只有一个Advancement类型的参数，然而里面好像也没有相关设置。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>1.14 官方已经不再支持，主流Mod迁移趋势是1.15/1.16请尽快升级。<br>
+没看懂你想说什么，你要设置图标直接设置<code>icon</code>的值就行了啊。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://minecraft-zh.gamepedia.com/media/minecraft-zh.gamepedia.com/6/64/Favicon.ico?version=648ac80b6f6779a40987ff23dd84aa1d&amp;version=648ac80b6f6779a40987ff23dd84aa1d" class="site-icon" width="32" height="32">
+      <a href="https://minecraft-zh.gamepedia.com/%E8%BF%9B%E5%BA%A6/JSON%E6%A0%BC%E5%BC%8F#.E6.96.87.E4.BB.B6.E6.A0.BC.E5.BC.8F" target="_blank" rel="noopener">Minecraft Wiki</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:160/132;"><img src="../uploads/default/original/1X/b82a10a538ccae1688b4460855abd76ca5e12bf3.png" class="thumbnail" width="160" height="132"></div>
+
+<h3><a href="https://minecraft-zh.gamepedia.com/%E8%BF%9B%E5%BA%A6/JSON%E6%A0%BC%E5%BC%8F#.E6.96.87.E4.BB.B6.E6.A0.BC.E5.BC.8F" target="_blank" rel="noopener">进度/JSON格式</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://zhangshenxing.gitee.io/favicon.ico" class="site-icon" width="32" height="32">
+      <a href="https://ruhuasiyu.github.io/VanillaModTutorial/#2.4_%E8%BF%9B%E5%BA%A6" target="_blank" rel="noopener">ruhuasiyu.github.io</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://ruhuasiyu.github.io/VanillaModTutorial/#2.4_%E8%BF%9B%E5%BA%A6" target="_blank" rel="noopener">Minecraft 原版模组入门教程</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你要改recipe的图标，<code>IRecipe</code>下有个<code>getIcon</code>的方法，你覆写就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post">
+        <p>是我瞎了，不好意思，谢谢。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于删除自定义维度后的启动异常</title>
+</head>
+<body>
+    <div class="title"><h1>关于删除自定义维度后的启动异常</h1></div>
+    <div class="post-user" class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 64位<br>
+你是用的JDK: 1.8.0_131 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:  1.15.2-31.2.0</p>
+<p><strong>错误情况简述</strong><br>
+本人之前根据neutrino教程创建了一个维度,但后来更改了模组id且删除了注册和构建维度的相关文件，再启动时可以正常启动，但一旦进入存档，就会出现以下报错(只粘贴了红色字体的日志)，且自动退出游戏</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[23:38:27] [Server thread/ERROR] [ne.mi.ev.EventBus/EVENTBUS]: Exception caught during firing event: Registry Object not present: mechanical_dimension:mechanical_mod_dimension
+	Index: 1
+	Listeners:
+		0: NORMAL
+		1: ASM: class com.rollyear.mechanical_dimension.world.DimensionsEventHandler onDimensionsRegistry(Lnet/minecraftforge/event/world/RegisterDimensionsEvent;)V
+java.lang.NullPointerException: Registry Object not present: mechanical_dimension:mechanical_mod_dimension
+	at java.base/java.util.Objects.requireNonNull(Objects.java:347)
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92)
+	at com.rollyear.mechanical_dimension.world.DimensionsEventHandler.onDimensionsRegistry(DimensionsEventHandler.java:18)
+	at net.minecraftforge.eventbus.ASMEventHandler_4_DimensionsEventHandler_onDimensionsRegistry_RegisterDimensionsEvent.invoke(.dynamic)
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.common.DimensionManager.fireRegister(DimensionManager.java:415)
+	at net.minecraft.server.MinecraftServer.loadWorlds(MinecraftServer.java:377)
+	at net.minecraft.server.integrated.IntegratedServer.loadAllWorlds(IntegratedServer.java:78)
+	at net.minecraft.server.integrated.IntegratedServer.init(IntegratedServer.java:99)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:638)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+[23:38:27] [Server thread/ERROR] [minecraft/MinecraftServer]: Encountered an unexpected exception
+java.lang.NullPointerException: Registry Object not present: mechanical_dimension:mechanical_mod_dimension
+	at java.util.Objects.requireNonNull(Objects.java:347) ~[?:?] {}
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200706-1.15.1-recomp.jar:?] {re:classloading}
+	at com.rollyear.mechanical_dimension.world.DimensionsEventHandler.onDimensionsRegistry(DimensionsEventHandler.java:18) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_4_DimensionsEventHandler_onDimensionsRegistry_RegisterDimensionsEvent.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.common.DimensionManager.fireRegister(DimensionManager.java:415) ~[?:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.loadWorlds(MinecraftServer.java:377) ~[?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.integrated.IntegratedServer.loadAllWorlds(IntegratedServer.java:78) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.server.integrated.IntegratedServer.init(IntegratedServer.java:99) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:638) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:844) [?:?] {}
+[23:38:27] [Server thread/ERROR] [minecraft/MinecraftServer]: Exception stopping the server
+java.lang.IllegalArgumentException: Can not hotload overworld. This must be loaded at all times by main Server.
+	at org.apache.commons.lang3.Validate.isTrue(Validate.java:158) ~[commons-lang3-3.8.1.jar:3.8.1] {}
+	at net.minecraftforge.common.DimensionManager.initWorld(DimensionManager.java:229) ~[?:?] {re:classloading}
+	at net.minecraftforge.common.DimensionManager.getWorld(DimensionManager.java:198) ~[?:?] {re:classloading}
+	at net.minecraft.server.MinecraftServer.getWorld(MinecraftServer.java:1053) ~[?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.save(MinecraftServer.java:552) ~[?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.stopServer(MinecraftServer.java:587) ~[?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.integrated.IntegratedServer.stopServer(IntegratedServer.java:241) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:701) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:844) [?:?] {}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个报错有什么不正常的嘛，你都改了这么多东西。<br>
+重新建一个存档就行</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>但重建存档并进入依然是自动退出（退出代码-1）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看这个错误日志，我只能知道你的dimensions没有注册进去……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>但dimension相关的文件及代码已经删了呀，我现在只想正常地进入存档<br>
+那么请问是否需要提供什么文件的代码供您分析问题呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>com.rollyear.mechanical_dimension.world.DimensionsEventHandler</code><br>
+这个类，你把这个类删了试试，要不就补充这个类的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>这个类一早就删了呀，其实我也是想问为什么一个删了的类还会对现在造成影响？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>可能开发环境的缓存出现了什么问题。<br>
+你是不是用了那个快速启动的配置？<br>
+运行Gradle面板里的runClient试试。<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0.png" data-download-href="../uploads/default/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0" title=""><img src="../uploads/default/optimized/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0_2_690x495.png" alt="" width="690" height="495" srcset="../uploads/default/optimized/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0_2_690x495.png, ../uploads/default/optimized/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0_2_1035x742.png 1.5x, ../uploads/default/original/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0.png 2x" data-small-upload="../uploads/default/optimized/1X/511c8ec7b9cd7cf199d14dbc6375ad7d469976c0_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">1144×822 77.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>依旧是在进入存档的时候闪退（新建的存档），不过有以下2 error(还有5个warning)</p>
+<blockquote>
+<p>Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was STRING at line 2 column 1 path $<br>
+Execution failed for task ‘:runClient’.<br>
+Process ‘command ‘C:\Program Files\Java\jdk-10.0.2\bin\java.exe’’ finished with non-zero exit value -1</p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>新出来的保存不用管他。<br>
+看样子好像环境炸了……<br>
+试试清空你工作目录下的<code>build</code>文件夹，然后再运行刚刚的那个task</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>新出来的报错不用管他。<br>
+看样子好像环境炸了……<br>
+试试清空你工作目录下的<code>build</code>文件夹，然后再运行刚刚的那个task</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>虽然还是有一个error,但是可以正常地进入存档（新建的）了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你有out文件夹的话，记得把out文件夹也先删掉。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>那么我想问一下,单独运行runClient和<br>
+点右上角的三角形运行Build Output,prepareRunClient最后运行runClient<br>
+的区别是什么?</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>其实区别不大，只不过一个是gradle执行task运行进行编译什么的运行，还有一个是先编译出来，然后像正常的Jar包一样运行。<br>
+具体的差别很难说。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>我把build目录下清空后，可以正常进入存档，但进入存档后<br>
+一开始一切正常<br>
+输入指令后没有反应<br>
+流体无法流动<br>
+TileEntity(如工作台)也无法互动<br>
+跳虚空也死不掉<br>
+且退出游戏时一直卡在“保存世界中”的页面</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那就重新配置一遍开发环境……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post">
+        <p>也只能这样了呀，好吧</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

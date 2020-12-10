@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么正确创建投掷物品</title>
+</head>
+<body>
+    <div class="title"><h1>怎么正确创建投掷物品</h1></div>
+    <div class="post-user" class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:IntelliJ IDEA 2019.3.3 x64<br>
+Forge版本:  1.14.4-28.2.0<br>
+Minecraft版本: 1.14.4<br>
+Mapping 文件版本: 20200119-1.14.4</p>
+<p><strong>错误情况简述</strong><br>
+我自己按照雪球做了一个投掷物品，可是丢出的时候就报错了，而且并没有生成投掷物实体</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[15:17:10] [Server thread/FATAL] [minecraft/ThreadTaskExecutor]: Error executing task on Server
+java.lang.IllegalStateException: The object net.minecraft.entity.EntityType@3161cec0 (name minecraft:niannian_mian) is being added too late.
+	at net.minecraftforge.registries.ForgeRegistry.add(ForgeRegistry.java:348) ~[?:?] {re:classloading}
+	at net.minecraftforge.registries.ForgeRegistry.add(ForgeRegistry.java:308) ~[?:?] {re:classloading}
+	at net.minecraftforge.registries.NamespacedDefaultedWrapper.register(NamespacedDefaultedWrapper.java:59) ~[?:?] {re:classloading}
+	at net.minecraftforge.registries.NamespacedDefaultedWrapper.register(NamespacedDefaultedWrapper.java:69) ~[?:?] {re:classloading}
+	at net.minecraftforge.registries.NamespacedDefaultedWrapper.register(NamespacedDefaultedWrapper.java:37) ~[?:?] {re:classloading}
+	at net.minecraft.util.registry.Registry.register(Registry.java:228) ~[?:?] {re:classloading}
+	at net.minecraft.util.registry.Registry.register(Registry.java:224) ~[?:?] {re:classloading}
+	at com.mcxiaoxiao.siyawolfmod.entitys.NiannianmianEntity.&lt;init&gt;(NiannianmianEntity.java:30) ~[?:?] {re:classloading}
+	at com.mcxiaoxiao.siyawolfmod.items.Niannianmian.onItemRightClick(Niannianmian.java:22) ~[?:?] {re:classloading}
+	at net.minecraft.item.ItemStack.useItemRightClick(ItemStack.java:192) ~[?:?] {re:classloading}
+	at net.minecraft.server.management.PlayerInteractionManager.processRightClick(PlayerInteractionManager.java:273) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.ServerPlayNetHandler.processTryUseItem(ServerPlayNetHandler.java:865) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemPacket.processPacket(CPlayerTryUseItemPacket.java:28) ~[?:?] {re:classloading}
+	at net.minecraft.network.play.client.CPlayerTryUseItemPacket.processPacket(CPlayerTryUseItemPacket.java:9) ~[?:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.lambda$checkThreadAndEnqueue$0(PacketThreadUtil.java:19) ~[?:?] {re:classloading}
+	at net.minecraft.util.concurrent.TickDelayedTask.run(TickDelayedTask.java:17) ~[?:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:137) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) [?:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.func_213205_aW(MinecraftServer.java:699) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.driveOne(MinecraftServer.java:693) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveUntil(ThreadTaskExecutor.java:120) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.runScheduledTasks(MinecraftServer.java:679) [?:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:626) [?:?] {re:classloading,pl:accesstransformer:B}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_202] {}
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>NiannianmianEntity.java</code></p>
+<pre><code class="lang-auto">public class NiannianmianEntity extends ProjectileItemEntity {
+    public NiannianmianEntity(EntityType&lt;? extends ProjectileItemEntity&gt; type, World worldIn) {
+        super(type, worldIn);
+    }
+
+    public NiannianmianEntity(World worldIn, LivingEntity throwerIn){
+        super(Registration.NIANNIANMIAN,throwerIn,worldIn);
+    }
+
+    public NiannianmianEntity(double x, double y, double z,World worldIn) {
+        super(Registration.NIANNIANMIAN,x, y, z,worldIn);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return Items.NIANNIAN_MIAN;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private IParticleData makeParticle() {
+        ItemStack itemstack = this.func_213882_k();
+        return (IParticleData)(itemstack.isEmpty() ? Items.NIANNIAN_MIAN : new ItemParticleData(ParticleTypes.ITEM, itemstack));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 3) {
+            IParticleData iparticledata = this.makeParticle();
+
+            for(int i = 0; i &lt; 8; ++i) {
+                this.world.addParticle(iparticledata, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() != null) {
+            SiyaWolfModMain.LOGGER.info("黏黏面 击中了 " + result.getType().name());
+
+        }
+
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte)3);
+            this.remove();
+        }
+    }
+}
+</code></pre>
+<p><code>NiannianmianRender.java</code></p>
+<pre><code class="lang-auto">public class NiannianmianRender extends SpriteRenderer&lt;NiannianmianEntity&gt; {
+
+    public NiannianmianRender(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, Minecraft.getInstance().getItemRenderer(), 1.0F);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto"> The object net.minecraft.entity.EntityType@3161cec0 (name minecraft:niannian_mian) is being added too late,
+</code></pre>
+<p>看起来是你的EntityType这块有问题，你的EntityType注册了吗？</p>
+<p>PS: 请不要使用拼音作为变量名……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的问题解决了吗？解决了请选择一个楼层作为答案，或者自己补充信息作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p>emmm现在不报错了，但是扔出去的时候看不到投掷物</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请你把你的代码贴上来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p><code>NiannianmianEntity.java</code></p>
+<pre><code class="lang-auto">    public NiannianmianEntity(EntityType&lt;? extends ProjectileItemEntity&gt; type, World worldIn) {
+        super(type, worldIn);
+    }
+
+    public NiannianmianEntity(World worldIn, LivingEntity throwerIn){
+        super(Entitys.NIANNIANMIAN,throwerIn,worldIn);
+    }
+
+    public NiannianmianEntity(double x, double y, double z,World worldIn) {
+        super(Entitys.NIANNIANMIAN,x, y, z,worldIn);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return Items.NIANNIAN_MIAN;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private IParticleData makeParticle() {
+        ItemStack itemstack = this.func_213882_k();
+        return (IParticleData)(itemstack.isEmpty() ? RegistryHandler.ITEM_NIANNIANMIAN : new ItemParticleData(ParticleTypes.ITEM, itemstack));
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 3) {
+            IParticleData iparticledata = this.makeParticle();
+
+            for(int i = 0; i &lt; 8; ++i) {
+                this.world.addParticle(iparticledata, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult)result).getEntity();
+            int i = entity instanceof BlazeEntity ? 3 : 0;
+            entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)i);
+            SiyaWolfModMain.LOGGER.info("黏黏面 击中了 " + entity.getDisplayName().toString());
+
+        }
+
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte)3);
+            this.remove();
+        }
+    }
+}
+</code></pre>
+<p><code>NiannianmianRender.java</code></p>
+<pre><code class="lang-auto">public class NiannianmianRender extends SpriteRenderer&lt;NiannianmianEntity&gt; {
+
+    public NiannianmianRender(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, Minecraft.getInstance().getItemRenderer());
+    }
+}
+</code></pre>
+<p><code>Niannianmian.java</code></p>
+<pre><code class="lang-auto">public class Niannianmian extends Item {
+
+    public Niannianmian() {
+        super(new Properties().group(Utils.itemGroup));
+    }
+
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack item = playerIn.getHeldItem(handIn);
+        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        if (!worldIn.isRemote)
+        {
+            NiannianmianEntity entityNiannianmian = new NiannianmianEntity(worldIn, playerIn);
+            entityNiannianmian.setItem(item);
+            entityNiannianmian.shoot(playerIn,playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            worldIn.addEntity(entityNiannianmian);
+            playerIn.setActiveHand(handIn);
+        }
+
+
+        return new ActionResult&lt;&gt;(ActionResultType.SUCCESS, item);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的<code>NiannianmianEntity.java</code>代码不全。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>你的渲染器注册了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p><code>NiannianmianEntity.java</code></p>
+<pre><code class="lang-auto">public class NiannianmianEntity extends ProjectileItemEntity {
+    public NiannianmianEntity(EntityType&lt;? extends ProjectileItemEntity&gt; type, World worldIn) {
+        super(type, worldIn);
+    }
+
+    public NiannianmianEntity(World worldIn, LivingEntity throwerIn){
+        super(Entitys.NIANNIANMIAN,throwerIn,worldIn);
+    }
+
+    public NiannianmianEntity(double x, double y, double z,World worldIn) {
+        super(Entitys.NIANNIANMIAN,x, y, z,worldIn);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return Items.NIANNIAN_MIAN;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private IParticleData makeParticle() {
+        ItemStack itemstack = this.func_213882_k();
+        return (IParticleData)(itemstack.isEmpty() ? RegistryHandler.ITEM_NIANNIANMIAN : new ItemParticleData(ParticleTypes.ITEM, itemstack));
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 3) {
+            IParticleData iparticledata = this.makeParticle();
+
+            for(int i = 0; i &lt; 8; ++i) {
+                this.world.addParticle(iparticledata, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult)result).getEntity();
+            int i = entity instanceof BlazeEntity ? 3 : 0;
+            entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)i);
+            SiyaWolfModMain.LOGGER.info("黏黏面 击中了 " + entity.getDisplayName().toString());
+
+        }
+
+        if (!this.world.isRemote) {
+            this.world.setEntityState(this, (byte)3);
+            this.remove();
+        }
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的注册代码呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p><code>RegistryHandler.java</code></p>
+<pre><code class="lang-auto">public class RegistryHandler {
+    public static final BasicParticleType ITEM_NIANNIANMIAN = register("item_niannianmian", false);
+
+    @SubscribeEvent
+    public static void onItemsRegistry(final RegistryEvent.Register&lt;Item&gt; event) {
+        //Register Items
+        event.getRegistry().register(Items.NIANNIAN_MIAN);
+    }
+
+   @SubscribeEvent
+    public static void onEntitysRegistry(final RegistryEvent.Register&lt;EntityType&lt;?&gt;&gt; event) {
+        event.getRegistry().register(EntityType.Builder.&lt;NiannianmianEntity&gt;create(NiannianmianEntity::new, EntityClassification.MISC)
+                .size(0.25f, 0.25f)
+                .build("niannianmian").setRegistryName(MODID,"niannianmian"));
+    }
+
+    public static BasicParticleType register(String key, boolean alwaysShow) {
+        return (BasicParticleType) Registry.&lt;ParticleType&lt;? extends IParticleData&gt;&gt;register(Registry.PARTICLE_TYPE, key, new BasicParticleType(alwaysShow));
+    }
+}
+</code></pre>
+<p><code>ClientProxy.java</code></p>
+<pre><code class="lang-auto">public class ClientProxy implements IProxy {
+
+    public void init(){
+        RenderingRegistry.registerEntityRenderingHandler(NiannianmianEntity.class, NiannianmianRender::new);
+    }
+
+    @Override
+    public World getClientWorld() {
+        return Minecraft.getInstance().world;
+    }
+
+    @Override
+    public PlayerEntity getClientPlayer() {
+        return Minecraft.getInstance().player;
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">public void init(){
+    RenderingRegistry.registerEntityRenderingHandler(NiannianmianEntity.class, NiannianmianRender::new);
+}
+</code></pre>
+<p>这个函数在哪里调用了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p><code>SiyaWolfModMain.java</code></p>
+<pre><code class="lang-auto">@Mod(SiyaWolfModMain.MODID)
+public class SiyaWolfModMain {
+    public  static final String  MODID = "siyawolfmod";
+    public static final IProxy proxy = DistExecutor.runForDist(() -&gt; () -&gt; new ClientProxy(), () -&gt; () -&gt; new ServerProxy());
+    public static ClientSetup Setup = new ClientSetup();
+
+    public SiyaWolfModMain() {
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+        Registration.init();
+    }
+
+    private &lt;T extends Event&gt; void Setup(T t) {
+        Setup.init();
+        proxy.init();
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>emmm现在不报错了，但是扔出去的时候看不到投掷物</p>
+</blockquote>
+<p>有没有图片？</p>
+    </div>
+    <br />
+    <div class="user"><h4>爱歪掰的小小</h4></div>
+    <br />
+    <div class="post">
+        <p>好的等一下</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>你为什么会觉得它会支持泛型？下个断点看看执行了没？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>另一个问题建议重新发帖询问。<br>
+此贴关闭。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

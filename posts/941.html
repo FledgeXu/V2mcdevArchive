@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>结构生成代码的解释</title>
+</head>
+<body>
+    <div class="title"><h1>结构生成代码的解释</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows10 x64<br>
+你是用的JDK: jdk1.8.0_261<br>
+你使用的IDE：Intellij IDEA<br>
+你使用的IDE版本:2019.3.5<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>图片</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/5d565e0da5506026d17bbdf484cfeafa47d05973.png" data-download-href="../uploads/default/5d565e0da5506026d17bbdf484cfeafa47d05973" title="问题"><img src="../uploads/default/optimized/1X/5d565e0da5506026d17bbdf484cfeafa47d05973_2_690x371.png" alt="问题" data-base62-sha1="djHrEAHn9jaoE1lqh066PHGZcd5" width="690" height="371" srcset="../uploads/default/optimized/1X/5d565e0da5506026d17bbdf484cfeafa47d05973_2_690x371.png, ../uploads/default/optimized/1X/5d565e0da5506026d17bbdf484cfeafa47d05973_2_1035x556.png 1.5x, ../uploads/default/original/1X/5d565e0da5506026d17bbdf484cfeafa47d05973.png 2x" data-small-upload="../uploads/default/optimized/1X/5d565e0da5506026d17bbdf484cfeafa47d05973_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">问题</span><span class="informations">1366×736 109 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>问题情况简述</strong><br>
+我需要了解方框内的代码的具体意思，如果我需要制作一个结构生成，我需要知道这些参数的意思。并且我通过了解类名，以及Ctrl+右键过了，初步了解了上述的一小部分。但我需要具体了解这些，如果有人知道，请务必告诉我，谢谢！</p>
+<p>还有一件事，通过看图发现，方框的上面一段代码，开头是public，而你的教程写的是protected，导致我报错。这是否需要更改？——如果我需要添加一个mod里面的方块，直接调用BlockRegistry里面的方块名称是不行的，得在后面加上get()，（我不确定我发布的问题之前是否有人发布过了。请原谅。）</p>
+<p><strong>相关代码</strong><br>
+XXXXXXXStructruePiece</p>
+<pre><code class="lang-auto">@Override
+    public boolean create(IWorld worldIn, ChunkGenerator&lt;?&gt; chunkGeneratorIn, Random randomIn, MutableBoundingBox mutableBoundingBoxIn, ChunkPos chunkPosIn) {
+        this.fillWithRandomizedBlocks(worldIn, mutableBoundingBoxIn, 0, 0, 0, 4, 4, 4, false, randomIn, BUILD_STONE_SELECTOR);
+        this.fillWithAir(worldIn, mutableBoundingBoxIn, 1, 1, 1, 3, 3, 3);
+        this.setBlockState(worldIn, BlockRegistry.XXXXXXX.get().getDefaultState().rotate(Rotation.CLOCKWISE_90), 2, 1, 0, mutableBoundingBoxIn);
+        this.setBlockState(worldIn, BlockRegistry.XXXXXXX.get().getDefaultState().rotate(Rotation.CLOCKWISE_90), 2, 2, 0, mutableBoundingBoxIn);
+        return true;
+    }
+</code></pre>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/worldgeneration/structuregeneration.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/worldgeneration/structuregeneration.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/worldgeneration/structuregeneration.html" target="_blank" rel="noopener">结构生成 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>再问一个，如果我想调整结构的生成高度以及生成概率该怎么做？？</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>我想起来了，如果我使用不同的包去定义各个类，那么首行必须得用public，不能用protected。<br>
+我的每个结构包是分开的，所以得用public</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>请不要乱七八糟的打这么多码，如果你的代码需要如此的遮遮掩掩，我觉得你也不应该来提问题…… 这种打码非常影响我回答的心情，别人都是Github这个项目的代码都能发出来，你倒好，连个类名都要打码。</li>
+<li>如果你下次还这样打码，我会锁定帖子的。</li>
+</ol>
+<blockquote>
+<p>还有一件事，通过看图发现，方框的上面一段代码，开头是public，而你的教程写的是protected，导致我报错。这是否需要更改？</p>
+</blockquote>
+<p>那个方法你打码了，我不知道什么意思。</p>
+<blockquote>
+<p>如果我需要添加一个mod里面的方块，直接调用BlockRegistry里面的方块名称是不行的，得在后面加上get()</p>
+</blockquote>
+<p>说明你没有完整的从上到下看过Neutrino</p>
+<p>关于create方法里事什么意思，我觉得你看函数的名字加上自己实验就知道了。</p>
+<blockquote>
+<p>再问一个，如果我想调整结构的生成高度以及生成概率该怎么做？？</p>
+</blockquote>
+<p><code>IFeatureConfig</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

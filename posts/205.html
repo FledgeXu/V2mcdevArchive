@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>向玩家附加Capability</title>
+</head>
+<body>
+    <div class="title"><h1>向玩家附加Capability</h1></div>
+    <div class="post-user" class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA 3.3<br>
+Forge版本:  28.2.0<br>
+Minecraft版本: 1.14.4</p>
+<p><strong>错误情况简述</strong><br>
+我已经有了一个完整且可用的能力，可以正常保存玩家的水分值，可以在游戏过程中改变该值。<br>
+进入存档后使用AttachCapabilitiesEvent向玩家附加能力，初始值是20（此时在服务端和客户端分别创建能力）。<br>
+然后在LivingEntityUseItemEvent.Finish（玩家使用完物品后调用该事件）处将值-1，即19（此时服务端和客户端分别更改数值）。<br>
+<strong>然后进入末地，客户端重新调用AttachCapabilitiesEvent向客户端玩家附加能力（此时服务端是19，客户端为初始值20）。</strong><br>
+然后在LivingEntityUseItemEvent.Finish将值-1（此时服务端为18，客户端为19）。<br>
+最后返回主世界，客户端<strong>再次重新附加能力</strong>，服务端为18，客户端为20。<br>
+退出存档，重新进入，客户端与服务端的值皆为上次的服务端值：18。</p>
+<p>因为我需要把该值渲染出来，而客户端每次的重置导致该值并不是“准确的”</p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">@SubscribeEvent
+    public void onAttachCapabilities(AttachCapabilitiesEvent&lt;Entity&gt; event) {
+        if (event.getObject() instanceof PlayerEntity) {
+            event.addCapability(new ResourceLocation(XXX.MOD_ID + ":" + "thirst"), new ThirstProvider());
+        }
+    }
+</code></pre>
+<p>因为我不确定在客户端边，进入末地后的玩家和之前的玩家是否是同一个实例。<br>
+如果是，那能否拦截AttachCapabilitiesEvent，该怎么做。<br>
+如果不是，那能否从服务端重新同步数据到客户端，该怎么做。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果是这样的数据，你应该永远保持逻辑上的服务端和逻辑上的客户端之间数据的同步，并以逻辑上的服务端为准。<br>
+因为Capability本身不自带数据同步的功能，所以你要自己手动发送网络包来同步数据。</p>
+    </div>
+    <br />
+    <div class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post">
+        <p>能说一些有关的网络事件的类名吗，因为我还没有涉足过这个方面。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://www.bilibili.com/video/av70307586?p=10" class="onebox" target="_blank">https://www.bilibili.com/video/av70307586?p=10</a><br>
+<a href="https://documentation-tterrag.readthedocs.io/en/latest/networking/" class="onebox" target="_blank">https://documentation-tterrag.readthedocs.io/en/latest/networking/</a><br>
+<a href="https://harbinger.covertdragon.team/chapter-07/forge-extension/simple-network-wrapper.html" class="onebox" target="_blank">https://harbinger.covertdragon.team/chapter-07/forge-extension/simple-network-wrapper.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>Seraph_JACK</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://mcforge.readthedocs.io/en/1.14.x/networking/simpleimpl/" class="onebox" target="_blank" rel="nofollow noopener">https://mcforge.readthedocs.io/en/1.14.x/networking/simpleimpl/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p><code>PlayerEvent.Clone#isWasDeath</code> 了解一下</p>
+    </div>
+    <br />
+    <div class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post">
+        <p>这个方法我用了，但它只在服务端运行并同步了数据，客户端并没有执行（似乎不太对劲？）</p>
+<pre><code class="lang-auto">@SubscribeEvent
+    public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+        if (!event.isWasDeath()) {
+           // balabala
+        }
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>这个事件应该只在逻辑服务端触发</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果问题解决了，请选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post">
+        <p>OK，取消之前在Clone事件内附加的同步动作，统一到另一个事件：</p>
+<pre><code class="lang-auto">@SubscribeEvent
+    public void onEntityJoinWorldEvent(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof ServerPlayerEntity) {
+            // network sync
+        }
+    }
+</code></pre>
+<p>该事件在客户端和服务端都可触发，通过<code>if (event.getEntity() instanceof ServerPlayerEntity)</code>可以限定为服务端。<br>
+前往末地时，服务端先自动同步数据，然后调用此事件向客户端发包同步数据。<br>
+返回主世界时，服务端先调用Clone事件，将末地数据同步到主世界，然后调用此事件向客户端发包同步数据。</p>
+<p>两次网络包，客户端都在AttachCapabilitiesEvent事件后接受包并同步数据。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

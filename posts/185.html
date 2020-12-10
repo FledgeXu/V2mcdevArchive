@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>RightClickBlock会成双成对的被调用</title>
+</head>
+<body>
+    <div class="title"><h1>RightClickBlock会成双成对的被调用</h1></div>
+    <div class="post-user" class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  1.15.2-31.1.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+RightClickBlock会成双成对的被调用<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">[09:16:51] [Server thread/INFO] [STDOUT/]: [com.example.examplemod.handler.PlayerHandler:onRightClickBlock:16]: 999
+[09:16:51] [Server thread/INFO] [STDOUT/]: [com.example.examplemod.handler.PlayerHandler:onRightClickBlock:16]: 999
+[09:16:51] [Render thread/INFO] [minecraft/NewChatGui]: [CHAT] 你右键了花岗岩
+[09:16:51] [Render thread/INFO] [minecraft/NewChatGui]: [CHAT] 你右键了花岗岩
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>PlayerHandler.java</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber
+public class PlayerHandler
+{
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        if(event.getWorld() instanceof ServerWorld){
+            System.out.println(999);
+            ITextComponent text =  event.getWorld().getBlockState(event.getPos()).getBlock().getNameTextComponent();
+            event.getPlayer().sendMessage(new StringTextComponent("你右键了").appendSibling(text));
+        }
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>「主手一次，副手一次。」—Seraph_Jack</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

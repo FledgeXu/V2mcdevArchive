@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何做出最简单的活塞推动效果？</title>
+</head>
+<body>
+    <div class="title"><h1>如何做出最简单的活塞推动效果？</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:31.1.46<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200610-1.15.1</p>
+<p><strong>情况简述</strong><br>
+方块目的描述：被放置20gt后自动<strong>向<code>FACING</code>的方向移动一格，同时把挡着的方块推出去一格</strong>。一开始试着暴力使用<code>replaceBlock</code>和<code>setBlockState</code>之类的（这个方块的正常使用情况就是前面挡着的方块只有一格，所以这样用），不过效果看起来很生硬。。。后来找到了活塞的<code>doMove</code>方法，但是看得懵懵的 <img src="../images/emoji/apple/nauseated_face.png?v=9" title=":nauseated_face:" class="emoji" alt=":nauseated_face:">。暂时也没找到关于这个的介绍或者教程之类的。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你为什么不直接继承活塞，然后修改它的间隔。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>活塞动画是用TER渲染的。<br>
+活塞的实现有涉及到很多东西，你要慢慢研究。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧。。。。看起来又是有点恼火的一段 <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

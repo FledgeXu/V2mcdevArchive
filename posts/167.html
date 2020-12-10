@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何使用FakePlayer，破坏一个方块</title>
+</head>
+<body>
+    <div class="title"><h1>如何使用FakePlayer，破坏一个方块</h1></div>
+    <div class="post-user" class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+如何使用FakePlayer，破坏一个方块。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">---- Minecraft Crash Report ----
+// You're mean.
+
+Time: 2/29/20 9:54 AM
+Description: Ticking player
+
+java.lang.NullPointerException: Ticking player
+	at net.minecraftforge.common.ForgeHooks.onBlockBreakEvent(ForgeHooks.java:844)
+	at net.minecraft.server.management.PlayerInteractionManager.tryHarvestBlock(PlayerInteractionManager.java:309)
+	at com.example.examplemod.task.BlockRemovingTask.apply(BlockRemovingTask.java:17)
+	at com.example.examplemod.Faker.onUpdate(Faker.java:36)
+	at net.minecraft.world.World.updateEntityWithOptionalForce(World.java:2186)
+	at net.minecraft.world.WorldServer.updateEntityWithOptionalForce(WorldServer.java:871)
+	at net.minecraft.world.World.updateEntity(World.java:2145)
+	at net.minecraft.world.WorldServer.tickPlayers(WorldServer.java:672)
+	at net.minecraft.world.World.updateEntities(World.java:1921)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:643)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:842)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592)
+	at java.lang.Thread.run(Thread.java:748)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at net.minecraftforge.common.ForgeHooks.onBlockBreakEvent(ForgeHooks.java:844)
+	at net.minecraft.server.management.PlayerInteractionManager.tryHarvestBlock(PlayerInteractionManager.java:309)
+	at com.example.examplemod.task.BlockRemovingTask.apply(BlockRemovingTask.java:17)
+	at com.example.examplemod.Faker.onUpdate(Faker.java:36)
+	at net.minecraft.world.World.updateEntityWithOptionalForce(World.java:2186)
+	at net.minecraft.world.WorldServer.updateEntityWithOptionalForce(WorldServer.java:871)
+	at net.minecraft.world.World.updateEntity(World.java:2145)
+
+-- Player being ticked --
+Details:
+	Entity Type: null (com.example.examplemod.Faker)
+	Entity ID: 2
+	Entity Name: tosunfaker
+	Entity's Exact location: 32.50, 45.00, 32.50
+	Entity's Block location: World: (32,45,32), Chunk: (at 0,2,0 in 2,2; contains blocks 32,0,32 to 47,255,47), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Entity's Momentum: 0.00, 0.00, 0.00
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.world.WorldServer.tickPlayers(WorldServer.java:672)
+	at net.minecraft.world.World.updateEntities(World.java:1921)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:643)
+
+-- Affected level --
+Details:
+	Level name: 新的世界
+	All players: 2 total; [EntityPlayerMP['Player351'/0, l='新的世界', x=43.83, y=45.00, z=31.78], Faker['tosunfaker'/2, l='新的世界', x=32.50, y=45.00, z=32.50]]
+	Chunk stats: ServerChunkCache: 256 Drop: 0
+	Level seed: -5077820683368517982
+	Level generator: ID 06 - light_void, ver 0. Features enabled: true
+	Level generator options: 
+	Level spawn location: World: (32,45,32), Chunk: (at 0,2,0 in 2,2; contains blocks 32,0,32 to 47,255,47), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 1450 game time, 1450 day time
+	Level dimension: 0
+	Level storage version: 0x04ABD - Anvil
+	Level weather: Rain time: 83772 (now: false), thunder time: 55433 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: true
+Stacktrace:
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:842)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592)
+	at java.lang.Thread.run(Thread.java:748)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_231, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 680905408 bytes (649 MB) / 1171783680 bytes (1117 MB) up to 3795845120 bytes (3620 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2847 5 mods loaded, 5 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State  | ID        | Version      | Source                           | Signature |
+	|:------ |:--------- |:------------ |:-------------------------------- |:--------- |
+	| LCHIJA | minecraft | 1.12.2       | minecraft.jar                    | None      |
+	| LCHIJA | mcp       | 9.42         | minecraft.jar                    | None      |
+	| LCHIJA | FML       | 8.0.99.99    | forgeSrc-1.12.2-14.23.5.2847.jar | None      |
+	| LCHIJA | forge     | 14.23.5.2847 | forgeSrc-1.12.2-14.23.5.2847.jar | None      |
+	| LCHIJA | tosun     | 1.0          | 1.12.2                           | None      |
+
+	Loaded coremods (and transformers): 
+	GL info: ~~ERROR~~ RuntimeException: No OpenGL context found in the current thread.
+	Profiler Position: N/A (disabled)
+	Player Count: 1 / 8; [EntityPlayerMP['Player351'/0, l='新的世界', x=43.83, y=45.00, z=31.78]]
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>Faker</code></p>
+<pre><code class="lang-auto">package com.example.examplemod;
+
+import com.example.examplemod.task.Task;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.UUID;
+
+public class Faker extends FakePlayer {
+    public static final GameProfile GP = new GameProfile(UUID.fromString("58a707fe-2d47-409a-9c8a-9a7cf81edf29"), ExampleMod.MODID + "faker");
+    public Queue&lt;Task&gt; tasks = new LinkedList&lt;&gt;();
+    public int dps = 5;
+    public static Faker fakePlayer = null;
+    public Faker(World world) {
+        super((WorldServer) world, GP);
+    }
+    public boolean isCreative()
+    {
+        return true;
+    }
+
+    @Override
+    public void onUpdate() {
+        for (int i = 0; i &lt; dps; i++) {
+            Task t = tasks.poll();
+            if (t != null) {
+                t.apply(this);
+            } else {
+                return;
+            }
+        }
+    }
+
+    public void addTask(Task t){
+        tasks.offer(t);
+    }
+
+    public static Faker getFakePlayer(WorldServer server)
+    {
+        if (fakePlayer == null)
+        {
+            fakePlayer = new Faker(server);
+            server.spawnEntity(fakePlayer);
+        }
+        return fakePlayer;
+    }
+}
+</code></pre>
+<p><code>BlockRemovingTask</code></p>
+<pre><code class="lang-auto">package com.example.examplemod.task;
+
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.FakePlayer;
+
+public class BlockRemovingTask implements Task {
+
+    private BlockPos pos;
+
+    public BlockRemovingTask(BlockPos pos){
+        this.pos = pos;
+    }
+    @Override
+    public void apply(FakePlayer player) {
+        player.interactionManager.tryHarvestBlock(pos);//这里
+    }
+}
+</code></pre>
+<p><strong>其他</strong><br>
+可能是服务端实体向客户端发包导致崩溃。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>FakePlayer</code>有没有tick更新函数，加上试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>【Forge 1.16】如何让定义可以拉的弓</title>
+</head>
+<body>
+    <div class="title"><h1>【Forge 1.16】如何让定义可以拉的弓</h1></div>
+    <div class="post-user" class="user"><h4>OMYJO</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win x64<br>
+你用的JDK是: &lt;这里填上你的JDK信息，要带上是否为64位&gt;<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;请在这里贴入你的IDE版本信息&gt;<br>
+Forge版本:  forge 1.16.3-34.1.0<br>
+Minecraft版本: Minecraft 1.1.6</p>
+<p><strong>出错图</strong><br>
+&lt;把图片直接拖拽上来&gt;<br>
+<strong>错误情况简述</strong><br>
+1.16版本的Minecraft对弓的“pull”和“pulling”的设置放在了一个@OnlyIn(Dist.CLIENT)<br>
+public class ItemModelsProperties 的类中，下面这个代码在其静态初始化块中，<br>
+func_239418_a_(Items.BOW, new ResourceLocation(“pulling”), (p_239428_0_, p_239428_1_, p_239428_2_) -&gt; {<br>
+return p_239428_2_ != null &amp;&amp; p_239428_2_.isHandActive() &amp;&amp; p_239428_2_.getActiveItemStack() == p_239428_0_ ? 1.0F : 0.0F;<br>
+});<br>
+仿照着，我在我自己的弓物品的构造函数中这样写的：<br>
+ItemModelsProperties.func_239418_a_(this, new ResourceLocation(“pulling”), (p_239428_0_, p_239428_1_, p_239428_2_) -&gt; {<br>
+return p_239428_2_ != null &amp;&amp; p_239428_2_.isHandActive() &amp;&amp; p_239428_2_.getActiveItemStack() == p_239428_0_ ? 1.0F : 0.0F;<br>
+});<br>
+这么写之后生成的mod在单机Minecraft中没什么问题，但是放在Forge的Server里就会报错</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">java.lang.NoClassDefFoundError: net/minecraft/item/IItemPropertyGetter
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>这个问题出错的原因很简单，你在物理服务端上引用了一个只在客户端出现的类，自然会出错。</li>
+<li>你这个提问有问题，提问的时候请把类的代码的贴全，而不是像现在这样边说边贴（顺便连markdown都没用，建议学一下，小学生都能学会的东西）还有错误信息要贴全，至少把整个调用栈贴上，而不是只贴一句话。<br>
+<a href="../t/topic/881" class="inline-onebox">Markdown 简明教程</a>
+</li>
+<li>你需要更新一下mapping文件了，全是srg名字既不方便写代码也不方便debug。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>OMYJO</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://boson.v2mcdev.com/item/item-property-override.html">https://boson.v2mcdev.com/item/item-property-override.html</a><br>
+此链接中的内容可以解决问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

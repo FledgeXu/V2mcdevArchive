@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何为Item注册obj模型？</title>
+</head>
+<body>
+    <div class="title"><h1>如何为Item注册obj模型？</h1></div>
+    <div class="post-user" class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本: 4.12<br>
+Forge版本:  14.23.5.2823<br>
+Minecraft版本: 1.12<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>提问</strong><br>
+Forge的扩展里有支持加载Wavefront OBJ的方法，但是经查阅都只是得到十分模糊的描述，如何正确的加载和使用obj模型并使其支持类似 Property Override的功能（或者说不能使用OBJLoader，必须得自己写渲染器？），望指点</p>
+<p><strong>相关代码</strong><br>
+这是些是我自己琢磨出来的，但是未能成功地注册<br>
+<code>ModelHandler.class</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(modid = MidgardReborn.MODID, value = Side.CLIENT)
+public class ModelHandler {
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void registerModel(ModelRegistryEvent event) throws Exception
+	{
+		OBJLoader.INSTANCE.addDomain(MidgardReborn.MODID);
+		
+		for(Map.Entry&lt;String, ResourceLocation&gt; entry : RegistyManager.OBJModelRegisty.getInstance().getRegisty().entrySet())
+		{
+			ModelResourceLocation mrl = new ModelResourceLocation(entry.getValue(), "inventory");
+			Item item = RegistyManager.OBJModelRegisty.getItemFromID(entry.getKey());
+			if(item != null)
+			{
+				ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
+			}
+		}
+	}
+}
+</code></pre>
+<p><code> RegistyManager.OBJModelRegisty.class</code></p>
+<pre><code class="lang-auto">public abstract class RegistyManager&lt;T&gt; implements IRegistyManager&lt;T&gt;{
+	
+	protected Map&lt;String, T&gt; registy = Maps.newHashMap();
+
+	@Override
+	public Map&lt;String, T&gt; getRegisty() {
+		return registy;
+	}
+
+	public static class OBJModelRegisty extends RegistyManager&lt;ResourceLocation&gt;
+	{
+		private static OBJModelRegisty instance = new OBJModelRegisty();
+		private final ResourceLocation ITEM_CLAW = new ResourceLocation(MidgardReborn.MODID, "item_claw.obj");
+		private final ResourceLocation ITEM_CLAW_LESS = new ResourceLocation(MidgardReborn.MODID, "item_claw_less.obj");
+		
+		private OBJModelRegisty() {
+			registy.put("item_claw", ITEM_CLAW);
+			registy.put("item_claw_less", ITEM_CLAW_LESS);
+		}
+		
+		@Nullable
+		public static Item getItemFromID(String name)
+		{
+			return ItemRegisty.instance.registy.get(name);
+		}
+		
+		public static OBJModelRegisty getInstance()
+		{
+			return instance;
+		}
+	}
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>请注意，1.12 Forge官方已经放弃支持，不会再有Bug修复，添加特性，请尽早迁移到1.14/1.15</strong><br>
+你实现的太复杂了，你只需要简单的用<code>OBJLoader.INSTANCE.addDomain(MidgardReborn.MODID);</code>开启使用OBJ模型，然后在json文件里指定就行。<br>
+具体我没有用过，这里我找了一些资料。<br>
+基本上就是你需要在BlockState里指定OBJ，然后在Item的模型里指定BlockState，这么做好像是因为，Forge会在加载模型的时候自动搜索BlockState里的内容，顺便这个问题在1.14之后已经解决了，你可以直接在物品的json文件里指定使用OBJ模型。<br>
+好像Forge官方就提供例子，<a href="https://github.com/MinecraftForge/MinecraftForge/blob/1.12.x/src/test/java/net/minecraftforge/debug/ModelLoaderRegistryDebug.java#L103">模型</a>(<a href="https://github.com/MinecraftForge/MinecraftForge/tree/1.12.x/src/test/resources/assets/forgedebugmodelloaderregistry">资源文件夹</a>)</p>
+<blockquote>
+<p>For entities you need your own obj model loader/renderer.<br>
+For items/blocks you need to put your model and material(.obj and .mtl files) in an appropriate models subfolder in your assets, point to that model through a blockstates file for example(if you are using forge’s blockstates for items) and you are done. There are a few thing you need to know:</p>
+<ol>
+<li>When specifying an obj model to be used you must include the obj extension in the path too.</li>
+<li>You must call OBJLoader.INSTANCE.addDomain(modid) with your modid as a parameter before the models are loaded.<br>
+<a href="https://github.com/MinecraftForge/MinecraftForge/blob/1.12.x/src/test/java/net/minecraftforge/debug/ModelLoaderRegistryDebug.java#L103">Here</a>(<a href="https://github.com/MinecraftForge/MinecraftForge/tree/1.12.x/src/test/resources/assets/forgedebugmodelloaderregistry">and the resources folder</a>) is an example provided by forge itself.</li>
+</ol>
+</blockquote>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/58803-load-obj-models/?tab=comments#comment-271676" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/58803-load-obj-models/?tab=comments#comment-271676" target="_blank">Load Obj Models</a></h3>
+
+<p>For entities you need your own obj model loader/renderer. For items/blocks you need to put your model and material(.obj and .mtl files) in an appropriate models subfolder in your assets, point to that model through a blockstates file for example(if...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>那既然这样就可以解决了，那我是否能够继续使用类似 Property Override的功能呢？<br>
+我想要该模型像弓一样根据数据进行改变</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉应该是可以的，具体我没在1.12试过<img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"><img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:">。</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>我想我已经自己解决了上述的问题，但是现在导入的模型不知道为什么会变得巨大无比，难道是单位不对么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>应该是。<br>
+如果你用的是Blender，Minecraft的方块的标准大小是1m*1m*1m。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

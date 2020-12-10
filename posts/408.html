@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何给一个实体加速度(Velocity)</title>
+</head>
+<body>
+    <div class="title"><h1>如何给一个实体加速度(Velocity)</h1></div>
+    <div class="post-user" class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IDE：Eclipse<br>
+IDE版本:4.12<br>
+Forge版本:  14.23.5.2823<br>
+Minecraft版本: 1.12<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>错误情况简述</strong><br>
+让玩家朝着一个方向运动，我尝试调用EntityLivingBase#setVelocity()和EntityLivingBase#addVelocity()，但是在此方法调用之后玩家没有任何的反应</p>
+<p><em>（在此之前我也查询过其他论坛的问题，只得到一些匪夷所思的结论，但却没法解决这个问题）</em></p>
+<p><strong>相关代码</strong><br>
+<code>ItemClaw.class</code> (物品)</p>
+<pre><code class="lang-auto">public class ItemClaw extends Item{
+
+	private int progress;
+	
+	public ItemClaw() {
+		super();
+		this.maxStackSize = 1;
+		setMaxDamage(0);
+		setNoRepair();
+		setCreativeTab(MRCreativeTab.TOOL);
+		this.addPropertyOverride(new ResourceLocation("midgard_reborn", "less"), new IItemPropertyGetter() {
+			
+			@Override
+			public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
+				if(stack.getItem() instanceof ItemClaw)
+				{
+					return entityIn != null &amp;&amp; !isLess(stack) ? 0.0F : 1.0F;
+				}
+				else
+				{
+					return 0.0F;
+				}
+			}
+		});
+		
+	}
+	
+	@Override
+	public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		if(!worldIn.isRemote)
+		{
+			ItemStack itemstack = playerIn.getHeldItem(handIn);
+			if(itemstack != null &amp;&amp; itemstack.getItem() instanceof ItemClaw &amp;&amp; !isLess(itemstack))
+			{
+				ProjectileClaw claw = createClaw(playerIn);
+				claw.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3.0F, 1.0F);
+				setLess(itemstack, true);
+				worldIn.spawnEntity(claw);
+			}
+		}
+		return new ActionResult&lt;ItemStack&gt;(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+	}
+	
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if(!worldIn.isRemote &amp;&amp; stack.getItem() instanceof ItemClaw &amp;&amp; isLess(stack))
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			
+			if(nbt == null)
+			{
+				nbt = new NBTTagCompound();
+				nbt.setInteger("progress", 0);
+			}
+			
+			progress = nbt.getInteger("progress");
+			if(++progress &gt;= 25)
+			{
+				this.setLess(stack, false);
+				progress = 0;
+			}
+			nbt.setInteger("progress", progress);
+		}
+	}
+	
+	protected ProjectileClaw createClaw(EntityLivingBase throwerIn)
+	{
+		return new ProjectileClaw(throwerIn.world, throwerIn);
+	}
+	
+	public void setLess(ItemStack itemclaw, boolean value)
+	{
+		NBTTagCompound nbt = itemclaw.getTagCompound();
+		
+		if(nbt == null)
+		{
+			nbt = new NBTTagCompound();
+		}
+
+		nbt.setBoolean("less", value);
+		itemclaw.setTagCompound(nbt);
+	}
+	
+	public boolean isLess(ItemStack itemclaw)
+	{
+		NBTTagCompound nbt = itemclaw.getTagCompound();
+		
+		return nbt == null ? false : nbt.getBoolean("less");
+	}
+}
+</code></pre>
+<p><code>ProjectileClaw.class</code> (抛射物)</p>
+<pre><code class="lang-auto">public class ProjectileClaw extends EntityThrowable{
+
+	private double initmotionX;
+	private double initmotionY;
+	private double initmotionZ;
+	private EntityLivingBase clawthrower;
+	
+	public ProjectileClaw(World worldIn) {
+		super(worldIn);
+	}
+	
+	public ProjectileClaw(World worldIn, double x, double y, double z)
+	{
+		super(worldIn, x, y, z);
+	}
+	
+	public ProjectileClaw(World worldIn, EntityLivingBase throwerIn) {
+		super(worldIn, throwerIn);
+		this.clawthrower = throwerIn;
+	}
+
+	@Override
+	public void onUpdate() {
+		EntityLivingBase entitylivingbase = this.getThrower();
+		if(entitylivingbase != null &amp;&amp; entitylivingbase instanceof EntityPlayer &amp;&amp; !entitylivingbase.isEntityAlive())
+		{
+			this.setDead();
+		}
+		else
+		{
+			super.onUpdate();
+		}
+	}
+	
+	public static void registerFixesClaw(DataFixer fixer)
+	{
+		registerFixesThrowable(fixer, "ThrownClaw");
+	}
+
+	@Override
+	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
+		this.initmotionX = x;
+		this.initmotionY = y;
+		this.initmotionZ = z;
+		super.shoot(x, y, z, velocity, inaccuracy);
+	}
+	
+	@Override
+	protected void onImpact(RayTraceResult result) {
+		EntityLivingBase entitylivingbase = getThrower();
+		if(result.entityHit != null)
+		{
+			if(result.entityHit == this.clawthrower)
+			{
+				return;
+			}
+			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entitylivingbase), 1.0F);
+		}
+		
+		if(result.typeOfHit == RayTraceResult.Type.BLOCK)
+		{
+			if(entitylivingbase != null) 
+			{	
+				motorize(0.1F);
+				this.world.setEntityState(this, (byte) 15);
+				this.setDead();
+			}	
+		}
+		
+		if(!this.world.isRemote)
+		{
+			if(this.onGround)
+			{
+				this.setDead();
+			}
+		}
+	}
+	
+	protected void motorize(float velocity)
+	{
+		EntityLivingBase entitylivingbase = getThrower();
+		if(entitylivingbase != null)
+		{
+			double x = entitylivingbase.posX - this.posX;
+            double y = entitylivingbase.posY - this.posY;
+            double z = entitylivingbase.posZ - this.posZ;
+            
+	        x = x * (double)velocity;
+	        y = y * (double)velocity;
+	        z = z * (double)velocity;
+	        entitylivingbase.setVelocity(x, y, z);
+	        entitylivingbase.sendMessage(new TextComponentString("motorize(x:" + x + " y:" + y + " z:" + z + ")"));//这是测试用的信息，测试时此项是有值且正确的
+		}
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+		compound.setDouble("init_motionX", initmotionX);
+		compound.setDouble("init_motionY", initmotionY);
+		compound.setDouble("init_motionZ", initmotionZ);
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		this.initmotionX = compound.getDouble("init_motionX");
+		this.initmotionY = compound.getDouble("init_motionY");
+		this.initmotionZ = compound.getDouble("init_motionZ");
+		super.readEntityFromNBT(compound);
+	}
+}
+</code></pre>
+<p>加速度的实现在 <strong>ProjectileClaw#motorize()</strong> 在 <strong>ProjectileClaw#onImpact()</strong> 调用</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>实体应该有个<code>move</code>方法，你需要在实体的<code>tick</code>方法中调用这个<code>move</code>方法，这样就能让实体运动了。<br>
+具体你可以查看原版的船的<code>tick</code>方法。<br>
+不过我没懂具体什么意思，你想要的是什么动？玩家还是你的实体？</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>这个实体是玩家<br>
+我想要的实现是让玩家根据一个朝向（向量）运动</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先试试<code>motionXYZ</code>，看看满足不满足你的要求。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我查了一番资料，发现好像Player的运动是客户端控制的。所以好像没有直接的方法可以控制Player向某个方向走。<br>
+可以使用<code>InputUpdateEvent</code>，来模拟这个效果。</p>
+<blockquote>
+<p>You can use the <code>InputUpdateEvent</code> on the client for this purpose.<br>
+However note that this is purely client-side (as all player induced motion) and thus you will need server-side verification that the player actually does not move if you want to prevent cheating.<br>
+– <strong><a href="https://www.minecraftforge.net/forum/profile/1697-diesieben07/">diesieben07</a></strong></p>
+</blockquote>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/69685-1122-making-player-movefloat-towards-certain-destination/" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/69685-1122-making-player-movefloat-towards-certain-destination/" target="_blank">[1.12.2] Making player move/float towards certain destination</a></h3>
+
+<p>Basically what the title says, cancelling WASD and Spacebar keys. Then make the player float/move towards a certain destination. I got it to work for entities such as a cow or skeleton etc. the code I currently use to move an entity towards a...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/39015-simulate-player-walking/" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/39015-simulate-player-walking/" target="_blank">Simulate player walking</a></h3>
+
+<p>As soon as I figure out the problem I suggested in the other post, I will face another problem - how to make the player move? I imagine there is a singleton object that represents player, which will allow me to interact with it. Am I right? How do I...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/62474-1102-ways-to-move-the-player-forward/" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/62474-1102-ways-to-move-the-player-forward/" target="_blank">[1.10.2] Ways to move the player forward?</a></h3>
+
+<p>Hey! So I have tried moving the player to a direction, ex. sides, forward, backward, etc. but I just couldnt find a way to make it work. Any suggestions? Thanks!</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>在此前我已经声明过使用了此方法<br>
+EntityLivingBase#setVelocity()</p>
+<pre><code class="lang-auto">    /**
+     * Updates the entity motion clientside, called by packets from the server
+     */
+    @SideOnly(Side.CLIENT)
+    public void setVelocity(double x, double y, double z)
+    {
+        this.motionX = x;
+        this.motionY = y;
+        this.motionZ = z;
+    }
+</code></pre>
+<p>EntityLivingBase#addVelocity()</p>
+<pre><code class="lang-auto">/**
+     * Adds to the current velocity of the entity, and sets {@link #isAirBorne} to true.
+     */
+    public void addVelocity(double x, double y, double z)
+    {
+        this.motionX += x;
+        this.motionY += y;
+        this.motionZ += z;
+        this.isAirBorne = true;
+    }
+</code></pre>
+<p>然后不知道为什么玩家没有做出任何变化，也许是我的调用的方法不对，或者说我缺少了什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>这个还没尝试，感谢您热心的帮助，我会耐心的去修改并尝试</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那么<code>motionX</code>应该是不起效的</p>
+<blockquote>
+<p>Player entities do not care about motionXYZ<br>
+<strong><a href="https://www.minecraftforge.net/forum/profile/1697-diesieben07/">diesieben07</a></strong></p>
+</blockquote>
+<p>看我后来发的三个链接中的第一个链接</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>最后使用了在客户端发送Position数据包来达到线性移动的效果，了解到 <code>handlerInputUpadet</code>仅仅是用来控制每tick玩家的键盘输入<br>
+玩家的<code>MovementInput.moveStrafe</code> 和 <code>MovementInput.moveForward</code> 分别是控制玩家前进和横行的，无法做到真正的自定义**“加速度**”，只能用来模拟"<strong>移动</strong>"</p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(value = Side.CLIENT, modid = MidgardReborn.MODID)
+public class HookHandler {
+	
+	private static double motionX;
+	private static double motionY;
+	private static double motionZ;
+	
+	public static boolean isNaN()
+	{
+		return motionX == 0 &amp;&amp; motionY == 0 &amp;&amp; motionZ == 0;
+	}
+	
+	public static void setVec(double mX, double mY, double mZ)
+	{
+		motionX = mX;
+		motionY = mY;
+		motionZ = mZ;
+		
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void handlerInputUpadet(InputUpdateEvent event)
+	{
+		if(!isNaN())
+		{
+			event.getMovementInput().forwardKeyDown = false;
+			event.getMovementInput().leftKeyDown = false;
+			event.getMovementInput().rightKeyDown = false;
+			event.getMovementInput().backKeyDown = false;
+			
+			
+			if(event.getEntityPlayer() instanceof EntityPlayerSP)
+			{
+				EntityPlayerSP sp = (EntityPlayerSP) event.getEntityPlayer();
+				sp.lastTickPosX = sp.posX;
+				sp.lastTickPosY = sp.posY;
+				sp.lastTickPosZ = sp.posZ;
+		        
+//		        sp.posX += motionX;
+//		        sp.posY += motionY;
+//		        sp.posZ += motionZ;
+		        
+		        double x = sp.posX + motionX;
+		        double y = sp.posY + motionY;
+		        double z = sp.posZ + motionZ;
+		        
+		        float f1 = 0.8F;
+		        float f2 = 0.1F;
+		        
+		        if(sp.isInWater())
+		        {
+		        	f1 = 0.6F;
+		        }
+		        
+		        if(!sp.capabilities.isCreativeMode)
+				{
+					sp.chasingPosY -= f2;
+				}
+		        
+		        sp.setPosition(x, y, z);
+		        BlockPos blockpos = new BlockPos(sp.posX, sp.getEntityBoundingBox().minY, sp.posZ);
+		        BlockPos blockpos0 = new BlockPos(-1, -1, -1);
+		        IBlockState blockstate = sp.world.getBlockState(blockpos);
+		        IBlockState blockstate0 = sp.world.getBlockState(blockpos0);
+		        
+		        if(blockstate.getBlock() == blockstate0.getBlock())
+		        {
+		        	sp.onGround = false;
+		        }
+		        
+				sp.connection.sendPacket(new CPacketPlayer.Position(x, y, z, sp.onGround));
+				motionX *= f1;
+				motionZ *= f1;
+				motionY *= f1;
+				
+				if(motionX * motionX + motionY * motionY + motionZ * motionZ &lt;= 0.5D)
+				{
+					motionX = 0;
+					motionY = 0;
+					motionZ = 0;
+				}
+			}
+		}
+		else
+		{
+			event.getMovementInput().forwardKeyDown = true;
+			event.getMovementInput().leftKeyDown = true;
+			event.getMovementInput().rightKeyDown = true;
+			event.getMovementInput().backKeyDown = true;
+		}
+	}
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

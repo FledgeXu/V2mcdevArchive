@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何为动物添加可以吸引它们的物品</title>
+</head>
+<body>
+    <div class="title"><h1>如何为动物添加可以吸引它们的物品</h1></div>
+    <div class="post-user" class="user"><h4>Si_hen</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 1909 64位版<br>
+你是用的JDK: Java HotSpot™ 64-Bit (build 1.8.0_251-b08)<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.2<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: snapshot-20200514-1.15.1</p>
+<p><strong>情况简述</strong><br>
+我想要添加一个物品，手持时可以吸引所有继承了 AnimalEntity 的动物实体，但是发现所有可以吸引动物实体的物品都是直接写死在实体类中的。所以我想问 Forge 有没有提供什么方法可以为一个动物实体添加可吸引的物品，或者是我应该怎么做才能大致实现我想要的功能。</p>
+<p><strong>查到的资料</strong><br>
+ChickenEntity.java</p>
+<pre><code class="lang-java">public class ChickenEntity extends AnimalEntity {
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+    ...
+    protected void registerGoals() {
+      ...
+      this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, false, TEMPTATION_ITEMS));
+      ...
+   }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>几个思路。</p>
+<ol>
+<li>反射获取<code>TEMPTATION_ITEMS</code>获取这个类，然后加物品</li>
+<li>AT 修改private改成public，加物品</li>
+<li>用Coremod加方法添加物品。</li>
+</ol>
+<p>推荐等级从高到低，最后一个方法如果不是迫不得已不要用。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Si_hen</h4></div>
+    <br />
+    <div class="post">
+        <p>可是在某些动物实体类里没有<code>TEMPTATION_ITEMS</code>字段。<br>
+CowEntity.java</p>
+<pre><code class="lang-java">public class CowEntity extends AnimalEntity {
+    protected void registerGoals() {
+      ...
+      this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromItems(Items.WHEAT), false));
+      ...
+   }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那就分别对待，继续看调用链，反正想法就是看这些东西存在哪里，然后直接改存的地方的值。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Si_hen</h4></div>
+    <br />
+    <div class="post">
+        <p>最终的解决方案是订阅 <code>EntityJoinWorldEvent</code> 事件，为所有的 <code>AnimalEntity</code> 添加了一个新的 <code>TemptGoal</code>，新的 TemptGoal 不会影响旧的 TemptGoal。但是因为  <code>EntityJoinWorldEvent</code> 事件在实体加载时也会触发，所以需要做一些判断。</p>
+<p>大致的代码如下：</p>
+<pre><code class="lang-java">public void onAnimalAppear(EntityJoinWorldEvent event) {
+    if (event.getEntity() instanceof AnimalEntity) {
+        AnimalEntity animalEntity = (AnimalEntity) event.getEntity();
+        boolean alreadySetUp = false;
+        for (Goal goal : animalEntity.goalSelector.goals) {
+            if (goal instanceof TemptGoal) {
+                TemptGoal temptGoal = (TemptGoal) goal;
+                if (temptGoal.isTempting(new ItemStack(ItemRegistry.item.get()))) {
+                    alreadySetUp = true;
+                    break;
+                }
+            }
+        }
+        if (!alreadySetUp) {
+            animalEntity.goalSelector.addGoal(3, new TemptGoal(animalEntity, 0.8D, false, Ingredient.fromItems(ItemRegistry.item.get())));
+        }
+    }
+}
+</code></pre>
+<p>其中，<code>GoalSelector</code> 中的 <code>goals</code> 字段是 private 的，<code>TemptGoal</code> 中的 <code>isTempting</code> 方法是 protected 的，因此需要使用 AT 进行修改。</p>
+<p>这个思路来自于 <a href="https://github.com/Vazkii/Quark/blob/c0ff596b3da2921f7524eb30cf5fdf0cb9d6ce98/src/main/java/vazkii/quark/tweaks/module/VillagersFollowEmeraldsModule.java" rel="nofollow noopener">Quark 的代码</a>，并根据实际情况做了些调整。</p>
+<p>但是我还是想问问有什么办法能够不用 AT，毕竟 AT 可能会触发兼容性问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得这里用AT没什么太大的问题，遇见问题再说吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>模型的一些瑕疵</title>
+</head>
+<body>
+    <div class="title"><h1>模型的一些瑕疵</h1></div>
+    <div class="post-user" class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：&lt;win10 64位&gt;<br>
+你是用的JDK: &lt;java version “1.8.0_211”<br>
+Java™ SE Runtime Environment (build 1.8.0_211-b12)<br>
+Java HotSpot™ 64-Bit Server VM (build 25.211-b12, mixed mode)&gt;<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;IntelliJ IDEA Community Edition 2019.3.2 x64&gt;<br>
+Forge版本:  forge-1.15.2-31.2.0-mdk<br>
+Minecraft版本: &lt;1.15.2&gt;<br>
+<strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/09e4e96b0bc548aca55e0807d682e78db86537db.jpeg" data-download-href="../uploads/default/09e4e96b0bc548aca55e0807d682e78db86537db" title="QQ截图20200930211642"><img src="../uploads/default/optimized/1X/09e4e96b0bc548aca55e0807d682e78db86537db_2_690x418.jpeg" alt="QQ截图20200930211642" data-base62-sha1="1pwJMIOaaroyEr7A86CaYAEEEqL" width="690" height="418" srcset="../uploads/default/optimized/1X/09e4e96b0bc548aca55e0807d682e78db86537db_2_690x418.jpeg, ../uploads/default/optimized/1X/09e4e96b0bc548aca55e0807d682e78db86537db_2_1035x627.jpeg 1.5x, ../uploads/default/optimized/1X/09e4e96b0bc548aca55e0807d682e78db86537db_2_1380x836.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/09e4e96b0bc548aca55e0807d682e78db86537db_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200930211642</span><span class="informations">1680×1018 453 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+这旁边多出来的碰撞箱是什么，我是不是可以通过减少这些碰撞箱来解决这个问题，我是注册在同一个方块里的。方块的朝向我是否能通过注册创建方块状态来解决问题。或许这是不是在模型绘制过程中出了什么问题<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">[30九月2020 21:10:49.985] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--gameDir, ., --launchTarget, fmluserdevclient, --fml.mcpVersion, 20200515.085601, --fml.mcVersion, 1.15.2, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 31.2.0, --version, MOD_DEV, --assetIndex, 1.15, --assetsDir, C:\Users\Administrator\.gradle\caches\forge_gradle\assets, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[30九月2020 21:10:50.001] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 5.1.2+70+master.2845bb9 starting: java version 1.8.0_211 by Oracle Corporation
+[30九月2020 21:10:51.274] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[30九月2020 21:10:55.292] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevclient' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\Administrator\.gradle\caches\forge_gradle\assets, --assetIndex, 1.15, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[30九月2020 21:11:04.315] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[30九月2020 21:11:27.194] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[30九月2020 21:11:30.665] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 31.2.0, for MC 1.15.2 with MCP 20200515.085601
+[30九月2020 21:11:30.665] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v31.2.0 Initialized
+[30九月2020 21:11:42.074] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[30九月2020 21:11:42.460] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[30九月2020 21:11:43.387] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [naturalscience] Starting version check at http://myurl.me/
+[30九月2020 21:11:44.095] [Forge Version Check/WARN] [net.minecraftforge.fml.VersionChecker/]: Failed to process update information
+java.io.IOException: Server returned HTTP response code: 403 for URL: http://myurl.me/
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_211]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_211]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_211]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1944) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1939) ~[?:1.8.0_211]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1938) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1508) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:189) ~[?:?]
+	at net.minecraftforge.fml.VersionChecker$1.process(VersionChecker.java:206) ~[?:?]
+	at java.lang.Iterable.forEach(Iterable.java:75) [?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.run(VersionChecker.java:157) [?:?]
+Caused by: java.io.IOException: Server returned HTTP response code: 403 for URL: http://myurl.me/
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1894) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_211]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:173) ~[?:?]
+	... 3 more
+[30九月2020 21:11:44.107] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[30九月2020 21:11:48.000] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 31.2.0 Target: null
+[30九月2020 21:11:57.201] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Unable to load model: 'naturalscience:weight#inventory' referenced from: naturalscience:weight#inventory: java.io.FileNotFoundException: naturalscience:models/item/weight.json
+[30九月2020 21:12:21.845] [Render thread/INFO] [net.minecraft.client.audio.SoundSystem/]: OpenAL initialized.
+[30九月2020 21:12:21.847] [Render thread/INFO] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Sound engine started
+[30九月2020 21:12:23.919] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[30九月2020 21:12:24.023] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[30九月2020 21:12:24.024] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[30九月2020 21:12:24.027] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[30九月2020 21:12:24.033] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[30九月2020 21:12:24.034] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[30九月2020 21:12:24.035] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[30九月2020 21:12:25.051] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[30九月2020 21:12:25.063] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[30九月2020 21:12:25.063] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[30九月2020 21:12:32.593] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: Invalid session id
+[30九月2020 21:12:42.703] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[30九月2020 21:12:42.704] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[30九月2020 21:12:42.708] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[30九月2020 21:12:42.709] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[30九月2020 21:12:42.711] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[30九月2020 21:12:43.137] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Starting integrated minecraft server version 1.15.2
+[30九月2020 21:12:43.137] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Generating keypair
+[30九月2020 21:12:43.774] [Server thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this SERVER instance
+[30九月2020 21:12:44.186] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, main, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar
+[30九月2020 21:12:49.311] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[30九月2020 21:12:52.936] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[30九月2020 21:12:54.409] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[30九月2020 21:12:56.984] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:56.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:56.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:56.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:56.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:56.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:12:57.477] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 0%
+[30九月2020 21:13:00.853] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:00.985] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:01.831] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 32%
+[30九月2020 21:13:02.100] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:02.533] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:03.002] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:03.583] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:03.964] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:04.469] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 96%
+[30九月2020 21:13:05.161] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Preparing spawn area: 99%
+[30九月2020 21:13:05.874] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Time elapsed: 11436 ms
+[30九月2020 21:13:07.348] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[30九月2020 21:13:07.360] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[30九月2020 21:13:07.366] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Changing view distance to 11, from 10
+[30九月2020 21:13:16.181] [Netty Local Client IO #0/INFO] [net.minecraftforge.fml.network.NetworkHooks/]: Connected to a modded server.
+[30九月2020 21:13:16.547] [Server thread/INFO] [net.minecraftforge.common.AdvancementLoadFix/]: Using new advancement loading for net.minecraft.advancements.PlayerAdvancements@6d5ef498
+[30九月2020 21:13:16.646] [Server thread/INFO] [net.minecraft.server.management.PlayerList/]: Dev[local:E:cc52a753] logged in with entity id 83 at (72.31323411042305, 63.0, -747.1214969359621)
+[30九月2020 21:13:16.978] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev joined the game
+[30九月2020 21:13:18.644] [Server thread/WARN] [net.minecraft.server.MinecraftServer/]: Can't keep up! Is the server overloaded? Running 2270ms or 45 ticks behind
+[30九月2020 21:13:20.352] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[30九月2020 21:13:20.600] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 88 advancements
+[30九月2020 21:13:20.818] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'New World'/minecraft:overworld
+[30九月2020 21:15:03.208] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[30九月2020 21:15:03.239] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'New World'/minecraft:overworld
+[30九月2020 21:16:35.035] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[30九月2020 21:16:35.212] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'New World'/minecraft:overworld
+[30九月2020 21:16:53.290] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Dev lost connection: Disconnected
+[30九月2020 21:16:53.291] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev left the game
+[30九月2020 21:16:53.315] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Stopping singleplayer server as player logged out
+[30九月2020 21:16:53.372] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[30九月2020 21:16:53.373] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[30九月2020 21:16:53.373] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[30九月2020 21:16:53.373] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'New World'/minecraft:overworld
+[30九月2020 21:16:53.635] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (New World): All chunks are saved
+[30九月2020 21:16:53.649] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (New World): All chunks are saved
+[30九月2020 21:16:58.816] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+</code></pre>
+<p>代码</p>
+<pre><code class="lang-auto">public class Microscope extends Block {
+    private static VoxelShape shape;
+    static{
+        VoxelShape base = Block.makeCuboidShape(6, 6, 5,9.7, 10.8, 6.8);
+        VoxelShape column1 = Block.makeCuboidShape(3, 0, 9,5, 0.8, 14);
+        VoxelShape column2 = Block.makeCuboidShape(11, 0, 9,13, 0.8, 14);
+        VoxelShape column3 = Block.makeCuboidShape(7.1, 3.5, -5,8.9, 9.6, -3);
+        VoxelShape column4 = Block.makeCuboidShape(7.1, -3.5, 7,8.9, 1.6, 8.7);
+        VoxelShape column5 = Block.makeCuboidShape(6.1, 5.6, 6.8,9.4, 12.8, 10);
+        VoxelShape column6 = Block.makeCuboidShape(6.8, 12.8, 7.3,8.6, 13.75, 9.3);
+        VoxelShape column7 = Block.makeCuboidShape(3, 1.95, 6.1,12.9, 2.65, 13.1);
+        VoxelShape column8 = Block.makeCuboidShape(5.4, 6.75, 3.25,10.1, 8, 7.65);
+        VoxelShape column9 = Block.makeCuboidShape(5.5, 9, 5.5,6, 9.5, 6);
+        VoxelShape column10 = Block.makeCuboidShape(6, 2.75, 7,9.75, 3, 9);
+        VoxelShape column11 = Block.makeCuboidShape(7.25, 7.9, 2.7,8.25, 9.6, 3.6);
+        VoxelShape column12 = Block.makeCuboidShape(7.25, 3.3, 6.9,8.25, 4.6, 7.8);
+        VoxelShape column13 = Block.makeCuboidShape(8.35, -3.1, 8.2,9.35, -1.8, 9.1);
+        VoxelShape column14 = Block.makeCuboidShape(1.35, 6.8, 8.2,2.35, 9.2, 9.1);
+        VoxelShape column15 = Block.makeCuboidShape(5.6, 7.8, 5.8,6, 8.4, 6.4);
+        VoxelShape top = Block.makeCuboidShape(3, 0, 5,13, 1.8, 9);
+        shape = VoxelShapes.or(base, column1, column2, column3, column4,column5,column6,column7,column8,column9,column10,column11,column12,column13,column14,column15,top);
+    }
+    public Microscope(){
+        super(Properties.create(Material.ROCK).hardnessAndResistance(5));
+        }
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return shape;
+
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请先阅读一下这个markdown教程<br>
+<aside class="quote quote-modified" data-post="1" data-topic="881">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/881">Markdown 简明教程</a> <a class="badge-wrapper  bullet" href="/c/19-category/19"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    Markdown 教程
+======
+
+基础
+------------
+
+普通的一段文本。
+
+这是另一段话。
+这句话接上一句话，不会另起一行。  
+如果你一定要另起一行，上一行的结尾得有至少俩空格，就像上面这句话一样。
+
+*斜体*
+
+**粗体**
+
+[链接](https://www.v2mcdev.com)
+
+![我是图](upload://rwK0jhRBWlMz3VojcZk04ve8gJr.…
+  </blockquote>
+</aside>
+</p>
+<p>老实说，我没看懂你有什么问题……<br>
+这个碰撞箱应该只是你设置碰撞箱了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/f7467051a221eaceed2900765c5ec3acc62d910f.jpeg" data-download-href="../uploads/default/f7467051a221eaceed2900765c5ec3acc62d910f" title="QQ截图20200930223748"><img src="../uploads/default/optimized/1X/f7467051a221eaceed2900765c5ec3acc62d910f_2_690x418.jpeg" alt="QQ截图20200930223748" data-base62-sha1="zhuQFxMGyPjZ0vUKG6x2xHMQxCn" width="690" height="418" srcset="../uploads/default/optimized/1X/f7467051a221eaceed2900765c5ec3acc62d910f_2_690x418.jpeg, ../uploads/default/optimized/1X/f7467051a221eaceed2900765c5ec3acc62d910f_2_1035x627.jpeg 1.5x, ../uploads/default/optimized/1X/f7467051a221eaceed2900765c5ec3acc62d910f_2_1380x836.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/f7467051a221eaceed2900765c5ec3acc62d910f_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200930223748</span><span class="informations">1680×1018 517 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+无论从哪个方向放置都改变不了方块模型的朝向。原版的阶梯都可以</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>当然，随着方向改变模型的朝向需要你自己实现的……<br>
+<code>getStateForPlacement</code>方法配合Blockstate实现的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_211]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1944) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1939) ~[?:1.8.0_211]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1938) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1508) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:189) ~[?:?]
+	at net.minecraftforge.fml.VersionChecker$1.process(VersionChecker.java:206) ~[?:?]
+	at java.lang.Iterable.forEach(Iterable.java:75) [?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.run(VersionChecker.java:157) [?:?]
+Caused by: java.io.IOException: Server returned HTTP response code: 403 for URL: http://myurl.me/
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1894) ~[?:1.8.0_211]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_211]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[?:1.8.0_211]
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:173) ~[?:?]
+	... 3 more
+[01十月2020 13:45:30.646] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[01十月2020 13:45:34.652] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 31.2.0 Target: null
+[01十月2020 13:45:37.754] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' in resourcepack: 'Mod Resources' for variant: 'facing=east': Unknown blockstate property: 'facing'
+[01十月2020 13:45:37.754] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' in resourcepack: 'Mod Resources' for variant: 'facing=south': Unknown blockstate property: 'facing'
+[01十月2020 13:45:37.754] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' in resourcepack: 'Mod Resources' for variant: 'facing=north': Unknown blockstate property: 'facing'
+[01十月2020 13:45:37.754] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' in resourcepack: 'Mod Resources' for variant: 'facing=west': Unknown blockstate property: 'facing'
+[01十月2020 13:45:37.754] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' in resourcepack: 'Mod Resources' for variant: 'facing=none': Unknown blockstate property: 'facing'
+[01十月2020 13:45:37.755] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Exception loading blockstate definition: 'naturalscience:blockstates/microscope.json' missing model for variant: 'naturalscience:microscope#'
+[01十月2020 13:45:39.171] [Server-Worker-2/WARN] [net.minecraft.client.renderer.model.ModelBakery/]: Unable to load model: 'naturalscience:weight#inventory' referenced from: naturalscience:weight#inventory: java.io.FileNotFoundException: naturalscience:models/item/weight.json
+[01十月2020 13:46:00.352] [Render thread/INFO] [net.minecraft.client.audio.SoundSystem/]: OpenAL initialized.
+[01十月2020 13:46:00.353] [Render thread/INFO] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Sound engine started
+[01十月2020 13:46:00.684] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[01十月2020 13:46:00.767] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[01十月2020 13:46:00.767] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[01十月2020 13:46:00.769] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[01十月2020 13:46:00.770] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[01十月2020 13:46:00.771] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[01十月2020 13:46:00.773] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[01十月2020 13:46:03.280] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[01十月2020 13:46:03.287] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[01十月2020 13:46:03.288] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[01十月2020 13:46:04.692] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: Invalid session id
+[01十月2020 13:46:22.751] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[01十月2020 13:46:22.752] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[01十月2020 13:46:22.754] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[01十月2020 13:46:22.756] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[01十月2020 13:46:22.758] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[01十月2020 13:46:23.052] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Starting integrated minecraft server version 1.15.2
+[01十月2020 13:46:23.053] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Generating keypair
+[01十月2020 13:46:23.445] [Server thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this SERVER instance
+[01十月2020 13:46:24.320] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, main, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar
+[01十月2020 13:46:28.933] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[01十月2020 13:46:31.877] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[01十月2020 13:46:33.066] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个报错和这个东西无关……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>盲猜和你声明 <code>VoxelShape</code> 的方式有关系。尝试手动简化一下？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://minecraft-zh.gamepedia.com/media/minecraft-zh.gamepedia.com/6/64/Favicon.ico?version=648ac80b6f6779a40987ff23dd84aa1d&amp;version=648ac80b6f6779a40987ff23dd84aa1d" class="site-icon" width="32" height="32">
+      <a href="https://minecraft-zh.gamepedia.com/index.php?title=%E6%A8%A1%E5%9E%8B&amp;variant=zh" target="_blank" rel="noopener nofollow ugc">Minecraft Wiki</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:160/132;"><img src="../uploads/default/original/1X/b82a10a538ccae1688b4460855abd76ca5e12bf3.png" class="thumbnail" width="160" height="132"></div>
+
+<h3><a href="https://minecraft-zh.gamepedia.com/index.php?title=%E6%A8%A1%E5%9E%8B&amp;variant=zh" target="_blank" rel="noopener nofollow ugc">模型</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p>啊这</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>方块模型和方块碰撞箱、选择箱互不相关……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>我方块碰撞箱的问题解决了，主要就是方向问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>方向是BlockState配合<code>getStateForPlacement</code>这个方法实现的……</p>
+<pre><code class="lang-java">   public BlockState getStateForPlacement(BlockItemUseContext context) {
+      return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+   }
+</code></pre>
+<p>这个是熔炉的例子，要学会看原版的代码……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

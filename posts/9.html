@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>首先阅读：管理员快速入门指南</title>
+</head>
+<body>
+    <div class="title"><h1>首先阅读：管理员快速入门指南</h1></div>
+    <div class="post-user" class="user"><h4>system</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Congratulations, you are now the proud owner of your very own <a href="https://www.discourse.org">Civilized Discourse Construction Kit</a>. <img src="https://www.v2mcdev.com/images/emoji/apple/hatching_chick.png?v=9" title=":hatching_chick:" class="emoji" alt=":hatching_chick:"></p>
+<h3>Getting Started</h3>
+<p>If you haven’t already, launch the <a href="/wizard">setup wizard</a> and go through the steps to configure your site. You can run the wizard as many times as you want, it’s completely safe!</p>
+<h3>Admin Dashboard</h3>
+<p>Exercise your admin superpowers any time via the admin dashboard at</p>
+<p><a href="/admin"><strong>/admin</strong></a></p>
+<p>You can also access it via the “hamburger” <kbd>☰</kbd> menu in the upper right: Admin functions are generally marked with the wrench <img src="https://www.v2mcdev.com/images/emoji/apple/wrench.png?v=9" title=":wrench:" class="emoji" alt=":wrench:">  icon, so look for that.</p>
+<h3>Staff</h3>
+<p>Staff members are official representatives of this community. There are two kinds of Staff:</p>
+<ol>
+<li>
+<strong>Admins</strong>, who can do anything and configure anything on this site.</li>
+<li>
+<strong>Moderators</strong>, who can edit all posts and users, but cannot add categories or change any site settings.</li>
+</ol>
+<p>To add additional staff members:</p>
+<ul>
+<li>have them sign up on the site (or <a href="/my/invited">send out an invitation to join via your user page</a>)</li>
+<li>click the admin button <img src="https://www.v2mcdev.com/images/emoji/apple/wrench.png?v=9" title=":wrench:" class="emoji" alt=":wrench:"> on their user page</li>
+<li>look for the <kbd>Grant Admin</kbd> and <kbd>Grant Moderator</kbd> buttons there</li>
+</ul>
+<h3>Social Logins</h3>
+<p>Users can log in with traditional local username and password accounts. You may want to add:</p>
+<ul>
+<li><a href="https://meta.discourse.org/t/configuring-google-oauth2-login-for-discourse/15858">Google logins</a></li>
+<li><a href="https://meta.discourse.org/t/configuring-twitter-login-for-discourse/13395">Twitter logins</a></li>
+<li><a href="https://meta.discourse.org/t/configuring-facebook-login-for-discourse/13394">Facebook logins</a></li>
+<li><a href="https://meta.discourse.org/t/configuring-github-login-for-discourse/13745">GitHub logins</a></li>
+</ul>
+<p>You can also <a href="https://meta.discourse.org/t/official-single-sign-on-for-discourse/13045">set up single-sign on</a>, or even <a href="https://meta.discourse.org/t/login-to-discourse-with-custom-oauth2-provider/14717">build your own login method</a>.</p>
+<h3>Test Your Email</h3>
+<p>Email is required for new account signups and notifications. <strong>Test your email to make sure it is configured correctly!</strong>  Visit <a href="/admin/email">the admin email settings</a>, then enter an email address in the “email address to test” field and click <kbd>send test email</kbd>.</p>
+<ul>
+<li>You got the test email? Great! <strong>Read that email closely</strong>, it has important email deliverability tips.</li>
+<li>You didn’t get the test email? This means your users probably aren’t getting any signup or notification emails either.</li>
+<li>Email deliverability can be hard. Read <a href="https://github.com/discourse/discourse/blob/master/docs/INSTALL-email.md"><strong>Email Service Configuration</strong></a>.</li>
+</ul>
+<p>If you’d like to enable <em>replying</em> to topics via email, <a href="https://meta.discourse.org/t/set-up-reply-via-email-support/14003">see this howto</a>.</p>
+<h3>Categories</h3>
+<p>You have three default categories:</p>
+<ol>
+<li>
+<a href="/category/site-feedback">Site Feedback</a> – general discussion about the site itself. <a href="https://meta.discourse.org/t/5249">It’s important!</a>
+</li>
+<li>
+<a href="/category/lounge">Lounge</a> – a perk for users at trust level 3 and higher</li>
+<li>
+<a href="/category/staff">Staff</a> – visible only to staff (admins and moderators)</li>
+</ol>
+<p><strong>Don’t create too many initial categories</strong>, as you can overwhelm your audience. You can always add more categories, and easily bulk recategorize topics later. It’s better to figure out the organization as you go rather than assuming you’ll get it all right from the beginning (hint: you won’t).</p>
+<p>To add a category, visit the <a href="/categories">categories page</a>, then click Create Category at the upper right. You can set security per-category so only certain groups of users can see topics in that category.</p>
+<p>Every category has an initial “About this category” topic. This topic will be pinned to the top of the category, and the description you enter will be used in a bunch of places. Be sure to give your new category a good, clear description, so people understand what belongs there!</p>
+<h3>Pinned Topics and Banners</h3>
+<p>Note that pinning topics does work a little differently in Discourse:</p>
+<ul>
+<li>Once someone reads to the bottom of a pinned topic, it is automatically unpinned for them specifically. They can change this via the personal pin controls at the bottom of the topic.</li>
+<li>When staff pins a topic, they can pin it globally to all topic lists, or just within its category.</li>
+</ul>
+<p>If a pin isn’t visible enough, you can also turn one single topic into a <strong>banner</strong>. The banner topic floats on top of all topics and all primary pages. Users can permanently dismiss this floating banner by clicking the × in the upper right corner.</p>
+<p>To make (or remove) a pin or a banner, use the admin wrench at the top right or bottom of the topic.</p>
+<h3>New User Sandbox and the Trust System</h3>
+<p>If your discussion area is be open to the public, new visitors will arrive that are initially strangers to the community. Discourse has a <a href="https://blog.discourse.org/2018/06/understanding-discourse-trust-levels/">trust system</a> where users can, over time, earn the trust of the community and gain abilities to assist in governing their community.</p>
+<p>Discourse is designed to offer safe defaults for public communities, even with no active moderation.</p>
+<blockquote>
+<p><strong>0 (new) → 1 (basic) → 2 (member) → 3 (regular) → 4 (leader)</strong></p>
+</blockquote>
+<p>All new users start out in a sandbox with restrictions for everyone’s safety. <strong>Trust level 0 (new) users <em>cannot</em></strong> …</p>
+<ul>
+<li>post more than 2 hyperlinks</li>
+<li>post any images or file attachments</li>
+<li>send personal messages</li>
+<li>flag posts or topics</li>
+<li>have actual links in the “about me” field of their profile</li>
+<li>
+<span class="mention">@name</span> mention more than 2 users in a post</li>
+</ul>
+<p>Every action a user can take is rate limited for safety, and especially so for new users. But don’t worry, new users can <a href="https://blog.discourse.org/2018/06/understanding-discourse-trust-levels/">transition to trust level 1</a> in about 10 minutes of reading.</p>
+<p>These defaults are safe, but note that while in “bootstrap mode” after you set up your site, all new users will be granted trust level 1 until you reach 50 users.</p>
+<h3>Building Your Community</h3>
+<p>Be patient; building communities is hard. Before launching, be sure to:</p>
+<ol>
+<li>Clearly define your community’s purpose in a pinned or banner topic.</li>
+<li>Seed the discussion with interesting topics.</li>
+<li>Commit to visiting and participating regularly.</li>
+<li>Link your community everywhere and promote it so people can find it.</li>
+</ol>
+<p>There’s more advice at <a href="https://blog.discourse.org/2014/08/building-a-discourse-community/">Building a Discourse Community</a>.</p>
+<h3>Sending Invitations</h3>
+<p>One way to get people to visit your site is to invite them via email. You can do this via:</p>
+<ul>
+<li>The Invite button at the bottom of the topic.</li>
+<li>The Invite area on your profile page.</li>
+</ul>
+<p>The invite area on your profile page also includes advanced Staff methods of <a href="https://meta.discourse.org/t/sending-bulk-user-invites/16468">sending bulk invites</a>, and <a href="https://meta.discourse.org/t/invite-individual-users-to-a-group/15544">inviting users into groups</a>.</p>
+<h3>Maintenance</h3>
+<ul>
+<li>
+<p>One CPU and 1GB of memory, with swap, is the minimum for a basic Discourse community. As your community grows you may need more memory or CPU resources.</p>
+</li>
+<li>
+<p><a href="https://github.com/discourse/discourse/blob/master/docs/INSTALL.md">Our Docker container install</a> is the only one we officially support. It guarantees easy updates, and all recommended optimizations from the Discourse team.</p>
+</li>
+<li>
+<p>You should get an email notification when new versions of Discourse are released. To update your instance via our easy one click upgrade process, visit <a href="/admin/upgrade">/admin/upgrade</a>.</p>
+</li>
+<li>
+<p>Some other things you might eventually want to set up:</p>
+<ul>
+<li><a href="https://meta.discourse.org/t/configure-automatic-backups-for-discourse/14855">Automatic daily backups</a></li>
+<li><a href="https://meta.discourse.org/t/allowing-ssl-for-your-discourse-docker-setup/13847">HTTPS support</a></li>
+<li><a href="https://meta.discourse.org/t/enable-a-cdn-for-your-discourse/14857">Content Delivery Network support</a></li>
+<li><a href="https://meta.discourse.org/t/set-up-reply-via-email-support/14003">Reply via Email</a></li>
+<li><a href="https://meta.discourse.org/t/move-your-discourse-instance-to-a-different-server/15721">Import and Export your data</a></li>
+<li><a href="https://meta.discourse.org/t/how-do-i-change-the-domain-name/16098">Change the domain name</a></li>
+<li><a href="https://meta.discourse.org/t/multisite-configuration-with-docker/14084">Multiple Discourse instances on the same server</a></li>
+<li><a href="https://github.com/discourse/discourse/tree/master/script/import_scripts">Import old content from vBulletin, PHPbb, Vanilla, Drupal, BBPress, etc</a></li>
+<li>A firewall on your server? <a href="https://meta.discourse.org/t/configure-a-firewall-for-discourse/20584">Configure firewall</a>.</li>
+<li>A user friendly <a href="https://meta.discourse.org/t/adding-an-offline-page-when-rebuilding/45238">offline page when rebuilding or upgrading?</a>
+</li>
+<li>Embed Discourse <a href="https://github.com/discourse/wp-discourse">in your WordPress install</a>, or <a href="https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963">on your static HTML site</a>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Need more Help?</h3>
+<p>For more assistance on configuring and running your Discourse forum, see <a href="https://meta.discourse.org">meta.discourse.org</a>.</p>
+<hr>
+<p>Have suggestions to improve or update this guide? Submit a <a href="https://github.com/discourse/discourse/blob/master/docs/ADMIN-QUICK-START-GUIDE.md">pull request</a>.</p>
+    </div>
+    <br />
+</body>
+</html>

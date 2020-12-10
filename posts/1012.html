@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>注册粒子效果时出问题</title>
+</head>
+<body>
+    <div class="title"><h1>注册粒子效果时出问题</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 20H2 x64<br>
+你用的JDK是: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  34.1.0<br>
+Minecraft版本: 1.16.3<br>
+Mapping 文件版本: 20201028</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2.png" data-download-href="../uploads/default/8abe7651a614d1d9a6631d4ff5bbdb126e752af2" title="image"><img src="../uploads/default/optimized/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2_2_690x358.png" alt="image" data-base62-sha1="jNnXacKqg2aYO07eZQKkFYxlEtA" width="690" height="358" srcset="../uploads/default/optimized/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2_2_690x358.png, ../uploads/default/optimized/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2_2_1035x537.png 1.5x, ../uploads/default/optimized/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2_2_1380x716.png 2x" data-small-upload="../uploads/default/optimized/1X/8abe7651a614d1d9a6631d4ff5bbdb126e752af2_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1902×988 106 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+启动游戏注册粒子效果时出现<code>Registry Object not present</code>报错，不太明白原因。</p>
+<p><strong>报错日志</strong>(无异常的上面一段已略去)</p>
+<pre><code class="lang-auto">[10:34:59] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid forge : net.minecraftforge.client.event.ParticleFactoryRegisterEvent@7b2ccba5
+[10:34:59] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid forge : net.minecraftforge.client.event.ParticleFactoryRegisterEvent@7b2ccba5
+[10:34:59] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid rainbow6 : net.minecraftforge.client.event.ParticleFactoryRegisterEvent@7b2ccba5
+[10:34:59] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/]: Exception caught during firing event: Registry Object not present: rainbow6:gas_smoke_particle
+	Index: 1
+	Listeners:
+		0: NORMAL
+		1: ASM: class com.ussshenzhou.rainbow6.particles.ModParticleRegistry onParticleFactoryReg(Lnet/minecraftforge/client/event/ParticleFactoryRegisterEvent;)V
+java.lang.NullPointerException: Registry Object not present: rainbow6:gas_smoke_particle
+	at java.util.Objects.requireNonNull(Objects.java:290)
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:120)
+	at com.ussshenzhou.rainbow6.particles.ModParticleRegistry.onParticleFactoryReg(ModParticleRegistry.java:13)
+	at net.minecraftforge.eventbus.ASMEventHandler_16_ModParticleRegistry_onParticleFactoryReg_ParticleFactoryRegisterEvent.invoke(.dynamic)
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:85)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:297)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:120)
+	at net.minecraftforge.fml.ModLoader.lambda$postEvent$33(ModLoader.java:327)
+	at java.util.HashMap.forEach(HashMap.java:1289)
+	at net.minecraftforge.fml.ModList.forEachModContainer(ModList.java:227)
+	at net.minecraftforge.fml.ModLoader.postEvent(ModLoader.java:327)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:470)
+	at net.minecraft.client.main.Main.main(Main.java:149)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105)
+
+[10:34:59] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Caught exception during event net.minecraftforge.client.event.ParticleFactoryRegisterEvent@7b2ccba5 dispatch for modid rainbow6
+java.lang.NullPointerException: Registry Object not present: rainbow6:gas_smoke_particle
+	at java.util.Objects.requireNonNull(Objects.java:290) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.particles.ModParticleRegistry.onParticleFactoryReg(ModParticleRegistry.java:13) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_16_ModParticleRegistry_onParticleFactoryReg_ParticleFactoryRegisterEvent.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:85) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:297) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:34.1] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.lambda$postEvent$33(ModLoader.java:327) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at java.util.HashMap.forEach(HashMap.java:1289) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.ModList.forEachModContainer(ModList.java:227) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.postEvent(ModLoader.java:327) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:470) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:149) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_251] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_251] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_251] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_251] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-7.0.1.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+[10:34:59] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:129]: ---- Minecraft Crash Report ----
+// Don't be sad, have a hug! &lt;3
+
+Time: 20-11-28 上午10:34
+Description: Initializing game
+
+net.minecraftforge.fml.ModLoadingException: Rainbow6Minesiege (rainbow6) encountered an error during the common_setup event phase
+java.lang.NullPointerException: Registry Object not present: rainbow6:gas_smoke_particle
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:124) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:34.1] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.lambda$postEvent$33(ModLoader.java:327) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at java.util.HashMap.forEach(HashMap.java:1289) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.ModList.forEachModContainer(ModList.java:227) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.postEvent(ModLoader.java:327) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:470) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:149) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_251] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_251] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_251] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_251] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-7.0.1.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+Caused by: java.lang.NullPointerException: Registry Object not present: rainbow6:gas_smoke_particle
+	at java.util.Objects.requireNonNull(Objects.java:290) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading}
+	at com.ussshenzhou.rainbow6.particles.ModParticleRegistry.onParticleFactoryReg(ModParticleRegistry.java:13) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_16_ModParticleRegistry_onParticleFactoryReg_ParticleFactoryRegisterEvent.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:85) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:297) ~[eventbus-3.0.3-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:120) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:34.1] {re:classloading}
+	... 17 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.acceptEvent(FMLModContainer.java:124) ~[?:34.1] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.lambda$postEvent$33(ModLoader.java:327) ~[?:?] {re:classloading}
+	at java.util.HashMap.forEach(HashMap.java:1289) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.ModList.forEachModContainer(ModList.java:227) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.postEvent(ModLoader.java:327) ~[?:?] {re:classloading}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:470) ~[?:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+-- Initialization --
+Details:
+Stacktrace:
+	at net.minecraft.client.main.Main.main(Main.java:149) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_251] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_251] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_251] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_251] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:52) ~[forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-7.0.1.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-7.0.1.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:105) [forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar:?] {}
+
+
+-- System Details --
+Details:
+	Minecraft Version: 1.16.3
+	Minecraft Version ID: 1.16.3
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_251, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 692823464 bytes (660 MB) / 1518338048 bytes (1448 MB) up to 3793747968 bytes (3618 MB)
+	CPUs: 4
+	JVM Flags: 1 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump
+	ModLauncher: 7.0.1+78+master.e9771d8
+	ModLauncher launch target: fmluserdevclient
+	ModLauncher naming: mcp
+	ModLauncher services: 
+		/mixin-0.8.1.jar mixin PLUGINSERVICE 
+		/eventbus-3.0.3-service.jar eventbus PLUGINSERVICE 
+		/forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-launcher.jar object_holder_definalize PLUGINSERVICE 
+		/forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-launcher.jar runtime_enum_extender PLUGINSERVICE 
+		/accesstransformers-2.2.0-shadowed.jar accesstransformer PLUGINSERVICE 
+		/forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-launcher.jar capability_inject_definalize PLUGINSERVICE 
+		/forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-launcher.jar runtimedistcleaner PLUGINSERVICE 
+		/mixin-0.8.1.jar mixin TRANSFORMATIONSERVICE 
+		/forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-launcher.jar fml TRANSFORMATIONSERVICE 
+	FML: 34.1
+	Forge: net.minecraftforge:34.1.0
+	FML Language Providers: 
+		javafml@34.1
+		minecraft@1
+	Mod List: 
+		client-extra.jar Minecraft {minecraft@1.16.3 COMMON_SETUP}
+		forge-1.16.3-34.1.0_mapped_snapshot_20201028-1.16.3-recomp.jar Forge {forge@34.1.0 COMMON_SETUP}
+		main Rainbow6Minesiege {rainbow6@0.1.2.dev COMMON_SETUP}
+	Launched Version: MOD_DEV
+	Backend library: LWJGL version 3.2.2 build 10
+	Backend API: GeForce GTX 1050 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 457.30, NVIDIA Corporation
+	GL Caps: Using framebuffer using OpenGL 3.0
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'forge'
+	Type: Client (map_client.txt)
+	CPU: 4x Intel(R) Core(TM) i5-4460 CPU @ 3.20GHz
+[10:34:59] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:129]: #@!@# Game crashed! Crash report saved to: #@!@# C:\Users\123\IdeaProjects\MC-R6mod\run\.\crash-reports\crash-2020-11-28_10.34.59-client.txt
+
+Process finished with exit code -1
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>ModParticleRegistry</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
+public class ModParticleRegistry {
+    @SubscribeEvent
+    public static void onParticleFactoryReg(ParticleFactoryRegisterEvent event){
+        Minecraft.getInstance().particles.registerFactory(ModParticleTypeRegistry.GAS_SMOKE_PARTICLE.get(),GasSmokeParticleFactory::new);
+    }
+}
+</code></pre>
+<p><code>ModParticleTypeRegistry</code></p>
+<pre><code class="lang-auto">public class ModParticleTypeRegistry {
+    public static final DeferredRegister&lt;ParticleType&lt;?&gt;&gt; PARTICLE_TYPE = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES,"rainbow6");
+
+    public static final RegistryObject&lt;ParticleType&lt;GasSmokeParticleData&gt;&gt; GAS_SMOKE_PARTICLE = PARTICLE_TYPE.register("gas_smoke_particle", GasSmokeParticleType::new);
+}
+</code></pre>
+<p>如果还要更多：<a href="https://github.com/USS-Shenzhou/MC-R6mod/tree/master/src/main/java/com/ussshenzhou/rainbow6/particles" rel="noopener nofollow ugc">github</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="USS.Shenzhou" data-post="1" data-topic="1012">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/USS.Shenzhou" class="avatar"> USS.Shenzhou:</div>
+<blockquote>
+<pre><code class="lang-auto">    public static final DeferredRegister&lt;ParticleType&lt;?&gt;&gt; PARTICLE_TYPE = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES,"rainbow6");
+</code></pre>
+</blockquote>
+</aside>
+<p>你这个没有注册。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我怀疑我瞎了 但是我<a href="https://boson.v2mcdev.com/paticles/intro.html">确实没有找到教程里</a>在哪注册 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>和所有的DeferredRegister的注册方式一样。<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/FledgeXu/BosonSourceCode/blob/0ec770f2be0ac5cbdb22c7a5e9269b22dd534ef1/src/main/java/com/tutorial/boson/Boson.java#L76" target="_blank" rel="noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/FledgeXu/BosonSourceCode/blob/0ec770f2be0ac5cbdb22c7a5e9269b22dd534ef1/src/main/java/com/tutorial/boson/Boson.java#L76" target="_blank" rel="noopener">FledgeXu/BosonSourceCode/blob/0ec770f2be0ac5cbdb22c7a5e9269b22dd534ef1/src/main/java/com/tutorial/boson/Boson.java#L76</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="66" style="counter-reset: li-counter 65 ;">
+<li>        com.tutorial.boson.first_gui.ItemRegistry.ITEMS.register(eventBus);</li><li>        com.tutorial.boson.container.ItemRegistry.ITEMS.register(eventBus);</li><li>        com.tutorial.boson.container.BlockRegistry.BLOCKS.register(eventBus);</li><li>        com.tutorial.boson.container.TileEntityTypeRegistry.TILE_ENTITIES.register(eventBus);</li><li>        ContainerTypeRegistry.CONTAINERS.register(eventBus);</li><li>        com.tutorial.boson.hud.ItemRegistry.ITEMS.register(eventBus);</li><li>        com.tutorial.boson.first_fluid.ItemRegistry.ITEMS.register(eventBus);</li><li>        com.tutorial.boson.first_fluid.BlockRegistry.BLOCKS.register(eventBus);</li><li>        FluidRegistry.FLUIDS.register(eventBus);</li><li>        com.tutorial.boson.configure.ItemRegistry.ITEMS.register(eventBus);</li><li class="selected">        ParticleRegistry.PARTICLE_TYPES.register(eventBus);</li><li>        com.tutorial.boson.sounds.ItemRegistry.ITEMS.register(eventBus);</li><li>        SoundEventRegistry.SOUNDS.register(eventBus);</li><li>    }</li><li>}</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>噢是这样 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"><br>
+以前没怎么用过<code>DeferredRegister</code>所以不太清楚。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

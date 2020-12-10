@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么样让Itemstak贴图变成其他Itemstak的贴图，就像匠魂</title>
+</head>
+<body>
+    <div class="title"><h1>怎么样让Itemstak贴图变成其他Itemstak的贴图，就像匠魂</h1></div>
+    <div class="post-user" class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 LTSB 2016 64位<br>
+你是用的JDK: JDK 8 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2 20200514-1.15.1</p>
+<p>我写了一个物品，想让它读取NBT，使它贴图变为NBT标注的物品的贴图。<br>
+NBT标注的是物品的注册名。<br>
+然后在烘焙为相应的物品贴图。</p>
+<p>想知道如何在注册表里根据注册名读取物品对象。<br>
+我知道如何读取NBT，却不知道如何烘焙。</p>
+<p>教程看的是https://neutrino.v2mcdev.com/的教程<br>
+代码是根据教程写的，先照着写，看懂了就改。</p>
+<p><strong>相关代码</strong><br>
+<code>ModelMudItem</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ModelMudItem extends Item {
+
+    public static final ModelMudItem ITEM=new ModelMudItem(new Properties());
+
+
+    public ModelMudItem(Properties properties) {
+        super(properties);
+    }
+
+    @SubscribeEvent
+    public static void onModelBaked(ModelBakeEvent event) {
+        Map&lt;ResourceLocation, IBakedModel&gt; modelRegistry = event.getModelRegistry();
+        ModelResourceLocation location = new ModelResourceLocation(ITEM.getRegistryName(), "inventory");
+        IBakedModel existingModel = modelRegistry.get(location);
+        if (existingModel == null) {
+            throw new RuntimeException("Did not find Obsidian Hidden in registry");
+        } else if (existingModel instanceof ModelMudBakedModel) {
+            throw new RuntimeException("Tried to replaceObsidian Hidden twice");
+        } else {
+            ModelMudBakedModel modelMudBakedModel = new ModelMudBakedModel(existingModel);
+            event.getModelRegistry().put(location, modelMudBakedModel);
+        }
+    }
+
+}
+</code></pre>
+<p><code>ModelMudBakedModel</code></p>
+<pre><code class="lang-auto">public class ModelMudBakedModel implements IBakedModel {
+
+    private IBakedModel existingModel;
+
+    public ModelMudBakedModel(IBakedModel existingModel) {
+        this.existingModel = existingModel;
+    }
+
+    @Nonnull
+    @Override
+    public List&lt;BakedQuad&gt; getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
+        throw new AssertionError("IForgeBakedModel::getQuads should never be called, only IForgeBakedModel::getQuads");
+    }
+
+    @Override
+    public List&lt;BakedQuad&gt; getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
+        return this.existingModel.getQuads(state, side, rand);
+    }
+
+    @Override
+    public boolean isAmbientOcclusion() {
+        return this.existingModel.isAmbientOcclusion();
+    }
+
+    @Override
+    public boolean isGui3d() {
+        return this.existingModel.isGui3d();
+    }
+
+    @Override
+    public boolean func_230044_c_() {
+        return this.existingModel.func_230044_c_();
+    }
+
+    @Override
+    public boolean isBuiltInRenderer() {
+        return true;
+    }
+
+    @Override
+    public TextureAtlasSprite getParticleTexture() {
+        return this.existingModel.getParticleTexture();
+    }
+
+    @Override
+    public ItemOverrideList getOverrides() {
+        return this.existingModel.getOverrides();
+    }
+
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果是像匠魂一样，那么需要用到的是<code>IBakedModel</code>里的<code>getOverrides</code>方法，通过<code>ItemOverrideList</code>来使用。<br>
+具体见：<a href="https://harbinger.covertdragon.team/chapter-11/custom-baked/item-override.html" class="inline-onebox">11.2.4 ItemOverrideList · Harbinger</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>这样只能应对简单模型，复杂模型，比如BuiltInModel，箱子、头颅都是这种模型，怎么办？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>我来说说吧，现在替换比较常见的有枪械mod和匠魂mod，前者直接注册所有组件（指模型，比如枪托枪管），后者我没看过源码不加评论。这些模型在一开始被游戏自己的模型收录并完成烘培，所以理论上烘培过的模型对象本身的quads不能再做修改了（但是你可以新建并临时烘培），而可以使用几种方式显示出模型，一种是通过renderer，另一种如果是物品的话，通过楼上提的<code>ItemOverrideList</code>，在其提供的方法返回对应模型，我之前做过1.12.2的，1.15.2的我也看了，原理上差不多，有点变动，具体的绘制逻辑可以翻看<code>ItemRenderer</code>的绘制方法<code>renderItem</code>，简单来说你可以在这些方法中拿到<code>ItemStack</code>类型的对象，这类对象你可以使用NBT数据来描述复杂信息，所以你可以在这里决定要渲染的模型，并根据责任链传递下去，这里的话在<code>getOverrides</code>中要返回一个新的<code>ItemOverrideList</code>对象，forge通过这个新的对象中返回的新模型来完成烘培模型的替换，不懂的先去翻源码看看整个流程，读代码能力在Mod开发中还是很重要的，如果出现了意想不到的结果或者forge没有提供好的“接口”再来询问。还有论坛里有过相关回答，1.12.x版本的，<a href="../t/topic/373/11">站内链接</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

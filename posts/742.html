@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[Forge1.15.2]投掷物渲染问题</title>
+</head>
+<body>
+    <div class="title"><h1>[Forge1.15.2]投掷物渲染问题</h1></div>
+    <div class="post-user" class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Ubuntu 20.04.1 LTS x64<br>
+你是用的JDK: JDK8u252<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 202.6397.94(2020.2)<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: snapshot-20200730</p>
+<p><strong>出错图</strong><br>
+(我认为无法用图片描述)<br>
+<strong>错误情况简述</strong><br>
+我在MC中仿照鸡蛋的代码加入了一个投掷物，但我注册了实体、以及渲染之后，却发现投掷物没有渲染，我打开碰撞箱，发现该投掷物并没有碰撞箱，我已经确保了实体的注册、模型没有问题，但就是无法发现问题。</p>
+<p><strong>相关代码</strong><br>
+<code>DuckEggItem.java</code></p>
+<pre><code class="lang-auto">public class DuckEggItem extends Item {
+    public DuckEggItem() {
+        super(new Properties().maxStackSize(16).group(ItemGroups.HAMBURGER));
+    }
+
+    @Nonnull
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        worldIn.playSound((PlayerEntity) null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        if (!worldIn.isRemote) {
+            DuckEggEntity entityDuckEgg = new DuckEggEntity(playerIn, worldIn);
+            entityDuckEgg.setItem(itemstack);
+            entityDuckEgg.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            worldIn.addEntity(entityDuckEgg);
+        }
+
+        playerIn.addStat(Stats.ITEM_USED.get(this));
+        if (!playerIn.abilities.isCreativeMode) { // 检查玩家是否为创造模式
+            itemstack.shrink(1); // 如果不是创造模式，就减少一个DuckEgg
+        }
+
+        return ActionResult.resultSuccess(itemstack);
+    }
+}
+</code></pre>
+<p><code>DuckEggEntity.java</code></p>
+<pre><code class="lang-auto">public class DuckEggEntity extends ProjectileItemEntity {
+    public DuckEggEntity(EntityType&lt;? extends ProjectileItemEntity&gt; type, World worldIn) {
+        super(type, worldIn);
+    }
+
+    public DuckEggEntity(LivingEntity throwerIn, World worldIn) {
+        super(Entities.DUCK_EGG, throwerIn, worldIn); // TODO
+    }
+
+    public DuckEggEntity(EntityType&lt;? extends ProjectileItemEntity&gt; type, double x, double y, double z, World worldIn) {
+        super(type, x, y, z, worldIn);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void handleStatusUpdate(byte id) {
+        if (id == 3) {
+            for (int i = 0; i &lt; 8; ++i) {
+                this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getPosX(), this.getPosY(), this.getPosZ(), ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D);
+            }
+        }
+    }
+
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            ((EntityRayTraceResult) result).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+        }
+
+        if (!this.world.isRemote) {
+            if (this.rand.nextInt(8) == 0) {
+                int i = 1;
+
+                if (this.rand.nextInt(32) == 0) {
+                    i = 4;
+                }
+
+                for (int j = 0; j &lt; i; ++j) {
+                    DuckEntity entityDuck = Entities.DUCK.create(this.world);
+                    entityDuck.setGrowingAge(-24000);
+                    entityDuck.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
+                    this.world.addEntity(entityDuck);
+                }
+            }
+
+            this.world.setEntityState(this, (byte) 3);
+            this.remove();
+        }
+    }
+
+    @Nonnull
+    @Override
+    protected Item getDefaultItem() {
+        return Items.DUCK_EGG;
+    }
+}
+</code></pre>
+<p><code>DuckEggRenderer.java</code></p>
+<pre><code class="lang-auto">@OnlyIn(Dist.CLIENT)
+public class DuckEggRenderer extends SpriteRenderer&lt;DuckEggEntity&gt; {
+    public DuckEggRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, Minecraft.getInstance().getItemRenderer());
+    }
+}
+</code></pre>
+<p><code>注册Renderer的代码</code></p>
+<pre><code class="lang-auto">RenderingRegistry.registerEntityRenderingHandler(Entities.DUCK_EGG, DuckEggRenderer::new);
+</code></pre>
+<p><strong>查到的资料</strong><br>
+<a href="https://neutrino.v2mcdev.com/" class="onebox" target="_blank">https://neutrino.v2mcdev.com/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="1" data-topic="600">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar">
+    <a href="../t/topic/600">我添加了一个投掷物，可以投掷出去且有效果，但是不显示材质。</a> <a class="badge-wrapper  bullet" href="/c/5-category/5"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    版本信息 
+你使用的系统：Windows 10，64位系统 
+你是用的JDK：1.8.0_162 ，64位 
+你使用的IDE：IntelliJ IDEA 
+你使用的IDE版本：2019.3.2.0 
+Forge版本：  forge-31.1.0 
+Minecraft版本：1.15.2 
+出错图 
+ <a class="lightbox" href="../uploads/default/original/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03.gif" data-download-href="../uploads/default/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03" title="无法显示材质4">[无法显示材质4]</a> 
+错误情况简述 
+我之前按照教程，尝试添加了一个投掷物的实体，并且确定弄好了材质…
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>这是什么意思？我又没有new Minecraft()，我是用的Minecraft.getInstance()</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>哦，我只是链接了一下帖子，不用在意。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>可以参照这个Mod.<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/teaconmc/ChromeBall" target="_blank">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/d3144241ac27ebe54528d6e7c0bef06442bc158f.png" class="thumbnail onebox-avatar" width="300" height="300">
+
+<h3><a href="https://github.com/teaconmc/ChromeBall" target="_blank">teaconmc/ChromeBall</a></h3>
+
+<p>Chrome Ball Chrome Ball. Contribute to teaconmc/ChromeBall development by creating an account on GitHub.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>我懂了，投掷物要extends原版的投掷物（例如鸡蛋、雪球），然后<strong>不能覆写getDefaultItem方法</strong></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

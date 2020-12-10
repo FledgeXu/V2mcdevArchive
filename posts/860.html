@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>需要在何时进行客户端与服务端的同步</title>
+</head>
+<body>
+    <div class="title"><h1>需要在何时进行客户端与服务端的同步</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64<br>
+你是用的JDK: 1.8 64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.4<br>
+Forge版本:  1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p>看了很多教程还是没有理解什么时候需要同步，要同步哪些内容。<br>
+在看AA的源码时经常出现的world.isRemote判断一直无法理解，<br>
+自己在写代码时虽然会加上，但不清楚为什么要加，去除这个判断好像没什么影响。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>答案是：看情况<br>
+首先你得知道，所有的数据都应该以服务端的数据为准。如果你觉得你的数据需要让客户端知道那么你可以不加<code>if(!world.isremote)</code>。<br>
+</p><aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/FledgeXu/TheGreyGhost-sArticlesTranslation/blob/master/the-client-server-division.md" target="_blank" rel="noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/FledgeXu/TheGreyGhost-sArticlesTranslation/blob/master/the-client-server-division.md" target="_blank" rel="noopener">FledgeXu/TheGreyGhost-sArticlesTranslation/blob/master/the-client-server-division.md</a></h4>
+<pre><code class="lang-md"># 「客户端」和「服务端」的区分
+
+Minecraft的代码可以区分为两个「端」——「客户端」和「服务端」
+
+- 「服务端」负载维护游戏世界的主备份，例如：基于「客户端」发来的数据包更新方块和实体，并且发送回更新好的信息给客户端
+- 「客户端」主要负责读取来自玩家的输入并且渲染到屏幕上
+
+对于一个服务器，会有一些的「客户端」连接到它上。即使在本地计算机的单人游戏模式，「服务端」和「客户端」的代码也是同时运行的（在不同的线程上）。
+
+![img](the-client-server-division.assets/200131MBE-ClientServer5.png)
+
+有一部分的代码是被客户端和服务端同时使用的。举例来说，客户端和服务端都需要那些方块类中描述了方块的行为的代码。原版将这些类分成了三组：「客户端」、「服务器」，其他剩下的类属于「通用」。
+
+![img](the-client-server-division.assets/200131MBE-ClientServer5-20200903160308318.png)
+
+如果「客户端」和「服务端」都有可能执行你写的代码，如何才能知道哪一个「端」正在调用你的代码呢？
+
+你的方法基本上都会提供`World`对象，或者一个对象里有`World`类型的字段（一般来说字段名也叫做`world`）。
+
+如果有的话你就可以：
+</code></pre>
+
+  This file has been truncated. <a href="https://github.com/FledgeXu/TheGreyGhost-sArticlesTranslation/blob/master/the-client-server-division.md" target="_blank" rel="noopener">show original</a>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+ps：AA指的是哪个mod？
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>aa是 实用拓展 Actually Additions</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

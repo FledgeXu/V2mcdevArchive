@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2矿石生成分布怎么设置</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2矿石生成分布怎么设置</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windous10 x64<br>
+你是用的JDK: JDK8u261 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2019.3.5<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>问题情况简述</strong><br>
+在这串代码中，我需要知道如何设定矿石的分布，最后一行中，我每一个参数都设置了20，但是当我进入游戏，矿石却能够生成与20层以上及以下，我无法看懂网址里的“每个区块的生成次数，最低生成高度，以及生成范围。”这事，唯一懂得便是第一个参数，其余两个我都不太明白。我通过Ctrl右键类名也无法得知确实意义……</p>
+<p><strong>相关代码</strong><br>
+类名称：Oregen</p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class OreGen {
+    @SubscribeEvent
+    public static void onSetUpEvent(FMLCommonSetupEvent event) {
+        for (Biome biome : ForgeRegistries.BIOMES) {
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                    Feature.ORE.withConfiguration(
+                            new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                    BlockRegistry.obsidianBlock.get().getDefaultState(),
+                                    3)
+                    ).withPlacement(Placement.COUNT_DEPTH_AVERAGE.configure(new DepthAverageConfig(30, 30, 20)))
+            );
+        }
+    }
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/worldgeneration/oregeneration.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/worldgeneration/oregeneration.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/worldgeneration/oregeneration.html" target="_blank" rel="noopener">矿物生成 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>很不幸的是，我也不是很清楚这些东西是怎么运行的。<br>
+地形生成相关的内容还是一个相关文章很少的领域……</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，我需要一个准确的回答，否则我的矿石将会变得非常不稀有……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如何你想控制矿物生成的层数的话。<br>
+<code>DepthAverageConfig(int count, int baseline, int spread)</code>，你可以把<code>baseline</code>调到你想生成的层数，然后将<code>count</code>和<code>spread</code>调低一点。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这个 DepthAverage 字面上是深度均值的意思，指的是青金石那种生成方式。通常的矿石都不会用这个方式生成。</p>
+<p>baseline 并非最低的生成高度，而是基准线，spread 则是在基准线两侧播撒的范围。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

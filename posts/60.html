@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14forge如何创建ID相同但损害值不同的物品？</title>
+</head>
+<body>
+    <div class="title"><h1>1.14forge如何创建ID相同但损害值不同的物品？</h1></div>
+    <div class="post-user" class="user"><h4>watermeko</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>在1.14中我发现在Item的构造函数中并不能setHasSubtypes(true)，所以我想知道在1.14中该如何实现ID相同损害值不同</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="watermeko" data-post="1" data-topic="60">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/w/b19c9b/40.png" class="avatar"> watermeko:</div>
+<blockquote>
+<p>发现在Item的构造函数中并不能setHasSubtypes(true)，所以我想知道在1.14中该如何实现ID相同损害值不同</p>
+</blockquote>
+</aside>
+<p><strong>Item durability</strong> 应该是由NBT决定的吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>watermeko</h4></div>
+    <br />
+    <div class="post">
+        <p>这个我也不是很清楚，所以有表述错误的地方，但总归就是想知道"如何创建多个物品，他们的ID相同，材质和模型不同"</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="watermeko" data-post="3" data-topic="60" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/w/b19c9b/40.png" class="avatar"> watermeko:</div>
+<blockquote>
+<p>如何创建多个物品，他们的ID相同，材质和模型不同"</p>
+</blockquote>
+</aside>
+<p>请查看官方Wiki关于<a href="https://minecraft-zh.gamepedia.com/%E6%A8%A1%E5%9E%8B">模型</a>的部分中的「predicate」属性。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="4" data-topic="60">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/f/ecd19e/40.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>predicate</p>
+</blockquote>
+</aside>
+<p>至于如何添加属性你可以看一下原版钓鱼杆的代码，它用到的是<code>addPropertyOverride</code>方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="4" data-topic="60">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/f/ecd19e/40.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>predicate</p>
+</blockquote>
+</aside>
+<p>另外，现在ID已经没有上限了，你想注册就注册好了。<br>
+<a href="https://minecraft-zh.gamepedia.com/1.13/%E6%89%81%E5%B9%B3%E5%8C%96">扁平化</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.12.2][gui]如何通过按钮清空物品槽</title>
+</head>
+<body>
+    <div class="title"><h1>[1.12.2][gui]如何通过按钮清空物品槽</h1></div>
+    <div class="post-user" class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2018.3<br>
+Forge版本:  1.12.2-14.23.5.2847<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+我新创建了一个GUI，并在GUI上添加了一个按钮、四个物品槽<br>
+用一个物品Shift+右击可以打开这个GUI<br>
+我想通过按下按钮来清空四个物品槽<br>
+目前按下后，物品槽确实会清空，但是往槽里放入物品后，物品会重新出现。<br>
+个人认为是Container和GuiContainer没有同步导致的，但是不知道该怎么写</p>
+<p>还有一个问题，<br>
+getSlotStackLimit()这个方法并没有成功限制每个槽内的最大物品个数<br>
+我把SlotIn1的这个返回值设定为1，但是下图里可以看到<br>
+这个槽里能放三个金锭</p>
+<p><strong>相关代码</strong><br>
+<code>GuiContainerTestTube</code></p>
+<pre><code class="lang-auto">
+import com.testmod.tm.util.Reference;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+
+@SideOnly(Side.CLIENT)
+public class GuiContainerTestTube extends GuiContainer {
+
+    private static final String TEXT_PATH = Reference.MODID + ":" + "textures/gui/container/gui_test_tube.png";
+    private static final ResourceLocation res = new ResourceLocation(TEXT_PATH);
+
+    private static final int BUTTON_EMPTY = 1;
+
+    private Slot SlotOut2;
+    private Slot SlotOut1;
+    private Slot SlotIn1;
+    private Slot SlotIn2;
+
+    public GuiContainerTestTube(Container inventorySlotsIn) {
+        super(inventorySlotsIn);
+        this.xSize = 176;
+        this.ySize = 166;
+        this.SlotOut2 = inventorySlotsIn.getSlot(3);
+        this.SlotOut1 = inventorySlotsIn.getSlot(2);
+        this.SlotIn2 = inventorySlotsIn.getSlot(1);
+        this.SlotIn1 = inventorySlotsIn.getSlot(0);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        switch (button.id){
+            case BUTTON_EMPTY:
+                this.SlotOut2.putStack(ItemStack.EMPTY);
+                this.SlotOut1.putStack(ItemStack.EMPTY);
+                this.SlotIn2.putStack(ItemStack.EMPTY);
+                this.SlotIn1.putStack(ItemStack.EMPTY);
+                break;
+            default:
+                super.actionPerformed(button);
+                return;
+        }
+
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+
+        this.mc.getTextureManager().bindTexture(res);
+        int offsetX = (this.width - this.xSize)/2;
+        int offsetY = (this.height - this.ySize)/2;
+
+        this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
+        this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
+
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        String title = I18n.format("container.test_tube");
+        this.fontRenderer.drawString(title,59,11,0x1E90FF);
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        int offsetX = (this.width - this.xSize)/2;
+        int offsetY = (this.height - this.ySize)/2;
+        this.buttonList.add(new GuiButton(BUTTON_EMPTY, offsetX + 44, offsetY + 59, 15, 14, ""){
+            @Override
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                if(this.visible){
+                    GlStateManager.color(1.0F,1.0F,1.0F);
+
+                    mc.getTextureManager().bindTexture(res);
+                    int x = mouseX - this.x, y = mouseY - this.y;
+
+                    if (x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; this.width &amp;&amp; y &lt; this.height){
+                        this.drawTexturedModalRect(this.x, this.y, 63, 167, this.width, this.height);
+                    }
+                    else{
+                        this.drawTexturedModalRect(this.x, this.y, 43, 167, this.width, this.height);
+                    }
+
+                }
+            }
+        });
+
+    }
+}
+</code></pre>
+<p><code>ContainerTestTube</code></p>
+<pre><code class="lang-auto">
+import com.testmod.tm.items.ModItems;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
+
+import javax.annotation.Nonnull;
+
+public class ContainerTestTube extends Container {
+
+    private ItemStackHandler items = new ItemStackHandler(4);
+    protected Slot SlotIn1;
+    protected Slot SlotIn2;
+    protected Slot SlotOut1;
+    protected Slot SlotOut2;
+
+    public ContainerTestTube(EntityPlayer player){
+        super();
+
+        this.addSlotToContainer(this.SlotIn1 = new SlotItemHandler(items, 0, 59+0*18, 39){
+            @Override
+            public boolean isItemValid(@Nonnull ItemStack stack) {
+                return !stack.isEmpty() &amp;&amp; stack.getItem() == Items.GOLD_INGOT &amp;&amp; super.isItemValid(stack);
+            }
+
+            @Override
+            public int getSlotStackLimit() {
+                return 1;
+            }
+        });
+        this.addSlotToContainer(this.SlotIn2 = new SlotItemHandler(items, 1, 59+1*18, 39){
+            @Override
+            public boolean canTakeStack(EntityPlayer playerIn) {
+                return false;
+            }
+
+            @Override
+            public int getSlotStackLimit() {
+                return 8;
+            }
+        });
+        this.addSlotToContainer(this.SlotOut1 = new SlotItemHandler(items, 2, 125+0*18,39));
+        this.addSlotToContainer(this.SlotOut2 = new SlotItemHandler(items, 3, 125+1*18,39));
+
+        for(int i =0; i &lt; 9; ++i){
+            this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
+        }
+        for(int i = 0; i &lt; 3; ++i){
+            for(int j = 0; j &lt; 9; ++j){
+                this.addSlotToContainer(new Slot(player.inventory, 9*i+j+9, 8+j*18, 84+i*18));
+            }
+        }
+    }
+
+
+
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return new ItemStack(ModItems.TEST_TUBE).isItemEqual(playerIn.getHeldItemMainhand());
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        return null;
+    }
+
+}
+</code></pre>
+<p><strong>出错图</strong><br>
+<img src="https://i.loli.net/2020/03/08/WNycuYJ8ev4tAPf.png" alt="" width="216" height="50"><br>
+如图，我往四个物品槽里放了一些金锭<br>
+<img src="https://i.loli.net/2020/03/08/5YMsAwpo62RIUzd.png" alt="" width="218" height="52"><br>
+我点击了按钮，物品槽是清空了<br>
+此时，我再往左边第一个槽里放一个金锭<br>
+<img src="https://i.loli.net/2020/03/08/ZP6CNmVDsgjlxWc.png" alt="" width="217" height="52"><br>
+所有槽里的物品都回来了</p>
+<p><strong>查到的资料</strong><br>
+参考的教程：<a href="https://fmltutor.ustc-zzzz.net/3.4.3-GUI%E7%95%8C%E9%9D%A2%E4%B8%AD%E7%9A%84%E4%BA%A4%E4%BA%92.html" class="inline-onebox" rel="nofollow noopener">3.4.3 GUI界面中的交互 · GitBook</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <p>你没有发包，需要发包通知服务端更新方块</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>那这句话</p>
+<blockquote>
+<p>⑥传输的是玩家对于物品槽的操作，客户端会将其同步至服务端。</p>
+</blockquote>
+<p>的范围是限制在“玩家操作“，而像putStack()是需要自己手动同步么</p>
+<p>对了，我这个是通过物品右击打开的GUI，不是方块</p>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="ArcoWD" data-post="3" data-topic="224">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/arcowd/40/19_2.png" class="avatar"> ArcoWD:</div>
+<blockquote>
+<p>对</p>
+</blockquote>
+</aside>
+<p>emm那我就不知道了，没写过</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>对了，我这个是通过物品右击打开的GUI，不是方块</p>
+</blockquote>
+<p>如果是这样你需要手动同步数据，请看<a href="https://mcforge.readthedocs.io/en/1.13.x/networking/simpleimpl/">文档</a>关于 <code>SimpleImpl</code>的内容。</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，那请问关于第二个问题getSlotStackLimit()不起作用的问题该如何解决呢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看上去应该没问题，这个方法，你可以下个断点试试看看有没有执行到这个方法。</p>
+<p>其次你确定函数的对的吗？我1.14用的是以下方法：</p>
+<pre><code class="lang-java">addSlot(new SlotItemHandler(handler, index, x, y));
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>方法是对的，1.12.2这里好像没有addSlot这个方法<br>
+我设置断点试试吧<br>
+谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果要同步数据，<code>Container</code>有个叫做<code>detectAndSendChanges</code>的方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>我能详细问下吗，<br>
+按下按钮触发的pustack是在客户端的GuiContainer上执行的吧<br>
+然后服务器端的Container对此并不知情，所以我只需要给Container发个包就能解决问题了对么…<br>
+（detectAndSendChanges好像是Container给GuiContainer发数据的…?）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对是这样的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

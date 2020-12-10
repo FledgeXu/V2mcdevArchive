@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Forge 1.12.2 build失败</title>
+</head>
+<body>
+    <div class="title"><h1>Forge 1.12.2 build失败</h1></div>
+    <div class="post-user" class="user"><h4>地铁DXTL</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>环境：GitHub的Action（ubuntu-latest）<br>
+以下是报错信息</p>
+<pre><code class="lang-auto">* What went wrong:
+Execution failed for task ':applyBinaryPatches'.
+&gt; There is a binary discrepency between the expected input class net.minecraft.client.renderer.entity.layers.LayerHeldItem (ccc) and the actual class. Checksum on disk is 5f7c661a, in patch da0f6687. Things are probably about to go very wrong. Did you put something into the jar file?
+</code></pre>
+<p>以下是Action脚本</p>
+<pre><code class="lang-auto">name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Permission allowing
+      run: chmod +x ./gradlew
+
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1.3.0
+      with:
+        java-version: 1.8
+
+    - name: Cache gradle dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('gradle.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Upload Jar
+      uses: actions/upload-artifact@v1
+      with:
+        name: Minecraft-Mod-Better-Cat-newest
+        path: build/libs
+</code></pre>
+<p>在执行上一个任务时，仍然有报错，但GitHub却通过了这个流程<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://s2.ax1x.com/2020/02/21/3K8SuF.png" title="qwq" rel="nofollow noopener"><img src="https://s2.ax1x.com/2020/02/21/3K8SuF.png" alt="qwq" width="690" height="167"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">qwq</span><span class="informations">919×223</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对不起，Github Action 我也没有用过。<br>
+不过我找到了一个<a href="https://github.com/MinecraftForge/ForgeGradle/issues/623">issues</a> 你可以参考一下。</p>
+    </div>
+    <br />
+    <div class="user"><h4>地铁DXTL</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，看来GitHub的Action似乎有某些奇怪的问题，我不打算用了…反正我本地能build过就行了，谢谢！</p>
+    </div>
+    <br />
+    <div class="user"><h4>epix</h4></div>
+    <br />
+    <div class="post">
+        <p>现在我这个1.12.2的有build的actions看起来工作正常, 看起来只是少了cache那一步?</p>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/exzhawk/VolumetricFlask/actions" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="https://avatars0.githubusercontent.com/u/7038938?s=400&amp;v=4" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/exzhawk/VolumetricFlask/actions" target="_blank" rel="nofollow noopener">exzhawk/VolumetricFlask</a></h3>
+
+<p>An Applied Energistics 2 addon mainly focusing on fluid related auto crafting. - exzhawk/VolumetricFlask</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>地铁DXTL</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://github.com/dixiatielu/BetterCat/runs/473788155?check_suite_focus=true#step:4:88" rel="nofollow noopener">我又试了几次，依然是失败在这里</a>真是不知道为什么…FG有毒》》》</p>
+    </div>
+    <br />
+    <div class="user"><h4>epix</h4></div>
+    <br />
+    <div class="post">
+        <p>更新forge版本以后好了<br>
+<aside class="onebox githubcommit">
+  <header class="source">
+      <a href="https://github.com/exzhawk/BetterCat/commit/b5b134f0192593fd0ed3c01a4fc09c815f335cde" target="_blank" rel="nofollow noopener">github.com/exzhawk/BetterCat</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Commit">
+    <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/exzhawk/BetterCat/commit/b5b134f0192593fd0ed3c01a4fc09c815f335cde" target="_blank" rel="nofollow noopener">Update build.gradle</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        committed <span class="discourse-local-date" data-format="ll" data-date="2020-02-28" data-time="02:29:33" data-timezone="UTC">02:29AM - 28 Feb 20 UTC</span>
+      </div>
+
+      <div class="user">
+        <a href="https://github.com/exzhawk" target="_blank" rel="nofollow noopener">
+          <img alt="exzhawk" src="https://avatars0.githubusercontent.com/u/7038938?v=4" class="onebox-avatar-inline" width="20" height="20">
+          exzhawk
+        </a>
+        
+      </div>
+
+      <div class="lines" title="changed 1 files with 1 additions and 1 deletions">
+        <a href="https://github.com/exzhawk/BetterCat/commit/b5b134f0192593fd0ed3c01a4fc09c815f335cde" target="_blank" rel="nofollow noopener">
+          <span class="added">+1</span>
+          <span class="removed">-1</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/exzhawk/BetterCat/actions/runs/46489718" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="https://avatars0.githubusercontent.com/u/7038938?s=400&amp;v=4" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/exzhawk/BetterCat/actions/runs/46489718" target="_blank" rel="nofollow noopener">exzhawk/BetterCat</a></h3>
+
+<p>A mod of cats for Minecraft 1.12. Contribute to exzhawk/BetterCat development by creating an account on GitHub.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>地铁DXTL</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢！终于好了QAQ</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

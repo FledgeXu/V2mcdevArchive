@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>方块模型透视问题</title>
+</head>
+<body>
+    <div class="title"><h1>方块模型透视问题</h1></div>
+    <div class="post-user" class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64位<br>
+你是用的JDK: Java8  64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+Forge版本:  1.12.2-14.23.5.2847<br>
+Minecraft版本: 1.12.2<br>
+Mapping 文件版本: stable_58</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/21ebf603debc661cd73b3442bc8f79f13c570f23.png" data-download-href="../uploads/default/21ebf603debc661cd73b3442bc8f79f13c570f23" title="QjqgKEfJgx"><img src="../uploads/default/original/1X/21ebf603debc661cd73b3442bc8f79f13c570f23.png" alt="QjqgKEfJgx" data-base62-sha1="4Q5iDCa4unCxd6PsvIuYx5LgNlV" width="243" height="250" data-small-upload="../uploads/default/optimized/1X/21ebf603debc661cd73b3442bc8f79f13c570f23_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QjqgKEfJgx</span><span class="informations">567×581 18.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<img src="../uploads/default/original/1X/c8443eacbff97c385afb047a7ad32e90f79ea6b2.png" alt="0vvjAlRY2Z" data-base62-sha1="szDHTmf5liBNW9WldshlBO3OENk" width="304" height="278"></p>
+<p><strong>错误情况简述</strong><br>
+在一些特殊角度的时候，模型离camera远的部分覆盖了前面的部分，就像是深度检测没生效</p>
+<p><strong>相关代码</strong><br>
+<code>cable.json</code>(blockstate文件)</p>
+<pre><code class="lang-auto">{
+  "multipart": [
+    {   "apply": { "model": "integratedcontrol:cable_mid" }},
+    {   "when": { "up": "true" },
+      "apply": { "model": "integratedcontrol:cable_side_top"}
+    },
+    {   "when": { "down": "true" },
+      "apply": { "model": "integratedcontrol:cable_side_bottom"}
+    },
+    {   "when": { "north": "true" },
+      "apply": { "model": "integratedcontrol:cable_side", "uvlock": true}
+    },
+    {   "when": { "east": "true" },
+      "apply": { "model": "integratedcontrol:cable_side", "y": 90, "uvlock": true}
+    },
+    {   "when": { "south": "true" },
+      "apply": { "model": "integratedcontrol:cable_side", "y": 180, "uvlock": true}
+    },
+    {   "when": { "west": "true" },
+      "apply": { "model": "integratedcontrol:cable_side", "y": 270, "uvlock": true}
+    }
+  ]
+}
+</code></pre>
+<p>模型（使用blockbench制作）<br>
+<img src="../uploads/default/original/1X/5c3d051f8eec15312dd3b9f53bc9f7290a7985bf.png" alt="Blockbench_61eFyoMVoN" data-base62-sha1="d9YF2WqAUbL4k2zGC7LUXvT4D3V" width="181" height="173"><br>
+<img src="../uploads/default/original/1X/c3a6c43e9af0f048f4841cea29a4a12ea00f555d.png" alt="bMGYPh2YMr" data-base62-sha1="rUOoXa9HHY9iQZf0NP7pqw7TQ7z" width="258" height="193"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>为什么要开<code>uvlock</code>？把<code>uvlock</code>去了试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>uvlock是为了材质连接<br>
+而且第二个出错图里的模型没有加uvlock，但是也有问题<br>
+所以估计不是uvlock的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先把<code>multipart</code>删了，直接只指定一个模型，不要开<code>uvlock</code>，看看有没有问题。<br>
+还有就是请补充一下你模型的内容。</p>
+<blockquote>
+<p>在一些特殊角度的时候，模型离camera远的部分覆盖了前面的部分，就像是深度检测没生效</p>
+</blockquote>
+<p>这点我不是很理解，什么叫做「特殊的角度」？</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>问题已完美解决，原因是我在原来的测试中复写了getRenderLayer方法导致</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

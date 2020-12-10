@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎样让实体可以被攻击</title>
+</head>
+<body>
+    <div class="title"><h1>怎样让实体可以被攻击</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 2004 x64<br>
+你是用的JDK: 8u251<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  31.2.36<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>简述</strong><br>
+我创建了一个实体是<code>ProjectileItemEntity</code>的子类。我想让它能够被攻击（近战/远程）然后remove掉。（有一点像画和展示框的效果）。翻了翻<code>HangingEntity</code>和<code>PaintingEntity</code>，只找到了下面两个在被攻击时调用的方法，但是不知道是怎么让它<strong>能</strong>被攻击的。。。</p>
+<p>来自<code>HangingEntity.java</code></p>
+<pre><code class="lang-auto">   /**
+    * Called when a player attacks an entity. If this returns true the attack will not happen.
+    */
+   public boolean hitByEntity(Entity entityIn) {
+      if (entityIn instanceof PlayerEntity) {
+         PlayerEntity playerentity = (PlayerEntity)entityIn;
+         return !this.world.isBlockModifiable(playerentity, this.hangingPosition) ? true : this.attackEntityFrom(DamageSource.causePlayerDamage(playerentity), 0.0F);
+      } else {
+         return false;
+      }
+   }
+
+   /**
+    * Called when the entity is attacked.
+    */
+   public boolean attackEntityFrom(DamageSource source, float amount) {
+      if (this.isInvulnerableTo(source)) {
+         return false;
+      } else {
+         if (!this.removed &amp;&amp; !this.world.isRemote) {
+            this.remove();
+            this.markVelocityChanged();
+            this.onBroken(source.getTrueSource());
+         }
+
+         return true;
+      }
+   }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>attackEntityFrom</code>不是写了吗？</p>
+<aside class="quote no-group" data-username="USS.Shenzhou" data-post="1" data-topic="899">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/USS.Shenzhou" class="avatar"> USS.Shenzhou:</div>
+<blockquote>
+<p><code> this.remove();</code></p>
+</blockquote>
+</aside>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我仿造着写了</p>
+<pre><code class="lang-auto">    @Override
+    public boolean hitByEntity(Entity entityIn) {
+        if (entityIn instanceof PlayerEntity) {
+            PlayerEntity playerentity = (PlayerEntity)entityIn;
+            return this.attackEntityFrom(DamageSource.causePlayerDamage(playerentity), 1.0F);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+            if (!this.world.isRemote) {
+                this.remove();
+                this.markVelocityChanged();
+            }
+            else {
+                this.world.addParticle(ParticleTypes.CLOUD,this.getPosX(),this.getPosY(),this.getPosZ(),0,0,0);
+            }
+            return true;
+    }
+</code></pre>
+<p>但是没有什么用。。。。下断点发现这两个方法没有被调用过。。。。(尝试了近战、爆炸和弓箭)<br>
+应该有什么方法是关于<strong>能不能被攻击</strong>的？但是我一直没有找到。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>是不是因为你没攻击到。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>测试的时候箭都是直接从碰撞框里面穿过去的。。。。。应该是程序以为它不可以被攻击？</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>更正：爆炸可以摧毁它 但是不知道近战和远程为什么都没用。。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>挂画、物品展示框等「被攻击」的效果是在 <code>attackEntityFrom</code> 里实现的。<br>
+如果你正确实现了这个方法但毫无效果的话，考虑攻击来源本身认为你的实体不可被攻击，或者没有识别到，比如 <code>AbstractArrowEntity</code> 的逻辑是在 tick 的时候通过 <code>World.rayTraceBlocks</code> 来判断它是不是碰到了某个实体（<code>AbstractArrowEntity.onHit</code>、<code>AbstractArrowEntity.onEntityHit</code> 等）。再比如玩家实体的话，是先在客户端上 <code>Minecraft.clickMouse</code> 里进行一次 ray tracing，若结果是命中一个实体，则调用 <code>PlayerController.attackEntity</code> 在客户端进行一次模拟攻击，并发数据包 <code>CUseEntityPacket</code> 请求服务器处理攻击逻辑。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢！我找到了方法<code>canBeCollidedWith</code>，它在父类<code>Entity</code>中返回的是假，重写为真就好啦 <img src="../images/emoji/apple/smile.png?v=9" title=":smile:" class="emoji" alt=":smile:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

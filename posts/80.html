@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14.4如何创造非完整方块？</title>
+</head>
+<body>
+    <div class="title"><h1>1.14.4如何创造非完整方块？</h1></div>
+    <div class="post-user" class="user"><h4>BiliBear</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>我是在B站看FledgeXu的mod制作教程过来的，<br>
+今天试着使用BlockBench制作3D模型的.json，<br>
+但是导入后发现放置方块后<strong>相邻方块的面的纹理消失</strong>了，除此之外没有任何问题<br>
+我想是进程默认物品为一个完整的方块，<br>
+检查了不是json的问题，因为我用<strong>龙蛋的json替换也一样有这个情况</strong><br>
+那么问题来了，怎样做成一个非完整方块(如：栅栏、火把等)让邻面显示出来？<br>
+(希望能以1.14.4教程的文件为基础修改)</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/21/578EdiZMXfozueO.png" title="e671035614b63e6a41d8cb118759ad0.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/21/578EdiZMXfozueO.png" alt="e671035614b63e6a41d8cb118759ad0.png" width="690" height="417"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">e671035614b63e6a41d8cb118759ad0.png</span><span class="informations">872×527</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/21/8sOmLqjZ1MJyEDX.png" title="微信图片_20200221152517.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/21/8sOmLqjZ1MJyEDX.png" alt="微信图片_20200221152517.png" width="690" height="377"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">微信图片_20200221152517.png</span><span class="informations">1920×1051</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+导入龙蛋模型json，纹理可无视：</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/21/n1SqATt2NzdF6yP.png" title="1582299749(1).jpg" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/21/n1SqATt2NzdF6yP.png" alt="1582299749(1).jpg" width="690" height="417"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">1582299749(1).jpg</span><span class="informations">872×527</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>新人学习参照教程编写，以下方视频为准</strong><br>
+<strong>教程地址</strong>：<a href="https://www.bilibili.com/video/av85959339/?spm_id_from=333.788.videocard.5" rel="nofollow noopener">Minecraft 1.14 模组开发教程 ——创建一个方块</a></p>
+<p><strong>附：</strong><br>
+<strong>注册文件：</strong></p>
+<pre><code class="lang-auto">package com.bilibear.recovery.util;
+
+import com.bilibear.recovery.Items.Moditems;
+import com.bilibear.recovery.blocks.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+//静态注册方块和物品
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+public class RegistryHandler {
+    @SubscribeEvent
+    public static void onBlocksRegistry(RegistryEvent.Register&lt;Block&gt; event) {
+        event.getRegistry().register(ModBlocks.shennongdingBlock);
+    }
+    @SubscribeEvent
+    public static void onItemsRegistry(RegistryEvent.Register&lt;Item&gt; event){
+        event.getRegistry().register(new BlockItem(ModBlocks.shennongdingBlock,new Item.Properties().group(Utils.itemGroup))
+                .setRegistryName(ModBlocks.shennongdingBlock.getRegistryName())
+        );
+    }
+}
+</code></pre>
+<p><strong>class文件：</strong></p>
+<pre><code class="lang-auto">package com.bilibear.recovery.blocks;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+
+public class ShennongDingBlock extends Block {
+    public ShennongDingBlock(){
+        super(Properties.create(Material.IRON)
+                .harvestLevel(3)
+                .sound(SoundType.ANVIL)
+                .lightValue(15)
+                .hardnessAndResistance(5f)
+        );
+        this.setRegistryName("shennongding_block");
+    }
+
+}
+</code></pre>
+<p><strong>blockstates/.json文件：</strong></p>
+<pre><code class="lang-auto">{
+  "variants": {
+    "": { "model": "recovery:block/shennongding_block" }
+  }
+}
+</code></pre>
+<p><strong>models/block/.json文件：</strong></p>
+<pre><code class="lang-auto">{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "recovery:block/shennongding_block",
+		"particle": "recovery:block/shennongding_block"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 4],
+			"to": [12, 6, 11],
+			"faces": {
+				"north": {"uv": [0, 0, 7, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 7, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 7, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 7, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 7, 7], "texture": "#0"},
+				"down": {"uv": [0, 0, 7, 7], "texture": "#0"}
+			}
+		}
+	]
+}
+</code></pre>
+<p><strong>models/item/.json文件：</strong></p>
+<pre><code class="lang-auto">{
+  "parent": "recovery:block/shennongding_block"
+}
+</code></pre>
+<p><strong>改为龙蛋模型时所使用的json：</strong></p>
+<pre><code class="lang-auto">{   "parent": "block/block",
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "recovery:block/shennongding_block",
+        "all": "recovery:block/shennongding_block"
+    },
+    "elements": [
+        {   "from": [ 6, 15, 6 ],
+            "to": [ 10, 16, 10 ],
+            "faces": {
+                "down":  { "uv": [ 6,  6, 10, 10 ], "texture": "#all" },
+                "up":    { "uv": [ 6,  6, 10, 10 ], "texture": "#all" },
+                "north": { "uv": [ 6, 15, 10, 16 ], "texture": "#all" },
+                "south": { "uv": [ 6, 15, 10, 16 ], "texture": "#all" },
+                "west":  { "uv": [ 6, 15, 10, 16 ], "texture": "#all" },
+                "east":  { "uv": [ 6, 15, 10, 16 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 5, 14, 5 ],
+            "to": [ 11, 15, 11 ],
+            "faces": {
+                "down":  { "uv": [ 5,  5, 11, 11 ], "texture": "#all" },
+                "up":    { "uv": [ 5,  5, 11, 11 ], "texture": "#all" },
+                "north": { "uv": [ 5, 14, 11, 15 ], "texture": "#all" },
+                "south": { "uv": [ 5, 14, 11, 15 ], "texture": "#all" },
+                "west":  { "uv": [ 5, 14, 11, 15 ], "texture": "#all" },
+                "east":  { "uv": [ 5, 14, 11, 15 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 5, 13, 5 ],
+            "to": [ 11, 14, 11 ],
+            "faces": {
+                "down":  { "uv": [ 4,  4, 12, 12 ], "texture": "#all" },
+                "up":    { "uv": [ 4,  4, 12, 12 ], "texture": "#all" },
+                "north": { "uv": [ 4, 13, 12, 14 ], "texture": "#all" },
+                "south": { "uv": [ 4, 13, 12, 14 ], "texture": "#all" },
+                "west":  { "uv": [ 4, 13, 12, 14 ], "texture": "#all" },
+                "east":  { "uv": [ 4, 13, 12, 14 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 3, 11, 3 ],
+            "to": [ 13, 13, 13 ],
+            "faces": {
+                "down":  { "uv": [ 3,  3, 13, 13 ], "texture": "#all" },
+                "up":    { "uv": [ 3,  3, 13, 13 ], "texture": "#all" },
+                "north": { "uv": [ 3, 11, 13, 13 ], "texture": "#all" },
+                "south": { "uv": [ 3, 11, 13, 13 ], "texture": "#all" },
+                "west":  { "uv": [ 3, 11, 13, 13 ], "texture": "#all" },
+                "east":  { "uv": [ 3, 11, 13, 13 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 2, 8, 2 ],
+            "to": [ 14, 11, 14 ],
+            "faces": {
+                "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#all" },
+                "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#all" },
+                "north": { "uv": [ 2, 8, 14, 11 ], "texture": "#all" },
+                "south": { "uv": [ 2, 8, 14, 11 ], "texture": "#all" },
+                "west":  { "uv": [ 2, 8, 14, 11 ], "texture": "#all" },
+                "east":  { "uv": [ 2, 8, 14, 11 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 1, 3, 1 ],
+            "to": [ 15, 8, 15 ],
+            "faces": {
+                "down":  { "uv": [ 1, 1, 15, 15 ], "texture": "#all" },
+                "up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#all" },
+                "north": { "uv": [ 1, 3, 15,  8 ], "texture": "#all" },
+                "south": { "uv": [ 1, 3, 15,  8 ], "texture": "#all" },
+                "west":  { "uv": [ 1, 3, 15,  8 ], "texture": "#all" },
+                "east":  { "uv": [ 1, 3, 15,  8 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 2, 1, 2 ],
+            "to": [ 14, 3, 14 ],
+            "faces": {
+                "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#all" },
+                "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#all" },
+                "north": { "uv": [ 2, 1, 14,  3 ], "texture": "#all" },
+                "south": { "uv": [ 2, 1, 14,  3 ], "texture": "#all" },
+                "west":  { "uv": [ 2, 1, 14,  3 ], "texture": "#all" },
+                "east":  { "uv": [ 2, 1, 14,  3 ], "texture": "#all" }
+            }
+        },
+        {   "from": [ 3, 0, 3 ],
+            "to": [ 13, 1, 13 ],
+            "faces": {
+                "down":  { "uv": [ 3, 3, 13, 13 ], "texture": "#all" },
+                "up":    { "uv": [ 3, 3, 13, 13 ], "texture": "#all" },
+                "north": { "uv": [ 3, 0, 13,  1 ], "texture": "#all" },
+                "south": { "uv": [ 3, 0, 13,  1 ], "texture": "#all" },
+                "west":  { "uv": [ 3, 0, 13,  1 ], "texture": "#all" },
+                "east":  { "uv": [ 3, 0, 13,  1 ], "texture": "#all" }
+            }
+        }
+    ]
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你发错分类了，图片也挂了……<br>
+而且你能提供的信息太少了。<br>
+请参考「模组开发」分类下的帖子模版修改你的帖子。</p>
+    </div>
+    <br />
+    <div class="user"><h4>BiliBear</h4></div>
+    <br />
+    <div class="post">
+        <p>已修改，加了些文件并补充了图片和链接</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>建议看一下这个<a href="https://www.v2mcdev.com/t/topic/22/19">帖子</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="BiliBear" data-post="1" data-topic="80">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/letter_avatar_proxy/v4/letter/b/a587f6/40.png" class="avatar"> BiliBear:</div>
+<blockquote>
+<p>Properties.create(Material.IRON)</p>
+</blockquote>
+</aside>
+<p>Properties.create(Material.IRON).notSolid()…</p>
+    </div>
+    <br />
+    <div class="user"><h4>BiliBear</h4></div>
+    <br />
+    <div class="post">
+        <p>这个帖子发帖前看过，现在经推荐又仔细对症下药又看一遍，顺便再翻个墙，经过思维的碰撞，果然可以很好地解决这个问题，也让BlockBench得以充分使用，感谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

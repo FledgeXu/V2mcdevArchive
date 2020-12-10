@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>我该怎么让玩家进入游戏以后进行一次数据同步</title>
+</head>
+<body>
+    <div class="title"><h1>我该怎么让玩家进入游戏以后进行一次数据同步</h1></div>
+    <div class="post-user" class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你用的JDK是: 1.8 x64<br>
+你使用的IDE：IntelliJ<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  35.0.1<br>
+Minecraft版本: 1.16.4<br>
+Mapping 文件版本: snapshot 20201028-1.16.3</p>
+<p>请问一下监听哪个类可以在玩家进入世界时运行一次数据同步<br>
+数据同步用的方法我有自己写的<br>
+找了一会PlayerEvent没看见，只有一个进入世界之前的LoadFromFile</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来是个XY问题，请描述你原本的需求是什么，或者说想要实现的功能是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>我就是想在玩家进入世界之后执行一段代码，来让客户端与服务端进行一次数据同步<br>
+因为我并不想要每tick执行一次数据同步，那样会很蠢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请描述你的需求。<br>
+你要进行数据同步是为了实现什么功能？</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>虚空能量槽的数值同步，由服务器发往客户端来渲染</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>每Tick的自动回复我已经写好了，也会进行同步，但是在玩家进入世界之后因为没有使用过虚空能量，也就无法触发我设置的同步方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>这导致了一个BUG，如果玩家在进入游戏之后没有用过虚空能量，就不会渲染虚空能量槽</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你这个能量是存放在哪里的，玩家的Capability？<br>
+老实说，我想不出这个功能需要用到在用户登陆这个事件。<br>
+另外，回复是可以编辑的，请尽量在一次回复中，写尽量多的内容，而不是拆成多次回复。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>确实是玩家的Capability，但事实就是，需要在玩家进入世界以后进行一次数据同步<br>
+另外，我只是想问您，我该监听哪个事件是玩家进入世界</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>数据的保存与读取应该没问题，他应该只是要trigger来触发渲染</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>并不是，它确实是没有同步到数值</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>这不是事实。</li>
+<li>如果你写了 Tick 同步，我想不出为什么需要监听这个事件。</li>
+<li>所有的事件都是<code>Event</code>类的子类，你想要哪个事件自己看一下继承表就行……</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Starsdust" data-post="11" data-topic="1000" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Starsdust" class="avatar"> Starsdust:</div>
+<blockquote>
+<p>并不是，它确实是没有同步到数值</p>
+</blockquote>
+</aside>
+<p>我觉得你同步的代码写的有Bug……<br>
+如果是每Tick都同步，那么玩家进入游戏之后 Tick 会自动开始，数据也应该会开始同步，不需要再额外再监听事件了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>1.或许您那里确实没问题，但我这是需要一次同步的<br>
+2.虽然我写了数据同步，但是一直同步是极其愚蠢的，所以只有在数值有变动的情况下才会同步<br>
+3.如果我的疑问没有得到解答，我确实会去翻看继承表</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group quote-modified" data-username="Starsdust" data-post="14" data-topic="1000" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Starsdust" class="avatar"> Starsdust:</div>
+<blockquote>
+<p>1.或许您那里确实没问题，但我这是需要一次同步的<br>
+2.虽然我写了数据同步，但是一直同步是极其愚蠢的，所以只有在有消耗的情况下才会同步<br>
+3.如果我的疑问没有得到解答，我确实会去翻看继承表</p>
+</blockquote>
+</aside>
+<p>关于每 Tick 同步的问题，解决方法非常简单。<br>
+你只需要在逻辑的客户端也调用数据增加的方法就行。但是数据要以服务端为准，客户端的数据只用来进行渲染，并且在消耗能量的时候，进行一次从服务端到客户端的同步。<br>
+这样才是比较合理的解决方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>这看起来确实是个很好的方案，但是请恕我无法采纳，因为客户端的数据无法保留（或许是我个人的问题），这仍然会使得进入游戏后在能量发生变动之前不显示能量槽，所以我还是需要在进入世界以后进行一次数据同步，这代码也只需要执行一次</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>随你吧。你看看<code>NetworkEvent</code>下面几个子类有没有你想要的事件。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我会去看看的</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有<code>ClientPlayerNetworkEvent</code>的子类。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>嗯…<br>
+最后我在还是在PlayerEvent里发现了PlayerLoggedInEvent，成功解决了进入世界时数据同步的问题<br>
+因为数据同步是服务端发往客户端，所以ClientPlayerNetworkEvent不管用，NetworkEvent里面好像没有登录事件…<br>
+绕了一大圈又绕回来了，还麻烦你这么久，真是很抱歉<br>
+当初我翻找PlayerEvent的时候一直盯着玩家进入世界，忘了玩家登录<br>
+果然我的智商有点堪忧 <img src="../images/emoji/apple/slightly_frowning_face.png?v=9" title=":slightly_frowning_face:" class="emoji" alt=":slightly_frowning_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我想了想，按照我那个实现，也是需要玩家登陆事件作为第一次同步的，是我没想清楚。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

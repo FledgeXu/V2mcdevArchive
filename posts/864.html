@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.16.3无法创建物品，但是在1.16.1可以</title>
+</head>
+<body>
+    <div class="title"><h1>1.16.3无法创建物品，但是在1.16.1可以</h1></div>
+    <div class="post-user" class="user"><h4>chaAB</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Win10 64<br>
+你是用的JDK: jdk1.8.0<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2.2<br>
+Forge版本:  forge-1.16.1-32.0.108;forge-1.16.3-34.0.7<br>
+Minecraft版本: 1.16.1;1.16.3</p>
+<p><strong>错误情况简述</strong><br>
+我想在1.16.3的forge中创建一个物品，进入游戏后，没有任何显示，杂项栏、give 命令也找不到。<br>
+但是同样的写法在1.16.1却生效了，这是因为具体写法发生了改变？还是forge1.16.3本身的问题？</p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-java">public class ItemTest extends Item{
+    public ItemTest(){
+        super(new Item.Properties().group(ItemGroup.MATERIALS));
+    }
+}
+
+public abstract class ItemRegistry {
+    public static final DeferredRegister&lt;Item&gt; ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "test");
+    public static RegistryObject&lt;Item&gt; itemELoyaltyGem = ITEMS.register("item_test", ItemTest::new);
+}
+
+@Mod("test")
+public class Test{
+    public Test() {
+        ItemRegistry.ITEMS.register(
+                FMLJavaModLoadingContext.get().getModEventBus()
+        );
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>为什么<code>ItemRegistry</code>是<code>abstract</code>的……<br>
+可能是1.16.3的问题，你去翻翻看Forge的Github看看有没有相关的issue吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>chaAB</h4></div>
+    <br />
+    <div class="post">
+        <p>也许手抽了（</p>
+<p>我看issue没看到相关的情况，所以我去翻了翻已经更新到.3的mod是怎么实现注册的。<br>
+都不是用 DeferredRegister 这种方式……基本都是用 RegistryEvent  来实现注册的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来没什么问题……你把<code>abstract</code>删了试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>chaAB</h4></div>
+    <br />
+    <div class="post">
+        <p>鸠占鹊巢了一个其他mod的工程，同样的代码发现可以了。跟<code>abstract</code>无关，真是神秘……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

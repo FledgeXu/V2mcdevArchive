@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14.4-28.1.0树叶方块添加颜色</title>
+</head>
+<body>
+    <div class="title"><h1>1.14.4-28.1.0树叶方块添加颜色</h1></div>
+    <div class="post-user" class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>自己制作了几颗树，但是树叶是以灰度图的样子被渲染了出来。<br>
+构造树叶方块仿照了原版的方法：</p>
+<pre><code class="lang-auto">new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)
+</code></pre>
+<p>在mod主类中添加了如下方法：</p>
+<pre><code class="lang-auto">@SubscribeEvent
+public void blockColors(ColorHandlerEvent.Block event) {
+    event.getBlockColors().register(new ModBlockTinter(), OTLBlocks.pinus_caribaea_leaves, OTLBlocks.pinus_palustris_leaves, OTLBlocks.pinus_taeda_leaves);
+}
+</code></pre>
+<p>ModBlockTinter类：</p>
+<pre><code class="lang-auto">public class ModBlockTinter implements IBlockColor {
+    @Override
+    public int getColor(BlockState state, @Nullable IEnviromentBlockReader p_getColor_2_, @Nullable BlockPos pos, int tineIndex) {
+        return 2319364;
+    }
+}
+</code></pre>
+<p>blockstates：</p>
+<pre><code class="lang-auto">{
+  "variants": {
+    "": { "model": "ontheland:block/pinus_caribaea_leaves" }
+  }
+}
+</code></pre>
+<p>models/block：</p>
+<pre><code class="lang-auto">  "parent": "block/block",
+  "textures": {
+    "all": "ontheland:block/pinus_caribaea_leaves",
+    "particle": "#all"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": {"texture": "#all","tintindex": 1,"cullface": "down"},
+        "up": {"texture": "#all","tintindex": 2,"cullface": "up"},
+        "north": {"texture": "#all","tintindex": 3,"cullface": "north"},
+        "south": {"texture": "#all","tintindex": 4,"cullface": "south"},
+        "west": {"texture": "#all","tintindex": 5,"cullface": "west"},
+        "east": {"texture": "#all","tintindex": 6,"cullface": "east"}
+      }
+    }
+  ]
+}
+</code></pre>
+<p>对了，tags标签也加了。我应该怎么做</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>首先你让你的叶子继承于<code>LeavesBlock</code>试试。<br>
+另外叶子的颜色不是由叶子自己决定的，是由生物群系决定的，具体原理我也不是很清楚。</p>
+    </div>
+    <br />
+    <div class="user"><h4>暗夜</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决了，之前的方法全部废弃。<br>
+解决方法参见：<a href="https://mcforge.readthedocs.io/en/1.14.x/models/color/" rel="nofollow noopener">Forge 文档</a><br>
+最后还是回到了最初的地方 <img src="https://www.v2mcdev.com/images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

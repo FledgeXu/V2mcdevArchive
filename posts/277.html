@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何在玩家左键方块时获得左键的表面</title>
+</head>
+<body>
+    <div class="title"><h1>如何在玩家左键方块时获得左键的表面</h1></div>
+    <div class="post-user" class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>问题</strong><br>
+想要在玩家左键方块时获得所左键的表面。<br>
+但是onBlockClicked（左键）和onBlockActivated（右键）方法不一样，并不传递EnumFacing变量。</p>
+<p><strong>相关代码</strong><br>
+<code>Block.class</code></p>
+<pre><code class="lang-auto">public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+{
+    return false;
+}
+</code></pre>
+<pre><code class="lang-auto">public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {}
+</code></pre>
+<p>注意到玩家左键时会传递EnumFacing<br>
+<code>PlayerInteractionManager.class</code></p>
+<pre><code class="lang-auto">public void onBlockClicked(BlockPos pos, EnumFacing side)
+{
+...
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>帖子暂时锁定。<br>
+你的提问不符合规范，请按照提问区的模版修改你的提问。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以通过<code>BlockPos</code>获取到BlockState然后从BlockState判断facing。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不对，上面到答案有问题。<br>
+你看看有没有可以监听方块点击的事件，看看事件里面有没有传入EnumFacing<br>
+你看看是不是<code>PlayerInteractEvent</code>这个事件。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>只能监听事件吗<br>
+是可行的，PlayerInteractvent中的LeftClickBlock传递了face</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我目前只知道有这个方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>自己 ray trace，Forge 的事件也是这么做的。</p>
+    </div>
+    <br />
+</body>
+</html>

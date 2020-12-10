@@ -1,0 +1,761 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.12.2]Gl模型旋转问题</title>
+</head>
+<body>
+    <div class="title"><h1>[1.12.2]Gl模型旋转问题</h1></div>
+    <div class="post-user" class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IDE版本：<code>&lt;Eclipse Java 2019-12&gt;</code><br>
+Forge版本:  <code>&lt;1.12.2-14.23.5.2847&gt;</code><br>
+Minecraft版本: <code>&lt;1.12.2&gt;</code></p>
+<p><strong>情况简述</strong><br>
+自定义Gl模型的旋转与TileEntityModel的旋转不一致。</p>
+<ul>
+<li>旋转发生的地方：</li>
+</ul>
+<p><em>TileEntityBeamLampRenderer: render(TileEntityBeamLamp tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha)</em></p>
+<pre><code class="lang-auto">        modelBeamLampBulb.render((Entity) null, tileEntity.getRotateAngle(), 0.0625F);
+        LayersHelper.drawRay(RAY_TRANSLATE, tileEntity.getRotateAngle(), tileEntity.getLength(), tileEntity.getAngle(), tileEntity.getFirstColor(), tileEntity.getAfterColor());
+</code></pre>
+<p><strong>我认为可能影响的地方</strong></p>
+<ul>
+<li>模型本身被预先旋转过：</li>
+</ul>
+<p><em>TileEntityBeamLampRenderer: render(TileEntityBeamLamp tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha)</em></p>
+<pre><code class="lang-auto">        GlStateManager.rotate(180F, 1.0F, 0F, 1.0F);
+</code></pre>
+<ul>
+<li>旋转原点（在实际游戏中，即使我旋转了90°模型也没有旋转到90°，应该不是这个问题）：</li>
+</ul>
+<p><em>ModelBeamLampBulb: ModelBeamLampBulb()</em></p>
+<pre><code class="lang-auto">		holder.setRotationPoint(0.0F, 20.0F, 0.0F);
+		...
+		bulb.setRotationPoint(0.0F, 17.0F, 0.0F);
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>&lt;TileEntityBeamLampRenderer&gt;</code></p>
+<pre><code class="lang-auto">//TileEntity的渲染类，在这里渲染所有相关模型
+package net.tealing.studiocraft.client.renderer.tileentity;
+
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.tealing.studiocraft.client.model.ModelBeamLampBulb;
+import net.tealing.studiocraft.client.renderer.LayersHelper;
+import net.tealing.studiocraft.tileentity.TileEntityBeamLamp;
+
+public class TileEntityBeamLampRenderer extends TileEntitySpecialRenderer&lt;TileEntityBeamLamp&gt;{
+	private static final ResourceLocation TEXTURE_BEAM_LAMP_BULB = new ResourceLocation("studiocraft:textures/entity/beam_lamp_bulb.png");
+	private final ModelBeamLampBulb modelBeamLampBulb = new ModelBeamLampBulb();
+	private static final float[] RAY_TRANSLATE = {0F, 18/16F, 0F};
+	
+	public void render(TileEntityBeamLamp tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float)x + 8/16F, (float)y + 24/16F, (float)z + 8/16F);
+        GlStateManager.rotate(180F, 1.0F, 0F, 1.0F);
+        this.bindTexture(TEXTURE_BEAM_LAMP_BULB);
+        GlStateManager.enableCull();
+        modelBeamLampBulb.render((Entity) null, tileEntity.getRotateAngle(), 0.0625F);
+        LayersHelper.drawRay(RAY_TRANSLATE, tileEntity.getRotateAngle(), tileEntity.getLength(), tileEntity.getAngle(), tileEntity.getFirstColor(), tileEntity.getAfterColor());
+        GlStateManager.popMatrix();
+	}
+	
+	@Override
+	public boolean isGlobalRenderer(TileEntityBeamLamp te) {
+		return true;
+	}
+	
+	@Override
+	protected void setLightmapDisabled(boolean disabled) {
+		//FIXME Have not tested yet
+		super.setLightmapDisabled(false);
+	}
+}
+</code></pre>
+<p><code>&lt;LayersHelper&gt;</code></p>
+<pre><code class="lang-auto">//封装了各种模型供调用
+package net.tealing.studiocraft.client.renderer;
+
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
+public class LayersHelper {
+	private static Tessellator tessellator;
+	private static BufferBuilder bufferBuilder;
+	
+	public static void drawRay(float[] translate, float[] rotateAngle, double length, double angle, int[] firstColor, int[] afterColor) {
+		//TODO Unsafe data
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+		
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableTexture2D();
+		GlStateManager.shadeModel(7425);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+		GlStateManager.disableAlpha();
+		GlStateManager.enableCull();
+		GlStateManager.depthMask(false);
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.translate(translate[0], translate[1], translate[2]);
+		
+		GlStateManager.rotate(rotateAngle[0], 1F, 0F, 0F);
+		GlStateManager.rotate(rotateAngle[1], 0F, 1F, 0F);
+		GlStateManager.rotate(rotateAngle[2], 0F, 0F, 1F);
+		
+		double d1 = length * Math.tan(Math.toRadians(angle / 2D));
+		double d2 = d1 / Math.tan(Math.toRadians(60D));
+		double d3 = d2 * 2D;
+		
+		bufferBuilder.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+		bufferBuilder.pos(0D, 0D, 0D).color(firstColor[0], firstColor[1], firstColor[2],255).endVertex();
+		bufferBuilder.pos(-d1, -length, -d2).color(afterColor[0], afterColor[1], afterColor[2],0).endVertex();
+		bufferBuilder.pos(d1, -length, -d2).color(afterColor[0], afterColor[1], afterColor[2],0).endVertex();
+		bufferBuilder.pos(0D, -length, d3).color(afterColor[0], afterColor[1], afterColor[2],0).endVertex();
+		bufferBuilder.pos(-d1, -length, -d2).color(afterColor[0], afterColor[1], afterColor[2],0).endVertex();
+		tessellator.draw();
+		
+		GlStateManager.popMatrix();
+		GlStateManager.disableCull();
+		GlStateManager.depthMask(true);
+		GlStateManager.disableBlend();
+		GlStateManager.shadeModel(7424);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableAlpha();
+		RenderHelper.enableStandardItemLighting();
+	}
+}
+
+</code></pre>
+<p><code>&lt;TileEntityBeamLamp&gt;</code></p>
+<pre><code class="lang-auto">//TileEntity类，储存数据
+package net.tealing.studiocraft.tileentity;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
+import net.tealing.studiocraft.inventory.ContainerBeamLamp;
+import net.tealing.studiocraft.item.Items;
+
+public class TileEntityBeamLamp extends TileEntity implements IItemHandler, ITickable {
+	public final AxisAlignedBB BEAM_LAMP_AABB = new AxisAlignedBB(-65536.0D, -65536.0D, -65536.0D, 65536.0D, 65536.0D, 65536.0D);
+	private ItemStackHandler inventory = new ItemStackHandler(3);
+	
+	protected Slot lensSlot = new SlotItemHandler(inventory, 0, 8, 18) {
+		public boolean isItemValid(ItemStack stack) {
+			return stack != null &amp;&amp; stack.getItem() == Items.LENS &amp;&amp; super.isItemValid(stack);
+		};
+
+		public int getItemStackLimit(ItemStack stack) {
+			return 16;
+		};
+	};
+
+	protected Slot diskSlot = new SlotItemHandler(inventory, 1, 8, 18 + 18) {
+		public boolean isItemValid(ItemStack stack) {
+			return stack != null &amp;&amp; stack.getItem() == Items.DISK &amp;&amp; super.isItemValid(stack);
+		};
+
+		public int getItemStackLimit(ItemStack stack) {
+			return 1;
+		};
+	};
+	
+	private float[] rotateAngle = {0F, 0F, 0F};
+	private int[] firstColor = {0, 0, 255};
+	private int[] afterColor = {255, 0, 255};
+	private double length = 10, angle = 6;
+	private String customName;
+	
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+
+		if (this.hasCustomName()) {
+			compound.setString("CustomName", this.customName);
+		}
+		compound.setIntArray("firstColor", firstColor);
+		compound.setIntArray("afterColor", afterColor);
+		compound.setFloat("rx", rotateAngle[0]);
+		compound.setFloat("ry", rotateAngle[1]);
+		compound.setFloat("rz", rotateAngle[2]);
+		compound.setDouble("length", length);
+		compound.setDouble("angle", angle);
+		compound.setTag("inventory", inventory.serializeNBT());
+		return compound;
+	}
+
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+
+		if (compound.hasKey("CustomName", 8)) {
+			customName = compound.getString("CustomName");
+		}
+		firstColor = compound.getIntArray("firstColor");
+		afterColor = compound.getIntArray("afterColor");
+		rotateAngle[0] = compound.getFloat("rx");
+		rotateAngle[1] = compound.getFloat("ry");
+		rotateAngle[2] = compound.getFloat("rz");
+		length = compound.getDouble("length");
+		angle = compound.getDouble("angle");
+		this.inventory.deserializeNBT(compound.getCompoundTag("inventory"));
+		System.out.println(compound.getDouble("length"));
+	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+	
+    @Nullable
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
+        return new SPacketUpdateTileEntity(this.pos, 3, this.getUpdateTag());
+    }
+	
+	public String getName() {
+		return this.hasCustomName() ? this.customName : "container.beam_lamp";
+	}
+
+	public boolean hasCustomName() {
+		return this.customName != null &amp;&amp; !this.customName.isEmpty();
+	}
+
+	public void setCustomName(String customNameIn) {
+		this.customName = customNameIn;
+	}
+
+	public ITextComponent getDisplayName() {
+		return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName())
+				: new TextComponentTranslation(this.getName(), new Object[0]));
+	}
+
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+		return new ContainerBeamLamp(playerIn, this);
+	}
+
+	public String getGuiID() {
+		return "studiocraft:beam_lamp";
+	}
+	
+	public float[] getRotateAngle() {
+		return rotateAngle;
+	}
+	
+	public int[] getFirstColor() {
+		return firstColor;
+	}
+	
+	public int[] getAfterColor() {
+		return afterColor;
+	}
+	
+	public double getLength() {
+		return length;
+	}
+	
+	public double getAngle() {
+		return angle;
+	}
+	
+	public void setRotateAngle(float x, float y, float z) {
+		rotateAngle[0] = x;
+		rotateAngle[1] = y;
+		rotateAngle[2] = z;
+	}
+	
+	public void setFirstColor(int red, int green, int blue) {
+		firstColor[0] = red;
+		firstColor[1] = green;
+		firstColor[2] = blue;
+	}
+	
+	public void setAfterColor(int red, int green, int blue) {
+		afterColor[0] = red;
+		afterColor[1] = green;
+		afterColor[2] = blue;
+	}
+	
+	public void setLength(double newLength) {
+		if (0 &lt; newLength &amp;&amp; newLength &lt; 65536.0D) {
+			length = newLength;
+		}
+		else {
+			length = 10.0D;
+		}
+	}
+
+	@Override
+	public boolean hasCapability(Capability&lt;?&gt; capability, EnumFacing facing) {
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
+			return true;
+		}
+		return super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public &lt;T&gt; T getCapability(Capability&lt;T&gt; capability, EnumFacing facing) {
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
+
+		}
+		return super.getCapability(capability, facing);
+	}
+
+	public ItemStackHandler getInventory() {
+		return inventory;
+	}
+	
+	public Slot getSlot(int index) {
+		switch (index) {
+		case 0:
+			return lensSlot;
+		case 1:
+			return diskSlot;
+		default:
+			return null;
+		}
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return BEAM_LAMP_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
+	@Override
+	public int getSlots() {
+		return inventory.getSlots();
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int slot) {
+		return inventory.getStackInSlot(slot);
+	}
+
+	@Override
+	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+		return inventory.insertItem(slot, stack, simulate);
+	}
+
+	@Override
+	public ItemStack extractItem(int slot, int amount, boolean simulate) {
+		return inventory.extractItem(slot, amount, simulate);
+	}
+
+	@Override
+	public int getSlotLimit(int slot) {
+		return inventory.getSlotLimit(slot);
+	}
+	
+	int updateTick = 0;
+	
+	@Override
+	public void update() {
+		if (updateTick == 20) {
+			readFromNBT(getUpdateTag());
+			updateTick = 0;
+		}
+		updateTick++;
+	}
+}
+</code></pre>
+<p><code>&lt;ModelBeamLampBulb&gt;</code></p>
+<pre><code class="lang-auto">//TileEntity的模型
+package net.tealing.studiocraft.client.model;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelBeamLampBulb extends ModelBase {
+	private final ModelRenderer holder;
+	private final ModelRenderer bulb;
+	
+	public ModelBeamLampBulb() {
+		holder = new ModelRenderer(this);
+		holder.setRotationPoint(0.0F, 20.0F, 0.0F);
+		holder.cubeList.add(new ModelBox(holder, 0, 0, -3.0F, 0.0F, -3.0F, 6, 1, 6, 0.0F, false));
+		holder.cubeList.add(new ModelBox(holder, 10, 7, 3.0F, -5.0F, -2.0F, 1, 6, 4, 0.0F, false));
+		holder.cubeList.add(new ModelBox(holder, 0, 7, -4.0F, -5.0F, -2.0F, 1, 6, 4, 0.0F, false));
+
+		bulb = new ModelRenderer(this);
+		bulb.setRotationPoint(0.0F, 17.0F, 0.0F);
+		bulb.cubeList.add(new ModelBox(bulb, 0, 17, -3.0F, -6.0F, -3.0F, 6, 8, 1, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 14, 17, -3.0F, -6.0F, 2.0F, 6, 8, 1, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 24, 0, 2.0F, -6.0F, -2.0F, 1, 8, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 34, 0, -3.0F, -6.0F, -2.0F, 1, 8, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 0, 26, -2.0F, 1.0F, -2.0F, 4, 1, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 28, 12, -2.0F, -5.5F, -2.0F, 4, 1, 4, 0.0F, false));
+	}
+	
+	public void render(Entity entity, float[] rotateAngle, float scale) {
+		holder.rotateAngleY = rotateAngle[1];
+		bulb.rotateAngleX = rotateAngle[0];
+		bulb.rotateAngleY = rotateAngle[1];
+		bulb.rotateAngleZ = rotateAngle[2];
+		holder.render(scale);
+		bulb.render(scale);
+	}
+}
+</code></pre>
+<p><strong>详情图片</strong><br>
+x/y/z旋转角度：0, 0, 0<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/28/qtgvUMzdrBLSVTu.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/28/qtgvUMzdrBLSVTu.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>x/y/z旋转角度：60, 0, 0<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/28/7zeu2ymvJS8NfKO.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/28/7zeu2ymvJS8NfKO.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>x/y/z旋转角度：90, 60, 30<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/28/bf8PzoKDxtj9JkN.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/28/bf8PzoKDxtj9JkN.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我不是很懂，试试 <a class="mention" href="/u/nowandfuture">@nowandfuture</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>有没有可能性，虽然旋转了，但没有通知方块更新模型。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="3" data-topic="151" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>有没有可能性，虽然旋转了，但没有通知方块更新模型。</p>
+</blockquote>
+</aside>
+<p>应该不会吧。这里看出来模型还是旋转了的，但是它根本对不上光线的角度。目测上去光线旋转的是正确的，但是TileEntity的旋转有问题。</p>
+<aside class="quote no-group" data-username="TeaLing" data-post="1" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p>holder.rotateAngleY = rotateAngle[1]; bulb.rotateAngleX = rotateAngle[0]; bulb.rotateAngleY = rotateAngle[1]; bulb.rotateAngleZ = rotateAngle[2];</p>
+</blockquote>
+</aside>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="TeaLing" data-post="4" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p>应该不会吧。这里看出来模型还是旋转了的，但是它根本对不上光线的角度。目测上去光线旋转的是正确的，但是TileEntity的旋转有问题。</p>
+</blockquote>
+</aside>
+<p>你的模型用的是obj吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="5" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>你的模型用的是obj吗？</p>
+</blockquote>
+</aside>
+<p>模型是一个Java类文件。见上文的</p>
+<aside class="quote no-group quote-modified" data-username="TeaLing" data-post="1" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p><code>&lt;ModelBeamLampBulb&gt;</code></p>
+<pre><code class="lang-auto">package net.tealing.studiocraft.client.model;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelBeamLampBulb extends ModelBase {
+	private final ModelRenderer holder;
+	private final ModelRenderer bulb;
+	
+	public ModelBeamLampBulb() {
+		holder = new ModelRenderer(this);
+		holder.setRotationPoint(0.0F, 20.0F, 0.0F);
+		holder.cubeList.add(new ModelBox(holder, 0, 0, -3.0F, 0.0F, -3.0F, 6, 1, 6, 0.0F, false));
+		holder.cubeList.add(new ModelBox(holder, 10, 7, 3.0F, -5.0F, -2.0F, 1, 6, 4, 0.0F, false));
+		holder.cubeList.add(new ModelBox(holder, 0, 7, -4.0F, -5.0F, -2.0F, 1, 6, 4, 0.0F, false));
+
+		bulb = new ModelRenderer(this);
+		bulb.setRotationPoint(0.0F, 17.0F, 0.0F);
+		bulb.cubeList.add(new ModelBox(bulb, 0, 17, -3.0F, -6.0F, -3.0F, 6, 8, 1, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 14, 17, -3.0F, -6.0F, 2.0F, 6, 8, 1, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 24, 0, 2.0F, -6.0F, -2.0F, 1, 8, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 34, 0, -3.0F, -6.0F, -2.0F, 1, 8, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 0, 26, -2.0F, 1.0F, -2.0F, 4, 1, 4, 0.0F, false));
+		bulb.cubeList.add(new ModelBox(bulb, 28, 12, -2.0F, -5.5F, -2.0F, 4, 1, 4, 0.0F, false));
+	}
+	
+	public void render(Entity entity, float[] rotateAngle, float scale) {
+		holder.rotateAngleY = rotateAngle[1];
+		bulb.rotateAngleX = rotateAngle[0];
+		bulb.rotateAngleY = rotateAngle[1];
+		bulb.rotateAngleZ = rotateAngle[2];
+		holder.render(scale);
+		bulb.render(scale);
+	}
+}
+</code></pre>
+</blockquote>
+</aside>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>旋转原点（在实际游戏中，即使我旋转了90°模型也没有旋转到90°，应该不是这个问题）</p>
+</blockquote>
+<p>为什么你会觉得应该不是这个问题，你的模型有translate过位置吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="7" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>为什么你会觉得应该不是这个问题，你的模型有translate过位置吧。</p>
+</blockquote>
+</aside>
+<p>的确，我的模型有translate过，是为了对准方块的中心的。原本的坐标0, 0, 0表示的是方块的xyz值为0的一个角落。</p>
+<aside class="quote no-group quote-modified" data-username="TeaLing" data-post="1" data-topic="151">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p><code>&lt;TileEntityBeamLampRenderer&gt;</code><br>
+GlStateManager.translate((float)x + 8/16F, (float)y + 24/16F, (float)z + 8/16F);</p>
+</blockquote>
+</aside>
+<p>我认为，不管我的旋转原点设定到哪里，我旋转90°都应该是垂直于原来的模型的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>稍微看了下，感觉逻辑上应该没什么问题，明显是模型旋转有问题，旋转这个欧拉角旋转顺序x-y-z和z-y-x是不一样的，其次你看下你给的角度量纲是不是对的，弧度和度不要忘了转化，其他的话，我看不出什么问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>模型的位置转化应该是仿射变换，旋转原点应该是固定的，不会随着translate变化吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="nowandfuture" data-post="9" data-topic="151" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/nowandfuture" class="avatar"> nowandfuture:</div>
+<blockquote>
+<p>稍微看了下，感觉逻辑上应该没什么问题，明显是模型旋转有问题，旋转这个欧拉角旋转顺序x-y-z和z-y-x是不一样的，其次你看下你给的角度量纲是不是对的，弧度和度不要忘了转化，其他的话，我看不出什么问题。</p>
+</blockquote>
+</aside>
+<p>感谢提醒，但是在<code>&lt;ModelBeamLampBulb&gt;</code>文件中，我使用的方法是设置rotateAngle啊，要是是弧度的话应该是rotateRadian吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="10" data-topic="151" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>模型的位置转化应该是仿射变换，旋转原点应该是固定的，不会随着translate变化吧。</p>
+</blockquote>
+</aside>
+<p>应该不会，要是旋转原点变了，我的模型旋转后就不可能还在方块正中间了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那是我弄错了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>我用声明找到了<code>&lt;ModelRenderer&gt;</code>类文件对rotateAngle的处理，我想直接对它进行逆运算可能会有用。<br>
+<code>&lt;ModelRenderer: render(float scale)&gt;</code></p>
+<pre><code class="lang-auto">                else
+                {
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+
+                    if (this.rotateAngleZ != 0.0F)
+                    {
+                        GlStateManager.rotate(this.rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                    }
+
+                    if (this.rotateAngleY != 0.0F)
+                    {
+                        GlStateManager.rotate(this.rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                    }
+
+                    if (this.rotateAngleX != 0.0F)
+                    {
+                        GlStateManager.rotate(this.rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                    }
+
+                    GlStateManager.callList(this.displayList);
+
+                    if (this.childModels != null)
+                    {
+                        for (int i = 0; i &lt; this.childModels.size(); ++i)
+                        {
+                            ((ModelRenderer)this.childModels.get(i)).render(scale);
+                        }
+                    }
+
+                    GlStateManager.popMatrix();
+                }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>this.rotateAngleY * (180F / (float)Math.PI) 这不是说明是用弧度了吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>是啊，但是它让我输入的是角度，然后它自己帮我换成弧度。这样的话，我应该去对<code>&lt;LayersHelper&gt;</code>中的绘制光线的方法采用同样的方法运算。<br>
+还有想问一下，<code>Math.toRadian()</code>方法应该与这个的运算是一样的吧？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>他把你的弧度转成角度了。。。你要给他弧度才对</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，原来是这样啊。但我刚刚测试输入</p>
+<pre><code class="lang-auto">		holder.rotateAngleY =  (float) Math.toRadians(rotateAngle[1]);
+		bulb.rotateAngleX = (float) Math.toRadians(rotateAngle[0]);
+		bulb.rotateAngleY = (float) Math.toRadians(rotateAngle[1]);
+		bulb.rotateAngleZ = (float) Math.toRadians(rotateAngle[2]);
+		holder
+</code></pre>
+<p>并没有对上啊。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>那就说明还有其他问题，你测试下旋转单个轴的角度他的绘制效果有什么问题，慢慢来。还有欧拉角前面讲过有顺序你要保证你的光线的旋转顺序要和modelrenderer里的顺序一样</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="nowandfuture" data-post="19" data-topic="151" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/nowandfuture" class="avatar"> nowandfuture:</div>
+<blockquote>
+<p>那就说明还有其他问题，你测试下旋转单个轴的角度他的绘制效果有什么问题，慢慢来。</p>
+</blockquote>
+</aside>
+<p>所有的单轴旋转都没有问题，但一组合就对不上了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>你代码里的顺序和他不一样<br>
+你的旋转轴是z-y-x的，他的是x-y-z的，你把你自己的那个改下</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>我刚刚也在这样做。确实成功了，但是刚好所有的旋转都反向了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>可能你的模型最后被旋转过了，你查下自己的绘制顺序有没有问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

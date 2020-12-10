@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>配置gradlew idea时出错</title>
+</head>
+<body>
+    <div class="title"><h1>配置gradlew idea时出错</h1></div>
+    <div class="post-user" class="user"><h4>MWV</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows10,64位<br>
+你是用的JDK:   jdk_1.8.251 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:IntelliJ IDEA Community Edition 2019.1.2<br>
+Forge版本:  forge-1.12.2-14.23.5.2838<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d90cb468068623f77ae9720fa7640d733e187b78.png" data-download-href="../uploads/default/d90cb468068623f77ae9720fa7640d733e187b78" title="捕获"><img src="../uploads/default/original/1X/d90cb468068623f77ae9720fa7640d733e187b78.png" alt="捕获" data-base62-sha1="uY6PvCOpTOuKiS57Nc7VVbfc3Hi" width="690" height="249" data-small-upload="../uploads/default/optimized/1X/d90cb468068623f77ae9720fa7640d733e187b78_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">捕获</span><span class="informations">958×346 5.73 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+我在配置gradlew idea时报错，不知道是什么问题，自己编的java程序能正常运行，不知道跟mdk有没有关系。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">* What went wrong:
+A problem occurred configuring root project 'TestMod'.
+&gt; Could not resolve all dependencies for configuration ':classpath'.
+   &gt; Could not resolve net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT.
+     Required by:
+         :TestMod:unspecified
+      &gt; Could not resolve net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT.
+         &gt; Unable to load Maven meta-data from https://files.minecraftforge.net/maven/net/minecraftforge/gradle/ForgeGradle/2.3-SNAPSHOT/maven-metadata.xml.
+            &gt; Host name may not contain blanks
+</code></pre>
+<p><strong>相关代码</strong><br>
+无</p>
+<p><strong>查到的资料</strong><br>
+我在网上查到可能是jdk版本过低，可是我是jdk8 251版本，应该比较新，不是这个问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>本帖不符合提问区发帖规范，因此被暂时关闭，请按照提问区的发帖模版修改帖子，修改完成后会重新开放本帖，如果长时间不修改，本帖会被移动至「冰川之下」分区。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><aside class="quote" data-post="1" data-topic="483">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/483">关于1.12版本的支持相关说明。</a> <a class="badge-wrapper  bullet" href="/c/19-category/19"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    Minecraft 1.16 即将发布，Forge也会将会开始支持1.16版本，而Forge官方也早已放弃1.12版本的支持。 
+介于节省精力与时间，还有推动高版本Mod发展的考虑。 
+在Forge的的1.16的第一个Recommended MDK发布后，本论坛将不会再提供1.12版本的问题解答。 
+特此说明
+  </blockquote>
+</aside>
+<br>
+如果初学Mod开发请从1.15开始。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个问题很明显是网络问题，相应解决办法请查看：<br>
+<aside class="quote quote-modified" data-post="1" data-topic="182">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/182">模组开发提问区常见问题维基</a> <a class="badge-wrapper  bullet" href="/c/5-category/5"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    本贴是模组开发过程中常见问题的索引贴，开放公共编辑，欢迎大家添加内容。 
+环境配置中的网络问题
+因为版权的规定，所有Minecraft官方内容的下载（Minecraft本体以及资源文件）必须由Mojang分发，而又因为中国大陆的网络封锁，导致访问海外服务器容易出现无法链接等情况。在Forge开发环境配置时，大概率会出现配置失败的问题。 
+当你构建时的日志里出现类似于: 
+Could not GET…
+  </blockquote>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>MWV</h4></div>
+    <br />
+    <div class="post">
+        <p>我已经用了离线包，而且这个网站用浏览器可以访问，速度也挺快，所以不知道什么原因。<br>
+好像执行任何gradle task都会出现这个问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不清楚，对这个版本的FG没有研究。</p>
+    </div>
+    <br />
+    <div class="user"><h4>MWV</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，谢谢。我再研究一下</p>
+    </div>
+    <br />
+    <div class="user"><h4>豆焰</h4></div>
+    <br />
+    <div class="post">
+        <p>走代理可以配置gradlew idea</p>
+    </div>
+    <br />
+    <div class="user"><h4>MWV</h4></div>
+    <br />
+    <div class="post">
+        <p>现在已经解决了，我清空了所有.gradle下的文件，重新配置的，就可以了。</p>
+    </div>
+    <br />
+</body>
+</html>

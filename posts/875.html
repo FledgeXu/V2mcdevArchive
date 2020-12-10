@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>回复：关于世界渲染图片和包含其他模组的问题</title>
+</head>
+<body>
+    <div class="title"><h1>回复：关于世界渲染图片和包含其他模组的问题</h1></div>
+    <div class="post-user" class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post" class="main">
+        <aside class="quote quote-modified" data-post="1" data-topic="873">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/jerez" class="avatar">
+    <a href="../t/topic/873">关于世界渲染图片和包含其他模组的问题</a> <a class="badge-wrapper  bullet" href="/c/5-category/5"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    版本信息 
+你使用的系统：Windows10 64位 
+你是用的JDK: 1.8.0_261  64位 
+你使用的IDE：IntelliJ IDEA 
+你使用的IDE版本:&lt;2020.2.1&gt; 
+Forge版本:  &lt;forge-1.12.2-14.23.5.2768&gt; 
+Minecraft版本: &lt;1.12.2&gt; 
+Mapping 文件版本: &lt;snapshot_20171003&gt; 
+问题描述 
+…
+  </blockquote>
+</aside>
+
+<p>看到这个问题我私信回下你吧，首先客户端是可以存在“客户端下的实体”的，这个会造成什么问题？答案可以参考“幽灵方块”,就是粘液块被推动后产生的方块，方块和实体实际是一样的，其实只要是在游戏中的对象都可以叫做实体，只是mojang设计类的时候（也可能是forge反编译）的时候取名的问题。</p>
+<p>你想要做到单端的gui显示，这个我做过是可以实现的，你可以参考一个开源项目叫做 holo gui（到curseforge上搜）我在他的基础上也写过一点，后来由于一些问题没进行下去（我硬盘坏了。。。），这个项目就是使用实体进行渲染的。但是性能上有点小问题，不知道现在是否还在进行更迭。</p>
+    </div>
+    <br />
+    <div class="user"><h4>jerez</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢 <img src="../images/emoji/apple/grin.png?v=9" title=":grin:" class="emoji" alt=":grin:">通过查看别人的源码我实现了对应功能，感谢你的帮助，可惜没办法帖在原帖解决方案了</p>
+    </div>
+    <br />
+</body>
+</html>

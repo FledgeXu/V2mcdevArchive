@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2 设置漂浮物品实体时遇到问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2 设置漂浮物品实体时遇到问题</h1></div>
+    <div class="post-user" class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Forge版本: 14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p>我打算写一个反重力不断向上飘的物品实体。就是简单地更改了onUpdate方法。该实体的运动方式没有问题，但当其上方被方块挡住时在某些情况下会卡进方块内半截。我通过测试认为实体在服务端的位置没有错误，但在客户端的显示有问题。</p>
+<p>问题相关代码如下：</p>
+<pre><code class="lang-auto">public class EntityItemAerogel extends EntityItem {
+		
+    public EntityItemAerogel(World worldIn, double x, double y, double z, ItemStack stack) {
+    	
+        super(worldIn, x, y, z, stack);
+        this.setNoGravity(true);        
+    }
+	
+	@Override
+    public void onUpdate() {
+        super.onUpdate();
+
+        this.motionY += 0.002D;
+        
+        if (this.motionY &gt; 0.1D) {
+        	this.motionY = 0.1D;
+        }
+        
+        markVelocityChanged();
+    }
+</code></pre>
+<p>我曾尝试但失败的方法：</p>
+<pre><code class="lang-auto">	@Override
+    public void onUpdate() {
+	double y = this.motionY;
+		
+        super.onUpdate();
+        
+        if (this.collidedVertically &amp;&amp; y &gt; 0) {
+            this.motionY = 0;
+        }
+        
+        this.motionY += 0.002D;
+        
+        if (this.motionY &gt; 0.1D) {
+        	this.motionY = 0.1D;
+        }
+        
+        markVelocityChanged();
+    }
+</code></pre>
+<p>问题图片：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/26/NsU4zjAIZmnlpXQ.png" title="2020-02-26_16.26.37.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/26/NsU4zjAIZmnlpXQ.png" alt="2020-02-26_16.26.37.png" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-02-26_16.26.37.png</span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>正常图片：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/26/vFk5VEhMjK2UYDH.png" title="2020-02-26_16.27.43.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/26/vFk5VEhMjK2UYDH.png" alt="2020-02-26_16.27.43.png" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-02-26_16.27.43.png</span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得这是因为你的边界判断写的有问题。<br>
+在你加<code>0.002D</code>的过程中，有可能就直接越界了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>向上飘但是直接卡墙缝。可以向下偏它0.5格</p>
+</blockquote>
+<p>不愿加入论坛的3T如此说到。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>我试过把+0.002D放到不同位置，但都失败了。所以我应该怎么改呢？是重新自己写一个collidedVertically吗？我看这个值是在Entity的move里面更改的，很有可能是因为在执行它后才更改的motion，所以才失败。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>他是什么意思？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是放到不同的位置，你有没有发现你这个发生卡住的地方都是方块的边缘。<br>
+在写碰撞检测的时候六个面的方块你都得考虑。<br>
+不过我也没具体写过，你得自己尝试了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

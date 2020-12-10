@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>集成 jei 到开发环境中出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>集成 jei 到开发环境中出现问题</h1></div>
+    <div class="post-user" class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：<strong>Windows10 64位系统</strong><br>
+你使用的JDK:  <strong>jdk-1.8.0_181</strong><br>
+你使用的IDE: <strong>IntelliJ IDEA</strong><br>
+你使用的IDE版本: <strong>2019.3.3 x64</strong><br>
+Forge版本:  <strong>1.16.3-34.1.0</strong><br>
+Minecraft版本: <strong>1.16.3</strong><br>
+Mapping 文件版本: <strong>20200514-1.16</strong></p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22.png" data-download-href="../uploads/default/2560cc1d70415b6d8cbaa05e8e3381a81f050c22" title="图片"><img src="../uploads/default/optimized/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22_2_690x119.png" alt="图片" data-base62-sha1="5kF3kuk3jRHVl1TvVEzM5UWbc9Y" width="690" height="119" srcset="../uploads/default/optimized/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22_2_690x119.png, ../uploads/default/optimized/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22_2_1035x178.png 1.5x, ../uploads/default/optimized/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22_2_1380x238.png 2x" data-small-upload="../uploads/default/optimized/1X/2560cc1d70415b6d8cbaa05e8e3381a81f050c22_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">图片</span><span class="informations">1578×273 27.4 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong></p>
+<p>期望集成JEI到开发环境里，在<code>build.gradle</code>中加入了以下代码后，Reimport就出现以上问题。</p>
+<pre><code class="lang-auto">repositories {
+    maven {url = 'https://dvs1.progwml6.com/files/maven/'}
+    maven {url = 'https://modmaven.k-4u.nl'}
+}
+dependencies {
+
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
+
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是因为下载JEI的时候出错了，根据我的经验你得加上代理才能正常的下载，而且最好还是是美国地区的代理。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你的错误提示显示你还添加了 <code>com.feed-the-beast.mods:ftb-gui-library:1.0.0.10</code>（这个 <a href="https://github.com/FTBTeam/FTB-GUI-Library" rel="noopener nofollow ugc">https://github.com/FTBTeam/FTB-GUI-Library</a>），那么问题来了，JEI 不依赖这个的，pom 里也没有声明对 FTB GUI Library 的依赖，你是怎么把它弄进来的？请删除所有可能和这个有关的依赖项再试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="3TUSK" data-post="3" data-topic="948" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/3tusk/40/304_2.png" class="avatar"> 3TUSK:</div>
+<blockquote>
+<p>你的错误提示显示你还添加了 <code>com.feed-the-beast.mods:ftb-gui-library:1.0.0.10</code>（这个 <a href="https://github.com/FTBTeam/FTB-GUI-Library" rel="noopener nofollow ugc">https://github.com/FTBTeam/FTB-GUI-Library</a>），那么问题来了，JEI 不依赖这个的，pom 里也没有声明对 FTB GUI Library 的依赖，你是怎么把它弄进来的？请删除所有可能和这个有关的依赖项再试。</p>
+</blockquote>
+</aside>
+<p>在 <code>build.gradle</code> 中删除 <code>jei</code> 依赖后，Reimport便没有了此错误，应该是和JEI有关系的</p>
+    </div>
+    <br />
+    <div class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="2" data-topic="948" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>这个是因为下载JEI的时候出错了，根据我的经验你得加上代理才能正常的下载，而且最好还是是美国地区的代理。</p>
+</blockquote>
+</aside>
+<p>我在 <code>C:\Users\Administrator\.gradle\</code>目录和项目目录下的 <code>gradle.properties</code> 文件里都写入了代理，但似乎并不奏效：</p>
+<pre><code class="lang-auto">systemProp.http.proxyHost=127.0.0.1
+systemProp.http.proxyPort=1080
+systemProp.https.nonProxyHosts=10.*|localhost
+</code></pre>
+<p>另附代理IP:107.148.240.162</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>加上https代理，试试。如果还不行就上socks代理。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>话说如果下载第三方需要反混淆的依赖Mod时，下载到一半中止，此时重新构建开发环境，会与forge本体一样不校验本地文件吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post">
+        <p>在 <code>build.gradle</code> 中加入以下代码解决.</p>
+<pre><code class="lang-auto">repositories {
+    maven {url = 'https://maven.latmod.com/'}
+}
+</code></pre>
+<pre><code class="lang-auto">dependencies {
+    compile fg.deobf("com.feed_the_beast.mods:ftb-gui-library:1.0.0.18")
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>在  <code>build.gradle</code>  中删除  <code>jei</code>  依赖后，Reimport便没有了此错误，应该是和JEI有关系的</p>
+</blockquote>
+<p><s>我还是很想知道你的整个 <code>build.gradle</code> 长什么样。</s></p>
+<p>破案了，你使用的 JEI 7.3.2.29 里多声明了一个 FTB GUI Library 的依赖，它是用来<a href="https://github.com/mezz/JustEnoughItems/pull/2077" rel="noopener nofollow ugc">实现 JEI 的 In-game Config GUI 的</a>。这个依赖在<a href="https://github.com/mezz/JustEnoughItems/commit/9949a5417bc11f6c9eb076afededc6acf4d5bfbe" rel="noopener nofollow ugc">稍后就被去掉了</a>，因为它不是必须的。<br>
+所以真正的解决方案其实是把 JEI 更新到至少 7.3.2.35。这个版本的 JEI（的 pom 中）没有声明对 FTB GUI Library 的依赖，也就不会自动下载它了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

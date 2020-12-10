@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2DataPack成就问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2DataPack成就问题</h1></div>
+    <div class="post-user" class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本:20200809</p>
+<p>我用DataPack写了个成就，内容如下：</p>
+<pre><code class="lang-auto">{
+  "display": {
+    "icon": {
+      "item": "starry:starry_sky_book"
+    },
+    "title": {
+      "translate": "advancements.starry_sky_book.starry.title"
+    },
+    "description": {
+      "translate": "advancements.starry_sky_book.starry.description"
+    }
+  },
+  "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+  "show_toast": false,
+  "announce_to_chat": true,
+  "criteria": {
+    "book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "starry:starry_sky_book"
+          }
+        ]
+      }
+    }
+  }
+}
+</code></pre>
+<p>modid和路径都没有任何问题<br>
+<img src="../uploads/default/original/1X/28ae7c95c1888364da42e61c713e586f7f3114d4.png" alt="image" data-base62-sha1="5NSVXedGH7IwEVIpwa5I8N3ApuY" width="127" height="30"><br>
+<img src="../uploads/default/original/1X/b1fb5b21ef27150746a289a9b6fc7a0d3d2607be.png" alt="图片2" data-base62-sha1="pov2tI1do2ijUVgom81j2IsY858" width="282" height="89"></p>
+<p>可当我打开游戏的时候并没有找到新的成就，也没有任何有关报错<br>
+<img src="../uploads/default/original/1X/41c728e63401566e59befd9074865761e1583e78.png" alt="图片3" data-base62-sha1="9nTJtcoE8XHDp4UTWcsqjpIpPte" width="652" height="350"></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>新建一个成就页需要吧文件命名为root，<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99.png" data-download-href="../uploads/default/c4a91a21cf900d3d9c8c0517aff05974d77fac99" title="image"><img src="../uploads/default/optimized/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99_2_690x411.png" alt="image" data-base62-sha1="s3JSN60IeriYqF9w84WlMj8ORYJ" width="690" height="411" srcset="../uploads/default/optimized/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99_2_690x411.png, ../uploads/default/original/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99.png 1.5x, ../uploads/default/original/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99.png 2x" data-small-upload="../uploads/default/optimized/1X/c4a91a21cf900d3d9c8c0517aff05974d77fac99_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">870×519 98.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/fe63a4d6f248db67c55d934ca0adf7d33f66cbe5.png" data-download-href="../uploads/default/fe63a4d6f248db67c55d934ca0adf7d33f66cbe5" title="image"><img src="../uploads/default/original/1X/fe63a4d6f248db67c55d934ca0adf7d33f66cbe5.png" alt="image" data-base62-sha1="AiqLlbqWoCkx7u7uagoFUo7iJfL" width="690" height="409" data-small-upload="../uploads/default/optimized/1X/fe63a4d6f248db67c55d934ca0adf7d33f66cbe5_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">884×525 38 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post">
+        <p>好的好的，谢谢啦</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

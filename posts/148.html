@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Gui界面的坐标判定</title>
+</head>
+<body>
+    <div class="title"><h1>Gui界面的坐标判定</h1></div>
+    <div class="post-user" class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本:最新版<br>
+Forge版本:  1.12.2<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+最近在学mod开发，但是查了不少资料没有发现有关GUI坐标的，因为之前写过插件GUI<br>
+，转MOD之后发现规则变了并且有所谓的坐标，下面是定义gui坐标的代码和gui的截图，<br>
+本人才疏学浅实在是不会看他这个坐标与物品槽之间的联系</p>
+<p><strong>相关代码</strong><br>
+<code>如下</code></p>
+<pre><code class="lang-auto">for (int i = 0; i &lt; 4; ++i) {
+            this.addSlotToContainer(new SlotItemHandler(items, i, 38 + i * 32, 20));
+        }
+
+        for (int i = 0; i &lt; 3; ++i) {
+            for (int j = 0; j &lt; 9; ++j) {
+                this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 51 + i * 18));
+            }
+        }
+
+        for (int i = 0; i &lt; 9; ++i) {
+            this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 109));
+        }
+</code></pre>
+<p><strong>出错图</strong><br>
+<img src="http://ftp6358823.host106.sanfengyun.cn/gui.png" alt="" width="" height=""><br>
+如果没有请删除此段</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/27/B1WuyVzAFcETLZS.png" title="11111.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/27/B1WuyVzAFcETLZS.png" alt="11111.png" width="690" height="395"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">11111.png</span><span class="informations">880×504</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+你没看过底下的图吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post">
+        <p>看过啊，但是坐标和物品槽之间对应关系是啥，为什么坐标(38，20)会是第绿色00槽位</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>图片UV（像素坐标）</p>
+    </div>
+    <br />
+    <div class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post">
+        <p>好的 我试一下，坐标是不是应该是物品槽中间的位置？</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>你数一下呗</p>
+    </div>
+    <br />
+    <div class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post">
+        <p>我先看看怎么看UV</p>
+    </div>
+    <br />
+    <div class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post">
+        <p>多谢多谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>我添加了一个实体，但是在召唤实体后游戏崩溃了。</title>
+</head>
+<body>
+    <div class="title"><h1>我添加了一个实体，但是在召唤实体后游戏崩溃了。</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2019.3.2.0&gt;<br>
+Forge版本:  &lt;forge-1.15.2-31.1.0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+我按照mcjty的教程添加了一个实体，并且代码没有错误，可以正常进入游戏，但是在游戏里面召唤一个自己添加的实体时，游戏直接崩溃了。</p>
+<p><strong>报错日志</strong></p>
+<p>&lt;这个是加载游戏界面过程中的错误代码&gt;</p>
+<pre><code class="lang-auto">java.lang.IllegalStateException: No renderer registered for specialitem:suicide_bomber
+	at net.minecraft.client.renderer.entity.EntityRendererManager.validateRendererExistence(EntityRendererManager.java:192) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.registry.RenderingRegistry.loadEntityRenderers(RenderingRegistry.java:50) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.client.ClientModLoader.postSidedRunnable(ClientModLoader.java:127) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.ModLoader.lambda$loadMods$14(ModLoader.java:158) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading}
+	at net.minecraft.resources.AsyncReloader.lambda$null$3(AsyncReloader.java:66) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:140) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.drainTasks(ThreadTaskExecutor.java:97) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:930) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:554) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:177) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_162] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_162] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_162] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_162] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {}
+[18:39:22] [Forge Version Check/WARN] [ne.mi.fm.VersionChecker/]: Failed to process update information
+java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_162] {}
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_162] {}
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_162] {}
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1944) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1939) ~[?:1.8.0_162] {}
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1938) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1508) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_162] {}
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:189) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.VersionChecker$1.process(VersionChecker.java:206) ~[?:?] {re:classloading}
+	at java.lang.Iterable.forEach(Iterable.java:75) [?:1.8.0_162] {}
+	at net.minecraftforge.fml.VersionChecker$1.run(VersionChecker.java:157) [?:?] {re:classloading}
+Caused by: java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1894) ~[?:1.8.0_162] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1492) ~[?:1.8.0_162] {}
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[?:1.8.0_162] {}
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:173) ~[?:?] {re:classloading}
+	... 3 more 
+</code></pre>
+<p>&lt;这个是用“/summon”指令召唤实体后的错误代码&gt;</p>
+<pre><code class="lang-auto">com.mojang.authlib.exceptions.AuthenticationException: The client has sent too many requests within a certain amount of time
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:79) ~[authlib-1.5.25.jar:?] {}
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:180) ~[authlib-1.5.25.jar:?] {}
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService$1.load(YggdrasilMinecraftSessionService.java:60) ~[authlib-1.5.25.jar:?] {}
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService$1.load(YggdrasilMinecraftSessionService.java:57) ~[authlib-1.5.25.jar:?] {}
+	at com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3716) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2424) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2298) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2211) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache.get(LocalCache.java:4154) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:4158) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:5147) ~[guava-21.0.jar:?] {}
+	at com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:5153) ~[guava-21.0.jar:?] {}
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:170) ~[authlib-1.5.25.jar:?] {}
+	at net.minecraft.client.Minecraft.getProfileProperties(Minecraft.java:1990) ~[?:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.resources.SkinManager.lambda$loadProfileTextures$4(SkinManager.java:96) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402) [?:1.8.0_162] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_162] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_162] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_162] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_162] {}
+[18:20:22] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: 召唤了新的自爆者]
+[18:20:22] [Render thread/INFO] [minecraft/NewChatGui]: [CHAT] 召唤了新的自爆者
+[18:20:22] [Render thread/FATAL] [minecraft/Minecraft]: Unreported exception thrown!
+java.lang.NullPointerException: null
+	at net.minecraft.client.renderer.entity.EntityRendererManager.func_229086_a_(EntityRendererManager.java:232) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.renderer.WorldRenderer.func_228426_a_(WorldRenderer.java:944) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.renderer.GameRenderer.func_228378_a_(GameRenderer.java:612) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.renderer.GameRenderer.updateCameraAndRender(GameRenderer.java:434) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:957) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:554) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:177) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_162] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_162] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_162] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_162] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.0_mapped_snapshot_20190719-1.14.3-recomp.jar:?] {}
+[18:43:12] [Server thread/WARN] [minecraft/MinecraftServer]: Can't keep up! Is the server overloaded? Running 2615ms or 52 ticks behind
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>&lt;实体文件：SuicideBomber.java&gt;</code></p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+
+public class SuicideBomber extends MonsterEntity {
+    public SuicideBomber(EntityType&lt;? extends MonsterEntity&gt; type, World p_i48553_2_) {
+        super(type, p_i48553_2_);
+    }
+
+    @Nullable
+    public AgeableEntity createChild(AgeableEntity ageable){
+        return null;
+    }
+}
+</code></pre>
+<p><code>&lt;模型文件：EntityModel.java&gt;</code></p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.ModelRenderer;
+
+public class EntityModel extends net.minecraft.client.renderer.entity.model.EntityModel&lt;SuicideBomber&gt; {
+
+    public ModelRenderer body;
+
+    public EntityModel(){
+        body = new ModelRenderer(this, 0, 0);
+        body.func_228300_a_(-3, -3, -3, 6, 6, 6);
+    }
+
+    @Override
+    public void func_225597_a_(SuicideBomber p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+
+    }
+
+    @Override
+    public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+        body.func_228309_a_(p_225598_1_,p_225598_2_,p_225598_3_,p_225598_4_,p_225598_5_,p_225598_6_,p_225598_7_,p_225598_8_);
+    }
+}
+</code></pre>
+<p><code>&lt;渲染文件：EntityRenderer.java&gt;</code></p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
+
+public class EntityRenderer extends MobRenderer&lt;SuicideBomber, EntityModel&gt; {
+
+    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/bomber.png");
+
+    public EntityRenderer(EntityRendererManager manager) {
+        super(manager, new EntityModel(), 0.5f);
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getEntityTexture(SuicideBomber entity) {
+        return TEXTURE;
+    }
+}
+</code></pre>
+<p><code>&lt;注册文件：RegisterHandler.java 的部分代码&gt;</code></p>
+<pre><code class="lang-auto">    @SubscribeEvent
+     public static void onEntityRegistry(final RegistryEvent.Register&lt;EntityType&lt;?&gt;&gt; Event){
+        Event.getRegistry().register(EntityType.Builder.create(SuicideBomber::new, EntityClassification.CREATURE)
+                .size(1,1)
+                .setShouldReceiveVelocityUpdates(false)
+                .build("suicide_bomber")
+                .setRegistryName("suicide_bomber"));
+    }
+</code></pre>
+<p><code>&lt;实体注册文件：EntityHelper.java&gt;</code></p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity;
+
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.registries.ObjectHolder;
+
+public class EntityHelper {
+
+    @ObjectHolder("specialitem:suicide_bomber")
+    public static EntityType&lt;SuicideBomber&gt; SUICIDE_BOMBER;
+
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>IDE是 IntelliJ IDEA ，不知道为什么不显示</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>错误提示已经写的很清楚了。</p>
+<pre><code class="lang-auto">java.lang.IllegalStateException: No renderer registered for specialitem:suicide_bomber
+</code></pre>
+<p>你没有注册render，你有代码忘记抄了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我再试试</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>看了视频教程，其中也没有提到注册render的方法。算了，这个添加实体的项目暂时废弃。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Thiocyanate" data-post="5" data-topic="133">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar"> Thiocyanate:</div>
+<blockquote>
+<p>的方法。算了，这个添加实体的项目暂时废弃。</p>
+</blockquote>
+</aside>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/setup/ClientProxy.java#L18" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/setup/ClientProxy.java#L18" target="_blank">McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/setup/ClientProxy.java#L18</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="8" style="counter-reset: li-counter 7 ;">
+<li>import net.minecraft.client.gui.ScreenManager;</li>
+<li>import net.minecraft.entity.player.PlayerEntity;</li>
+<li>import net.minecraft.world.World;</li>
+<li>import net.minecraftforge.fml.client.registry.RenderingRegistry;</li>
+<li>
+</li>
+<li>public class ClientProxy implements IProxy {</li>
+<li>
+</li>
+<li>    @Override</li>
+<li>    public void init() {</li>
+<li>        ScreenManager.registerFactory(ModBlocks.FIRSTBLOCK_CONTAINER, FirstBlockScreen::new);</li>
+<li class="selected">        RenderingRegistry.registerEntityRenderingHandler(WeirdMobEntity.class, WeirdMobRenderer::new);</li>
+<li>    }</li>
+<li>
+</li>
+<li>    @Override</li>
+<li>    public World getClientWorld() {</li>
+<li>        return Minecraft.getInstance().world;</li>
+<li>    }</li>
+<li>
+</li>
+<li>    @Override</li>
+<li>    public PlayerEntity getClientPlayer() {</li>
+<li>        return Minecraft.getInstance().player;</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>那就奇怪了，我就是这样照着添加了，但是init显示灰色，ClientProxy也是显示灰色的。而且我照着格式输入，就会显示错误，改成：</p>
+<pre><code class="lang-auto">RenderingRegistry.registerEntityRenderingHandler(EntityHelper.SUICIDE_BOMBER, EntityRenderer::new);
+</code></pre>
+<p>才不会报错，但是依旧不行。</p>
+<p>显示的错误为：</p>
+<pre><code class="lang-auto">reason: no instance(s) of type variable(s) T exist so that Class conforms to EntityType
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>是写成</p>
+<pre><code class="lang-auto">RenderingRegistry.registerEntityRenderingHandler(SuicideBomber.class, EntityRenderer::new);
+</code></pre>
+<p>会报错。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>灰色？ <code>ClientProxy</code> 你没用 <code>DistExecutor#runForDist</code>吗？<br>
+报错，什么报错，报错信息呢？<br>
+还有请学一下markdown，好好的贴代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>报错信息</p>
+<pre><code class="lang-auto">reason: no instance(s) of type variable(s) T exist so that Class conforms to EntityType
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Thiocyanate" data-post="8" data-topic="133">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar"> Thiocyanate:</div>
+<blockquote>
+<p>tyRenderingH</p>
+</blockquote>
+</aside>
+<p>代码要用三个「`」包裹……<br>
+你这是什么东西的报错信息。<br>
+请粘贴完整的错误信息。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/26/pNi6xY8tuOslQEz.png" title="Snipaste_2020-02-26_19-58-53.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/26/pNi6xY8tuOslQEz.png" alt="Snipaste_2020-02-26_19-58-53.png" width="690" height="184"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Snipaste_2020-02-26_19-58-53.png</span><span class="informations">776×207</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+就是底下的那行字。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Thiocyanate" data-post="1" data-topic="133">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Thiocyanate" class="avatar"> Thiocyanate:</div>
+<blockquote>
+<p>public EntityRenderer(EntityRendererManager manager) { super(manager, new EntityModel(), 0.5f); }</p>
+</blockquote>
+</aside>
+<p>当然是错的……拜托你看清楚参数类型再填参数好吗？<br>
+第一个参数的要求类型是<code>EntityType&lt;T&gt;</code>好不好……你填了一个什么东西进去。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group">
+<blockquote>
+<p>那就奇怪了，我就是这样照着添加了，但是init显示灰色，ClientProxy也是显示灰色的。</p>
+</blockquote>
+</aside>
+<p>你用<code>DistExecutor#runForDist</code>初始化你的<code>ClientProxy</code>过了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>实在注入不进去用<code>Minecraft.getInstance().getRenderManager().register();</code>这个方法试试。<br>
+这个方法是肯定可以注入进去的，如果用这个方法还是无效，说明你是别的地方写错了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我再试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先确定你的<code>ClientProxy</code>类有初始化，把你的主类的代码粘贴上来看看。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>就是所添加实体的代码吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是，你的<code>@Mod()</code>注释所在的类。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">package com.specialitem.specialitem;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.stream.Collectors;
+
+// The value here should match an entry in the META-INF/mods.toml file
+@Mod("specialitem")
+public class SpecialItem {
+    // Directly reference a log4j logger.
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    public SpecialItem() {
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        // Register the enqueueIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        // Register the processIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private void setup(final FMLCommonSetupEvent event) {
+    }
+
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        // do something that can only be done on the client
+        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+    }
+
+    private void enqueueIMC(final InterModEnqueueEvent event) {
+        // some example code to dispatch IMC to another mod
+        InterModComms.sendTo("examplemod", "helloworld", () -&gt; {
+            LOGGER.info("Hello world from the MDK");
+            return "Hello world";
+        });
+    }
+
+    private void processIMC(final InterModProcessEvent event) {
+        // some example code to receive and process InterModComms from other mods
+        LOGGER.info("Got IMC {}", event.getIMCStream().
+                map(m -&gt; m.getMessageSupplier().get()).
+                collect(Collectors.toList()));
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你根本没有初始化<code>ClientProxy</code>这个类，当然是灰色的，当然是没有用的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>要用<code>DistExecutor.runForDist</code>初始化Proxy。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/MyTutorial.java#L41" target="_blank">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/MyTutorial.java#L41" target="_blank">McJty/YouTubeModding14/blob/d3a55787a6361f101621dcf0e1da1e0239da9b5c/src/main/java/com/mcjty/mytutorial/MyTutorial.java#L41</a></h4>
+<pre class="onebox"><code class="lang-java"><ol class="start lines" start="31" style="counter-reset: li-counter 30 ;">
+<li>import net.minecraftforge.fml.loading.FMLPaths;</li>
+<li>import org.apache.logging.log4j.LogManager;</li>
+<li>import org.apache.logging.log4j.Logger;</li>
+<li>
+</li>
+<li>// The value here should match an entry in the META-INF/mods.toml file</li>
+<li>@Mod("mytutorial")</li>
+<li>public class MyTutorial {</li>
+<li>
+</li>
+<li>    public static final String MODID = "mytutorial";</li>
+<li>
+</li>
+<li class="selected">    public static IProxy proxy = DistExecutor.runForDist(() -&gt; () -&gt; new ClientProxy(), () -&gt; () -&gt; new ServerProxy());</li>
+<li>
+</li>
+<li>    public static ModSetup setup = new ModSetup();</li>
+<li>
+</li>
+<li>    private static final Logger LOGGER = LogManager.getLogger();</li>
+<li>
+</li>
+<li>    public MyTutorial() {</li>
+<li>        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);</li>
+<li>        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);</li>
+<li>
+</li>
+<li>        // Register the setup method for modloading</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>添加了，我再试试看。再不行的话，全部废弃重新再弄一次，就不信弄不好一个实体。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

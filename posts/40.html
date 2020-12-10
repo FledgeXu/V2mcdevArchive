@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2玩家打开箱子时如何检测是大箱子还是小箱子</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2玩家打开箱子时如何检测是大箱子还是小箱子</h1></div>
+    <div class="post-user" class="user"><h4>dajinge</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>1.12.2玩家打开箱子时如何检测是大箱子还是小箱子</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我去看了一眼代码，好像箱子的 tileentity 和 Block 都是两个，换句话说虽然我们看起来是一个箱子，但其实对于游戏来说实际上是两个箱子渲染成了一个箱子，本质上还是两个箱子。<br>
+<code>TileEntityChest</code>下面有个方法叫做<code>getAdjacentChest</code>，可以输入箱子的面判断是否有链接的箱子，你可以试试这个。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dajinge</h4></div>
+    <br />
+    <div class="post">
+        <p>你好，1.12.2并没有这个方法啊<br>
+[图片]</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的图片没有上传上来。<br>
+请用markdown的格式加载图床图片，分类置顶里有写教程。<br>
+那你试试<code>getGuiID()</code>这个方法，看看对于大箱子和小箱子，这个方法的返回值会不会变。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

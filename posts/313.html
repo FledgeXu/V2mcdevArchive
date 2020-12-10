@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2开发环境搭建问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2开发环境搭建问题</h1></div>
+    <div class="post-user" class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  &lt;forge-1.12.2-14.23.5.2768&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;<br>
+java版本：&lt;1.8.0_211&gt;</p>
+<p><strong>错误情况简述</strong></p>
+<p>在powerShell中输入.\gradlew setupDecompWorkspace后，在运行到:applySourcePatches时总是会报com.cloudbees.diff.PatchException: Cannot find hunk target的错误，希望能得到解决。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">:applySourcePatches
+Patching failed: net/minecraft/crash/CrashReportCategory.java Cannot find hunk target
+  1: Cannot find hunk target @ 0
+  1/2 failed
+:applySourcePatches FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':applySourcePatches'.
+&gt; com.cloudbees.diff.PatchException: Cannot find hunk target
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 44.529 secs
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我去查了一下这个问题，好像是Java版本过高导致的。<br>
+你输入一下</p>
+<pre><code class="lang-auto">java -version
+</code></pre>
+<p>看看java版本是什么。<br>
+1.12.2最高好像只支持到JDK8。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>JAVA版本是1.8.0_211</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>根据这个Issue，gradle 不一定按照你的<code>JAVA_HOME</code>来的。<br>
+请你检查你之前有没有安装过类似<code>OpenJDK</code>这类的其他版本的JDK，请卸载掉多余的JDK，保留 oracle jdk8.<br>
+</p><aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/MinecraftForge/ForgeGradle/issues/597" target="_blank">github.com/MinecraftForge/ForgeGradle</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewBox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/MinecraftForge/ForgeGradle/issues/597" target="_blank">[FG2.3] Cannot find hunk target</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2019-06-09" data-time="17:52:46" data-timezone="UTC">05:52PM - 09 Jun 19 UTC</span>
+      </div>
+
+        <div class="date">
+          closed <span class="discourse-local-date" data-format="ll" data-date="2019-07-02" data-time="19:04:45" data-timezone="UTC">07:04PM - 02 Jul 19 UTC</span>
+        </div>
+
+      <div class="user">
+        <a href="https://github.com/AfterRebelion" target="_blank">
+          <img alt="AfterRebelion" src="../uploads/default/original/1X/aa0024a7f8d96ee20b8432735f30ebbd8de56e4b.jpeg" class="onebox-avatar-inline" width="20" height="20">
+          AfterRebelion
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">Info
+./gradlew setupDecompWorkspace --no-daemon fails on recent 1.12.2 Forge, both with mappings snapshot_20171003 (default one) and stable_39.
+Tried with wiped Gradle cache, and...</p>
+</div>
+
+<div class="labels">
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>我把我电脑上所有其他版本的jdk都找了一遍，确实发现了一个7版本的，删除之后我重新配置了一遍java8的环境变量，然后重新运行setupDecompWorkspace，还是报同样的错误</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你是不是安装了一个Java 8以上runtime（JRE）。<br>
+这个问题只有可能是你的Java版本装错了。<br>
+你检查一下你的JRE版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有我建议你删除一下<code>C:\Users\你的用户名\.gradle</code>，来清空Gradle的缓存。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>我重新装一遍java吧，重来一遍</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>记得清空一下Gradle缓存。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>我用的是IDEA，是不是还得换老版本？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>IDEA 需要换成一个Bundle JDK8的版本。<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/490454895ed1ad8d5e9ba9119ce6360df8af7f91.png" class="site-icon" width="32" height="32">
+      <a href="https://www.jetbrains.com/idea/download/other.html" target="_blank">JetBrains</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:690/431;"><img src="../uploads/default/optimized/1X/6dd16e283559257fb4229526a12a9add84b5b119_2_690x431.jpeg" class="thumbnail" width="690" height="431" srcset="../uploads/default/optimized/1X/6dd16e283559257fb4229526a12a9add84b5b119_2_690x431.jpeg, ../uploads/default/optimized/1X/6dd16e283559257fb4229526a12a9add84b5b119_2_1035x646.jpeg 1.5x, ../uploads/default/original/1X/6dd16e283559257fb4229526a12a9add84b5b119.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/6dd16e283559257fb4229526a12a9add84b5b119_2_10x10.png"></div>
+
+<h3><a href="https://www.jetbrains.com/idea/download/other.html" target="_blank">Other Versions - IntelliJ IDEA</a></h3>
+
+<p>Get past releases and previous versions of IntelliJ IDEA.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>又报错了，这次报的是新错误</p>
+<pre><code class="lang-auto">:downloadClient FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':downloadClient'.
+&gt; javax.net.ssl.SSLException: Connection has been shutdown: javax.net.ssl.SSLException: java.net.SocketException: Connection reset
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 27 mins 19.693 secs
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是网络问题，Forge 的开发环境配置非常依赖网络，但是大陆访问海外的网站会受到GFW的干扰和封锁，所以经常会出现无法下载的问题。<br>
+解决方案：</p>
+<ul>
+<li>给gradle配置代理</li>
+<li>离线包</li>
+</ul>
+<p>离线包，论坛里有<a href="../t/topic/249">下载</a><br>
+MCBBS上耗子也有提供离线包，我就不提供链接了。<br>
+你可以按照需要选择下载。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../uploads/default/original/1X/d90d7bc28cf9a8cb861709ac152881f7d00614ed.png" alt="image.png" data-base62-sha1="uY8uWZO210WHrFk82xTK9ZaePyl" width="252" height="59"><br>
+为什么打开之后这个Client上面显示一个X符号啊？我点击运行它会提示Error: Module not specified</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你没有修改主类，请仔细阅读或者观看你学习的教程。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

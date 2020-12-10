@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[Forge1.12.2]MOD实体模型错误</title>
+</head>
+<body>
+    <div class="title"><h1>[Forge1.12.2]MOD实体模型错误</h1></div>
+    <div class="post-user" class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  Forge-14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p>我本来想在MOD加入新生物：鸭子，而且<strong>一切正常</strong>，但当我想要加入鸭子蛋的实体(投掷物)时，却发现右键鸭子蛋时，扔出去的实体的模型是“鸭子”的，而不是“鸭子蛋”的。但我看了， <strong>模型、实体都是正常注册</strong> 。<br>
+之后，我又把注册鸭子的代码与注册鸭子蛋的代码 <strong>互换顺序</strong> ，发现鸭子蛋的模型正常了，但 <strong>鸭子的模型变成了鸭子蛋的模型</strong> ，即： <em><strong>注册代码顺序在最前的实体，模型正常；而注册顺序在后的实体，就直接用注册顺序最前的实体的模型。</strong></em><br>
+两种注册方法我都试过(EntityRegistry和RegistryEvent.Register)，<strong>都是一样的结果</strong>。</p>
+<p>附：注册实体与对应的模型的代码<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/39917beb3b4844cd1c05585c7e0dfedb71d17823.jpeg" data-download-href="../uploads/default/39917beb3b4844cd1c05585c7e0dfedb71d17823" title=""><img src="../uploads/default/original/1X/39917beb3b4844cd1c05585c7e0dfedb71d17823.jpeg" alt="" data-base62-sha1="8dgUFjfiepmrRLH1sYcevVL2vOb" width="546" height="500" data-small-upload="../uploads/default/optimized/1X/39917beb3b4844cd1c05585c7e0dfedb71d17823_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">888×812 71.7 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<img src="../uploads/default/original/1X/f674ead517c68c17dea0251f34cfb5b720eaa751.png" alt="" data-base62-sha1="zafX1bjAfsgxFkny1B7zrbPEHZf" width="501" height="300"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请把整个类的代码完整的贴下来，不要发截图。<br>
+还有请按照模版发帖，这次格式我帮你改过来了，下不为例。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>可能是你的<code>ModConfig.ID_ENTITY_DUCK_EGG</code>和<code>ModConfig.ID_ENTITY_DUCK</code>的值重复了。<br>
+具体原因无法确定，请你先把你的代码以文本的形式粘贴出来。不要用图片的方式发代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

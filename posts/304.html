@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>解决1.13+forge在idea启动慢</title>
+</head>
+<body>
+    <div class="title"><h1>解决1.13+forge在idea启动慢</h1></div>
+    <div class="post-user" class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>有开发过 1.13+ 的 forge 模组的同学都知道，fg 修改了启动方式，导致 idea 启动开发环境需要经过 <code>gradle build</code>，<code>gradle prepareRunClient</code> 的联网工作才能启动。</p>
+<p>现在，你只需要进行以下操作就可以在 3s 内启动你的 mc 开发环境。</p>
+<ol>
+<li>进入 <code>setting-&gt;Build,Excution,Deployment-&gt;Gradle</code> 把 <code>Build and run using</code> 修改成 <code>Intellij Idea</code> 。</li>
+<li>选择你要加速的 task，以 <code>runClient</code> 为例，删除最底下的 <code>Before launch</code> 中的 <code>Gradle prepareRunClient</code>。</li>
+<li>修改 <code>Environment variable</code> 中的 <code>MOD_CLASSES</code> 。从 <code>cuisine%%/home/jihuayu/dev/Cuisine2/build/resources/main:cuisine%%/home/jihuayu/dev/Cuisine2/build/classes/java/main</code> 修改为 <code>cuisine%%/home/jihuayu/dev/Cuisine2/src/main/resources:cuisine%%/home/jihuayu/dev/Cuisine2/out/production/classes</code>。注意这两个的差别。</li>
+</ol>
+<p>这样子就能加速你的 mcdev 环境的启动，和 debug下热重载的速度。</p>
+<p>原理：把使用 gradle 编译修改成用 idea 编译，杜绝了联网行为。</p>
+    </div>
+    <br />
+    <div class="user"><h4>潜心</h4></div>
+    <br />
+    <div class="post">
+        <p>没看明白，可以出个视频吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>现在，你只需要进行以下操作就可以在 3s 内启动你的 mc 开发环境。</p>
+<ol>
+<li>进入  <code>setting-&gt;Build,Excution,Deployment-&gt;Gradle</code>  把  <code>Build and run using</code>  修改成  <code>Intellij Idea</code>  。</li>
+<li>选择你要加速的运行任务，以  <code>runClient</code>  为例，编辑这个任务的配置，删除最底下的  <code>Before launch</code>  中的  <code>Gradle prepareRunClient</code> 。</li>
+<li>修改 2 中打开的页面中的  <code>Environment variable</code>  中的  <code>MOD_CLASSES</code>  。从  <code>cuisine%%/home/jihuayu/dev/Cuisine2/build/resources/main:cuisine%%/home/jihuayu/dev/Cuisine2/build/classes/java/main</code>  修改为  <code>cuisine%%/home/jihuayu/dev/Cuisine2/src/main/resources:cuisine%%/home/jihuayu/dev/Cuisine2/out/production/classes</code> 。注意这两个的差别。</li>
+</ol>
+<p>这样子就能加速你的 mcdev 环境的启动，和 debug下热重载的速度。</p>
+<p>原理：把使用 gradle 编译修改成用 idea 编译，杜绝了联网行为。</p>
+    </div>
+    <br />
+    <div class="user"><h4>mqllin</h4></div>
+    <br />
+    <div class="post">
+        <p>你好 第2、3部没看懂，不清楚具体应该在哪里操作。能详细说明一下吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>右上角，运行箭头边上。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3.png" data-download-href="../uploads/default/9b63b729a5a170929e12dcfbd16b2578a1b041c3" title="image"><img src="../uploads/default/optimized/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3_2_315x500.png" alt="image" data-base62-sha1="maDE8phTXf6qqC0VNXsL02gFfeH" width="315" height="500" srcset="../uploads/default/optimized/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3_2_315x500.png, ../uploads/default/optimized/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3_2_472x750.png 1.5x, ../uploads/default/optimized/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3_2_630x1000.png 2x" data-small-upload="../uploads/default/optimized/1X/9b63b729a5a170929e12dcfbd16b2578a1b041c3_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">654×1036 146 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c.png" data-download-href="../uploads/default/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c" title="shot"><img src="../uploads/default/optimized/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c_2_690x459.png" alt="shot" data-base62-sha1="xmUuMemC3JzAQPp447UKDAsGXVO" width="690" height="459" srcset="../uploads/default/optimized/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c_2_690x459.png, ../uploads/default/optimized/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c_2_1035x688.png 1.5x, ../uploads/default/optimized/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c_2_1380x918.png 2x" data-small-upload="../uploads/default/optimized/1X/e9dec0bb7f307be3d8cee0a33ca08dc2352cfa9c_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">shot</span><span class="informations">2366×1576 536 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>一七年夏</h4></div>
+    <br />
+    <div class="post">
+        <p>你好，打扰下，我照您的方式操作了下，但是仍然有问题，启动时仍然会联网下载一些xxxxx.pom，不知道为什么。但手动拔掉网线却能直接启动。</p>
+<details>
+<summary>
+出现问题的步骤(四张截图) ...◀ 单击展开</summary>
+<p>[修改工具]<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb.png" data-download-href="../uploads/default/75cb2b9a03752ebf83d4b4067a6fec0019922ceb" title="image"><img src="../uploads/default/optimized/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb_2_690x415.png" alt="image" data-base62-sha1="gO39zG6pH11FyOBrH6ETS5QVKyv" width="690" height="415" srcset="../uploads/default/optimized/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb_2_690x415.png, ../uploads/default/optimized/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb_2_1035x622.png 1.5x, ../uploads/default/original/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb.png 2x" data-small-upload="../uploads/default/optimized/1X/75cb2b9a03752ebf83d4b4067a6fec0019922ceb_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1167×703 39.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+[修改环境变量]<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae.png" data-download-href="../uploads/default/d98b7da1627c190d8de2a9e3f353108c4ed333ae" title="image"><img src="../uploads/default/optimized/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae_2_690x409.png" alt="image" data-base62-sha1="v2ut3p6b0y2b41d2wcuSPIpeXyC" width="690" height="409" srcset="../uploads/default/optimized/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae_2_690x409.png, ../uploads/default/optimized/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae_2_1035x613.png 1.5x, ../uploads/default/optimized/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae_2_1380x818.png 2x" data-small-upload="../uploads/default/optimized/1X/d98b7da1627c190d8de2a9e3f353108c4ed333ae_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1748×1038 97 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+[删除了PrepareRunClient]<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d11e202f65fde298936a65d0766bb1a479f3c328.png" data-download-href="../uploads/default/d11e202f65fde298936a65d0766bb1a479f3c328" title="image"><img src="../uploads/default/original/1X/d11e202f65fde298936a65d0766bb1a479f3c328.png" alt="image" data-base62-sha1="tPWkNep5ZXWRNGjTzURMazUqNvi" width="690" height="272" data-small-upload="../uploads/default/optimized/1X/d11e202f65fde298936a65d0766bb1a479f3c328_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">756×299 4.95 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>[出现问题]<br>
+<img src="../uploads/default/original/1X/0a508b2819632f4b77c5db5b9e81de3ada1d4cca.png" alt="image" data-base62-sha1="1tfkZjcwVC4ECuSn2Dg7sz6vlwK" width="516" height="90"></p>
+</details>
+<p><strong>问题已解决，由换源布置开发环境改为了下载离线包，重新进行这个步骤操作成功了。</strong></p>
+    </div>
+    <br />
+</body>
+</html>

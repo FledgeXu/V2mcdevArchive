@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>一个idea工具的问题 build:构建已失败 Resources for 'build' tests: java.lang.NullPointerException Resources for 'build' tests: java.lang.NullPointerException</title>
+</head>
+<body>
+    <div class="title"><h1>一个idea工具的问题 build:构建已失败 Resources for 'build' tests: java.lang.NullPointerException Resources for 'build' tests: java.lang.NullPointerException</h1></div>
+    <div class="post-user" class="user"><h4>xia_gan</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>1.15.2</strong><br>
+你使用的系统：&lt;win10 64位&gt;<br>
+你用的JDK是: &lt;1.8 64&gt;<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.3&gt;<br>
+Forge版本:  &lt; <a href="https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.15.2-31.2.0/forge-1.15.2-31.2.0-mdk.zip" rel="noopener nofollow ugc">Forge MDK 1.15.2 - 31.2.0</a>&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/1fd9ab9ada8c1f59f286bf785f6302d24ed3df26.png" data-download-href="../uploads/default/1fd9ab9ada8c1f59f286bf785f6302d24ed3df26" title="C40WLCVDTSCIQKYP$6_5LR"><img src="../uploads/default/original/1X/1fd9ab9ada8c1f59f286bf785f6302d24ed3df26.png" alt="C40WLCVDTSCIQKYP$6_5LR" data-base62-sha1="4xL9NO5Vj3d97J6DV06gFxqk6ge" width="689" height="29" data-small-upload="../uploads/default/optimized/1X/1fd9ab9ada8c1f59f286bf785f6302d24ed3df26_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">C40WLCVDTSCIQKYP$6_5LR</span><span class="informations">1231×53 8.01 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+程序可以成功调试并运行 但是无法build 并且出现错误后的一切操作都无效。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[13十一月2020 16:38:26.358] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--gameDir, ., --launchTarget, fmluserdevclient, --fml.mcpVersion, 20200515.085601, --fml.mcVersion, 1.15.2, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 31.2.0, --version, MOD_DEV, --assetIndex, 1.15, --assetsDir, C:\Users\李吉如\.gradle\caches\forge_gradle\assets, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[13十一月2020 16:38:26.358] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 5.1.2+70+master.2845bb9 starting: java version 1.8.0_265 by AdoptOpenJDK
+[13十一月2020 16:38:26.859] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[13十一月2020 16:38:29.239] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevclient' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, C:\Users\李吉如\.gradle\caches\forge_gradle\assets, --assetIndex, 1.15, --username, Dev, --accessToken, ❄❄❄❄❄❄❄❄, --userProperties, {}]
+[13十一月2020 16:38:33.059] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[13十一月2020 16:38:48.880] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[13十一月2020 16:38:50.676] [modloading-worker-1/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 31.2.0, for MC 1.15.2 with MCP 20200515.085601
+[13十一月2020 16:38:50.676] [modloading-worker-1/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v31.2.0 Initialized
+[13十一月2020 16:38:55.364] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[13十一月2020 16:38:55.484] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[13十一月2020 16:38:55.890] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[13十一月2020 16:38:57.442] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 31.2.0 Target: null
+[13十一月2020 16:39:02.581] [Render thread/INFO] [net.minecraft.client.audio.SoundSystem/]: OpenAL initialized.
+[13十一月2020 16:39:02.582] [Render thread/INFO] [net.minecraft.client.audio.SoundEngine/SOUNDS]: Sound engine started
+[13十一月2020 16:39:02.866] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[13十一月2020 16:39:03.036] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[13十一月2020 16:39:03.037] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[13十一月2020 16:39:03.045] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[13十一月2020 16:39:03.053] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[13十一月2020 16:39:03.056] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[13十一月2020 16:39:03.062] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[13十一月2020 16:39:03.745] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[13十一月2020 16:39:03.754] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[13十一月2020 16:39:03.756] [Render thread/INFO] [net.minecraft.client.renderer.texture.AtlasTexture/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[13十一月2020 16:39:06.922] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: Invalid session id
+[13十一月2020 16:39:09.710] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[13十一月2020 16:39:09.711] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:09.712] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:09.713] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[13十一月2020 16:39:09.714] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:09.887] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Starting integrated minecraft server version 1.15.2
+[13十一月2020 16:39:09.887] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Generating keypair
+[13十一月2020 16:39:10.139] [Server thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this SERVER instance
+[13十一月2020 16:39:10.553] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar, main
+[13十一月2020 16:39:12.037] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[13十一月2020 16:39:13.889] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[13十一月2020 16:39:14.677] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[13十一月2020 16:39:16.484] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:16.484] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:16.484] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:16.484] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:16.784] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:17.218] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Time elapsed: 2516 ms
+[13十一月2020 16:39:21.668] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[13十一月2020 16:39:21.671] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[13十一月2020 16:39:21.675] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Changing view distance to 11, from 10
+[13十一月2020 16:39:21.683] [Server thread/WARN] [net.minecraft.server.MinecraftServer/]: Can't keep up! Is the server overloaded? Running 4251ms or 85 ticks behind
+[13十一月2020 16:39:24.700] [Netty Local Client IO #0/INFO] [net.minecraftforge.fml.network.NetworkHooks/]: Connected to a modded server.
+[13十一月2020 16:39:24.831] [Server thread/INFO] [net.minecraftforge.common.AdvancementLoadFix/]: Using new advancement loading for net.minecraft.advancements.PlayerAdvancements@3ebccfc9
+[13十一月2020 16:39:24.859] [Server thread/INFO] [net.minecraft.server.management.PlayerList/]: Dev[local:E:9d44b048] logged in with entity id 277 at (-239.1130497442791, 67.74293160172489, 5.881141995819775)
+[13十一月2020 16:39:24.914] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[13十一月2020 16:39:25.439] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[13十一月2020 16:39:25.459] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:39:25.715] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 0 advancements
+[13十一月2020 16:39:47.832] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[13十一月2020 16:39:47.846] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:39:48.270] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Dev lost connection: 连接中止
+[13十一月2020 16:39:48.271] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[13十一月2020 16:39:48.278] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Stopping singleplayer server as player logged out
+[13十一月2020 16:39:48.300] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[13十一月2020 16:39:48.301] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[13十一月2020 16:39:48.301] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[13十一月2020 16:39:48.301] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:39:48.784] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[13十一月2020 16:39:48.800] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[13十一月2020 16:39:51.743] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[13十一月2020 16:39:51.744] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:51.744] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:51.746] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[13十一月2020 16:39:51.746] [Render thread/WARN] [net.minecraft.command.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[13十一月2020 16:39:51.748] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Starting integrated minecraft server version 1.15.2
+[13十一月2020 16:39:51.749] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Generating keypair
+[13十一月2020 16:39:51.799] [Server thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this SERVER instance
+[13十一月2020 16:39:51.932] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar, main
+[13十一月2020 16:39:53.192] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[13十一月2020 16:39:53.993] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[13十一月2020 16:39:54.065] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[13十一月2020 16:39:54.660] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:54.660] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[13十一月2020 16:39:54.926] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Time elapsed: 832 ms
+[13十一月2020 16:39:55.345] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[13十一月2020 16:39:55.346] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[13十一月2020 16:39:55.347] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Changing view distance to 11, from 10
+[13十一月2020 16:39:55.404] [Netty Local Client IO #1/INFO] [net.minecraftforge.fml.network.NetworkHooks/]: Connected to a modded server.
+[13十一月2020 16:39:55.425] [Server thread/INFO] [net.minecraftforge.common.AdvancementLoadFix/]: Using new advancement loading for net.minecraft.advancements.PlayerAdvancements@663bc5d
+[13十一月2020 16:39:55.431] [Server thread/INFO] [net.minecraft.server.management.PlayerList/]: Dev[local:E:74a653b8] logged in with entity id 729 at (-228.08667978494898, 73.0, -18.92807247387865)
+[13十一月2020 16:39:55.438] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[13十一月2020 16:39:55.577] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[13十一月2020 16:39:55.591] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:39:55.746] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 0 advancements
+[13十一月2020 16:40:00.312] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[13十一月2020 16:40:00.317] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:40:00.824] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Dev lost connection: 连接中止
+[13十一月2020 16:40:00.824] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[13十一月2020 16:40:00.830] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Stopping singleplayer server as player logged out
+[13十一月2020 16:40:00.866] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[13十一月2020 16:40:00.866] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[13十一月2020 16:40:00.866] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[13十一月2020 16:40:00.866] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level '新的世界'/minecraft:overworld
+[13十一月2020 16:40:01.247] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[13十一月2020 16:40:01.259] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (新的世界): All chunks are saved
+[13十一月2020 16:40:01.935] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>点击这个：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/40f0a58c33719207249e675e26c3e16ab93d488a.png" data-download-href="../uploads/default/40f0a58c33719207249e675e26c3e16ab93d488a" title="image"><img src="../uploads/default/optimized/1X/40f0a58c33719207249e675e26c3e16ab93d488a_2_690x45.png" alt="image" data-base62-sha1="9gu8KRhJkK0mMszFTQdSBoNDQzE" width="690" height="45" srcset="../uploads/default/optimized/1X/40f0a58c33719207249e675e26c3e16ab93d488a_2_690x45.png, ../uploads/default/original/1X/40f0a58c33719207249e675e26c3e16ab93d488a.png 1.5x, ../uploads/default/original/1X/40f0a58c33719207249e675e26c3e16ab93d488a.png 2x" data-small-upload="../uploads/default/optimized/1X/40f0a58c33719207249e675e26c3e16ab93d488a_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">950×62 14 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+并把左侧所有信息都贴出来，记住一点，发错误信息都时候要把调用栈给发全，只有一行报错是没法解决问题的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>xia_gan</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf.png" data-download-href="../uploads/default/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf" title=")E7A1{OGJ~XUHMQ})IKFX"><img src="../uploads/default/optimized/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf_2_690x78.png" alt=")E7A1{OGJ~XUHMQ})IKFX" data-base62-sha1="3vADy32u4C6oRE3HcL03UH4uZhJ" width="690" height="78" srcset="../uploads/default/optimized/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf_2_690x78.png, ../uploads/default/optimized/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf_2_1035x117.png 1.5x, ../uploads/default/optimized/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf_2_1380x156.png 2x" data-small-upload="../uploads/default/optimized/1X/1898b5a1ecfb8bdba91946046a1fcaa2bd076eaf_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">)E7A1{OGJ~XUHMQ})IKFX</span><span class="informations">1416×161 9.47 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div> 可是只有这么多。。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你点左边上面那个<code>build</code>啊……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你试试直接在Powershell等命令行里运行 <code>./gradlew build</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>xia_gan</h4></div>
+    <br />
+    <div class="post">
+        <p>还是不行。。我重新导入了 qaq</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请不要使用<code>qaq</code>，这个不能帮助解决问题。<br>
+什么叫做「还是不行」，请你描述清楚。<br>
+有空发颜文字，还是先把你的操作和结果描述清楚吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>我建议重头来过，按照教程一步一步来，不要跳步骤</p>
+    </div>
+    <br />
+    <div class="user"><h4>xia_gan</h4></div>
+    <br />
+    <div class="post">
+        <p>我都试了试 各种各样的方法，也看了一些资料，但是还是没有处理掉 最后觉得还是重新导入一遍比较好。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.15]Publish后不能被MOD引用而正常加载</title>
+</head>
+<body>
+    <div class="title"><h1>[1.15]Publish后不能被MOD引用而正常加载</h1></div>
+    <div class="post-user" class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  1.15-latest<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>情况</strong><br>
+例如原来是<br>
+<code>public ItemStack createIcon() {             return new ItemStack(Blocks.STRUCTURE_BLOCK);         }</code><br>
+打包后被改成这个样子<br>
+<code>public ItemStack func_78016_d() {                 return new ItemStack(Blocks.field_185779_df);</code><br>
+混淆回去很正常，编译也成功通过，但进入游戏加载时无法识别<br>
+我在另一个mod1中引用了另一个mod2<br>
+mod2可以单独正常加载，但被mod1引用后加载就不行<br>
+gradle中添加了compile的命令</p>
+<p><strong>错误</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/2c9471d3169eda7226733adae2d4231478b95008.png" data-download-href="../uploads/default/2c9471d3169eda7226733adae2d4231478b95008" title="image"><img src="../uploads/default/original/1X/2c9471d3169eda7226733adae2d4231478b95008.png" alt="image" data-base62-sha1="6mn35BSktwiLGsZBOzzOyCXbK52" width="690" height="43" data-small-upload="../uploads/default/optimized/1X/2c9471d3169eda7226733adae2d4231478b95008_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">849×53 2.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<pre><code class="lang-auto">java.lang.NoSuchMethodError: net.minecraft.item.Item$Properties.func_200916_a(Lnet/minecraft/item/ItemGroup;)Lnet/minecraft/item/Item$Properties;
+</code></pre>
+<p><strong>尝试</strong><br>
+修改过Mapping文件的版本，无效，低版本甚至出错更多</p>
+<p><strong>我的怀疑</strong><br>
+是混淆回去出错了么还是……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post">
+        <p>已自行解决，<code>maven-publish task</code>的<code>reobfuscate</code>的进一步混淆导致引用mod时无法进一步解析从而出现错误</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

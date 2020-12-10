@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Idea中运行我的世界出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>Idea中运行我的世界出现问题</h1></div>
+    <div class="post-user" class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;2020.1.1&gt;<br>
+Forge版本:  &lt;14.23.5.2847&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef.png" data-download-href="../uploads/default/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef" title="p"><img src="../uploads/default/optimized/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef_2_690x367.png" alt="p" data-base62-sha1="zIBSp8Q6hsbdHzXwMVVhSQZRrIP" width="690" height="367" srcset="../uploads/default/optimized/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef_2_690x367.png, ../uploads/default/optimized/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef_2_1035x550.png 1.5x, ../uploads/default/original/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef.png 2x" data-small-upload="../uploads/default/optimized/1X/fa570d8859b1d3a92cccd0ea936ba8df3b7eaeef_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">p</span><span class="informations">1365×727 138 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div> <div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/5fc8075923aed51be4ae10627e1c23d07d783e13.png" data-download-href="../uploads/default/5fc8075923aed51be4ae10627e1c23d07d783e13" title="p1"><img src="../uploads/default/optimized/1X/5fc8075923aed51be4ae10627e1c23d07d783e13_2_690x369.png" alt="p1" data-base62-sha1="dFjUZsvcFHj6lCNynp1u7duKktJ" width="690" height="369" srcset="../uploads/default/optimized/1X/5fc8075923aed51be4ae10627e1c23d07d783e13_2_690x369.png, ../uploads/default/optimized/1X/5fc8075923aed51be4ae10627e1c23d07d783e13_2_1035x553.png 1.5x, ../uploads/default/original/1X/5fc8075923aed51be4ae10627e1c23d07d783e13.png 2x" data-small-upload="../uploads/default/optimized/1X/5fc8075923aed51be4ae10627e1c23d07d783e13_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">p1</span><span class="informations">1365×731 141 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+运行Minecraft Client时发生错误，直接运行完成了（闪退）</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[21:47:42] [main/ERROR] [FML]: An error occurred loading the deobfuscation map data
+java.io.FileNotFoundException: D:\Workspace\Forge1.12\.gradle\caches\minecraft\de\oceanlabs\mcp\mcp_snapshot\20171003\1.12.2\srgs\srg-mcp.srg (系统找不到指定的路径。)
+	at java.io.FileInputStream.open0(Native Method) ~[?:1.8.0_181]
+	at java.io.FileInputStream.open(FileInputStream.java:195) ~[?:1.8.0_181]
+	at java.io.FileInputStream.&lt;init&gt;(FileInputStream.java:138) ~[?:1.8.0_181]
+	at com.google.common.io.Files$FileByteSource.openStream(Files.java:120) ~[guava-21.0.jar:?]
+	at com.google.common.io.Files$FileByteSource.openStream(Files.java:110) ~[guava-21.0.jar:?]
+	at com.google.common.io.ByteSource$AsCharSource.openStream(ByteSource.java:456) ~[guava-21.0.jar:?]
+	at com.google.common.io.CharSource.readLines(CharSource.java:311) ~[guava-21.0.jar:?]
+	at com.google.common.io.Files.readLines(Files.java:553) ~[guava-21.0.jar:?]
+	at com.google.common.io.Files.readLines(Files.java:520) ~[guava-21.0.jar:?]
+	at net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper.setup(FMLDeobfuscatingRemapper.java:139) [forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	at net.minecraftforge.fml.common.asm.FMLSanityChecker.injectData(FMLSanityChecker.java:187) [FMLSanityChecker.class:?]
+	at net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper.injectIntoClassLoader(CoreModManager.java:164) [forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:115) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_181]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_181]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_181]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_181]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+[21:47:42] [main/ERROR] [LaunchWrapper]: Unable to launch
+java.lang.RuntimeException: java.lang.NullPointerException
+	at net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper.injectIntoClassLoader(CoreModManager.java:169) ~[forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:115) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_181]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_181]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_181]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_181]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: java.lang.NullPointerException
+	at net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper.setup(FMLDeobfuscatingRemapper.java:170) ~[forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	at net.minecraftforge.fml.common.asm.FMLSanityChecker.injectData(FMLSanityChecker.java:187) ~[forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	at net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper.injectIntoClassLoader(CoreModManager.java:164) ~[forgeSrc-1.12.2-14.23.5.2847.jar:?]
+	... 8 more
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>&lt;SoilCraft&gt;</code></p>
+<pre><code class="lang-auto">package xyz.xiaoshengbaby.soilcraft;
+
+import net.minecraftforge.fml.common.Mod;
+
+@Mod(name = SoilCraft.NAME,modid = SoilCraft.MODID,version = SoilCraft.VERSION,useMetadata = true)
+public class SoilCraft {
+    public static final String NAME="Soil Craft";
+    public static final String MODID="sc";
+    public static final String VERSION="0.1";
+
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>1.12 Forge  官方已经不支持了（不会再有新功能，不会再有Bug修复，官方的Discord和论坛也不会再回答相关的问题），看你的样子是新学Mod开发，建议从1.15或者1.14版本开始学起，<a href="https://neutrino.v2mcdev.com/">Neutrino 1.15 Mod 开发教程</a>已经基本上完工了。</li>
+<li>请你补充一下<code>mcmod.info</code>的内容。</li>
+<li>这个错误好像是环境配置有问题引起的，不知道你怎么配置的环境，请补充一下你配置环境的步骤。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-json">[
+{
+  "modid": "sc",
+  "name": "Soil Craft",
+  "description": "Welcome to play my mod!!!",
+  "version": "${0.1}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Xiaoshengbaby"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
+</code></pre>
+<p>但我把useMetadata删了之后还是报这个错误，我用1.12.2是因为高版本的用不习惯，而且我的电脑配置不好，高版本的运行不流畅，而且我身边也有正在开发1.12.2的人</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>论坛支持markdown格式的语法，请学习Markdown的语法（非常简单，半个小时就能学会）来保证插入的代码是格式化过的。</li>
+<li>看上去的的<code>mcmod.info</code>信息并没有错误，很大可能是由于环境配置错了，建议重新按照你的学的教程清空Gradle缓存，重新配置一遍环境</li>
+<li>如果你身边有会开发的人，不如先问问那个人，因为他在身边，所以对你的开发环境清空很熟悉。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>我是在网上下载离线包的<br>
+1.我把里面的.gradle文件拷入到C盘相对位置<br>
+2.我用IDEA以Project的形式打开build.gradle，然后它提示我gradle版本旧，我就更新了<br>
+3.点击运行genIntellijRuns，之后再在forge文件夹内打开cmd，输入gradlew genIntellijRuns<br>
+4.显示Build Successful，然后我就拿来用了</p>
+<p>java环境配置<br>
+1.安装jdk<br>
+2.在环境变量的系统变量中新建JAVA_HOME，变量值为我java的安装路径<br>
+3.再进入一个叫PATH的系统变量，在许多路径前加入%JAVA_HOME%\bin;<br>
+4.我打开cmd，输入javac，是成功的</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有，我看你的发帖记录注意到，直接好像已经可以正常开发了，你之前已经发了三个相似内容的帖子了？为什么不用之前配置好的内容。</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>唉 重装系统格式化硬盘，删了…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>1.12 旧版 MDK 和最新版的IntelliJ IDEA不兼容，如果你一定要用旧版的MDK，不要点idea的自动升级，而是手动的将 MDK 解压目录下的<code>gradle/wrapper/gradle-wrapper.properties</code>中的<code>distributionUrl</code>的内容改成<code>https\://services.gradle.org/distributions/gradle-4.9-bin.zip</code>
+</li>
+<li>如果你不想升级旧版MDK的Gradle，可以安装2019版本bundle Java8 的IDEA，具体方法请在论坛里搜索。</li>
+<li>1.12 的 MDK 目前最新版是<code>1.12.2 - 14.23.5.2854</code>，这个版本的MDK引入了FG3，可以和最新版的IDEA兼容，配置方法发生了改变， <code>2854</code> 版本的 MDK，配置方法和1.14 与 1.15 相同，可以参照高版本的MDK配置方法，论坛里的离线包也已经构建完成了。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢~对了，这么晚都还没睡觉的吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我要睡觉了，被你发帖的通知叫起床了……</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>哈哈哈，好辛苦，晚安~</p>
+    </div>
+    <br />
+    <div class="user"><h4>jia</h4></div>
+    <br />
+    <div class="post">
+        <p>直接学1.14或者1.15不太行吧。虽然官方的优化做的更好了，但是国内的教程却远远没有跟上。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我在之前的回答里提到的<a href="https://neutrino.v2mcdev.com/">Neutrino</a>就是1.15的教程啊……<br>
+而且Mcjty的1.14/1.15教程B站也有人翻译了，从某种角度来说1.14/1.15的教程其实要比1.12更加丰富。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我在之前的回答里提到的<a href="https://neutrino.v2mcdev.com/">Neutrino</a>就是1.15的教程啊……<br>
+而且Mcjty的1.14/1.15教程B站也有人翻译了，从某种角度来说1.14/1.15的教程其实要比1.12更加丰富。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

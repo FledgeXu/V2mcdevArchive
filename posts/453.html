@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于资源包里面.png.mcmeta文件的问题</title>
+</head>
+<body>
+    <div class="title"><h1>关于资源包里面.png.mcmeta文件的问题</h1></div>
+    <div class="post-user" class="user"><h4>叶冰莉兰</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows64位<br>
+你是用的JDK: 64位 1.8.241<br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本:Oxygen.3a Release (4.7.3a)<br>
+Forge版本:  14.23.5.2847<br>
+Minecraft版本:1.12.2</p>
+<p>在写mod的材质的时候，参照阅读星辉魔法（Astral Sorcery）时，看到了这样的一个mcmeta文件：<br>
+位置是<code>\assets\astralsorcery\textures\models\bore\head_fluid.png.mcmeta</code><br>
+以下为mcmeta文件内容：</p>
+<pre><code class="lang-json">{
+  "ctm": {
+    "ctm_version": 1,
+    "layer": "TRANSLUCENT",
+    "extra": {
+      "light": 11
+    }
+  }
+}
+</code></pre>
+<p>请问这个"ctm"是什么？效果是什么？它下面有哪些参数？<br>
+在网上搜的时候发现了一个mod（ConnectedTexturesMod），一个 [CTM Maps for Minecraft]，感觉都不是说这个的样子orz</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>请注意，1.12 Forge官方已经放弃支持，不会再有Bug修复，添加特性，请尽早迁移到1.14/1.15</strong><br>
+<strong>请注意，论坛支持Markdown格式，半个小时就能学会，发代码前请用markdown格式化</strong><br>
+这个不是原版的东西，这个你查到的<code>ConnectedTexturesMod</code>是对的。<br>
+这个是Chisel团队出的CTM的API。<br>
+具体看这个链接：<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/Chisel-Team/ConnectedTexturesMod/wiki/CTM-into-Texture-Metadata" target="_blank">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/98f7bda41a9ad28bc6ae1399d05e74da5e1effe8.png" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/Chisel-Team/ConnectedTexturesMod/wiki/CTM-into-Texture-Metadata" target="_blank">Chisel-Team/ConnectedTexturesMod</a></h3>
+
+<p>Extensions to the vanilla model system, mainly for connected textures - Chisel-Team/ConnectedTexturesMod</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请问你的问题解决了吗？解决了请自行补充或者选择一个回复作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

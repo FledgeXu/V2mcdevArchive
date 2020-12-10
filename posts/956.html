@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>MovementController是干什么用的</title>
+</head>
+<body>
+    <div class="title"><h1>MovementController是干什么用的</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：window 10<br>
+你是用的JDK: 不清楚怎么看<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2 x64<br>
+Forge版本:  1.15.2-31.2<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+我仿照原版的恶魂写了一个实体和ai，原版恶魂的类里面有一个MovementHelperController我完全没搞懂是干什么的，但是不加他的话就动不了或者一直往前走。</p>
+<p><strong>相关代码</strong><br>
+我的实体类中的ai</p>
+<pre><code class="lang-auto">    static class RandomFlyGoal extends Goal {
+        private final EyeOfCthulhu eyeOfCthulhu;
+
+        public RandomFlyGoal(EyeOfCthulhu eoc) {
+            this.eyeOfCthulhu = eoc;
+            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        public boolean shouldExecute() {
+            MovementController movementcontroller = this.eyeOfCthulhu.getMoveHelper();
+            if (!movementcontroller.isUpdating()) {
+                return true;
+            } else {
+                double d0 = movementcontroller.getX() - this.eyeOfCthulhu.getPosX();
+                double d1 = movementcontroller.getY() - this.eyeOfCthulhu.getPosY();
+                double d2 = movementcontroller.getZ() - this.eyeOfCthulhu.getPosZ();
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                return d3 &lt; 1.0D || d3 &gt; 3600.0D;
+            }
+        }
+
+        public boolean shouldContinueExecuting() {
+            return false;
+        }
+
+        public void startExecuting() {
+            Random random = this.eyeOfCthulhu.getRNG();
+            double d0 = this.eyeOfCthulhu.getPosX() + (double)((random.nextFloat() * 2.0F - 1.0F) * 6.0F);
+            double d1 = this.eyeOfCthulhu.getPosY() + (double)((random.nextFloat() * 2.0F - 1.0F) * 6.0F);
+            double d2 = this.eyeOfCthulhu.getPosZ() + (double)((random.nextFloat() * 2.0F - 1.0F) * 6.0F);
+            this.eyeOfCthulhu.getMoveHelper().setMoveTo(d0, d1, d2, 1.0D);
+        }
+    }
+</code></pre>
+<p>那个MovementHelperController</p>
+<pre><code class="lang-auto">
+    static class MoveHelperController extends MovementController {
+        private final EyeOfCthulhu eyeOfCthulhu;
+        private int coolDown;
+
+        public MoveHelperController(EyeOfCthulhu eoc) {
+            super(eoc);
+            this.eyeOfCthulhu = eoc;
+        }
+
+        public void tick() {
+            if (this.action == MovementController.Action.MOVE_TO) {
+                if (this.coolDown-- &lt;= 0) {
+                    this.coolDown += this.eyeOfCthulhu.getRNG().nextInt(5) + 2;
+                    Vec3d vec3d = new Vec3d(this.posX - this.eyeOfCthulhu.getPosX(),
+                            this.posY - this.eyeOfCthulhu.getPosY(),
+                            this.posZ - this.eyeOfCthulhu.getPosZ());
+                    double d0 = vec3d.length();
+                    vec3d = vec3d.normalize();
+                    if (this.func_220673_a(vec3d, MathHelper.ceil(d0))) {
+                        this.eyeOfCthulhu.setMotion(this.eyeOfCthulhu.getMotion().add(vec3d.scale(0.1D)));
+                        System.out.println(this.eyeOfCthulhu.getMotion());
+                    } else {
+                        this.action = MovementController.Action.WAIT;
+                    }
+                }
+
+            }
+        }
+
+        private boolean func_220673_a(Vec3d p_220673_1_, int p_220673_2_) {
+            AxisAlignedBB axisalignedbb = this.eyeOfCthulhu.getBoundingBox();
+
+            for(int i = 1; i &lt; p_220673_2_; ++i) {
+                axisalignedbb = axisalignedbb.offset(p_220673_1_);
+                if (!this.eyeOfCthulhu.world.hasNoCollisions(this.eyeOfCthulhu, axisalignedbb)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+</code></pre>
+<p>上面这俩完全是从原版复制过来的</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得顾名思义就是控制移动的……<br>
+顺便我觉得你需要更新一下mapping了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>可我没太搞懂具体控制移动的什么，我感觉移动有RandomFlyGoal不就够了吗。mapping咋更新来着…有点忘了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>就是控制移动啊，什么叫做控制移动的什么……<br>
+mapping文件更新：<a href="https://neutrino.v2mcdev.com/devenvironment/folderintro.html" class="inline-onebox">开发环境的介绍 - Minecraft Forge Mod Dev tutorial</a><br>
+还有就是，我觉得你自己没彻底理解你在写什么，或者说没懂你写的东西的原理，你问的问题很奇怪……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我也觉得我问的挺奇怪的2333，我再自己想想吧</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

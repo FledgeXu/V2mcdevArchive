@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何在一段代码中添加一个延迟的功能？</title>
+</head>
+<body>
+    <div class="title"><h1>如何在一段代码中添加一个延迟的功能？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:&lt;2019.3.20&gt;<br>
+Forge版本:  &lt;1.15.2-31.1.0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>主要问题</strong><br>
+如何在两段代码中添加一个延迟的功能？不然没等第一段代码执行完毕，第二段代码已经开始执行了，我想等第一段代码执行一段时间后再执行第二段代码。try…catch不行，Tread.Sleep()也不行，不仅没有达到延迟的效果，而且还会卡一下。我在一些实体的代码中找到了类似延迟的代码，但是放在物品中的话会被忽略。</p>
+<p><strong>相关代码</strong><br>
+<code>&lt;这是某个物品的一段代码&gt;</code></p>
+<pre><code class="lang-auto">    @Override
+    public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
+        if(entity.getEntity() instanceof MobEntity){
+            ((MobEntity)entity).addPotionEffect(new EffectInstance(
+                    Effects.LEVITATION, 100,3,false,false));
+            entity.setNoGravity(true);
+            /*我想在这里设置一个3秒钟延迟*/
+            entity.world.createExplosion(null,DamageSource.netherBedExplosion(),
+                    entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(),
+                   4.0F,false, Explosion.Mode.NONE);
+        }
+        return super.onLeftClickEntity(stack,player,entity);
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>自己订阅 TickEvent</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请问问题解决了吗？如果解决了请选择一个楼层或者自己回复补充一下作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

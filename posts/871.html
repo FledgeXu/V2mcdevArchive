@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Forge1.15.2如何制作屏幕晃动效果</title>
+</head>
+<body>
+    <div class="title"><h1>Forge1.15.2如何制作屏幕晃动效果</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.2.20&gt;<br>
+Forge版本:  &lt;1.15.2&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+制作屏幕晃动效果，类似于原版受伤的时候触发的那种效果。<br>
+我玩的模组比较少，我只知道AOA3枪械后坐力有这种效果，但是它闭源还不是1.15.2的<br>
+我看了原版的代码，这个好像不在attackEntityFrom函数里</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>我没有实现过这个功能，接下来都是我研究原版代码的猜测。</strong><br>
+简单的答案是，Forge有个<code>EntityViewRenderEvent</code>事件，你大概能调用事件里带来的<code>renderer</code>的<code>applyBobbing</code>方法让玩家视角摇晃，或者直接用<code>CameraSetup</code>这个子事件修改玩家的Camera视角。<br>
+或者是可以调用</p>
+<pre><code class="lang-auto">Minecraft.getInstance().gameRenderer.applyBobbing(MatrixStack matrixStackIn, float partialTicks)
+</code></pre>
+<p>方法来实现晃动（你需要用AT修改<code>applyBobbing</code>的访问等级）<br>
+接下来是我获取答案的过程</p>
+<ol>
+<li>我先思考了，如何原版有什么功能是和屏幕摇晃有关的，我想到了「视角晃动（View Bobbing）」这个选项，语言文件对应的键是<code>options.viewBobbing</code>
+</li>
+<li>
+<code>options.viewBobbing</code>对应的代码是:<pre><code class="lang-java">public static final BooleanOption VIEW_BOBBING = new BooleanOption("options.viewBobbing", (p_228036_0_) -&gt; {
+   return p_228036_0_.viewBobbing;
+}, (p_228038_0_, p_228038_1_) -&gt; {
+   p_228038_0_.viewBobbing = p_228038_1_;
+});
+</code></pre>
+这里设置了一个<code>viewBobbing</code>，接下来看这个<code>viewBobbing</code>的使用。</li>
+<li>
+<code>viewBobbing</code>在<code>GameRender</code>中的<code>renderHand</code>和<code>renderWorld</code>都有调用，在这两个函数中都调用了<code>applyBobbing</code>这个方法实现了具体的「晃动」，接下来就要寻找Forge有没有提供方法让我可以实现这个功能。</li>
+<li>因为我们需要找的是第一人称视角的摇晃，所以我猜测和<code>renderWorld</code>关系比较小，我去看了<code>renderHand</code>的调用链，然后发现在<code>renderWorld</code>里，调用了<code>renderHand</code>（</li>
+<li>然后我又读了一下<code>renderWorld</code>这个方法里具体的代码，发现了 Forge 的 Hook，然后我读了一下这个事件相关的注释，大概能确定你可以在这个事件里实现你想要的功能。<pre><code class="lang-java">net.minecraftforge.client.event.EntityViewRenderEvent.CameraSetup cameraSetup = net.minecraftforge.client.ForgeHooksClient.onCameraSetup(this, activerenderinfo, partialTicks);
+</code></pre>
+</li>
+</ol>
+<p>这里用到的全是IntelliJ的基础功能。</p>
+<blockquote>
+<p><a href="https://neutrino.v2mcdev.com/item/meleeweapons.html#%E5%BC%80%E5%8F%91%E5%B0%8F%E8%AF%BE%E5%A0%82">开发小课堂</a></p>
+<p>在开发的过程中你得熟练使用开发工具，在这里我们的工具是IntelliJ IDEA。有两个快捷键对于理解代码有非常大的帮助。第一个快捷键是 <code>Ctrl+N(Windows)</code> ，这个快捷键可以让你搜索指定的类，这样你就可寻找原版类里在哪里，有什么内容了。另一个快捷键就是 <code>Ctrl+H</code> 当你把鼠标指针放在一个类上时，按下这个快捷键，会在右侧显示这个类的继承关系，也可查看某个接口的具体实现，大家可以自己上网搜索IDEA常用快捷键学习使用。</p>
+<p>另外一个技巧是，当你看到某个方法，想要知道这个方法在哪里调用时，可以右键然后点击 <code>Find Usages（查找使用）</code> ，你就可以看见所有调用这个方法的代码了。</p>
+<p>还有如果你想查看某个类的源代码，只需要按住 <code>Ctrl</code> 键，点击那个类就可以进入到那个类内部查看它的源代码。</p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="2" data-topic="871">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>（你需要用AT修改 <code>applyBobbing</code> 的访问等级）</p>
+</blockquote>
+</aside>
+<p>我去看了这个函数的源代码，GameRender将会把自己平滑地旋转到某一个角度，好像是这样的<br>
+不过我头一回知道Java还能修改访问等级，AT是什么东西啊</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是Java的特性……<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/at/intro.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/at/intro.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/at/intro.html" target="_blank" rel="noopener">Access Transformer - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

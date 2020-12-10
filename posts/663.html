@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 普通物品的模型问题，不显示材质，无法发现问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 普通物品的模型问题，不显示材质，无法发现问题</h1></div>
+    <div class="post-user" class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：macOS High Sierra<br>
+你使用的JDK: 1.8.0_251<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.1<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8104f3aadc463384642dc47c7366fd514564bb18.png" data-download-href="../uploads/default/8104f3aadc463384642dc47c7366fd514564bb18" title="Screen Shot 2020-07-23 at 10.59.22 PM"><img src="../uploads/default/optimized/1X/8104f3aadc463384642dc47c7366fd514564bb18_2_517x291.png" alt="Screen Shot 2020-07-23 at 10.59.22 PM" data-base62-sha1="ipmcA2VLfHsvrh93oY3Aq3x4RpC" width="517" height="291" srcset="../uploads/default/optimized/1X/8104f3aadc463384642dc47c7366fd514564bb18_2_517x291.png, ../uploads/default/optimized/1X/8104f3aadc463384642dc47c7366fd514564bb18_2_775x436.png 1.5x, ../uploads/default/optimized/1X/8104f3aadc463384642dc47c7366fd514564bb18_2_1034x582.png 2x" data-small-upload="../uploads/default/optimized/1X/8104f3aadc463384642dc47c7366fd514564bb18_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Screen Shot 2020-07-23 at 10.59.22 PM</span><span class="informations">1705×959 155 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/0116a902cc6eed0132cefe5ca9d84c48971ca5cc.png" data-download-href="../uploads/default/0116a902cc6eed0132cefe5ca9d84c48971ca5cc" title="Screen Shot 2020-07-24 at 8.37.38 AM"><img src="../uploads/default/original/1X/0116a902cc6eed0132cefe5ca9d84c48971ca5cc.png" alt="Screen Shot 2020-07-24 at 8.37.38 AM" data-base62-sha1="9D1EIN38BeQL6wA6rvAv5VYLOA" width="490" height="500" data-small-upload="../uploads/default/optimized/1X/0116a902cc6eed0132cefe5ca9d84c48971ca5cc_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Screen Shot 2020-07-24 at 8.37.38 AM</span><span class="informations">564×575 23.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>开了一个新的项目，大部分都是照着旧的写的，但是模型一直出问题，物品名称也不能显示出来，检查了好几遍，也改掉了一个错误，但是没有效果。<br>
+望解答，谢谢</p>
+<pre><code class="lang-auto">[08:40:04] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: UP_TO_DATE Current: 31.2.0 Target: null
+[08:40:04] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [cybercraft] Starting version check at http://myurl.me/
+[08:40:04] [Forge Version Check/WARN] [ne.mi.fm.VersionChecker/]: Failed to process update information
+java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_251] {}
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_251] {}
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_251] {}
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1950) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection$10.run(HttpURLConnection.java:1945) ~[?:1.8.0_251] {}
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1944) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1514) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1498) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:189) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.VersionChecker$1.process(VersionChecker.java:206) ~[?:?] {re:classloading}
+	at java.lang.Iterable.forEach(Iterable.java:75) [?:1.8.0_251] {}
+	at net.minecraftforge.fml.VersionChecker$1.run(VersionChecker.java:157) [?:?] {re:classloading}
+Caused by: java.io.IOException: Server returned HTTP response code: 400 for URL: http://myurl.me/
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1900) ~[?:1.8.0_251] {}
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1498) ~[?:1.8.0_251] {}
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[?:1.8.0_251] {}
+	at net.minecraftforge.fml.VersionChecker$1.openUrlStream(VersionChecker.java:173) ~[?:?] {re:classloading}
+	... 3 more
+[08:40:08] [Server-Worker-2/WARN] [minecraft/ModelBakery]: Unable to load model: 'modid:copper_ingot#inventory' referenced from: modid:copper_ingot#inventory: java.io.FileNotFoundException: modid:models/item/copper_ingot.json
+[08:40:13] [Thread-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Config file forge-client.toml changed, sending notifies
+</code></pre>
+<p><code>RegistryHandler.java</code></p>
+<pre><code class="lang-auto">package com.Project_HKL.Cyber_Craft.utility;
+import com.Project_HKL.Cyber_Craft.Cyber_Craft;
+import com.Project_HKL.Cyber_Craft.items.ItemBase;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+public class RegistryHandler
+{
+    public static final DeferredRegister&lt;Item&gt; ITEMS = new DeferredRegister&lt;&gt;(ForgeRegistries.ITEMS, Cyber_Craft.MOD_ID);
+    public static void init()
+    {
+        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+    //Items
+    public static final RegistryObject&lt;Item&gt; COPPER_INGOT = ITEMS.register("copper_ingot", ItemBase::new);
+}
+</code></pre>
+<p><code>ItemBase.java</code></p>
+<pre><code class="lang-auto">package com.Project_HKL.Cyber_Craft.items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+public class ItemBase extends Item
+{
+    public ItemBase()
+    {
+        super(new Item.Properties().group(ItemGroup.MATERIALS));
+    }
+}
+</code></pre>
+<p><code>en_us.json</code></p>
+<pre><code class="lang-auto">{
+  "item.cybercraft.copper_ingot": "Copper Ingot"
+}
+</code></pre>
+<p><code>zh_cn.json</code></p>
+<pre><code class="lang-auto">{
+  "item.cybercraft.copper_ingot": "铜锭"
+}
+</code></pre>
+<p><code>copper_ingot.json</code></p>
+<pre><code class="lang-auto">{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "cybercraft:items/copper_ingot"
+  }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>以后请把所有的错误日志都贴上来，不要自作主张的截取日志</li>
+<li>补充一下你的<code>asserts</code>文件夹展开后的截图。</li>
+<li>看你的日志和你发的游戏截图，好像是modid不一致导致的问题，你检查一下你代码中的modid，assets文件夹下的modid为名字的文件夹，还有你各个文件里的modid，这几个modid对应不对应的上。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢，确实是模组ID的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

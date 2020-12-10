@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>使用1.15后的新渲染代码翻转玩家模型后手持物品渲染异常&无法调整光照角度</title>
+</head>
+<body>
+    <div class="title"><h1>使用1.15后的新渲染代码翻转玩家模型后手持物品渲染异常&无法调整光照角度</h1></div>
+    <div class="post-user" class="user"><h4>LucunJi</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+系统：Win10 x64<br>
+JDK: jdk1.8.0_251 x64<br>
+IDE：IntelliJ IDEA<br>
+IDE 版本: 2019.3 x64<br>
+Fabric 版本:  0.9.1-build205<br>
+Minecraft 版本: 1.15.2，1.16.1，1.16.2<br>
+Mapping 文件版本: yarn:1.16.1+build.21:v2</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba.jpeg" data-download-href="../uploads/default/6ec7339aa1d227d16ebf04f92c258a4d86e78cba" title="2020-08-27_18.16.07"><img src="../uploads/default/optimized/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba_2_690x359.jpeg" alt="2020-08-27_18.16.07" data-base62-sha1="fNZjaq4yuYJdOEUs98TZROzllTc" width="690" height="359" srcset="../uploads/default/optimized/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba_2_690x359.jpeg, ../uploads/default/optimized/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba_2_1035x538.jpeg 1.5x, ../uploads/default/optimized/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba_2_1380x718.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/6ec7339aa1d227d16ebf04f92c258a4d86e78cba_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-08-27_18.16.07</span><span class="informations">1920×1001 1.06 MB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702.jpeg" data-download-href="../uploads/default/51367ce1b6a30f8bd2bdd95cda029c362c549702" title="2020-08-27_18.16.19"><img src="../uploads/default/optimized/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702_2_690x359.jpeg" alt="2020-08-27_18.16.19" data-base62-sha1="bArpIbun2lHecpCvlUmrdZ2LnVg" width="690" height="359" srcset="../uploads/default/optimized/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702_2_690x359.jpeg, ../uploads/default/optimized/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702_2_1035x538.jpeg 1.5x, ../uploads/default/optimized/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702_2_1380x718.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/51367ce1b6a30f8bd2bdd95cda029c362c549702_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-08-27_18.16.19</span><span class="informations">1920×1001 1.01 MB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+这个 mod 是用来在屏幕上渲染一个玩家的模型，用来充当 Live2D 的效果。<br>
+直接借用了玩家背包里那个小人的渲染代码。<br>
+Mixin的注入位置，无论版本都是 <code>net.minecraft.client.render.GameRenderer</code> 的 <code>@Inject(method = "render(FJZ)V", at = @At(value = "RETURN"))</code></p>
+<p>在 1.14.4 的时候通过 <code>GlStateManager.scaled(size * (mirror ? 1 : -1), size, size);</code>来调节镜像和大小，并且通过这三行代码来调整光照角度：</p>
+<pre><code class="lang-java">GlStateManager.rotated(lightDegree, 0.0F, 1.0F, 0.0F);
+DiffuseLighting.enable();
+GlStateManager.rotated(-lightDegree, 0.0F, 1.0F, 0.0F);
+</code></pre>
+<hr>
+<p>到了 1.15 及后续版本，通过 <code>matrixStack.scale((float) size * (mirror ? 1 : -1), (float) size, (float) size);</code> 调整镜像和大小的时候，一旦 mirror 是 false，scale的第一个参数是负数，玩家本身能较好地翻转，但是手持物品渲染异常（图中的斧子、信标）。<br>
+而且无法通过先旋转，打开 <code>DiffuseLighting</code>，再反向旋转的方式修改光照角度。</p>
+<p><strong>相关代码</strong><br>
+完整的代码可以在 <a href="https://github.com/LucunJi/ExtraPlayerRenderer/tree/1.14.4-fabric" class="inline-onebox" rel="nofollow noopener">GitHub - LucunJi/ExtraPlayerRenderer at 1.14.4-fabric</a> （没有这个问题的1.14.4）和 <a href="https://github.com/LucunJi/ExtraPlayerRenderer/tree/1.16.1-fabric" class="inline-onebox" rel="nofollow noopener">GitHub - LucunJi/ExtraPlayerRenderer at 1.16.1-fabric</a> （1.15后开发进度最靠前的版本）看到。</p>
+<p>在 1.14.4 的时候的代码：<br>
+<code>PlayerHUD.java</code></p>
+<pre><code class="lang-java">public class PlayerHUD extends DrawableHelper {
+    private static final MinecraftClient client  = MinecraftClient.getInstance();
+
+    public void render(int ticks) {
+        int scaledWidth = client.window.getScaledWidth();
+        int scaledHeight = client.window.getScaledHeight();
+
+        PlayerEntity player;
+        if (Configs.SPECTATOR_AUTO_SWITCH.getBooleanValue()) {
+            Entity cameraEntity = MinecraftClient.getInstance().getCameraEntity();
+            if (cameraEntity instanceof PlayerEntity &amp;&amp; !cameraEntity.isSpectator()) {
+                player = (PlayerEntity)MinecraftClient.getInstance().getCameraEntity();
+            } else {
+                return;
+            }
+        } else {
+            player = client.world.getPlayers().stream().filter(p -&gt; p.getName().getString().equals(Configs.PLAYER_NAME.getStringValue())).findFirst().orElse(client.player);
+        }
+
+        double posX = Configs.OFFSET_X.getDoubleValue() * scaledWidth;
+        double posY = Configs.OFFSET_Y.getDoubleValue() * scaledHeight;
+        double size = Configs.SIZE.getDoubleValue() * scaledHeight;
+        boolean mirror = Configs.MIRROR.getBooleanValue();
+
+        if (player.isInSneakingPose()) posY += Configs.SNEAKING_OFFSET_Y.getDoubleValue();
+        if (player.isFallFlying()) posY += Configs.ELYTRA_OFFSET_Y.getDoubleValue();
+
+        double lightDegree = Configs.LIGHT_DEGREE.getDoubleValue();
+
+        GlStateManager.enableColorMaterial();
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.translated(posX, posY, 50.0F);
+            GlStateManager.scaled(size * (mirror ? 1 : -1), size, size);
+            GlStateManager.rotated(180.0F, 0.0F, 0.0F, 1.0F);
+
+            float bodyYaw = player.field_6283;
+            float yaw = player.yaw;
+            float pitch = player.pitch;
+            float prevHeadYaw = player.prevHeadYaw;
+            float headYaw = player.headYaw;
+            float handSwingProgress = player.handSwingProgress;
+            float horizontalSpeed = player.horizontalSpeed;
+            int hurtTime = player.hurtTime;
+
+            GlStateManager.rotated(lightDegree, 0.0F, 1.0F, 0.0F);
+            DiffuseLighting.enable();
+            GlStateManager.rotated(-lightDegree, 0.0F, 1.0F, 0.0F);
+
+            player.field_6283 = (float) MathHelper.clamp(player.field_6283, Configs.BODY_YAW_MIN.getDoubleValue(), Configs.BODY_YAW_MAX.getDoubleValue());
+            player.headYaw = (float) MathHelper.clamp(player.headYaw, Configs.HEAD_YAW_MIN.getDoubleValue(), Configs.HEAD_YAW_MAX.getDoubleValue());
+            player.pitch = (float) (MathHelper.clamp(player.pitch, Configs.PITCH_MIN.getDoubleValue(), Configs.PITCH_MAX.getDoubleValue()) + Configs.PITCH_OFFSET.getDoubleValue());
+            if (Configs.SWING_HANDS.getBooleanValue()) {
+                player.handSwingProgress = player.getHandSwingProgress(client.getTickDelta());
+            } else {
+                player.handSwingProgress = 0;
+            }
+
+            if (!Configs.HURT_FLASH.getBooleanValue()) {
+                player.hurtTime = 0;
+            }
+
+            GlStateManager.rotatef(((float) Configs.ROTATION_X.getDoubleValue()), 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(((float) Configs.ROTATION_Y.getDoubleValue()), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef(((float) Configs.ROTATION_Z.getDoubleValue()), 0.0F, 0.0F, 1.0F);
+
+            GlStateManager.translated(0.0F, 0.0F, 0.0F);
+            EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
+            entityRenderDispatcher.method_3945(180.0F);
+            entityRenderDispatcher.setRenderShadows(false);
+            entityRenderDispatcher.render(player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0f, true);
+            entityRenderDispatcher.setRenderShadows(true);
+
+            player.field_6283 = bodyYaw;
+            player.yaw = yaw;
+            player.pitch = pitch;
+            player.prevHeadYaw = prevHeadYaw;
+            player.headYaw = headYaw;
+            player.handSwingProgress = handSwingProgress;
+            player.hurtTime = hurtTime;
+            player.horizontalSpeed = horizontalSpeed;
+        }
+
+        GlStateManager.popMatrix();
+        DiffuseLighting.disable();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.activeTexture(GLX.GL_TEXTURE1);
+        GlStateManager.disableTexture();
+        GlStateManager.activeTexture(GLX.GL_TEXTURE0);
+    }
+}
+</code></pre>
+<p>1.15以后的代码（这里是1.16.1，1.15.2/1.16.2也一样）<br>
+<code>PlayerHUD.java</code></p>
+<pre><code class="lang-java">public class PlayerHUD extends DrawableHelper {
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+
+    public void render(int ticks) {
+        PlayerEntity player;
+        if (Configs.SPECTATOR_AUTO_SWITCH.getBooleanValue()) {
+            Entity cameraEntity = MinecraftClient.getInstance().getCameraEntity();
+            if (cameraEntity instanceof PlayerEntity &amp;&amp; !cameraEntity.isSpectator()) {
+                player = (PlayerEntity)MinecraftClient.getInstance().getCameraEntity();
+            } else {
+                return;
+            }
+        } else {
+            player = client.world.getPlayers().stream().filter(p -&gt; p.getName().getString().equals(Configs.PLAYER_NAME.getStringValue())).findFirst().orElse(client.player);
+        }
+
+        int scaledWidth = client.getWindow().getScaledWidth();
+        int scaledHeight = client.getWindow().getScaledHeight();
+        double posX = Configs.OFFSET_X.getDoubleValue() * scaledWidth;
+        double posY = Configs.OFFSET_Y.getDoubleValue() * scaledHeight;
+        if (player.isInSneakingPose()) posY += Configs.SNEAKING_OFFSET_Y.getDoubleValue();
+        if (player.isFallFlying()) posY += Configs.ELYTRA_OFFSET_Y.getDoubleValue();
+        double size = Configs.SIZE.getDoubleValue() * scaledHeight;
+        boolean mirror = Configs.MIRROR.getBooleanValue();
+
+        RenderSystem.pushMatrix();
+        {
+            RenderSystem.translatef((float) posX, (float) posY, 1050.0F);
+            RenderSystem.scalef(1.0F, 1.0F, -1.0F);
+            MatrixStack matrixStack = new MatrixStack();
+            matrixStack.translate(0.0D, 0.0D, 2000.0D);
+            matrixStack.scale((float) size * (mirror ? 1 : -1), (float) size, (float) size);
+            Quaternion quaternion = Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+            Quaternion quaternion2 = Vector3f.POSITIVE_X.getDegreesQuaternion(0);
+            quaternion.hamiltonProduct(quaternion2);
+            matrixStack.multiply(quaternion);
+
+            matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion((float)Configs.ROTATION_X.getDoubleValue()));
+            matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((float)Configs.ROTATION_Y.getDoubleValue()));
+            matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion((float)Configs.ROTATION_Z.getDoubleValue()));
+
+            float bodyYaw = player.bodyYaw;
+            float yaw = player.yaw;
+            float pitch = player.pitch;
+            float prevHeadYaw = player.prevHeadYaw;
+            float headYaw = player.headYaw;
+            float handSwingProgress = player.handSwingProgress;
+            int hurtTime = player.hurtTime;
+            EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
+
+            player.bodyYaw = 180 - (float) MathHelper.clamp(player.bodyYaw, Configs.BODY_YAW_MIN.getDoubleValue(), Configs.BODY_YAW_MAX.getDoubleValue());
+            player.headYaw = 180 - (float) MathHelper.clamp(player.headYaw, Configs.HEAD_YAW_MIN.getDoubleValue(), Configs.HEAD_YAW_MAX.getDoubleValue());
+            player.pitch = (float) (MathHelper.clamp(player.pitch, Configs.PITCH_MIN.getDoubleValue(), Configs.PITCH_MAX.getDoubleValue()) + Configs.PITCH_OFFSET.getDoubleValue());
+
+            if (Configs.SWING_HANDS.getBooleanValue()) {
+                player.handSwingProgress = player.getHandSwingProgress(client.getTickDelta());
+            } else {
+                player.handSwingProgress = 0;
+            }
+
+            if (!Configs.HURT_FLASH.getBooleanValue()) {
+                player.hurtTime = 0;
+            }
+
+            quaternion2.conjugate();
+            entityRenderDispatcher.setRotation(quaternion2);
+            VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+            entityRenderDispatcher.getRenderer(player).render(player, yaw, 1, matrixStack, immediate, 15728880);
+            immediate.draw();
+
+            player.bodyYaw = bodyYaw;
+            player.yaw = yaw;
+            player.pitch = pitch;
+            player.prevHeadYaw = prevHeadYaw;
+            player.headYaw = headYaw;
+            player.handSwingProgress = handSwingProgress;
+            player.hurtTime = hurtTime;
+        }
+        RenderSystem.popMatrix();
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我对Fabric不是很熟悉，其实我对渲染这块也是一知半解（逃<br>
+以我Forge的经验来说，物品渲染器里应该自带光照的参数的。<br>
+另外1.15之后的<code>DiffuseLighting</code>应该也在<code>RenderSystem</code>里了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何使用item_handler_capability在玩家身上储存物品</title>
+</head>
+<body>
+    <div class="title"><h1>如何使用item_handler_capability在玩家身上储存物品</h1></div>
+    <div class="post-user" class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你是用的JDK: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.4<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200904</p>
+<p><strong>情况简述</strong><br>
+要制作直接用快捷键唤出的背包，不依赖于itemstack、tileentity，自己捣鼓了很久，物品一直无法保存，关闭gui再次打开后物品就会消失。<br>
+在提问区看到一个帖子上说可以使用ITEM_HANDLER_CAPABILITY将物品保存在玩家身上，但是不知道具体如何操作，要在何地调用能力，又要怎样才能保存物品。<br>
+想请问有没有相关的例子可以学习。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我有点不理解不用<code>IteamStack</code>是什么意思。<br>
+顺便你这个需求其实就是原版的末影箱啊，你需要把打开GUI那一部分和快捷键绑定就行了……其他的Capability的内容抄末影箱就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>在backpack模组中将物品信息保存在背包ItemStack的tag中。<br>
+谢谢了，我去学习一下</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>最近上班有点忙，都没有什么时间研究学习，所以拖得有点久了。<br>
+末影箱的物品保存通过PlayerEntity中的writeAdditional和readAdditional调用了末影箱Inventory中的write和read，但是如何让我自制inventory中的内容被保存呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你给玩家attach上一个新的capability，然后在那个capability里存物品不就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>对，就是这里不会，有什么例子吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/capability/attachcapabilityprovider.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/capability/attachcapabilityprovider.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/capability/attachcapabilityprovider.html" target="_blank" rel="noopener">附加能力提供器 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢，问题已经解决了，因为之前看到可以用ITEM_HANDLER_CAPABILITY来进行物品储存，导致我一直执着于使用这个能力和ItemStackHandler来完成目标，忘了还可以自制能力。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

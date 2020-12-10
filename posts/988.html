@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何动态的显示按钮图标</title>
+</head>
+<body>
+    <div class="title"><h1>如何动态的显示按钮图标</h1></div>
+    <div class="post-user" class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你用的JDK是: java 1.8.0_271<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2.3<br>
+Forge版本:  35.0.1<br>
+Minecraft版本:1.16.4<br>
+Mapping 文件版本: snapshot 20201028-1.16.3</p>
+<p>我在写我MOD的手册时遇到了问题，如何在手册的主页根据章节来动态的显示章节的按钮？<br>
+比如说我有1个章节，主页上会有1个按钮，2个章节便有2个按钮，如何获取章节的按钮的数量？<br>
+我比较想让按钮的位置自动排布，所以只需要章节类提供材质即可<br>
+若是过程麻烦，给个思路即可</p>
+<p>本人表达能力较差，请多包涵</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>说实话，没怎么看懂你的需求……</p>
+<blockquote>
+<p>如何获取章节的按钮的数量？</p>
+</blockquote>
+<p>这个不是你定的吗，章节数量不是你自己就能定下来的吗……还是说你要数据驱动？</p>
+<p>说实话手册还是建议直接用 Patchouli 吧……<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/Vazkii/Patchouli" target="_blank" rel="noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/e08034efa1c854359f08c93579944e6572998819.png" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/Vazkii/Patchouli" target="_blank" rel="noopener">Vazkii/Patchouli</a></h3>
+
+<p>Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and Pack Makers - Vazkii/Patchouli</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>这倒是没错，但是如果我有新建章节的需求，我更希望它可以自己完成一些事情，而不是我手动再去修改章节的数量</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那你要的就是数据驱动喽，Patchouli 就是数据驱动（Data-Driven）的啊……</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>那我会去翻看Patchouli的代码的，多谢您的回答，即便未能解答我的疑惑</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>你只需要去看它的wiki就行了，把它当做黑箱就行。<br>
+用了之后你就会发现，帕秋莉老好用了</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>请不要再回复帕秋莉了，我需要的手册类似于神秘时代的魔导书一样，可以帮助玩家解锁模组内容的</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>请不要再回复帕秋莉了，我需要的手册类似于神秘时代的魔导书一样，可以帮助玩家解锁模组内容的</p>
+</blockquote>
+<p>Patchouli 也支持啊……<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/Vazkii/Patchouli/wiki/Locking-Content-with-Advancements" target="_blank" rel="noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="../uploads/default/original/1X/e08034efa1c854359f08c93579944e6572998819.png" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/Vazkii/Patchouli/wiki/Locking-Content-with-Advancements" target="_blank" rel="noopener">Vazkii/Patchouli</a></h3>
+
+<p>Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and Pack Makers - Vazkii/Patchouli</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>不止如此，那只是个举例，况且自己写一个GUI可以锻炼我的技巧</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得你的能力完全可以用在一些更加有意义的GUI上面，而不是重新造轮子</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>所以说我已经放弃了这个复杂的方法，转而使用一个目录来记录所有的章节</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何实现类似 `跳斩` 的人物攻击动作</title>
+</head>
+<body>
+    <div class="title"><h1>如何实现类似 `跳斩` 的人物攻击动作</h1></div>
+    <div class="post-user" class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统： <strong>Windows10 64位系统</strong><br>
+你用的JDK是: <strong>jdk-1.8.0_181</strong><br>
+你使用的IDE： <strong>IntelliJ IDEA</strong><br>
+你使用的IDE版本: <strong>2019.3.3 x64</strong><br>
+Forge版本:  <strong>1.16.3-34.1.0</strong><br>
+Minecraft版本: <strong>1.16.3</strong><br>
+Mapping 文件版本: <strong>20200916-1.16.2</strong></p>
+<h1>问题描述</h1>
+<p>如题，如何实现类似 ‘跳斩’ 的人物攻击动作：</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/75d15a07b825a2a49fa63ea7ae312f2163ef0a6a.png" data-download-href="../uploads/default/75d15a07b825a2a49fa63ea7ae312f2163ef0a6a" title="图片"><img src="../uploads/default/original/1X/75d15a07b825a2a49fa63ea7ae312f2163ef0a6a.png" alt="图片" data-base62-sha1="gOgoFInexfESz8YsO7PfCjpuy2C" width="517" height="264" data-small-upload="../uploads/default/optimized/1X/75d15a07b825a2a49fa63ea7ae312f2163ef0a6a_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">图片</span><span class="informations">825×423 1.59 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>我想了想在原版mc中， “激流” 附魔 的三叉戟在水中长按右键时有个向前突进的动作，便去翻来看看：</p>
+<p><em><code>TridentItem</code> 中相关突进动作的代码：</em></p>
+<pre><code class="lang-java">float f7 = playerentity.rotationYaw;
+float f = playerentity.rotationPitch;
+float f1 = -MathHelper.sin(f7 * (float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
+float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F));
+float f3 = MathHelper.cos(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
+float f4 = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
+float f5 = 3.0F * ((1.0F + (float)j) / 4.0F);
+f1 = f1 * (f5 / f4);
+f2 = f2 * (f5 / f4);
+f3 = f3 * (f5 / f4);
+playerentity.addVelocity((double)f1, (double)f2, (double)f3);
+playerentity.startSpinAttack(20);
+if (playerentity.isOnGround()) {
+    float f6 = 1.1999999F;
+    playerentity.move(MoverType.SELF, new Vector3d(0.0D, (double)1.1999999F, 0.0D));
+}
+
+SoundEvent soundevent;
+if (j &gt;= 3) {
+    soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_3;
+} else if (j == 2) {
+    soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_2;
+} else {
+    soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
+}
+
+worldIn.playMovingSound((PlayerEntity)null, playerentity, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);rEntity)null, playerentity, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+</code></pre>
+<p>发现这一动作只是短时间向一方向增速，并不是预想中的动作。<br>
+有没有可以参考的mod</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以给玩家一个斜向上的速度，玩家在下落的时候，自然就是有落地暴击感觉了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Guy_Z</h4></div>
+    <br />
+    <div class="post">
+        <p>有这样做过，效果不太好，这样的动作更像是被抛上天的感觉</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>想不出什么更好的办法。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>能不能斜上加速，几秒后再给一个向下的速度，就有一种劈的感觉了</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>自己订阅TickEvent，实现一个计划刻列表。或者使用EffectInstance，在里面写逻辑。</p>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/Snownee/Kiwi/blob/1.16/src/main/java/snownee/kiwi/schedule/Scheduler.java" target="_blank" rel="noopener nofollow ugc">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/Snownee/Kiwi/blob/1.16/src/main/java/snownee/kiwi/schedule/Scheduler.java" target="_blank" rel="noopener nofollow ugc">Snownee/Kiwi/blob/1.16/src/main/java/snownee/kiwi/schedule/Scheduler.java</a></h4>
+<pre><code class="lang-java">package snownee.kiwi.schedule;
+
+import java.util.Iterator;
+import java.util.Map;
+
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+</code></pre>
+
+  This file has been truncated. <a href="https://github.com/Snownee/Kiwi/blob/1.16/src/main/java/snownee/kiwi/schedule/Scheduler.java" target="_blank" rel="noopener nofollow ugc">show original</a>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+第一种的参考。
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>我添加了一个投掷物，可以投掷出去且有效果，但是不显示材质。</title>
+</head>
+<body>
+    <div class="title"><h1>我添加了一个投掷物，可以投掷出去且有效果，但是不显示材质。</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10，64位系统<br>
+你是用的JDK：1.8.0_162 ，64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2019.3.2.0<br>
+Forge版本：  forge-31.1.0<br>
+Minecraft版本：1.15.2</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03.gif" data-download-href="../uploads/default/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03" title="无法显示材质4"><img src="../uploads/default/optimized/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03_2_690x387.gif" alt="无法显示材质4" data-base62-sha1="2NDmLJLYYbsNTxsPOQsFHTNfBD5" width="690" height="387" srcset="../uploads/default/optimized/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03_2_690x387.gif, ../uploads/default/original/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03.gif 1.5x, ../uploads/default/original/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03.gif 2x" data-small-upload="../uploads/default/optimized/1X/13a0b2dc3c49ae0bd62c4f08e72c0e8da7e29c03_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">无法显示材质4</span><span class="informations">854×480 2.95 MB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+我之前按照教程，尝试添加了一个投掷物的实体，并且确定弄好了材质，但是我在游戏中测试的时候，发现该物品可以进行投掷，并且会产生效果，但是投掷出去变成实体后，却看不到材质了，我也不知道应该如何解决。（说明：原版投掷物可正常显示材质）</p>
+<p><strong>相关代码</strong><br>
+实体主文件：GasolineCan.java</p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity.GasolineCan;
+
+import com.specialitem.specialitem.items.ModItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.BlazeEntity;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ItemParticleData;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+public class ThrownGasolineCan extends ProjectileItemEntity {
+
+    public ThrownGasolineCan(World worldIn, LivingEntity throwerIn) {
+        super(GasolineCanHelper.THROWN_GASOLINE_CAN, throwerIn, worldIn);
+    }
+
+    public ThrownGasolineCan(World world) {
+        super(GasolineCanHelper.THROWN_GASOLINE_CAN, world);
+    }
+
+    public Item func_213885_i() {
+        return ModItems.gasolineCan;
+    }
+
+    @Override
+    public void tick() {
+        if (this.world.isRemote  &amp;&amp; this.isAlive()) {
+            for(int i = 0; i &lt; 2; ++i) {
+                this.world.addParticle(ParticleTypes.FLAME,
+                        this.func_226282_d_(0.5D),
+                        this.func_226279_cv_() - 0.25D,
+                        this.func_226287_g_(0.5D),
+                        (this.rand.nextDouble() - 0.5D) * 2.0D,
+                        -this.rand.nextDouble(),
+                        (this.rand.nextDouble() - 0.5D) * 2.0D);
+            }
+
+        }
+        super.tick();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private IParticleData func_213887_n() {
+        ItemStack itemstack = this.func_213882_k();
+        return itemstack.isEmpty() ? ParticleTypes.FLAME : new ItemParticleData(ParticleTypes.ITEM, itemstack);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if (id == 3) {
+            IParticleData iparticledata = this.func_213887_n();
+
+            for(int i = 0; i &lt; 8; ++i) {
+                this.world.addParticle(iparticledata, this.func_226277_ct_(), this.func_226278_cu_(), this.func_226281_cx_(), 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+    }
+
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult)result).getEntity();
+            int i = entity instanceof BlazeEntity ? 3 : 0;
+            entity.attackEntityFrom(DamageSource.netherBedExplosion(), (float)i);
+            entity.world.createExplosion(null,DamageSource.netherBedExplosion(),
+                    entity.getPosition().getX(),entity.getPosition().getY(),entity.getPosition().getZ(),
+                    3.0F,true, Explosion.Mode.NONE);
+        }
+
+        if (!this.world.isRemote) {
+            world.createExplosion(null,DamageSource.netherBedExplosion(),
+                    getPosition().getX(),getPosition().getY(),getPosition().getZ(),
+                    3.0F,true, Explosion.Mode.NONE);
+            this.world.setEntityState(this, (byte)3);
+            this.remove();
+        }
+
+    }
+
+}
+</code></pre>
+<p>实体渲染文件：GasolineCanRenderer.java</p>
+<pre><code class="lang-auto">package com.specialitem.specialitem.entity.GasolineCan;
+
+import com.specialitem.specialitem.SpecialItem;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class GasolineCanRenderer extends EntityRenderer&lt;ThrownGasolineCan&gt; {
+    private static final ResourceLocation TEXTURES = new ResourceLocation(SpecialItem.MODID,"textures/entity/thrown_gasoline_can.png");
+
+    public GasolineCanRenderer(EntityRendererManager renderManager) {
+        super(renderManager);
+    }
+
+    @Override
+    public ResourceLocation getEntityTexture(ThrownGasolineCan entity) {
+        return TEXTURES;
+    }
+}
+</code></pre>
+<p>RegistryHandler.java里的相关的注册信息：</p>
+<pre><code class="lang-auto">        Event.getRegistry().register(EntityType.Builder.create((entityEntityType, world) -&gt; new ThrownGasolineCan(world), EntityClassification.MISC)
+                .size(0.5F, 0.5F)
+                .build("thrown_gasoline_can")
+                .setRegistryName(SpecialItem.MODID, "thrown_gasoline_can"));
+</code></pre>
+<p>随便一个原版投掷物的代码（这个是雪球的代码）：</p>
+<pre><code class="lang-auto">package net.minecraft.entity.projectile;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.BlazeEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ItemParticleData;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+public class SnowballEntity extends ProjectileItemEntity {
+   public SnowballEntity(EntityType&lt;? extends SnowballEntity&gt; p_i50159_1_, World p_i50159_2_) {
+      super(p_i50159_1_, p_i50159_2_);
+   }
+
+   public SnowballEntity(World worldIn, LivingEntity throwerIn) {
+      super(EntityType.SNOWBALL, throwerIn, worldIn);
+   }
+
+   public SnowballEntity(World worldIn, double x, double y, double z) {
+      super(EntityType.SNOWBALL, x, y, z, worldIn);
+   }
+
+   protected Item func_213885_i() {
+      return Items.SNOWBALL;
+   }
+
+   @OnlyIn(Dist.CLIENT)
+   private IParticleData func_213887_n() {
+      ItemStack itemstack = this.func_213882_k();
+      return (IParticleData)(itemstack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemParticleData(ParticleTypes.ITEM, itemstack));
+   }
+
+   /**
+    * Handler for {@link World#setEntityState}
+    */
+   @OnlyIn(Dist.CLIENT)
+   public void handleStatusUpdate(byte id) {
+      if (id == 3) {
+         IParticleData iparticledata = this.func_213887_n();
+
+         for(int i = 0; i &lt; 8; ++i) {
+            this.world.addParticle(iparticledata, this.func_226277_ct_(), this.func_226278_cu_(), this.func_226281_cx_(), 0.0D, 0.0D, 0.0D);
+         }
+      }
+
+   }
+
+   /**
+    * Called when this EntityThrowable hits a block or entity.
+    */
+   protected void onImpact(RayTraceResult result) {
+      if (result.getType() == RayTraceResult.Type.ENTITY) {
+         Entity entity = ((EntityRayTraceResult)result).getEntity();
+         int i = entity instanceof BlazeEntity ? 3 : 0;
+         entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)i);
+      }
+
+      if (!this.world.isRemote) {
+         this.world.setEntityState(this, (byte)3);
+         this.remove();
+      }
+
+   }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的模型文件呢?</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>物品实体好像是不需要模型文件的。。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>不是立体的实体好像不需要模型文件。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有显示材质就两种情况:</p>
+<ol>
+<li>没有渲染模型</li>
+<li>你只在服务端创建了实体,在客户端没有创建实体.</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>可以解释一下第二点吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我看你在客户端试图调用<code>addParticle</code>生成火焰粒子效果,但是实际上你的图里面没有这个粒子效果.<br>
+你应该考虑一下你的实体有没有在客户端创建.<br>
+自己在Tick下断点调试一下,看见有没有在客户端执行,如果没有说明你的实体就没有在客户端创建.<br>
+<a href="https://neutrino.v2mcdev.com/introducation/vanilla.html" class="onebox" target="_blank">https://neutrino.v2mcdev.com/introducation/vanilla.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>而且你都创建<code>EntityRenderer</code>并没有渲染模型,那你相当于什么东西都没有渲染.</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>而且你好像也没有写渲染绑定的代码,总之问题非常多.你还是先把基础的实体先弄清楚再说吧.<br>
+<a href="https://neutrino.v2mcdev.com/entity/scratchentity.html" class="onebox" target="_blank">https://neutrino.v2mcdev.com/entity/scratchentity.html</a></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>应该不是模型的问题，对比了一下代码，材质是直接利用物品本身的材质，我翻看了一下原版的实体模型的目录，也没有有关于投掷物的模型，只有立体类实体的模型。估计是在客户端没有创建实体。此外，我添加生物的时候，生物是立体的实体，能够正常显示材质。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>确实，那你为什么要自定义Render呢？原版的鸡蛋雪球什么的直接用的是<code>SpriteRenderer</code>啊。<br>
+你可以看一下原版的<code>EntityRendererManager</code>这个类，原版的所有实体的Render都在这里注册。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我看了一下原版的EntityRendererManager.class这个类，发现里面的字段是private的，是不是要用AT来把它们修改成public啊？不然没办法用SpriteRenderer。</p>
+<pre><code class="lang-auto">   private void func_229097_a_(net.minecraft.client.renderer.ItemRenderer p_229097_1_, IReloadableResourceManager p_229097_2_) {
+      this.func_229087_a_(EntityType.AREA_EFFECT_CLOUD, new AreaEffectCloudRenderer(this));
+      this.func_229087_a_(EntityType.ARMOR_STAND, new ArmorStandRenderer(this));
+      this.func_229087_a_(EntityType.ARROW, new TippedArrowRenderer(this));
+      this.func_229087_a_(EntityType.BAT, new BatRenderer(this));
+      .....以下省略......
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java">public static void onClientSetUpEvent(FMLClientSetupEvent event) {
+RenderingRegistry.registerEntityRenderingHandler(EntityTypeRegistry.flyingSwordEntity.get(), 
+    (EntityRendererManager manager) -&gt; {
+        return new FlyingSwordRender(manager);
+});
+}
+</code></pre>
+<p>我的意思是，这里不是调用<code>RenderingRegistry.registerEntityRenderingHandler</code>注册嘛，你把<code>EntityTypeRegistry.flyingSwordEntity.get()</code>换成你自己的实体，把<code>FlyingSwordRender</code>换成<code>SpriteRenderer</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我照着你的方法改了，但是还是存在问题：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925.png" data-download-href="../uploads/default/b564c55d25be4b63dafe0ba3fdf4933dc08d0925" title="QQ截图20200714153454"><img src="../uploads/default/optimized/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925_2_690x66.png" alt="QQ截图20200714153454" data-base62-sha1="pSGk1jdy1sFzn1Z7AfZfHD68Fx3" width="690" height="66" srcset="../uploads/default/optimized/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925_2_690x66.png, ../uploads/default/original/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925.png 1.5x, ../uploads/default/original/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925.png 2x" data-small-upload="../uploads/default/optimized/1X/b564c55d25be4b63dafe0ba3fdf4933dc08d0925_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200714153454</span><span class="informations">924×89 12.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我看了一下<code>SpriteRenderer</code>有两个构造参数，第一个参数就你填的没错，第二个参数我觉得你可以试试<code>Minecraft.getInstance().getItemRenderer()</code>。<br>
+根据你写的，你写的实体也也是错的，应该是<code>GasolinCanHelper.THROWN_GAOSOLINE_CAN.get()</code>吧。<br>
+最后，以后代码不要发图片，请直接贴上来。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>是这样子写的吗？</p>
+<pre><code class="lang-auto">RenderingRegistry.registerEntityRenderingHandler(GasolineCanHelper.THROWN_GASOLINE_CAN.getClass(),(EntityRendererManager manager) -&gt; new Minecraft.getInstance().getItemRenderer());
+</code></pre>
+<p>但如果这样子写的话，<code>getInstance()</code>部分会显示红色，并且会提示：<br>
+<code>Cannot resolve symbol'getInstance()'</code><br>
+而且，在我输入<code>Minecraft().</code>之后，并没有显示<code>getInstance()</code>的选项：<br>
+<img src="../uploads/default/original/1X/80c6681fad98cb7234ec477ef27c1ca2d9310d39.png" alt="Snipaste_2020-07-14_20-50-45" data-base62-sha1="inccrqrcsRwrBAoWHfI43GGdBRn" width="669" height="344"><br>
+然而我去翻看<code>Minecraft.java</code>的时候，发现了如下的代码：</p>
+<pre><code class="lang-auto">   public static Minecraft getInstance() {
+      return instance;
+   }
+</code></pre>
+<p>说明是可以用的。</p>
+<p>还没完，输入<code>Minecraft()</code>后，括号里面还要填写<code>"gameConfig"</code>，然而这个<code>"gameConfig"</code>又要牵涉到一大堆的东西。。。</p>
+<pre><code class="lang-auto">public Minecraft(GameConfiguration gameConfig) {
+.....省略一大堆代码.....
+}
+</code></pre>
+<p>所以，我是不是有什么地方搞错了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>……Minecraft类你new它干嘛，<code>getInstance</code>写的很清楚了啊，这是个静态方法。<br>
+请先好好学编程吧，不要通过写mod来学编程。<br>
+<aside class="quote quote-modified" data-post="1" data-topic="88">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/88">Minecraft mod 开发编程入门</a> <a class="badge-wrapper  bullet" href="/c/9-category/9"><span class="badge-category-bg" style="background-color: #9EB83B;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是发布各种模组相关开发教程的地方。
+如果是转载，必须声明原文链接，而且你不能转载全文。
+如果是自制，在默认情况下本分类下的所有自制内容以以下许可证发布。
+这里不能发布任何教Java的帖子，因为学习编程是一件非常严肃的事情，看帖子学习不是一个好的方法。
+署名-非商业性使用-相同方式共享
+CC BY-NC-SA">模组开发教程</span></a>
+  </div>
+  <blockquote>
+    第一件事，你得确认你真的需要写 Mod 吗，你尝试过用原版的知识解决问题吗，你尝试和别人合作过吗？如果你真的确认你要学习如何写 Mod 那么请继续读下去。 
+我在这里所推荐的基本是国外内容，学习编程的第一个要点「英文世界的内容普遍比中文世界优秀」。 
+
+基础技能（必学）
+
+学好英文，从用任何<a href="https://apps.ankiweb.net/">背单词的软件</a>每日背一百个新词开始，如果你连是连音标都不怎么会的水平<a href="https://item.jd.com/52574624202.html">「赖世雄美语从头学」</a>是最好的入门。
+你不可…
+  </blockquote>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>另外在创建实体类并注册时，有几个刷新率的参数(记得专业名词叫Tracking？)会影响到实体是否会显示，即使没有材质的抛射物也会显示一个相应大小的白色六方体</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="kabuki_45" data-post="18" data-topic="600">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/kabuki_45" class="avatar"> kabuki_45:</div>
+<blockquote>
+<p>得专业名词叫Tracking？)会影响到实体是否会显示，即使没有材质的抛射物也会显示一个相应大小的白色六方体</p>
+</blockquote>
+</aside>
+<p>我不知道你在说什么……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

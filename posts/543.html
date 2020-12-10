@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎样在TileEntityRenderer中使用ModelRenderer渲染模型</title>
+</head>
+<body>
+    <div class="title"><h1>怎样在TileEntityRenderer中使用ModelRenderer渲染模型</h1></div>
+    <div class="post-user" class="user"><h4>宏楼</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1.2<br>
+Forge版本:  31.2.5<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3.png" data-download-href="../uploads/default/bc7db8561b611f74de189d1ea38e9e002d70bec3" title="image"><img src="../uploads/default/optimized/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3_2_690x441.png" alt="image" data-base62-sha1="qTt7lhlgbVd6f875dW7C7AwSyjh" width="690" height="441" srcset="../uploads/default/optimized/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3_2_690x441.png, ../uploads/default/original/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3.png 1.5x, ../uploads/default/original/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3.png 2x" data-small-upload="../uploads/default/optimized/1X/bc7db8561b611f74de189d1ea38e9e002d70bec3_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">920×588 214 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+我想在TER中渲染一个长方体模型，模型可以显示，但贴图始终没有显示，模型是中间的那个黑色的。</p>
+<pre><code class="lang-auto">**相关代码**
+    private final ModelRenderer strainer;
+    ......
+    @Override
+    public void render(WaterFilterUpTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        matrixStackIn.push();
+        //Render strainer
+        tileEntityIn.getStrainer().ifPresent(itemStackHandler -&gt; {
+            if (!itemStackHandler.getStackInSlot(0).isEmpty() &amp;&amp; itemStackHandler.getStackInSlot(0).getItem() instanceof StrainerItem){
+                Material material = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(WaterSource.MODID,"entity/strainer/primitive_strainer"));
+                IVertexBuilder ivertexbuilder = material.getBuffer(bufferIn, RenderType::getEntityCutoutNoCull);
+                this.strainer.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn);
+
+            }
+        });
+    }
+</code></pre>
+<pre><code class="lang-auto">    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        if (!event.getMap().getTextureLocation().equals(AtlasTexture.LOCATION_BLOCKS_TEXTURE)) {
+            return;
+        }
+        event.addSprite(new ResourceLocation(WaterSource.MODID,"entity/strainer/primitive_strainer"));
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的代码看上去有点奇怪。这里的<code>Material</code>是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>宏楼</h4></div>
+    <br />
+    <div class="post">
+        <p>net.minecraft.client.renderer.model.Material</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你想渲染的是什么东西？一个物品还是一个方块？<br>
+你这个渲染的方式有点「不同寻常」。</p>
+    </div>
+    <br />
+    <div class="user"><h4>宏楼</h4></div>
+    <br />
+    <div class="post">
+        <p>我想渲染的东西是一个ModelRenderer模型，我参考的是原版箱子和海洋之心的渲染方式。ChestTileEntityRenderer和ConduitTileEntityRenderer</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>让我想想。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Gloridifice" data-post="1" data-topic="543">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Gloridifice" class="avatar"> Gloridifice:</div>
+<blockquote>
+<p><code>"entity/strainer/primitive_strainer"</code></p>
+</blockquote>
+</aside>
+<p>你在这里把<code>.png</code>加上试试。我看了一下原版好像是有加的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>然后我看了一下，你的<code>Material</code>填入的参数好像也有问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>宏楼</h4></div>
+    <br />
+    <div class="post">
+        <p>没有成功</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那我觉得可能就是你<code>Material</code>参数填的有问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

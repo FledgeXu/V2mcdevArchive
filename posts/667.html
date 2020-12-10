@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>生命值和饥饿值都变为空白图像</title>
+</head>
+<body>
+    <div class="title"><h1>生命值和饥饿值都变为空白图像</h1></div>
+    <div class="post-user" class="user"><h4>xx</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 10 家庭版64位<br>
+你是用的JDK: 1.8.0_131 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:IntelliJ IDEA 2020.1.4 (Community Edition)<br>
+Forge版本:  28.2.0<br>
+Minecraft版本: 1.15<br>
+(用了离线包)</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847.jpeg" data-download-href="../uploads/default/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847" title="image"><img src="../uploads/default/optimized/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847_2_690x470.jpeg" alt="image" data-base62-sha1="ph7Dln3eHgok65neMNRewRTmZpB" width="690" height="470" srcset="../uploads/default/optimized/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847_2_690x470.jpeg, ../uploads/default/optimized/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847_2_1035x705.jpeg 1.5x, ../uploads/default/optimized/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847_2_1380x940.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/b125dd12dc801e29ac0f8ba5eacd4d5a585f5847_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1961×1337 680 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+在生存状态下，生命值和饥饿值都变为了空白图像</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">(找mod的日志）
+(注册和初始化的日志(因为超字数了))
+[25七月2020 18:57:19.927] [Server thread/DEBUG] [net.minecraftforge.fml.server.ServerLifecycleHooks/CORE]: Generating PackInfo named mod:servermod for mod file C:\Users\jgyys\Downloads\servermod\build\resources\main
+[25七月2020 18:57:19.928] [Server thread/DEBUG] [net.minecraftforge.fml.server.ServerLifecycleHooks/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\jgyys\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1.jar
+[25七月2020 18:57:19.930] [Server thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, main, forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1.jar
+[25七月2020 18:57:22.640] [Server thread/INFO] [net.minecraft.item.crafting.RecipeManager/]: Loaded 6 recipes
+[25七月2020 18:57:25.454] [Server thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 825 advancements
+[25七月2020 18:57:26.480] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[25七月2020 18:57:27.918] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[25七月2020 18:57:27.919] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[25七月2020 18:57:27.919] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[25七月2020 18:57:28.189] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：0%
+[25七月2020 18:57:28.638] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：48%
+[25七月2020 18:57:31.288] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:31.289] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:31.289] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:31.289] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:31.289] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:31.494] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：83%
+[25七月2020 18:57:32.004] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: 准备生成区域中：99%
+[25七月2020 18:57:32.171] [Render thread/INFO] [net.minecraft.world.chunk.listener.LoggingChunkStatusListener/]: Time elapsed: 5687 ms
+[25七月2020 18:57:32.400] [Server thread/DEBUG] [net.minecraftforge.common.DimensionManager/DIMS]: Queueing dimension -1 to unload
+[25七月2020 18:57:32.744] [Server thread/DEBUG] [net.minecraftforge.common.DimensionManager/DIMS]: Queueing dimension 1 to unload
+[25七月2020 18:57:32.753] [Server thread/DEBUG] [net.minecraftforge.common.DimensionManager/DIMS]: Unloading dimension -1
+[25七月2020 18:57:32.763] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[25七月2020 18:57:32.765] [Server thread/DEBUG] [net.minecraftforge.common.DimensionManager/DIMS]: Unloading dimension 1
+[25七月2020 18:57:32.765] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[25七月2020 18:57:32.773] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Changing view distance to 9, from 10
+[25七月2020 18:57:48.294] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Starting local connection.
+[25七月2020 18:57:49.149] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Starting local connection.
+[25七月2020 18:57:50.053] [Server thread/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Sending ticking packet info 'net.minecraftforge.fml.network.FMLHandshakeMessages$S2CModList' to 'fml:handshake' sequence 0
+[25七月2020 18:57:50.095] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Recieved login wrapper packet event for channel fml:handshake with index 0
+[25七月2020 18:57:50.100] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Logging into server with mod list [minecraft, servermod, forge]
+[25七月2020 18:57:50.105] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:loginwrapper' : Version test of 'FML2' from server : ACCEPTED
+[25七月2020 18:57:50.106] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:handshake' : Version test of 'FML2' from server : ACCEPTED
+[25七月2020 18:57:50.106] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'minecraft:unregister' : Version test of 'FML2' from server : ACCEPTED
+[25七月2020 18:57:50.106] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:play' : Version test of 'FML2' from server : ACCEPTED
+[25七月2020 18:57:50.106] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'minecraft:register' : Version test of 'FML2' from server : ACCEPTED
+[25七月2020 18:57:50.106] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Accepting channel list from server
+[25七月2020 18:57:50.107] [Server thread/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Sending ticking packet info 'Config forge-server.toml' to 'fml:handshake' sequence 1
+[25七月2020 18:57:50.111] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Dispatching wrapped packet reply for channel fml:handshake with index 0
+[25七月2020 18:57:50.112] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Accepted server connection
+[25七月2020 18:57:50.113] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Recieved login wrapper packet event for channel fml:handshake with index 0
+[25七月2020 18:57:50.114] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Received client indexed reply 0 of type net.minecraftforge.fml.network.FMLHandshakeMessages$C2SModListReply
+[25七月2020 18:57:50.114] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Received client connection with modlist [minecraft, servermod, forge]
+[25七月2020 18:57:50.116] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:loginwrapper' : Version test of 'FML2' from client : ACCEPTED
+[25七月2020 18:57:50.116] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:handshake' : Version test of 'FML2' from client : ACCEPTED
+[25七月2020 18:57:50.117] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'minecraft:unregister' : Version test of 'FML2' from client : ACCEPTED
+[25七月2020 18:57:50.117] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'fml:play' : Version test of 'FML2' from client : ACCEPTED
+[25七月2020 18:57:50.117] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Channel 'minecraft:register' : Version test of 'FML2' from client : ACCEPTED
+[25七月2020 18:57:50.117] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.NetworkRegistry/NETREGISTRY]: Accepting channel list from client
+[25七月2020 18:57:50.117] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Accepted client connection mod list
+[25七月2020 18:57:50.123] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/REGISTRIES]: Expecting 19 registries: [minecraft:recipe_serializer, minecraft:sound_event, minecraft:particle_type, minecraft:villager_profession, minecraft:item, minecraft:potion, minecraft:block_entity_type, minecraft:block, minecraft:mob_effect, minecraft:stat_type, forge:moddimensions, minecraft:biome, minecraft:menu, minecraft:enchantment, minecraft:motive, minecraft:feature, minecraft:dataserializers, minecraft:fluid, minecraft:entity_type]
+[25七月2020 18:57:50.124] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Recieved login wrapper packet event for channel fml:handshake with index 1
+[25七月2020 18:57:50.124] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Received config sync from server
+[25七月2020 18:57:50.124] [Netty Local Client IO #0/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Dispatching wrapped packet reply for channel fml:handshake with index 1
+[25七月2020 18:57:50.127] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLLoginWrapper/FMLHANDSHAKE]: Recieved login wrapper packet event for channel fml:handshake with index 1
+[25七月2020 18:57:50.127] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Received client indexed reply 1 of type net.minecraftforge.fml.network.FMLHandshakeMessages$C2SAcknowledge
+[25七月2020 18:57:50.127] [Netty Server IO #1/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Received acknowledgement from client
+[25七月2020 18:57:50.152] [Server thread/DEBUG] [net.minecraftforge.fml.network.FMLHandshakeHandler/FMLHANDSHAKE]: Handshake complete!
+[25七月2020 18:57:50.204] [Netty Local Client IO #0/INFO] [net.minecraftforge.fml.network.NetworkHooks/]: Connected to a modded server.
+[25七月2020 18:57:50.441] [Server thread/INFO] [net.minecraftforge.common.AdvancementLoadFix/]: Using new advancement loading for net.minecraft.advancements.PlayerAdvancements@67607704
+[25七月2020 18:57:50.485] [Server thread/INFO] [net.minecraft.server.management.PlayerList/]: Dev[local:E:79b37536] logged in with entity id 216 at (-264.7726469397654, 68.0, 259.08876308816485)
+[25七月2020 18:57:50.730] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[25七月2020 18:57:52.262] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[25七月2020 18:57:52.329] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'server'/minecraft:overworld
+[25七月2020 18:57:52.582] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 71 advancements
+[25七月2020 18:57:53.749] [Server thread/DEBUG] [net.minecraftforge.fml.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save server
+[25七月2020 18:57:54.029] [Server thread/WARN] [net.minecraft.server.MinecraftServer/]: Can't keep up! Is the server overloaded? Running 3229ms or 64 ticks behind
+[25七月2020 18:59:04.052] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[25七月2020 18:59:04.090] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'server'/minecraft:overworld
+[25七月2020 18:59:04.733] [Server thread/DEBUG] [net.minecraftforge.fml.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save server
+[25七月2020 18:59:22.000] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[25七月2020 18:59:22.027] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'server'/minecraft:overworld
+[25七月2020 18:59:22.347] [Server thread/DEBUG] [net.minecraftforge.fml.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save server
+[25七月2020 18:59:45.400] [Server thread/INFO] [net.minecraft.server.integrated.IntegratedServer/]: Saving and pausing game...
+[25七月2020 18:59:45.414] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'server'/minecraft:overworld
+[25七月2020 18:59:45.663] [Server thread/DEBUG] [net.minecraftforge.fml.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save server
+[25七月2020 18:59:46.218] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Dev lost connection: 连接中止
+[25七月2020 18:59:46.219] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[25七月2020 18:59:46.234] [Server thread/INFO] [net.minecraft.network.play.ServerPlayNetHandler/]: Stopping singleplayer server as player logged out
+[25七月2020 18:59:46.276] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[25七月2020 18:59:46.278] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[25七月2020 18:59:46.278] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[25七月2020 18:59:46.279] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'server'/minecraft:overworld
+[25七月2020 18:59:46.616] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (server): All chunks are saved
+[25七月2020 18:59:46.616] [Server thread/DEBUG] [net.minecraftforge.fml.FMLWorldPersistenceHook/WP]: Gathering id map for writing to world save server
+[25七月2020 18:59:46.634] [Server thread/INFO] [net.minecraft.world.server.ChunkManager/]: ThreadedAnvilChunkStorage (server): All chunks are saved
+[25七月2020 18:59:46.663] [Server thread/DEBUG] [net.minecraftforge.registries.GameData/REGISTRIES]: Reverting to frozen data state.
+[25七月2020 18:59:46.663] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Block Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.668] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Fluid Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.668] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Item Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.672] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Effect Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.673] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Biome Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.673] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry SoundEvent Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.681] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Potion Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.682] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Enchantment Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.682] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry EntityType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.682] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry TileEntityType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.683] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry ParticleType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.683] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry ContainerType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.683] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry PaintingType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.683] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry IRecipeSerializer Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.683] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry StatType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry VillagerProfession Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry PointOfInterestType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry MemoryModuleType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry SensorType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Schedule Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Activity Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry WorldCarver Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry SurfaceBuilder Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Feature Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.684] [Server thread/DEBUG] [net.minecraftforge.registries.ClearableRegistry/REGISTRY]: minecraft:feature: Clearing registry
+[25七月2020 18:59:46.685] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry Placement Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.685] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry BiomeProviderType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.685] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry ChunkGeneratorType Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.685] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry ChunkStatus Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.686] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry ModDimension Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.686] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry DataSerializerEntry Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.686] [Server thread/DEBUG] [net.minecraftforge.registries.ForgeRegistry/REGISTRIES]: Registry GlobalLootModifierSerializer Sync: ACTIVE -&gt; FROZEN
+[25七月2020 18:59:46.783] [Server thread/DEBUG] [net.minecraftforge.registries.ObjectHolderRegistry/REGISTRIES]: Applying holder lookups
+[25七月2020 18:59:46.784] [Server thread/DEBUG] [net.minecraftforge.registries.ObjectHolderRegistry/REGISTRIES]: Holder lookups applied
+[25七月2020 18:59:46.785] [Server thread/DEBUG] [net.minecraftforge.registries.GameData/REGISTRIES]: Frozen state restored.
+[25七月2020 18:59:46.785] [Server thread/DEBUG] [net.minecraftforge.fml.loading.FileUtils/CORE]: Found existing serverconfig directory : .\saves\server\serverconfig
+[25七月2020 18:59:46.785] [Server thread/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Unloading configs type SERVER
+[25七月2020 18:59:47.810] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+
+</code></pre>
+<p><strong>相关代码</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f.png" data-download-href="../uploads/default/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f" title="image"><img src="../uploads/default/optimized/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f_2_330x500.png" alt="image" data-base62-sha1="tG4zMHNujaGv1M3vMztcMomR9Pp" width="330" height="500" srcset="../uploads/default/optimized/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f_2_330x500.png, ../uploads/default/optimized/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f_2_495x750.png 1.5x, ../uploads/default/optimized/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f_2_660x1000.png 2x" data-small-upload="../uploads/default/optimized/1X/d00096f3bc8e1d2bea4cdafcb95e05afc1eb144f_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">709×1074 30.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<code>Servermod.java</code></p>
+<pre><code class="lang-auto">package io.github.moderxiangxiang.servermod;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+// The value here should match an entry in the META-INF/mods.toml file
+@Mod("servermod")
+public class Servermod
+{
+    public Servermod() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private void setup(final FMLCommonSetupEvent event)
+    {
+        // some preinit code
+    }
+
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        // do something that can only be done on the client
+    }
+
+    private void enqueueIMC(final InterModEnqueueEvent event)
+    {
+        // some example code to dispatch IMC to another mod
+    }
+
+    private void processIMC(final InterModProcessEvent event)
+    {
+        // some example code to receive and process InterModComms from other mods
+    }
+}
+</code></pre>
+<p><code>Events.java</code></p>
+<pre><code class="lang-auto">package io.github.moderxiangxiang.servermod;
+
+import io.github.moderxiangxiang.servermod.huds.Show_position;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+public class Events {
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class Mod_Events{
+
+    }
+
+    @Mod.EventBusSubscriber
+    public static class HudClientEvent {
+
+        @SubscribeEvent
+        public static void onOverlayRender(RenderGameOverlayEvent event) {
+            if (event.getType() != RenderGameOverlayEvent.ElementType.ALL &amp;&amp; Minecraft.getInstance().player == null) {
+                return;
+            }
+            Show_position show_position = new Show_position();
+            show_position.render();
+        }
+    }
+
+}
+</code></pre>
+<p><code>Show_position.java</code></p>
+<pre><code class="lang-auto">package io.github.moderxiangxiang.servermod.huds;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.util.ResourceLocation;
+
+public class Show_position extends AbstractGui {
+    private final int width;
+    private final int height;
+    private final Minecraft minecraft;
+    private final ResourceLocation x = new ResourceLocation("servermod", "textures/gui/x.png");
+    private final ResourceLocation y = new ResourceLocation("servermod", "textures/gui/y.png");
+    private final ResourceLocation z = new ResourceLocation("servermod", "textures/gui/z.png");
+
+    public Show_position() {
+        this.width = Minecraft.getInstance().getMainWindow().getScaledWidth();
+        this.height = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        this.minecraft = Minecraft.getInstance();
+    }
+
+    private void b(int x0, int y0){
+        blit(x0, y0, 0, 0, 10, 10, 10, 10);
+    }
+
+    public void render() {
+        init();
+    }
+    private void init(){
+        this.minecraft.getTextureManager().bindTexture(x);
+        b(20, height / 4 - 15);
+        this.minecraft.getTextureManager().bindTexture(y);
+        b(20, height / 4);
+        this.minecraft.getTextureManager().bindTexture(z);
+        b(20, height / 4 +15);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java">if (event.getType() != RenderGameOverlayEvent.ElementType.ALL &amp;&amp; Minecraft.getInstance().player == null) {
+    return;
+}
+</code></pre>
+<p>这里的判断写错了，我觉得你想要写的是：</p>
+<pre><code class="lang-java">if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || Minecraft.getInstance().player == null) {
+    return;
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

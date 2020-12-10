@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2 idea 构建问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2 idea 构建问题</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3<br>
+Forge版本:  14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+<code>无法构建</code><br>
+<strong>错误日志</strong></p>
+<pre><code class="lang-auto">
+&gt; Configure project :
+This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril.
+
+CONFIGURE SUCCESSFUL in 4s
+Could not resolve: net.minecraftforge:forgeBin:1.12.2-14.23.5.2768
+
+
+</code></pre>
+<p><strong>查到的资料</strong><br>
+根据网上的教学 build success 出来却不是一个完整的forge项目</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>网络问题，有依赖没有下载下来。<br>
+请清空gradle缓存，重新下载，如此多试几次。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>已尝试 还是这样</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>现在就是 构建好后不会生成lib文件<br>
+<a>[url=https://sm.ms/image/TSfnpVxhNg5UWKY]<img src="https://i.loli.net/2020/03/09/TSfnpVxhNg5UWKY.png" alt="" width="690" height="376">[/url]</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你要用IDEA开发1.12版本的forge，请换成jdk8版本的idea。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>有idea的版本号吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="16" data-topic="102">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/www.v2mcdev.com/zekerzhayard/40/21_2.png" class="avatar">
+    <a href="https://www.v2mcdev.com/t/topic/102/16">Idea不输出mod开发日志,但是run中的logs文件夹日志还是有的</a> <a class="badge-wrapper  bullet" href="/c/5-category"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    <a class="lightbox" href="https://i.loli.net/2020/02/25/RleFUjSGxWrCYQM.png" title="image.png" rel="nofollow noopener">[image.png]</a>
+JBR 应该是 JetBrains 自己修改过的 JDK ，理论上来说使用其他的 JDK 应该也是基本没有问题的（可能字体需要自己在 JDK 里手动配置一下） 
+[image.png] 
+JBR 位于 IDEA 安装目录下的 「jbr」 文件夹里
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>请问我下载图中标出的的版本就可以了吗</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对。确保是JDK8的版本就行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

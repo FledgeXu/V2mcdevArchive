@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 forge 如何渲染透明方块？</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 forge 如何渲染透明方块？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>查询得到1.13.2可以<code>public BlockRenderLayer getRenderLayer() </code>用该函数控制，但是新的版本中这个函数消失了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>在你model的json文件中，输入下列代码：</p>
+<pre><code class="lang-auto">{
+  "parent": "block/block",
+  "textures": {
+    "wool": "你mod的名字:block/物品的注册名字"
+  }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>缺点是在物品栏里面也是显示透明的，但是这个是最简单的方法了，那些比较好的方法我正在测试。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>这个wool控制的是什么？就是透明度？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>markdown 有贴代码的语法的，你可以学一下。我已经帮你改好了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>原来是“parent”：“block/carpet”，但是把carpet改为block就显示透明了。<br>
+另外还有一步，在你的方块的class文件中加入下面的代码(不知道是不是必须的)：<br>
+protected static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);</p>
+<pre><code>public  VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    return SHAPE;
+}</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code>{
+"parent": "block/cube_all",
+"textures": {
+    "wool": "rocket_mod:wall_block",
+    "all": "rocket_mod:block/wall_block",
+    "up": "rocket_mod:block/wall_block_up",
+    "down": "rocket_mod:block/wall_block_down",
+    "particle": "#all"
+},
+"elements": [
+    {   "from": [ 0, 0, 0 ],
+        "to": [ 16, 16, 16 ],
+        "faces": {
+            "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#down", "tintindex": 1, "cullface": "down" },
+            "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#up", "tintindex": 2, "cullface": "up" },
+            "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 3, "cullface": "north" },
+            "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 4, "cullface": "south" },
+            "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 5, "cullface": "west" },
+            "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#all", "tintindex": 6, "cullface": "east" }
+        }
+    }
+]
+</code></pre>
+<p>}<br>
+这个是我的模型文件，这个方法暂时没有用</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>如果单纯地想透明的话，直接按照我的来就得了，不用添加其他的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我想同时添加染色效果，会不会是染色的代码覆盖了？现在透明的地方全部显示黑色</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">    @OnlyIn(Dist.CLIENT)
+public class CustomBlockColor implements IBlockColor {
+    @Override
+    public int getColor(BlockState state, @Nullable ILightReader light, @Nullable BlockPos pos, int tintIndex) {
+        if(state.getBlock() instanceof ColorBlock) {
+            return ((ColorBlock)(state.getBlock())).getColorValue();
+        } else {
+            return 0x000000;
+        }
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我正在尝试把model/block里面的代码再复制到model/item的文件里面，然后model/block里面只留{}，不知道有没有效果。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="https://www.v2mcdev.com/uploads/default/original/1X/935638b133fa5c9a5d808565a8aca6038b95e91b.jpeg" data-download-href="https://www.v2mcdev.com/uploads/default/935638b133fa5c9a5d808565a8aca6038b95e91b" title="2020-02-15_21.51.47"><img src="https://www.v2mcdev.com/uploads/default/optimized/1X/935638b133fa5c9a5d808565a8aca6038b95e91b_2_690x357.jpeg" alt="2020-02-15_21.51.47" data-base62-sha1="l1oUQ3JnikzTfNYpXXdjqYqNitR" width="690" height="357" srcset="https://www.v2mcdev.com/uploads/default/optimized/1X/935638b133fa5c9a5d808565a8aca6038b95e91b_2_690x357.jpeg, https://www.v2mcdev.com/uploads/default/optimized/1X/935638b133fa5c9a5d808565a8aca6038b95e91b_2_1035x535.jpeg 1.5x, https://www.v2mcdev.com/uploads/default/original/1X/935638b133fa5c9a5d808565a8aca6038b95e91b.jpeg 2x" data-small-upload="https://www.v2mcdev.com/uploads/default/optimized/1X/935638b133fa5c9a5d808565a8aca6038b95e91b_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-02-15_21.51.47</span><span class="informations">1360×705 324 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div><br>
+这个是效果</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我期望的效果可能类似玻璃，这个是渲染错误</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你可以用 Photoshop 将你图片中想要透明的部分用橡皮擦清除就可以了，Windows自带的画图功能无法制造透明图片的效果。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你们有没有修改方块的渲染方式。<br>
+这里有篇关于<a href="http://greyminecraftcoder.blogspot.com/2014/12/block-rendering-18.html">Render</a>的文章。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我用的是photoshop</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>看一下有关玻璃的Java代码，还有models/block里面的写法，看看需要加入或改动什么。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <pre><code>RenderTypeLookup.setRenderLayer(block, type);</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

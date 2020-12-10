@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>IDEA配置1.12.2forge时出现了问题</title>
+</head>
+<body>
+    <div class="title"><h1>IDEA配置1.12.2forge时出现了问题</h1></div>
+    <div class="post-user" class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2019.3.4&gt;<br>
+Forge版本:  &lt;1.12.2-14.23.5.2768&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;</p>
+<p><strong>出错图</strong><br>
+![<img src="../uploads/default/original/1X/1bf7be9111752ab478deefa5e4983242349f2566.png" alt="P" data-base62-sha1="3ZpGgckzUL0PWCat1kd7sjU0K4m" width="639" height="347"> ]</p>
+<p><strong>错误情况简述</strong><br>
+配置1.12.2时出现了问题，挂了v，试了很多次，还是不可以。我真的不想被劝退，谢谢帮忙！</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril
+.
+C:\Users\Administrator\.gradle\caches\minecraft\net\minecraftforge\forge\1.12.2-
+14.23.5.2768\userdev\dev.json could not be parsed
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'CommandTest'.
+&gt; java.io.FileNotFoundException: Inherited json file (1.12.2) not found! Maybe y
+ou are running in offline mode?
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug
+option to get more log output.
+
+BUILD FAILED
+
+Total time: 56.301 secs
+
+D:\Minecraft Mods\CommandTest&gt;
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>使用的IDE那块好像没有发出来，是IntelliJ IDEA</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote quote-modified" data-post="5" data-topic="351">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/351/5">一个不会代理的同学来问一下各位有关mdk环境配置的问题。</a> <a class="badge-wrapper  bullet" href="/c/5-category"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    建议看一下这个问题: 
+
+ 
+如果没有购买代理就不要配置代理。 
+如果网络不好，配置不成功，论坛内有离线包可以使用：
+  </blockquote>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>还是想自己配置一下，有一种成绩感，如果实在不行那就了…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请修改你的回复，不要用「真香」这个词。<br>
+另外1.12.2 Forge官方已经不支持了，请升级到1.15或者1.14版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>网络问题没有统一解决办法，不同人解决办法都不一样，请自行处理。</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../images/emoji/apple/+1.png?v=9" title=":+1:" class="emoji only-emoji" alt=":+1:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>你的命令行有问题，不是仅gradlew setupDecompWorkspace就可以，<br>
+后面还要添加参数：(引用自4z的教程)</p>
+<blockquote>
+<p>可以通过添加参数的方式设置代理， <code>&lt;host&gt;</code> 表示代理服务器的地址， <code>&lt;port&gt;</code> 表示开放代理的端口。</p>
+<p>使用socks代理的方式：</p>
+<pre><code class="lang-auto">./gradlew setupDecompWorkspace -DsocksProxyHost=&lt;host&gt; -DsocksProxyPort=&lt;port&gt;
+</code></pre>
+<p>针对https资源使用http代理的方式：</p>
+<pre><code class="lang-auto">./gradlew setupDecompWorkspace -Dhttps.proxyHost=&lt;host&gt; -Dhttps.proxyPort=&lt;port&gt;
+</code></pre>
+<p>针对http资源使用http代理的方式：</p>
+<pre><code class="lang-auto">./gradlew setupDecompWorkspace -Dhttp.proxyHost=&lt;host&gt; -Dhttp.proxyPort=&lt;port&gt;
+</code></pre>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>windows用户自行把前面的“./”去掉</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢~已经解决了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果问题解决了，请选择一个楼层作为答案。<br>
+（点开每个楼层三个点图标里就有）</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

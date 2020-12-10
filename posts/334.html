@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>碰撞算法对于简单的obb包围盒</title>
+</head>
+<body>
+    <div class="title"><h1>碰撞算法对于简单的obb包围盒</h1></div>
+    <div class="post-user" class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>经过一段时间努力找了挺多资料的但是对于碰撞上还是有很多奇怪的穿透问题，现在是用方向包围盒OBB来做碰撞的（minecraft都是方块，我的mod里有对方块的旋转），在minecraft的AABB包围盒环境下，一个是OBB vs OBB，以及用SAT实现了碰撞时间检测碰撞面检测，这里的问题主要是碰撞反馈这方面，请问如果用SAT或者Gjk或者V-clip这类算法，怎么获得碰撞点，以及在思路上怎么做碰撞反馈。尤其是有什么有用点的资料，我查了挺多论文的，但是很多都没给出具体代码，或者是一些改良算法，在性能上的改良偏多，但是具体到碰撞反馈这块找到的几乎没有。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个方面我知识我也不是很清楚。<br>
+看你的描述好像是想做物理引擎？<br>
+我觉得你可以去Discord上或者专门的游戏开发者论坛询问这个问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>其实那些论坛里我也问过，但是都是年久失修，还有好多和我一个问题的，discord倒是没注意过。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>或许知乎可以？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>cdsn算最多的，知乎都是浅浅的介绍，而且很多是2d的，具体的很少，倒是有一些相关的引擎的源码，但是看起来太费劲了==</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>稍微搜了一下找到了这个。<br>
+<aside class="onebox githubissue">
+  <header class="source">
+      <a href="https://github.com/phenomLi/Blog/issues/28" target="_blank">github.com/phenomLi/Blog</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Issue">
+	  <svg width="60" height="60" class="github-icon" viewbox="0 0 14 16" aria-hidden="true"><path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/phenomLi/Blog/issues/28" target="_blank">GJK碰撞检测算法的另一种实现</a>
+    </h4>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2019-06-17" data-time="18:48:31" data-timezone="UTC">06:48PM - 17 Jun 19 UTC</span>
+      </div>
+
+
+      <div class="user">
+        <a href="https://github.com/phenomLi" target="_blank">
+          <img alt="phenomLi" src="../uploads/default/original/1X/1be4b9a3076d60e20c7a4c4bb35d16e789906407.jpeg" class="onebox-avatar-inline" width="20" height="20">
+          phenomLi
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="github-row">
+  <p class="github-content">最近在看box2d的源码，看得好累。发现box2d的碰撞检测不止用到了SAT（分离轴）算法，还有GJK算法和V-clip算法（连google都找不到的冷门算法，不知道具体原理）。box2d貌似把3种算法糅合起来了，根本看不懂。
+不过看到GJK时，我上网了解了一下，感觉眼前一亮，因为看到一种跟分离轴思路完全不同的碰撞检测算法还是很开心的。和SAT一样，GJK算法也只对凸多边形有效。GJK算法的最初目的是计算两个凸体之间的距离，但是后来却广泛应用于碰撞检测。
+GJK基本思想
+GJK原理是：如果两个凸图形的闵可夫斯基差包含原点, 那么这两个图形重叠，即问题转变成判断一个 闵可夫斯基差（Minkowski Difference） 图形是否包含原点。其中用到了闵可夫斯基差，我们可以先看看什么是闵可夫斯基和：
+假设有两个多边形A，B，那么闵可夫斯基和用公式表示就是：
+A + B = {a + b|a∈A, b∈B}
+用通俗的话说就是假如多边形A具有顶点{a, b, c}，多边形B具有顶点{d, e, f, g}，那么A和B的闵可夫斯基和就是：
+{a + d, a +...</p>
+</div>
+
+<div class="labels">
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">Typescript</span>
+    <span style="display:inline-block;margin-top:2px;background-color: #B8B8B8;padding: 2px;border-radius: 4px;color: #fff;margin-left: 3px;">物理引擎</span>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不过这个也是二维的好像，三维的估计得去书上找内容了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这个我也看过但是是2d的而且很多东西没有，比如碰撞反馈这些。发这里主要是为了看看有没有一样要做碰撞的，可以分享一点，不然内容太多，即使做完了碰撞，还要注入entity的运动相关的代码，才能实装。看过一个是瓦尔基里一个是子弹碰撞，这两个都是不一样的情况，不太适用尤其是后者的引用来自于第三方碰撞引擎，要再加到现在已经做得七七八八的mod里有点困难。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这里做个小结吧，要重新实现碰撞算法，其实挺困难的，根据现在的各个开源的物理引擎代码总汇，对于一般的碰撞检测，比如静态的各种凸多面体的碰撞，有足够的现成算法来使用，至于是哪些我上面都提到过了，Gjk算是性能总体上比较好，结合EPA拓展算法可以得到碰撞点（刺入深度）这些信息，但是虽然到这一步为止，实现起来，代码能力够好都是能做到的，但是到了下一个阶段也就是collision response这个阶段（当然，在碰撞检测的时候，现在的引擎会将其拆分成粗检测和细检测两个阶段，但是由于minecraft的地形是体素构成并且chunk天生容易构建八叉树，所有可以比较容易地跳过前一个阶段），实现起来就会比较困难，而且除了简单地约束之外，现代地物理引擎在动力学方面处理难度最大地应该是约束，比如铰链，弹簧这种，这些实现起来不是一般地困难（我看不大懂，原谅我的大学物理水平，hhh），所以综上，如果自己有良好的物理基础，并且代码能力强悍，并且闲得慌，可以考虑自己在minecraft中添加新的物理响应，处理一些特殊的碰撞。如果不是的话，对于现在开源的所有引擎中，java方面包装得比较好得应该只有bullet physics这个引擎了，如果稍有了解这些引擎的话，应该知道，这些引擎通过在他们的数据结构中添加碰撞物体（bt添加的有刚体，软体和约束），通过指定步长的模拟来反馈新的速度和位置信息，对于固定场景，比如一些次世代游戏中的固定场景（地图预先设计好，物品也确定好）的游戏，实现起来会比较简单，但是对于minecraft这种场景可变，并且世界巨大的体素类游戏（同时这类游戏中的场景本身是不会运动的，比如minecraft中的绝大多数静态方块）这样的实现是不可行的，唯一的方法就是动态构建Aabb树，在每帧重新采集局部（可能）碰撞的碰撞箱信息，这种情况下需要大幅修改增强bt引擎的粗检阶段，但是很幸运的是这个轮子也是造过了，一款类MC的体素类游戏Terasology中采用了类似的场景<a href="https://immortius.tumblr.com/post/78530371668/voxel-physics" rel="nofollow noopener">引擎拓展</a>，如果有类似的需求通过继承btVoxelContentProvider（来自于gdx-bullet或者使用Java版的<a href="https://github.com/MovingBlocks/TeraBullet" rel="nofollow noopener">TeraBullet</a>的VoxelPhysicsWorld）来提供体素信息来动态提供体素世界信息。如果考虑使用Bullet引擎增强minecraft的碰撞系统可以考虑这个拓展，相关的开源类库在该游戏的gradle构建中可以找到。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这里做个记录：</p>
+<p>在minecraft中如果不增加其他类型的碰撞箱，仅仅增加非游戏内容中的实体的碰撞箱，一般来说可以通过forge提供的接口（每个版本命名可能不同，这里就不写具体的名字了），加入自己这时发生了碰撞的碰撞箱。</p>
+<p>以minecraft1.12.2为例，在<code>GetCollisionBoxesEvent</code>事件中获取可移动实体以及其膨胀碰撞箱。<br>
+膨胀后的碰撞箱可以根据实体的当前碰撞箱反算出此刻发生的位移<code>d</code>这里可以插入你的逻辑代码来处理其他碰撞逻辑。</p>
+<p>但是对于一些碰撞箱粒度为“无限小”的碰撞箱，比如：AxisAligenedBoundBox(box[-4.0, 48.0, 68.00001 -&gt; -3.0, 49.00001 69.0]),他的精度可以认为是0.00001，这时如果使用这类碰撞箱参与碰撞，那么可能对于EntityItem这类体积非常小（小于1x1x1）的碰撞箱会更容易出现问题，你会看到当你将这类实体丢到你模拟的碰撞箱上时，会发生抽搐，具体现象表现为，你丢下的拥有小碰撞箱的物体在你制作的碰撞箱中反复横跳，实际原因就是因为逻辑客户端和逻辑服务端的实体位置不同，每隔一个同步周期，物体会被设置到接近正确的位置（客户端从服务器同步）。但同步结束后，由于没有同步到正确位置，就会不断穿透你的碰撞箱到达错误位置，发生反复。</p>
+<p>这个原因主要是由于服务端对实体位置的同步不是精确同步，而是有最小粒度的，当服务端的物体通过<code>onUpdate()V</code>函数发生一次位移（即执行了一次<code>move(MoverType, double, double, double)V</code>函数）服务端进行同步，客户端接受到的位置是一个long类型的数据，并将其除以4096来获得精确值，可以看到通过这一步计算位置精确信息会有损失，如果此刻因为这个操作位移值绝对值变大，那么这时会发生穿透。</p>
+<p>解决方法是：1，如果能和你设置的碰撞箱发生碰撞的实体是确定的话，那么每次碰撞前对位移减小到一定不会发生碰撞；2，将你的所有自添加碰撞箱进行统一归一化到1/4096的Long类型的倍数,如下（其中变量为float类型）：</p>
+<pre><code class="lang-auto">        minX = (float) ((long) (minX * 4096)) / 4096;
+        minY = (float) ((long) (minY * 4096)) / 4096;
+        minZ = (float) ((long) (minZ * 4096)) / 4096;
+        maxX = (float) ((long) (maxX * 4096)) / 4096;
+        maxY = (float) ((long) (maxY * 4096)) / 4096;
+        maxZ = (float) ((long) (maxZ * 4096)) / 4096;
+</code></pre>
+    </div>
+    <br />
+</body>
+</html>

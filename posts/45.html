@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12.2 build出现问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.12.2 build出现问题</h1></div>
+    <div class="post-user" class="user"><h4>dajinge</h4></div>
+    <br />
+    <div class="post" class="main">
+        <pre><code class="lang-auto">&gt; Could not resolve net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT.
+         &gt; Unable to load Maven meta-data from http://files.minecraftforge.net/maven/net/minecraftforge/gradle/ForgeGradle/2.3-SNAPSHOT/maven-metadata.xml.
+            &gt; Could not GET 'http://files.minecraftforge.net/maven/net/minecraftforge/gradle/ForgeGradle/2.3-SNAPSHOT/maven-metadata.xml'.
+               &gt; files.minecraftforge.net:80 failed to respond
+      &gt; Could not resolve net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT.
+         &gt; Unable to load Maven meta-data from https://jcenter.bintray.com/net/minecraftforge/gradle/ForgeGradle/2.3-SNAPSHOT/maven-metadata.xml.
+            &gt; Could not GET 'https://jcenter.bintray.com/net/minecraftforge/gradle/ForgeGradle/2.3-SNAPSHOT/maven-metadata.xml'.
+               &gt; Remote host closed connection during handshake
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 1 mins 4.359 secs
+Cause: files.minecraftforge.net:80 failed to respond
+11:50:10 AM: Task execution finished 'build'.
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>网络有问题。<br>
+为什么你会运行<code>build</code> 这个 task？</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

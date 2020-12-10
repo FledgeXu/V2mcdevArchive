@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>实体注册未成功</title>
+</head>
+<body>
+    <div class="title"><h1>实体注册未成功</h1></div>
+    <div class="post-user" class="user"><h4>Zycdojar</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 10 x64<br>
+你是用的JDK: JDK8_202<br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本:2020.1.1<br>
+Forge版本: net.minecraftforge:forge:1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: mappings channel: ‘snapshot’, version: ‘20200514-1.15.1’</p>
+<p><strong>错误情况简述</strong><br>
+基本上照着教程做的，可是出了错</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[14:41:40] [modloading-worker-4/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Caught exception during event FMLClientSetupEvent dispatch for modid originalfalse
+java.lang.NullPointerException: Registry Object not present: originalfalse:fall_leaf
+	at java.util.Objects.requireNonNull(Objects.java:290) ~[?:1.8.0_202] {}
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at originalFalse.leaf.zycdojar.entity.onClientSetup(main.java:37) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_3_main_onClientSetup_FMLClientSetupEvent.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.2.0-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106) ~[?:31.2] {re:classloading}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_202] {}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_202] {}
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$null$10(ModList.java:135) ~[?:?] {re:classloading}
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) [?:1.8.0_202] {}
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382) [?:1.8.0_202] {}
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481) [?:1.8.0_202] {}
+	at java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:291) [?:1.8.0_202] {}
+	at java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:731) [?:1.8.0_202] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_202] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_202] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_202] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_202] {}
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>entity.java</code></p>
+<pre><code class="lang-auto">public static DeferredRegister&lt;EntityType&lt;?&gt;&gt; ENTITY_TYPES;
+    public static RegistryObject&lt;EntityType&lt;leaf&gt;&gt; leafEntity;
+    @SubscribeEvent
+    public static void onEntityRegistation(RegistryEvent.Register&lt;EntityType&lt;?&gt;&gt; event) {
+    }
+    @SubscribeEvent
+    public static void setup(final FMLCommonSetupEvent event){
+        ENTITY_TYPES = new DeferredRegister&lt;&gt;(ForgeRegistries.ENTITIES, "originalfalse");
+        leafEntity = ENTITY_TYPES.register("fall_leaf", () -&gt; {
+            return EntityType.Builder.create((EntityType&lt;leaf&gt; entityType, World world) -&gt; {
+                return new leaf(entityType, world);
+            }, EntityClassification.MISC).size(3, 0.5F).build("fall_leaf");
+        });
+    }
+    @SubscribeEvent
+    public static void onClientSetup(final FMLClientSetupEvent event){
+        RenderingRegistry.registerEntityRenderingHandler(leafEntity.get(), (EntityRendererManager manager) -&gt; {
+            return new shadow(manager);
+        });
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我没看懂你在做什么，我教程不是这么写的。<br>
+<code>DeferredRegister</code>不是塞在这个地方的，而且你也没有把<code>DeferredRegister</code>注册到Mod总线上去。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Zycdojar</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，是我看错了</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

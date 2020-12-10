@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>绑定TileEntityRenderer时的问题</title>
+</head>
+<body>
+    <div class="title"><h1>绑定TileEntityRenderer时的问题</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:  31.1.46<br>
+Minecraft版本:1.15.2<br>
+Mapping 文件版本: 20200610</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a.png" data-download-href="../uploads/default/13e1c7223961528acfdfc41404b1f63cc4d7df2a" title="image"><img src="../uploads/default/optimized/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a_2_690x75.png" alt="image" data-base62-sha1="2PSNwwW8ZJJnsUOwhhLmZ7GBbBM" width="690" height="75" srcset="../uploads/default/optimized/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a_2_690x75.png, ../uploads/default/optimized/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a_2_1035x112.png 1.5x, ../uploads/default/optimized/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a_2_1380x150.png 2x" data-small-upload="../uploads/default/optimized/1X/13e1c7223961528acfdfc41404b1f63cc4d7df2a_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1553×171 14.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+不太明白这个错误是什么情况 <img src="../images/emoji/apple/nauseated_face.png?v=9" title=":nauseated_face:" class="emoji" alt=":nauseated_face:">，参考的是<a href="https://neutrino.v2mcdev.com/specialrender/ter.html">neutrino</a>的TileEnitytRenderer那一段。是我漏了什么东西？还是因为我的BlackMirrorTileEntityRenderer_left.java的render方法还没写东西？<br>
+<strong>相关代码</strong></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ModTileEntityRendererRegistry {
+    @SubscribeEvent
+        public static void onClientEvent(FMLClientSetupEvent event){
+        ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.BlackMirrorTileEntityType,(tileEntityRendererDispatcher -&gt; {
+            return new BlackMirrorTileEntityRenderer_left(tileEntityRendererDispatcher);
+        }));
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>
+<code>BlackMirrorTileEntityRenderer_left</code>命名格式错的，请修改这个名字。</li>
+<li>请补充<code>BlackMirrorTileEntityRenderer_left</code>这个类代码。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>它现在里面啥都还没有</p>
+<pre><code class="lang-auto">public class BlackMirrorTileEntityRenderer_left extends TileEntityRenderer&lt;BlackMirrorTileEntity_left&gt; {
+    public BlackMirrorTileEntityRenderer_left(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
+    }
+
+    @Override
+    public void render(BlackMirrorTileEntity_left tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    }
+}
+</code></pre>
+<p>真是</p>
+<aside class="quote no-group" data-username="USS.Shenzhou" data-post="1" data-topic="498">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/USS.Shenzhou" class="avatar"> USS.Shenzhou:</div>
+<blockquote>
+<p>还是因为我的BlackMirrorTileEntityRenderer_left.java的render方法还没写东西？</p>
+</blockquote>
+</aside>
+<p>这个原因？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你闭包写错了，请去学习Java8函数式编程。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>另外把类名改了，请按照命名规范来命名你的类名。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>是<code>ModTileEntityTypes.java</code>里面写错了一个地方，一直没注意到<img src="../images/emoji/apple/nauseated_face.png?v=9" title=":nauseated_face:" class="emoji" alt=":nauseated_face:">。一系列类名都已经改了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何使模组加入的方块或物品发出自定义颜色的光</title>
+</head>
+<body>
+    <div class="title"><h1>如何使模组加入的方块或物品发出自定义颜色的光</h1></div>
+    <div class="post-user" class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：macOS High Sierra<br>
+你使用的JDK：1.8.0_251<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2020.2<br>
+Forge版本: 31.2.0<br>
+Minecraft版本：1.15.2<br>
+Mapping 文件版本：20200802-1.15.1</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/1b046fa9f60fe11abcb5e8aed5432eb3f7d74db4.jpeg" data-download-href="../uploads/default/1b046fa9f60fe11abcb5e8aed5432eb3f7d74db4" title="013243mus6ugs95ss6ssuq"><img src="../uploads/default/original/1X/1b046fa9f60fe11abcb5e8aed5432eb3f7d74db4.jpeg" alt="013243mus6ugs95ss6ssuq" data-base62-sha1="3R0oyWZFrtDPyWuuTIRSjy1mdHS" width="690" height="388" data-small-upload="../uploads/default/optimized/1X/1b046fa9f60fe11abcb5e8aed5432eb3f7d74db4_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">013243mus6ugs95ss6ssuq</span><span class="informations">1920×1080 42.7 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>如图，希望可以在模组中让某个特定的方块发出自定义颜色的光，请问该怎么做？谢谢<br>
+如果需要用资源包解决问题的话也可以<br>
+望解答</p>
+<p>查到的资料：<br>
+<a href="https://www.curseforge.com/minecraft/mc-mods/albedo" class="onebox" target="_blank" rel="nofollow noopener">https://www.curseforge.com/minecraft/mc-mods/albedo</a><br>
+</p><div class="onebox lazyYT lazyYT-container" data-youtube-id="o2qoZm20lTM" data-youtube-title="Minecraft - Create Custom Lighting with Light-maps! (Resource Pack Tutorial)" data-parameters="feature=oembed&amp;wmode=opaque">
+  <a href="https://www.youtube.com/watch?v=o2qoZm20lTM" target="_blank" rel="nofollow noopener">
+    <img class="ytp-thumbnail-image" src="../uploads/default/original/1X/4e19a2c67a6af803096dfa175369b3e0362b6f39.jpeg" title="Minecraft - Create Custom Lighting with Light-maps! (Resource Pack Tutorial)" width="690" height="388">
+  </a>
+</div>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我也不知道。<br>
+我看了你提供的两个链接好像刚好是两个不同解决方向。<br>
+要实现这个功能估计要做大量的Hack。<br>
+看起来有两种实现方向，第一种是用自己shader，第二种是替换掉原版的lightmap。<br>
+具体的实现，我也不清楚，需要你自己研究了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"> 嗯好的，<br>
+那我再去找一找别的资料吧<br>
+谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这东西的实现会非常的麻烦，而且难以维护和移植。我个人建议是砍掉这个feature……</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>如果这样的话会导致模组的视觉效果降低。。<br>
+我打算再尝试找一些资料（燃鹅看起来根本不可能实现）<br>
+如果还是没有办法就只能砍掉了</p>
+<p>原版好像是没有lightmap的<br>
+现在的lightmap好像是optifine的feature<br>
+据说原版的要到beta版里才有了23333<br>
+所以，实在不行我就打算放弃了<img src="../images/emoji/apple/neutral_face.png?v=9" title=":neutral_face:" class="emoji" alt=":neutral_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Minecraft 不是游戏引擎<img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:">，不是所有的效果都能实现的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>嗯，国外有个大佬改了源代码，结果fps就掉。。<br>
+所以，我决定放弃了233<br>
+其实一个光影就能解决这个问题，但是没有哪个模组还需要前置光影的。。</p>
+<p>但是还是感谢帮助啊<img src="../images/emoji/apple/upside_down_face.png?v=9" title=":upside_down_face:" class="emoji" alt=":upside_down_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

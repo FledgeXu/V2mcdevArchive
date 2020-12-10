@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Neutrino 1.15 Mod 开发教程</title>
+</head>
+<body>
+    <div class="title"><h1>Neutrino 1.15 Mod 开发教程</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <h2>捐赠</h2>
+<p>这里是我的<a href="https://afdian.net/@fledge">爱发电</a>，如果你认同我的工作，欢迎请我喝杯咖啡。</p>
+<h2>这是什么</h2>
+<p><strong>因为本教程还在撰写过程中，下方的目录和实际目录不一定匹配，请以实际目录为准</strong></p>
+<p>Neutrino 一个Minecraft 1.15版本的Mod开发教程，它的目标群体是那些有一定Java基础，但是又没什么大型项目开发经验的人。</p>
+<p>介于文本量庞大，本项目托管在<a href="https://github.com/fledgeXu/neutrino">Github</a>上进行项目管理、错误修复以及部署，此外本项目还提供了一份和教程相对应的<a href="https://github.com/FledgeXu/NeutrinoSourceCode/">代码</a>以供读者参考。</p>
+<p><a href="https://neutrino.v2mcdev.com/">阅读本教程请点击此处</a></p>
+<h2>目录</h2>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/introducation/intro.html"> <strong>1.</strong>  导论</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/introducation/forge.html"> <strong>1.1.</strong>  Forge是什么</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/introducation/vanilla.html"> <strong>1.2.</strong>  Minecraft如何运作的</a></li>
+<li><a href="https://neutrino.v2mcdev.com/introducation/developmentmodel.html"> <strong>1.3.</strong>  开发模型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/introducation/coreconception.html"> <strong>1.4.</strong>  一些核心概念</a></li>
+<li><a href="https://neutrino.v2mcdev.com/devenvironment/intro.html"> <strong>2.</strong>  环境配置</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/devenvironment/setup.html"> <strong>2.1.</strong>  Forge开发环境的配置</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/devenvironment/folderintro.html"> <strong>2.2.</strong>  开发环境的介绍</a></li>
+<li><a href="https://neutrino.v2mcdev.com/devenvironment/modinfo.html"> <strong>2.3.</strong>  自定义mod信息</a></li>
+<li><a href="https://neutrino.v2mcdev.com/item/intro.html"> <strong>3.</strong>  物品</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/item/firstitem.html"> <strong>3.1.</strong>  第一个物品</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/item/modelandtextures.html"> <strong>3.2.</strong>  物品材质与模型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/item/itemstack.html"> <strong>3.3.</strong>  Item和ItemStack</a></li>
+<li><a href="https://neutrino.v2mcdev.com/item/food.html"> <strong>3.4.</strong>  食物</a></li>
+<li><a href="https://neutrino.v2mcdev.com/item/meleeweapons.html"> <strong>3.5.</strong>  近战武器</a></li>
+<li><a href="https://neutrino.v2mcdev.com/item/group.html"> <strong>3.6.</strong>  自定义创造模式物品栏</a></li>
+<li><a href="https://neutrino.v2mcdev.com/i18n/i18n.html"> <strong>4.</strong>  语言文件与本地化</a></li>
+<li><a href="https://neutrino.v2mcdev.com/block/intro.html"> <strong>5.</strong>  方块</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/block/firstblock.html"> <strong>5.1.</strong>  第一个方块</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/block/blockandblockstate.html"> <strong>5.2.</strong>  Block和BlockState</a></li>
+<li><a href="https://neutrino.v2mcdev.com/block/modelandtextures.html"> <strong>5.3.</strong>  方块模型和材质</a></li>
+<li><a href="https://neutrino.v2mcdev.com/block/blocksstates.html"> <strong>5.4.</strong>  方块状态</a></li>
+<li><a href="https://neutrino.v2mcdev.com/block/nonesoildblock.html"> <strong>5.5.</strong>  非实心方块与自定义模型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/block/rendertype.html"> <strong>5.6.</strong>  方块的渲染类型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/specialmodel/intro.html"> <strong>6.</strong>  特殊模型</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/specialmodel/obj.html"> <strong>6.1.</strong>  OBJ 模型</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/specialmodel/b3d.html"> <strong>6.2.</strong>  B3D 模型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/specialmodel/animation.html"> <strong>6.3.</strong>  动画</a></li>
+<li><a href="https://neutrino.v2mcdev.com/tileentity/intro.html"> <strong>7.</strong>  方块实体</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/tileentity/firsttileentity.html"> <strong>7.1.</strong>  第一个方块实体和其数据保存</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/tileentity/itickabletileentity.html"> <strong>7.2.</strong>  ITickableTileEntity</a></li>
+<li><a href="https://neutrino.v2mcdev.com/tileentity/datasync.html"> <strong>7.3.</strong>  方块实体内置的数据同步</a></li>
+<li><a href="https://neutrino.v2mcdev.com/specialrender/intro.html"> <strong>8.</strong>  特殊渲染</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/specialrender/ibakedmodel.html"> <strong>8.1.</strong>  IBakedModel(烘培模型)</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/specialrender/ter.html"> <strong>8.2.</strong>  TileEntityRenderer(方块实体渲染器)</a></li>
+<li><a href="https://neutrino.v2mcdev.com/specialrender/ister.html"> <strong>8.3.</strong>  ItemStackTileEntityRenderer(物品特殊渲染)</a></li>
+<li><a href="https://neutrino.v2mcdev.com/event/intro.html"> <strong>9.</strong>  事件系统</a></li>
+<li><a href="https://neutrino.v2mcdev.com/networking/intro.html"> <strong>10.</strong>  网络包</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/networking/custompack.html"> <strong>10.1.</strong>  自定义网络包</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/networking/secure.html"> <strong>10.2.</strong>  关于Mod安全</a></li>
+<li><a href="https://neutrino.v2mcdev.com/entity/intro.html"> <strong>11.</strong>  实体</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/entity/scratchentity.html"> <strong>11.1.</strong>  从零构建一个实体和数据同步</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/entity/passiveentityandai.html"> <strong>11.2.</strong>  创建一个动物和AI</a></li>
+<li><a href="https://neutrino.v2mcdev.com/capability/intro.html"> <strong>12.</strong>  能力系统</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/capability/capabilityfromscratch.html"> <strong>12.1.</strong>  从零构建与使用能力</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/capability/simpleusage.html"> <strong>12.2.</strong>  开始使用预定义能力</a></li>
+<li><a href="https://neutrino.v2mcdev.com/capability/attachcapabilityprovider.html"> <strong>12.3.</strong>  附加能力提供器</a></li>
+<li><a href="https://neutrino.v2mcdev.com/worldsaveddata/example.html"> <strong>13.</strong>  WorldSavedData(世界数据保存)</a></li>
+<li><a href="https://neutrino.v2mcdev.com/gui/intro.html"> <strong>14.</strong>  Gui</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/gui/firstgui.html"> <strong>14.1.</strong>  第一个Gui</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/gui/container.html"> <strong>14.2.</strong>  Container</a></li>
+<li><a href="https://neutrino.v2mcdev.com/gui/hud.html"> <strong>14.3.</strong>  HUD</a></li>
+<li><a href="https://neutrino.v2mcdev.com/fluid/firstfluid.html"> <strong>15.</strong>  流体</a></li>
+<li><a href="https://neutrino.v2mcdev.com/worldgeneration/intro.html"> <strong>16.</strong>  世界生成</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/worldgeneration/oregeneration.html"> <strong>16.1.</strong>  矿物生成</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/worldgeneration/structuregeneration.html"> <strong>16.2.</strong>  结构生成</a></li>
+<li><a href="https://neutrino.v2mcdev.com/worldgeneration/biomegenerationandworldtype.html"> <strong>16.3.</strong>  自定义生物群系和世界类型</a></li>
+<li><a href="https://neutrino.v2mcdev.com/worldgeneration/dimensionenerationandchunkgeneratorandbiomeprovider.html"> <strong>16.4.</strong>  自定义维度与区块生成器以及生物群系提供器</a></li>
+<li><a href="https://neutrino.v2mcdev.com/datapack/intro.html"> <strong>17.</strong>  数据包</a></li>
+<li>
+<ol>
+<li><a href="https://neutrino.v2mcdev.com/datapack/recipes.html"> <strong>17.1.</strong>  配方</a></li>
+</ol>
+</li>
+<li><a href="https://neutrino.v2mcdev.com/datapack/lootable.html"> <strong>17.2.</strong>  掉落物配方</a></li>
+<li><a href="https://neutrino.v2mcdev.com/datagnerator/intro.html"> <strong>18.</strong>  Data Generator</a></li>
+<li><a href="https://neutrino.v2mcdev.com/command/command.html"> <strong>19.</strong>  命令</a></li>
+<li><a href="https://neutrino.v2mcdev.com/advancements/intro.html"> <strong>20.</strong>  进度</a></li>
+<li><a href="https://neutrino.v2mcdev.com/configure/configure.html"> <strong>21.</strong>  配置文件</a></li>
+<li><a href="https://neutrino.v2mcdev.com/potion/intro.html"> <strong>22.</strong>  药水</a></li>
+<li><a href="https://neutrino.v2mcdev.com/paticles/intro.html"> <strong>23.</strong>  粒子效果</a></li>
+<li><a href="https://neutrino.v2mcdev.com/sounds/intro.html"> <strong>24.</strong>  音效</a></li>
+<li><a href="https://neutrino.v2mcdev.com/io/intro.html"> <strong>25.</strong>  用户输入</a></li>
+<li><a href="https://neutrino.v2mcdev.com/compatible/intro.html"> <strong>26.</strong>  与其他mod的兼容</a></li>
+<li><a href="https://neutrino.v2mcdev.com/at/intro.html"> <strong>27.</strong>  Access Transformer</a></li>
+<li><a href="https://neutrino.v2mcdev.com/coremode/intro.html"> <strong>28.</strong>  CoreMod</a></li>
+</ol>
+<h2>反馈和建议</h2>
+<p>如果你有任何的反馈和建议欢迎在本帖下方留言，或者去<a href="https://github.com/fledgeXu/neutrino">Github</a>上开Issue。</p>
+<h2>项目贡献</h2>
+<p>如果你想贡献任何的代码，欢迎PR。</p>
+<p><a href="https://github.com/fledgeXu/neutrino">Github地址</a></p>
+<h2>许可证</h2>
+<p><img src="../uploads/default/original/1X/8f862936ca3b8c6a3bce2515a48c8905205fb806.png" alt="license" data-base62-sha1="ktFIrFgLb01wzAPo2HXPu7w1Yx0" width="88" height="31"><br>
+This work is licensed under a license <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>请问可不可以（需不需要）加入盔甲（或工具）篇？<br>
+<img src="../images/emoji/apple/slightly_smiling_face.png?v=9" title=":slightly_smiling_face:" class="emoji only-emoji" alt=":slightly_smiling_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>盔甲和工具本质上就是特殊的物品，参考原版的实现很容易就能写出来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>盔甲和工具本质上就是特殊的物品，参考原版的实现很容易就能写出来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>那请问可不可以加入多方块结构篇呢 <img src="../images/emoji/apple/pleading_face.png?v=9" title=":pleading_face:" class="emoji" alt=":pleading_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>多方块不是一个技术上的难题，不适合放到教程里。<br>
+我会专门出一期视频来讲多方块结构。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，期待您的视频 <img src="../images/emoji/apple/grinning.png?v=9" title=":grinning:" class="emoji" alt=":grinning:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>DeferredRegister&lt;&gt;(IForgeregistry base, String modid)是否已经是Deprecated状态？<br>
+（官方说的，在1.16后就是private修饰）<br>
+是否应当使用DeferredRegister.create(IForgeregistry base, String modid)类方法？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>是的，这个是在31.20 之后的某个MDK修改的。<br>
+教程使用的31.20还没有出现<code>DeferredRegister.create</code>这个方法，所以不用修改。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>奥好的非常感谢 <img src="../images/emoji/apple/slightly_smiling_face.png?v=9" title=":slightly_smiling_face:" class="emoji" alt=":slightly_smiling_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>雪澈</h4></div>
+    <br />
+    <div class="post">
+        <p>为什么我创建第一个方块的时候会无法解析Properties中的方法create？<br>
+Cannot resolve method ‘create’ in ‘Properties’</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请去提问区提问，这里不是给你问问题的地方。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请去提问区提问，这里不是给你问问题的地方。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>请问可不可以讲讲进度篇</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://zhangshenxing.gitee.io/vanillamodtutorial/#2.4_%E8%BF%9B%E5%BA%A6" class="onebox" target="_blank">https://zhangshenxing.gitee.io/vanillamodtutorial/#2.4_进度</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://zhangshenxing.gitee.io/vanillamodtutorial/#2.4_%E8%BF%9B%E5%BA%A6" class="onebox" target="_blank">https://zhangshenxing.gitee.io/vanillamodtutorial/#2.4_进度</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>希望可以添加某些方法的参数意义，例如HUD篇的blit这样参数意义不明的方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>Blit方法的参数还没有被指定，你可以查看这个<a href="https://gist.github.com/gigaherz">gigaherz</a>提供的<a href="https://gist.github.com/gigaherz/f61fe604f38e27afad4d1553bc6cf311">文件</a>来获取翻译好的函数签名。<br>
+<a href="https://neutrino.v2mcdev.com/gui/firstgui.html" class="inline-onebox">第一个Gui - Minecraft Forge Mod Dev tutorial</a></p>
+</blockquote>
+<p>Blit的使用方法我已经解释过了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>请问能不能添加一篇如何新增伤害类型与对应死亡信息的教程 <img src="../images/emoji/apple/slightly_smiling_face.png?v=9" title=":slightly_smiling_face:" class="emoji" alt=":slightly_smiling_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>emmm，新的伤害类型和死亡信息不是new一个<code>DamageSource</code>就能解决的事吗……</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>那么请问如何让武器可以造成这种伤害呢？又如何使护甲拥有对该伤害的防护？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是你应该去思考和研究的问题了，没有哪个教程会这么面面俱到的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>一只星尘qwq</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢您的解答</p>
+    </div>
+    <br />
+</body>
+</html>

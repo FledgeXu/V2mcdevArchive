@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何在开发环境中使用 OptiFine ？</title>
+</head>
+<body>
+    <div class="title"><h1>如何在开发环境中使用 OptiFine ？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3.3<br>
+Forge版本:  14.23.5.2847<br>
+Minecraft版本: 1.12.2<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>错误情况简述</strong><br>
+我尝试把 Extract 之后的 OptiFine 1.12.2 F6 pre1 反混淆后放入 ./run/mods 内，然后配合自己的 Tweaker 和 ClassTransformer 启动游戏，游戏内 OptiFine 是被正常加载的，但是会出现了下面的景象：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/03/02/GWXdNUKtyJnO9kV.png" title="2020-03-02_12.19.57.png" rel="nofollow noopener"><img src="https://i.loli.net/2020/03/02/GWXdNUKtyJnO9kV.png" alt="2020-03-02_12.19.57.png" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-03-02_12.19.57.png</span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[12:19:16] [Client thread/ERROR] [FML]: Exception loading model for variant minecraft:red_stained_glass_pane#east=true,north=true,south=false,west=true for blockstate "minecraft:stained_glass_pane[color=red,east=true,north=true,south=false,west=true]"
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:red_stained_glass_pane#east=true,north=true,south=false,west=true with loader VariantLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerVariant(ModelLoader.java:235) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerMultipartVariant(ModelLoader.java:251) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadBlock(ModelBakery.java:152) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadBlocks(ModelLoader.java:223) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:150) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:block/red_stained_glass_pane_post with loader VanillaLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+Caused by: java.io.FileNotFoundException: minecraft:models/models/block/red_stained_glass_pane_post.json
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:73) ~[FallbackResourceManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:65) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadModel(ModelBakery.java:365) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.access$1400(ModelLoader.java:115) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VanillaLoader.loadModel(ModelLoader.java:861) ~[ModelLoader$VanillaLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+[12:19:16] [Client thread/ERROR] [FML]: Exception loading model for variant minecraft:glass_pane#east=true,north=false,south=true,west=false for blockstate "minecraft:glass_pane[east=true,north=false,south=true,west=false]"
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:glass_pane#east=true,north=false,south=true,west=false with loader VariantLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerVariant(ModelLoader.java:235) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerMultipartVariant(ModelLoader.java:251) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadBlock(ModelBakery.java:152) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadBlocks(ModelLoader.java:223) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:150) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:block/glass_pane_post with loader VanillaLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+Caused by: java.io.FileNotFoundException: minecraft:models/models/block/glass_pane_post.json
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:73) ~[FallbackResourceManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:65) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadModel(ModelBakery.java:365) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.access$1400(ModelLoader.java:115) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VanillaLoader.loadModel(ModelLoader.java:861) ~[ModelLoader$VanillaLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+[12:19:16] [Client thread/ERROR] [FML]: Exception loading model for variant minecraft:glass_pane#east=false,north=false,south=true,west=true for blockstate "minecraft:glass_pane[east=false,north=false,south=true,west=true]"
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:glass_pane#east=false,north=false,south=true,west=true with loader VariantLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerVariant(ModelLoader.java:235) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerMultipartVariant(ModelLoader.java:251) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadBlock(ModelBakery.java:152) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadBlocks(ModelLoader.java:223) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:150) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:block/glass_pane_post with loader VanillaLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+Caused by: java.io.FileNotFoundException: minecraft:models/models/block/glass_pane_post.json
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:73) ~[FallbackResourceManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:65) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadModel(ModelBakery.java:365) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.access$1400(ModelLoader.java:115) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VanillaLoader.loadModel(ModelLoader.java:861) ~[ModelLoader$VanillaLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+[12:19:16] [Client thread/ERROR] [FML]: Exception loading model for variant minecraft:redstone_wire#east=up,north=none,south=side,west=up for blockstates ["minecraft:redstone_wire[east=up,north=none,power=2,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=3,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=0,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=1,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=6,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=7,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=4,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=5,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=10,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=11,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=8,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=9,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=14,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=15,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=12,south=side,west=up]", "minecraft:redstone_wire[east=up,north=none,power=13,south=side,west=up]"]
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:redstone_wire#east=up,north=none,south=side,west=up with loader VariantLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerVariant(ModelLoader.java:235) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.registerMultipartVariant(ModelLoader.java:251) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadBlock(ModelBakery.java:152) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadBlocks(ModelLoader.java:223) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:150) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model minecraft:block/redstone_dot with loader VanillaLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+Caused by: java.io.FileNotFoundException: minecraft:models/models/block/redstone_dot.json
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:73) ~[FallbackResourceManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:65) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadModel(ModelBakery.java:365) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.access$1400(ModelLoader.java:115) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VanillaLoader.loadModel(ModelLoader.java:861) ~[ModelLoader$VanillaLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader$WeightedRandomModel.&lt;init&gt;(ModelLoader.java:658) ~[ModelLoader$WeightedRandomModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$MultipartModel.&lt;init&gt;(ModelLoader.java:1214) ~[ModelLoader$MultipartModel.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1185) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 22 more
+[12:19:16] [Client thread/FATAL] [FML]: Suppressed additional 644 model loading errors for domain minecraft
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>OptiFineDevTweaker.java</code></p>
+<pre><code class="lang-java">package io.github.zekerzhayard.optifinedevloader;
+
+import java.io.File;
+import java.util.List;
+
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+
+public class OptiFineDevTweaker implements ITweaker {
+    @Override
+    public void acceptOptions(List&lt;String&gt; args, File gameDir, File assetsDir, String profile) {
+
+    }
+
+    @Override
+    public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        classLoader.registerTransformer("io.github.zekerzhayard.optifinedevloader.OptiFineDevClassTransformer");
+    }
+
+    @Override
+    public String getLaunchTarget() {
+        return "net.minecraft.client.main.Main";
+    }
+
+    @Override
+    public String[] getLaunchArguments() {
+        return new String[0];
+    }
+}
+</code></pre>
+<p><code>OptiFineDevTransformer.java</code></p>
+<pre><code class="lang-java">package io.github.zekerzhayard.optifinedevloader;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import net.minecraft.launchwrapper.IClassTransformer;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+
+public class OptiFineDevClassTransformer implements IClassTransformer {
+    private IClassTransformer optifineClassTransformer;
+    private Method fixMemberAccess;
+
+    public OptiFineDevClassTransformer() {
+        try {
+            this.optifineClassTransformer = (IClassTransformer) Class.forName("optifine.OptiFineClassTransformer").newInstance();
+            this.fixMemberAccess = Class.forName("optifine.AccessFixer").getMethod("fixMemberAccess", ClassNode.class, ClassNode.class);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public byte[] transform(String name, String transformedName, byte[] basicClass) {
+        if (this.optifineClassTransformer != null &amp;&amp; this.fixMemberAccess != null &amp;&amp; name.startsWith("net.minecraft.")) {
+            ClassNode oldClassNode = new ClassNode(), newClassNode = new ClassNode();
+            new ClassReader(basicClass).accept(oldClassNode, ClassReader.EXPAND_FRAMES);
+            new ClassReader(this.optifineClassTransformer.transform(name.replace(".", "/"), transformedName, basicClass)).accept(newClassNode, ClassReader.EXPAND_FRAMES);
+            try {
+                this.fixMemberAccess.invoke(null, oldClassNode, newClassNode);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+            ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+            newClassNode.accept(classWriter);
+            basicClass = classWriter.toByteArray();
+        }
+        return basicClass;
+    }
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+我本以为这是个「月经问题」，结果我基本没查到相关解决方案，只查到这一个项目：<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/OpenCubicChunks/OptiFineDevTweaker" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="https://avatars1.githubusercontent.com/u/24438664?s=400&amp;v=4" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/OpenCubicChunks/OptiFineDevTweaker" target="_blank" rel="nofollow noopener">OpenCubicChunks/OptiFineDevTweaker</a></h3>
+
+<p>A thing for mod developers to make OptiFine run in dev environment. - OpenCubicChunks/OptiFineDevTweaker</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+但是，会报下面的错，OptiFine 没有被加载：</p>
+<pre><code class="lang-auto">[13:23:31] [main/INFO] [LaunchWrapper]: Calling tweak class ofdev.launchwrapper.OptifineDevTweakerWrapper
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: OptiFine ClassTransformer
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: java.lang.IllegalArgumentException: URI is not hierarchical
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.io.File.&lt;init&gt;(File.java:418)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at optifine.OptiFineClassTransformer.&lt;init&gt;(OptiFineClassTransformer.java:43)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.Class.newInstance(Class.java:442)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at ofdev.launchwrapper.OptifineDevTransformerWrapper.&lt;init&gt;(OptifineDevTransformerWrapper.java:74)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.Class.newInstance(Class.java:442)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.LaunchClassLoader.registerTransformer(LaunchClassLoader.java:88)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at ofdev.launchwrapper.OptifineDevTweakerWrapper.injectIntoClassLoader(OptifineDevTweakerWrapper.java:39)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:115)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.reflect.Method.invoke(Method.java:498)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at GradleStart.main(GradleStart.java:25)
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: *** Can not find the OptiFine JAR in the classpath ***
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: *** OptiFine will not be loaded! ***
+[13:23:39] [main/INFO] [STDOUT]: [ofdev.launchwrapper.OptifineDevTransformerWrapper:&lt;init&gt;:88]: Ignore the above, OptiFine should run anyway
+[13:23:39] [main/INFO] [LaunchWrapper]: Calling tweak class optifine.OptiFineForgeTweaker
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineForgeTweaker:dbg:56]: OptiFineForgeTweaker: acceptOptions
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineForgeTweaker:dbg:56]: OptiFineForgeTweaker: injectIntoClassLoader
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: OptiFine ClassTransformer
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: java.lang.IllegalArgumentException: URI is not hierarchical
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.io.File.&lt;init&gt;(File.java:418)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at optifine.OptiFineClassTransformer.&lt;init&gt;(OptiFineClassTransformer.java:43)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.Class.newInstance(Class.java:442)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.LaunchClassLoader.registerTransformer(LaunchClassLoader.java:88)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at optifine.OptiFineForgeTweaker.injectIntoClassLoader(OptiFineForgeTweaker.java:38)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:115)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at java.lang.reflect.Method.invoke(Method.java:498)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+[13:23:39] [main/INFO] [STDERR]: [optifine.OptiFineClassTransformer:&lt;init&gt;:55]: 	at GradleStart.main(GradleStart.java:25)
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: *** Can not find the OptiFine JAR in the classpath ***
+[13:23:39] [main/INFO] [STDOUT]: [optifine.OptiFineClassTransformer:dbg:242]: *** OptiFine will not be loaded! ***
+</code></pre>
+<p>在 OptiFine 的 Discord 频道里面只看到 Barteks2x 在推广自己的这个项目，但是似乎大家都没遇到过我这个问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>建议不要在开发环境中使用 OptiFine 会有很多兼容性的问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>。。。<br>
+因为我主要是想解决这个项目与 OptiFine 的兼容性：<br>
+<aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/ZekerZhayard/OldAnimationsModFix" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="https://avatars2.githubusercontent.com/u/41327811?s=400&amp;v=4" class="thumbnail onebox-avatar" width="400" height="400">
+
+<h3><a href="https://github.com/ZekerZhayard/OldAnimationsModFix" target="_blank" rel="nofollow noopener">ZekerZhayard/OldAnimationsModFix</a></h3>
+
+<p>Fix some issues about OldAnimationsMod by SpiderFrog - ZekerZhayard/OldAnimationsModFix</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+<p>但是以往都是写完、编译、往生产环境里跑。跑起来之后两眼一抹黑，根本不知道发生了啥，所以才来问问有没有什么解决方案。<br>
+因为我担心这个论坛不解决 Forge 1.8.9 的问题，所以我用 1.12.2 ，但是这两个版本装 OptiFine 都会有相同的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group quote-modified" data-username="ZekerZhayard" data-post="1" data-topic="188">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/zekerzhayard/40/21_2.png" class="avatar"> ZekerZhayard:</div>
+<blockquote>
+<p>ptifine.OptiFineClassTransformer.(OptiFineClassTransformer.java:43)</p>
+</blockquote>
+</aside>
+<p><code>optifine.OptiFineClassTransformer.&lt;init&gt;(OptiFineClassTransformer.java:43)</code>这行的代码是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox githubpullrequest">
+  <header class="source">
+      <a href="https://github.com/OpenCubicChunks/OptiFineDevTweaker/pull/1" target="_blank" rel="nofollow noopener">github.com/OpenCubicChunks/OptiFineDevTweaker</a>
+  </header>
+  <article class="onebox-body">
+    <div class="github-row">
+  <div class="github-icon-container" title="Pull Request">
+    <svg width="60" height="60" class="github-icon" viewBox="0 0 12 16" aria-hidden="true"><path d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+  </div>
+
+  <div class="github-info-container">
+    <h4>
+      <a href="https://github.com/OpenCubicChunks/OptiFineDevTweaker/pull/1" target="_blank" rel="nofollow noopener">Fix IllegalArgumentException caused by LaunchClassLoader's modification to CodeSource.</a>
+    </h4>
+
+    <div class="branches">
+      <code>OpenCubicChunks:master</code> ← <code>ZekerZhayard:master</code>
+    </div>
+
+    <div class="github-info">
+      <div class="date">
+        opened <span class="discourse-local-date" data-format="ll" data-date="2020-03-02" data-time="08:47:15" data-timezone="UTC">08:47AM - 02 Mar 20 UTC</span>
+      </div>
+
+      <div class="user">
+        <a href="https://github.com/ZekerZhayard" target="_blank" rel="nofollow noopener">
+          <img alt="ZekerZhayard" src="https://avatars1.githubusercontent.com/u/41327811?v=4" class="onebox-avatar-inline" width="20" height="20">
+          ZekerZhayard
+        </a>
+      </div>
+
+      <div class="lines" title="1 commits changed 2 files with 13 additions and 10 deletions">
+        <a href="https://github.com/OpenCubicChunks/OptiFineDevTweaker/pull/1/files" target="_blank" rel="nofollow noopener">
+          <span class="added">+13</span>
+          <span class="removed">-10</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+<p><img src="https://i.loli.net/2020/03/02/yE3Vfmbxu9wRXoq.jpg" alt="82~UA__A~2__YGRTZPQ_7_E.jpg" width="70" height="75"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>恭喜Merge​<img src="https://www.v2mcdev.com/images/emoji/apple/tada.png?v=9" title=":tada:" class="emoji" alt=":tada:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

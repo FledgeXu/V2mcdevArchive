@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Fabric创建GUI失败</title>
+</head>
+<body>
+    <div class="title"><h1>Fabric创建GUI失败</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统: Windows 10 64位<br>
+你是用的JDK: jdk-8u201<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.2.3<br>
+Fabric版本:  0.5.1+build.294-1.15<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>错误情况简述</strong><br>
+按照fabric教程创建GUI，右键方块后没有出界面并报错</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto"> [main/ERROR] (ScreenProviderRegistryImpl) No GUI factory found for shurlin:plant_gold_chest_block!
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>PlantGoldChestBlock.java</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.blocks;
+
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.container.Container;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.structure.rule.BlockStateMatchRuleTest;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import xyz.shurlin.Shurlin;
+import xyz.shurlin.blockentities.PlantGoldChestBlockEntity;
+import xyz.shurlin.registry.BlocksRegistry;
+import xyz.shurlin.registry.ContainersRegistry;
+
+public class PlantGoldChestBlock extends BlockWithEntity {
+    public PlantGoldChestBlock() {
+        super(FabricBlockSettings.of(Material.METAL).build());
+    }
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public BlockEntity createBlockEntity(BlockView view) {
+        return new PlantGoldChestBlockEntity();
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (itemStack.hasCustomName()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof PlantGoldChestBlockEntity) {
+                ((PlantGoldChestBlockEntity)blockEntity).setCustomName(itemStack.getName());
+            }
+        }
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!world.isClient) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof PlantGoldChestBlockEntity) {
+                ContainerProviderRegistry.INSTANCE.openContainer(BlocksRegistry.PLANT_GOLD_CHEST, player, buf -&gt; buf.writeBlockPos(pos));
+            }
+        }
+        return ActionResult.SUCCESS;
+    }
+
+    // Scatter the items in the chest when it is removed.
+    @Override
+    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof PlantGoldChestBlockEntity) {
+                ItemScatterer.spawn(world, pos, (Inventory)((PlantGoldChestBlockEntity)blockEntity));
+                // update comparators
+                world.updateHorizontalAdjacent(pos, this);
+            }
+            super.onBlockRemoved(state, world, pos, newState, moved);
+        }
+    }
+
+    @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return Container.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+}
+
+</code></pre>
+<p><code>PlantGoldChestBlockEntity.java</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.blockentities;
+
+import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.container.Container;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.DefaultedList;
+import xyz.shurlin.gui.containers.PlantGoldChestContainer;
+import xyz.shurlin.registry.BlockEntityTypesRegistry;
+
+public class PlantGoldChestBlockEntity extends LootableContainerBlockEntity {
+    private DefaultedList&lt;ItemStack&gt; inventory;
+    private static final int INVENTORY_SIZE = 54;
+
+    public PlantGoldChestBlockEntity() {
+        super(BlockEntityTypesRegistry.PLANT_GOLD_CHEST_ENTITY_TYPE);
+        this.inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+    }
+
+    @Override
+    protected DefaultedList&lt;ItemStack&gt; getInvStackList() {
+        return this.inventory;
+    }
+
+    @Override
+    protected void setInvStackList(DefaultedList&lt;ItemStack&gt; list) {
+        this.inventory = list;
+    }
+
+    @Override
+    protected Text getContainerName() {
+        return new TranslatableText("container.chest");
+    }
+
+    @Override
+    public Container createContainer(int syncId, PlayerInventory playerInventory) {
+        return new PlantGoldChestContainer(syncId, playerInventory, (Inventory) this);
+    }
+
+    @Override
+    public int getInvSize() {
+        return INVENTORY_SIZE;
+    }
+
+    @Override
+    public void fromTag(CompoundTag tag) {
+        super.fromTag(tag);
+        this.inventory = DefaultedList.ofSize(this.getInvSize(), ItemStack.EMPTY);
+        if (!this.deserializeLootTable(tag)) {
+            Inventories.fromTag(tag, this.inventory);
+        }
+    }
+
+    @Override
+    public CompoundTag toTag(CompoundTag tag) {
+        super.toTag(tag);
+        if (!this.serializeLootTable(tag)) {
+            Inventories.toTag(tag, this.inventory);
+        }
+        return tag;
+    }
+}
+</code></pre>
+<p><code>PlantGoldChestContainer.java</code></p>
+<pre><code class="lang-auto">
+import net.minecraft.container.Container;
+import net.minecraft.container.ContainerType;
+import net.minecraft.container.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import xyz.shurlin.registry.ContainersRegistry;
+
+public class PlantGoldChestContainer extends Container {
+    private final Inventory inventory;
+    private static final int INVENTORY_SIZE = 54;
+
+    public PlantGoldChestContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+        super(ContainerType.GENERIC_9X6, syncId);
+        this.inventory = inventory;
+        checkContainerSize(inventory, INVENTORY_SIZE);
+        inventory.onInvOpen(playerInventory.player);
+
+        int i;
+        int j;
+
+        for (i = 0; i &lt; 6; i++) {
+            for (j = 0; j &lt; 9; j++) {
+                this.addSlot(new Slot(inventory, i * 9 + j, 8 + j * 18, 18 + i * 18));
+            }
+        }
+
+
+        for (i = 0; i &lt; 3; i++) {
+            for (j = 0; j &lt; 9; j++) {
+                this.addSlot(new Slot(playerInventory, i * 9 + j + 9, 8 + j * 18, 18 + i * 18 + 103 + 18));
+            }
+        }
+
+
+        for (j = 0; j &lt; 9; j++) {
+            this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 18 + 161 + 18));
+        }
+    }
+
+    @Override
+    public boolean canUse(PlayerEntity player) {
+        return this.inventory.canPlayerUseInv(player);
+    }
+
+    @Override
+    public ItemStack transferSlot(PlayerEntity player, int invSlot) {
+        ItemStack newStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(invSlot);
+        if (slot != null &amp;&amp; slot.hasStack()) {
+            ItemStack originalStack = slot.getStack();
+            newStack = originalStack.copy();
+            if (invSlot &lt; this.inventory.getInvSize()) {
+                if (!this.insertItem(originalStack, this.inventory.getInvSize(), this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.insertItem(originalStack, 0, this.inventory.getInvSize(), false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (originalStack.isEmpty()) {
+                slot.setStack(ItemStack.EMPTY);
+            } else {
+                slot.markDirty();
+            }
+        }
+
+        return newStack;
+    }
+}
+</code></pre>
+<p><code>BlockEntityTypesRegistry.java</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.registry;
+
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.util.registry.Registry;
+import xyz.shurlin.blockentities.PlantGoldChestBlockEntity;
+
+public class BlockEntityTypesRegistry {
+
+    public static final BlockEntityType&lt;PlantGoldChestBlockEntity&gt; PLANT_GOLD_CHEST_ENTITY_TYPE =
+            Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                    BlocksRegistry.PLANT_GOLD_CHEST,
+                    BlockEntityType.Builder.create(PlantGoldChestBlockEntity::new,
+                            BlocksRegistry.PLANT_GOLD_CHEST_BLOCK).build(null));
+    ;
+
+}
+
+</code></pre>
+<p><code>PlantGoldChestScreen.java</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.gui.screens;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.screen.ingame.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import xyz.shurlin.Shurlin;
+import xyz.shurlin.gui.containers.PlantGoldChestContainer;
+
+public class PlantGoldChestScreen extends ContainerScreen&lt;PlantGoldChestContainer&gt; {
+    private static final Identifier TEXTURE = new Identifier(Shurlin.MODID, "textures/gui/plant_gold_chest.png");
+
+    public PlantGoldChestScreen(PlantGoldChestContainer container, PlayerInventory playerInventory, Text name) {
+        super(container, playerInventory, name);
+        this.containerHeight = 114 + 6 * 18;
+    }
+
+    @Override
+    protected void drawForeground(int mouseX, int mouseY) {
+        this.font.draw(this.title.asFormattedString(), 8.0F, 6.0F, 4210752);
+        this.font.draw(this.playerInventory.getDisplayName().asFormattedString(), 8.0F, (float)(this.containerHeight - 96 + 2), 4210752);
+    }
+
+    @Override
+    protected void drawBackground(float delta, int mouseX, int mouseY) {
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.minecraft.getTextureManager().bindTexture(TEXTURE);
+        int i = (this.width - this.containerWidth) / 2;
+        int j = (this.height - this.containerHeight) / 2;
+        this.blit(i, j, 0, 0, this.containerWidth, 6 * 18 + 17);
+        this.blit(i, j + 6 * 18 + 17, 0, 126, this.containerWidth, 96);
+    }
+}
+</code></pre>
+<p><code>ContainersRegistry</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.registry;
+
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+public class ContainersRegistry {
+
+    static final String PLANT_GOLD_CHEST_TRANSLATION_KEY = Util.createTranslationKey("container",
+            BlocksRegistry.PLANT_GOLD_CHEST);
+
+
+    ContainersRegistry() {
+
+       ContainerProviderRegistry.INSTANCE.registerFactory(BlocksRegistry.PLANT_GOLD_CHEST, (syncId, identifier, player, buf) -&gt; {
+            final World world = player.world;
+            final BlockPos pos = buf.readBlockPos();
+            return world.getBlockState(pos).createContainerFactory(player.world, pos).createMenu(syncId, player.inventory, player);});
+
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对Fabric不是很熟。<br>
+你试试在<code>ContainersRegistry</code>类的构造方法里打上断点，看看<code>ContainerProviderRegistry.INSTANCE.registerFactory</code>执行到了没有？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我去看了一眼官方的WIKi<br>
+你忘了把Screen和Container绑定在一起了。</p>
+<pre><code class="lang-java">  @Override
+    public void onInitializeClient() {
+        [...]
+        ScreenProviderRegistry.INSTANCE.&lt;BiggerChestContainer&gt;registerFactory(ExampleMod.BIGGER_CHEST, (container) -&gt; new BiggerChestScreen(container, MinecraftClient.getInstance().player.inventory, new TranslatableText(ExampleMod.BIGGER_CHEST_TRANSLATION_KEY)));
+    }
+</code></pre>
+<p><a href="https://fabricmc.net/wiki/tutorial:containers" class="onebox" target="_blank">https://fabricmc.net/wiki/tutorial:containers</a></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>呃，不好意思，漏了个文件<br>
+<code>ShurlinClient.java</code></p>
+<pre><code class="lang-auto">package xyz.shurlin.registry;
+
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.TranslatableText;
+import xyz.shurlin.gui.containers.PlantGoldChestContainer;
+import xyz.shurlin.gui.screens.PlantGoldChestScreen;
+
+public class ShurlinClient implements ClientModInitializer {
+    public void onInitializeClient() {
+        ScreenProviderRegistry.INSTANCE.&lt;PlantGoldChestContainer&gt;registerFactory(BlocksRegistry.PLANT_GOLD_CHEST,
+                (container) -&gt; new PlantGoldChestScreen(container, MinecraftClient.getInstance().player.inventory,
+                new TranslatableText(ContainersRegistry.PLANT_GOLD_CHEST_TRANSLATION_KEY)));
+
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这样我就不是很清楚了，看WiKi这好像还是一个Draft，不清楚是不是wiki自己的代码有问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的问题解决了吗？解决了请选择一个楼层作为答案，或者自己补充信息作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么让投射物变得可被破坏？</title>
+</head>
+<body>
+    <div class="title"><h1>怎么让投射物变得可被破坏？</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.46<br>
+Minecraft版本: 1.15.2</p>
+<p>我想让我的<code>ThrowableEntity</code>能够被弓箭之类的武器杀死，但是找不到资料。wiki上说投射物默认生命值是无穷，应该可以改吧？而且投射物貌似不和箭发生作用…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以在你的投射物的<code>Tick</code>方法里用<code>this.world.getEntitiesInAABBexcluding</code>获取和投射物碰撞箱相重叠的实体，如果箭在这个实体列表里，就把投射物本身删除就行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我试着用<code>getEntitiesInAABBexcluding</code>，但是不知道这里怎么填：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/265afe96577b6824c3203e124165796b198a83b4.png" data-download-href="../uploads/default/265afe96577b6824c3203e124165796b198a83b4" title="image"><img src="../uploads/default/optimized/1X/265afe96577b6824c3203e124165796b198a83b4_2_690x283.png" alt="image" data-base62-sha1="5tj67e9TVI2BCWqtFZUsBWBsowA" width="690" height="283" srcset="../uploads/default/optimized/1X/265afe96577b6824c3203e124165796b198a83b4_2_690x283.png, ../uploads/default/optimized/1X/265afe96577b6824c3203e124165796b198a83b4_2_1035x424.png 1.5x, ../uploads/default/original/1X/265afe96577b6824c3203e124165796b198a83b4.png 2x" data-small-upload="../uploads/default/optimized/1X/265afe96577b6824c3203e124165796b198a83b4_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1264×519 33.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div><br>
+在<code>tick</code>方法里面：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/fb7988f889ee984a2ebdcd3d66a8edc880cd2924.png" data-download-href="../uploads/default/fb7988f889ee984a2ebdcd3d66a8edc880cd2924" title="image"><img src="../uploads/default/original/1X/fb7988f889ee984a2ebdcd3d66a8edc880cd2924.png" alt="image" data-base62-sha1="zSEeqxlxuFvtxCHrnkbvCCrkmmE" width="690" height="195" data-small-upload="../uploads/default/optimized/1X/fb7988f889ee984a2ebdcd3d66a8edc880cd2924_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1095×310 16.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>填一个<code>this</code>试试。<br>
+另外代码不要贴图片，请贴文本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢提醒。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>其实onImpact也可以实现，触发之后删掉自己就行了，参考原版蛤炮的实现。<br>
+至于被伤害的处理，可以覆盖受到伤害的方法，同样参考原版蛤炮的实现。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

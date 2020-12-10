@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.15]请问怎样才能做到在玩家戴上头盔时改变第一人称的着色器？</title>
+</head>
+<body>
+    <div class="title"><h1>[1.15]请问怎样才能做到在玩家戴上头盔时改变第一人称的着色器？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你是用的JDK: jdk1.8 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020 2.2<br>
+Forge版本:  forge:1.15.2-31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200514-1.15.1</p>
+<p>请问如何做到在戴上头盔时可以改变玩家视觉的着色器色调，就像原版旁观者模式下末影人的反色视角，苦力怕的绿色视角。<br>
+我想制作一个头盔戴到头上第一人称画面的色调会变成红色。<br>
+类似的mod好像1.12.2的巫术学里面有法术叫时间滞留可以让屏幕变成蓝色色调。<br>
+如何在戴上头盔时可以触发呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>很有趣的问题，我也不清楚具体怎么实现。但是我看完这个问题之后，觉得原版的南瓜头比较符合你的描述，你可以看看原版的南瓜头是怎么实现戴到头上之后实现那个效果的。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>好的，不过我感觉南瓜头的实现方式好像类似于玩家着火时显示出来的一张贴图那种，和改变画面的色调有一些区别。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以叠一张半透明的图片，就可以模拟出色调变化了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>其实从末影人实体那边跳转一下就行了。<br>
+GameRenderer</p>
+<pre><code class="lang-auto">public void loadShader(ResourceLocation resourceLocationIn) {
+      if (this.shaderGroup != null) {
+         this.shaderGroup.close();
+      }
+
+      try {
+         this.shaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager, this.mc.getFramebuffer(), resourceLocationIn);
+         this.shaderGroup.createBindFramebuffers(this.mc.getMainWindow().getFramebufferWidth(), this.mc.getMainWindow().getFramebufferHeight());
+         this.useShader = true;
+      } catch (IOException ioexception) {
+         LOGGER.warn("Failed to load shader: {}", resourceLocationIn, ioexception);
+         this.shaderIndex = SHADER_COUNT;
+         this.useShader = false;
+      } catch (JsonSyntaxException jsonsyntaxexception) {
+         LOGGER.warn("Failed to load shader: {}", resourceLocationIn, jsonsyntaxexception);
+         this.shaderIndex = SHADER_COUNT;
+         this.useShader = false;
+      }
+   }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>推荐做一个实体继承 ClientPlayer 并包装一下 ClientPlayer，为这个类设置特殊的渲染 shader。<br>
+<code>net.minecraftforge.fml.client.registry.ClientRegistry#registerEntityShader</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>更新fabric快照版本从20w10a更新20w11a失败问题</title>
+</head>
+<body>
+    <div class="title"><h1>更新fabric快照版本从20w10a更新20w11a失败问题</h1></div>
+    <div class="post-user" class="user"><h4>思念</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:3.3<br>
+Fabric版本: fabric-api:0.5.3+build.308-1.16<br>
+Minecraft版本: 20w11a<br>
+yarn Mapping 文件版本: 20w11a+build.1</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">&gt; Configure project :Fabric Loom: 0.2.6-SNAPSHOT Build(jenkins #34)
+:setting up loom dependencies
+:merging jars
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'elementera_fabric-20w10a'.
+&gt; Failed to notify project evaluation listener.
+   &gt; Failed to provide com.mojang:minecraft:20w11a : zip END header not found
+   &gt; java.lang.NullPointerException (no error message)
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+CONFIGURE FAILED in 2s
+</code></pre>
+<p><strong>相关代码</strong><br>
+`build.gradle</p>
+<pre><code class="lang-auto">plugins {
+        id 'fabric-loom' version '0.2.6-SNAPSHOT'
+        id 'maven-publish'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+dependencies {
+    minecraft "com.mojang:minecraft:20w11a"
+    mappings "net.fabricmc:yarn:20w11a+build.1:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.7.8+build.187"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.5.3+build.308-1.16"
+}
+
+processResources {
+        inputs.property "version", project.version
+
+        from(sourceSets.main.resources.srcDirs) {
+                include "fabric.mod.json"
+                expand "version": project.version
+        }
+
+        from(sourceSets.main.resources.srcDirs) {
+                exclude "fabric.mod.json"
+        }
+}
+tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+}
+task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = "sources"
+        from sourceSets.main.allSource
+}
+jar {
+        from "LICENSE"
+}
+publishing {
+        publications {
+                mavenJava(MavenPublication) {
+                        artifact(remapJar) {
+                                builtBy remapJar
+                        }
+                        artifact(sourcesJar) {
+                                builtBy remapSourcesJar
+                        }
+                }
+        }
+        repositories {
+                
+        }
+</code></pre>
+<p><strong>相关代码</strong><br>
+`gradle.properties</p>
+<pre><code class="lang-auto"># Done to increase the memory available to gradle.
+org.gradle.jvmargs=-Xmx2G
+
+# Fabric Properties
+	# check these on https://fabricmc.net/use
+	minecraft_version=20w11a
+	yarn_mappings=20w11a+build.1
+	loader_version=0.7.8+build.187
+	fabric_version=0.5.3+build.308-1.16
+	
+	mod_version = 1.0.0
+	maven_group = net.baka4n
+	archives_base_name = Element Era mod
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我对fabric不是很懂。</p>
+<pre><code class="lang-auto">Failed to provide com.mojang:minecraft:20w11a : zip END header not found
+</code></pre>
+<p>这个看上去像是zip文件下载失败了，试试清空缓存重新下载。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请问你的问题解决了，如果解决了选择一个楼层或者自己补充信息作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

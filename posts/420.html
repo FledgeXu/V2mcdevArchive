@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>对于一些规则的询问</title>
+</head>
+<body>
+    <div class="title"><h1>对于一些规则的询问</h1></div>
+    <div class="post-user" class="user"><h4>叶冰莉兰</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>这里是才入mod坑的新人ylll/叶冰莉兰<br>
+关于mod开发这个圈子还不是很了解，如果有什么做得不妥的地方还希望大家指出。<br>
+接下来是目前遇到的一些问题：<br>
+1、关于mod的反编译。有时候会遇到比较喜欢的mod，想要了解它的实现方法，这种时候能不能以学习的目的进行反编译呢？<br>
+1.1 如果可以反编译的话，如何进行反混淆呢？反混淆是否需要知道作者的mcp版本呢？似乎没有找到多少相关的教程orz<br>
+2、关于mod的开发。有的mod是可以在多个mc的版本上运行的，请问这是如何做到的呢？若1.12.2的mod想升级至1.13.2，有多少需要改动的地方呢？到1.14.4或者1.15.2也是一样吗？还是每个不同的版本都有不同的改变的地方？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Seraph_JACK</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>可以<br>
+1.1 不需要，<a href="https://github.com/octarine-noise/simpledeobf" class="inline-onebox" rel="nofollow noopener">GitHub - octarine-noise/simpledeobf: simple deobfuscator for Minecraft mods</a>
+</li>
+<li>多个 mc 版本运行说明它和多个版本二进制兼容，可能是这个 mod 所引用的 Minecraft/Forge 代码恰好在这几个版本没有发生变化，或者主动为不同版本做了兼容（例如通过反射规避 JVM 装入类时的检查保证对不同版本的兼容性）。不同版本的改动建议自己部署一下开发环境看看 Minecraft 本体和 Minecraft Forge 代码的变化，这不是一言两语所能概括的。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>只是学习mod的反编译是可以的，只要你不重新发布就行。其实很多Mod都是开源的，你搜它们的Github地址就行。</li>
+<li>反混淆ForgeGradle就提供这样的功能，如果你用的是FG3里面提供了<code>fg.deobf</code>，你也可用<a href="https://github.com/md-5/SpecialSource">SpecialSource</a>。</li>
+<li>版本依赖是看你的的Mod信息配置的。</li>
+<li>1.12.2 到 1.13之后工作量很大，因为Forge完全重写了。</li>
+<li>1.14 和 1.15 之间差距不大。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <ol start="2">
+<li>有些可以在多个版本上运行的模组，可能没有适配于开发环境，只能用于生产环境，这个需要注意</li>
+</ol>
+    </div>
+    <br />
+</body>
+</html>

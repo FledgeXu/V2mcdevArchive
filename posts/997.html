@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Fabric的盔甲材质有问题</title>
+</head>
+<body>
+    <div class="title"><h1>Fabric的盔甲材质有问题</h1></div>
+    <div class="post-user" class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：windows 10 x64<br>
+你用的JDK是: 1.8.0_271<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2019.3.5<br>
+Forge版本:  fabric<br>
+Minecraft版本: 1.16.4</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1.png" data-download-href="../uploads/default/3a18b9f896740d7eedec1d10c2f1eb35220a84d1" title="1"><img src="../uploads/default/optimized/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1_2_690x376.png" alt="1" data-base62-sha1="8hWFvoXkvf6RyFCQKdvmFKf5k9b" width="690" height="376" srcset="../uploads/default/optimized/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1_2_690x376.png, ../uploads/default/optimized/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1_2_1035x564.png 1.5x, ../uploads/default/optimized/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1_2_1380x752.png 2x" data-small-upload="../uploads/default/optimized/1X/3a18b9f896740d7eedec1d10c2f1eb35220a84d1_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">1</span><span class="informations">1920×1048 352 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+材质出现错误渲染，我不理解这是怎么个运作方式。<br>
+如果你需要查看我别的类，我会想办法给你看的。<br>
+请尽快回复，我是住校生，明早就去学校了。如果实在没时间就下周在说了。<br>
+<strong>报错日志</strong></p>
+<pre><code class="lang-auto">[19:27:58] [main/WARN] (Minecraft) Failed to load texture: minecraft:textures/models/armor/fabric_layer_1.png
+ java.io.FileNotFoundException: minecraft:textures/models/armor/fabric_layer_1.png
+	at net.minecraft.resource.NamespaceResourceManager.getResource(NamespaceResourceManager.java:65) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.resource.ReloadableResourceManagerImpl.getResource(ReloadableResourceManagerImpl.java:64) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture$TextureData.load(ResourceTexture.java:97) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture.loadTextureData(ResourceTexture.java:56) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture.load(ResourceTexture.java:26) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.method_24303(TextureManager.java:94) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.registerTexture(TextureManager.java:65) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.bindTextureInner(TextureManager.java:58) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.bindTexture(TextureManager.java:49) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase$Texture.method_23563(RenderPhase.java:636) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase.startDrawing(RenderPhase.java:109) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at com.google.common.collect.ImmutableList.forEach(ImmutableList.java:408) ~[guava-21.0.jar:?]
+	at net.minecraft.client.render.RenderLayer$MultiPhase.method_23596(RenderLayer.java:351) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase.startDrawing(RenderPhase.java:109) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderLayer.draw(RenderLayer.java:279) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.VertexConsumerProvider$Immediate.draw(VertexConsumerProvider.java:84) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.VertexConsumerProvider$Immediate.getBuffer(VertexConsumerProvider.java:44) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.item.ItemRenderer.getArmorGlintConsumer(ItemRenderer.java:155) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.renderArmorParts(ArmorFeatureRenderer.java:90) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.renderArmor(ArmorFeatureRenderer.java:58) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.render(ArmorFeatureRenderer.java:36) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.render(ArmorFeatureRenderer.java:29) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.LivingEntityRenderer.render(LivingEntityRenderer.java:128) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.PlayerEntityRenderer.render(PlayerEntityRenderer.java:63) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.PlayerEntityRenderer.render(PlayerEntityRenderer.java:44) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.EntityRenderDispatcher.render(EntityRenderDispatcher.java:255) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.InventoryScreen.method_29977(InventoryScreen.java:128) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at com.mojang.blaze3d.systems.RenderSystem.runAsFancy(RenderSystem.java:823) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.InventoryScreen.drawEntity(InventoryScreen.java:128) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.drawBackground(CreativeInventoryScreen.java:683) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.HandledScreen.render(HandledScreen.java:92) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen.render(AbstractInventoryScreen.java:45) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.render(CreativeInventoryScreen.java:595) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.GameRenderer.render(GameRenderer.java:492) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1007) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:624) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:187) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.fabricmc.loader.game.MinecraftGameProvider.launch(MinecraftGameProvider.java:224) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.loader.launch.knot.Knot.init(Knot.java:141) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.loader.launch.knot.KnotClient.main(KnotClient.java:27) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86) [dev-launch-injector-0.2.1+build.8.jar:?]
+[19:27:59] [main/WARN] (Minecraft) Failed to load texture: minecraft:textures/models/armor/fabric_layer_2.png
+ java.io.FileNotFoundException: minecraft:textures/models/armor/fabric_layer_2.png
+	at net.minecraft.resource.NamespaceResourceManager.getResource(NamespaceResourceManager.java:65) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.resource.ReloadableResourceManagerImpl.getResource(ReloadableResourceManagerImpl.java:64) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture$TextureData.load(ResourceTexture.java:97) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture.loadTextureData(ResourceTexture.java:56) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.ResourceTexture.load(ResourceTexture.java:26) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.method_24303(TextureManager.java:94) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.registerTexture(TextureManager.java:65) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.bindTextureInner(TextureManager.java:58) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.texture.TextureManager.bindTexture(TextureManager.java:49) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase$Texture.method_23563(RenderPhase.java:636) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase.startDrawing(RenderPhase.java:109) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at com.google.common.collect.ImmutableList.forEach(ImmutableList.java:408) ~[guava-21.0.jar:?]
+	at net.minecraft.client.render.RenderLayer$MultiPhase.method_23596(RenderLayer.java:351) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderPhase.startDrawing(RenderPhase.java:109) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.RenderLayer.draw(RenderLayer.java:279) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.VertexConsumerProvider$Immediate.draw(VertexConsumerProvider.java:84) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.VertexConsumerProvider$Immediate.getBuffer(VertexConsumerProvider.java:44) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.item.ItemRenderer.getArmorGlintConsumer(ItemRenderer.java:155) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.renderArmorParts(ArmorFeatureRenderer.java:90) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.renderArmor(ArmorFeatureRenderer.java:58) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.render(ArmorFeatureRenderer.java:37) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.render(ArmorFeatureRenderer.java:29) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.LivingEntityRenderer.render(LivingEntityRenderer.java:128) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.PlayerEntityRenderer.render(PlayerEntityRenderer.java:63) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.PlayerEntityRenderer.render(PlayerEntityRenderer.java:44) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.entity.EntityRenderDispatcher.render(EntityRenderDispatcher.java:255) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.InventoryScreen.method_29977(InventoryScreen.java:128) ~[minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at com.mojang.blaze3d.systems.RenderSystem.runAsFancy(RenderSystem.java:823) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.InventoryScreen.drawEntity(InventoryScreen.java:128) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.drawBackground(CreativeInventoryScreen.java:683) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.HandledScreen.render(HandledScreen.java:92) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen.render(AbstractInventoryScreen.java:45) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.render(CreativeInventoryScreen.java:595) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.render.GameRenderer.render(GameRenderer.java:492) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1007) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:624) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:187) [minecraft-1.16.4-mapped-net.fabricmc.yarn-1.16.4+build.6-v2.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.fabricmc.loader.game.MinecraftGameProvider.launch(MinecraftGameProvider.java:224) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.loader.launch.knot.Knot.init(Knot.java:141) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.loader.launch.knot.KnotClient.main(KnotClient.java:27) [fabric-loader-0.10.6+build.214@net.fabricmc.yarn.1_16_4.1.16.4+build.6-v2.jar:?]
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86) [dev-launch-injector-0.2.1+build.8.jar:?]
+</code></pre>
+<p><strong>相关代码</strong><br>
+FabricArmor</p>
+<pre><code class="lang-auto">package net.rechalow.course.item.armor;
+
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.rechalow.course.item.ItemInput;
+
+public class FabricArmor implements ArmorMaterial {
+    public static final FabricArmor ARMOR_SETTING = new FabricArmor();
+    public static final int[] BASE_DURABILITY = {13,15,16,11};
+    public static final int[] PROTECTION_VALUES = {3,6,8,3};
+
+    @Override
+    public int getDurability(EquipmentSlot slot) {
+        return BASE_DURABILITY[slot.getEntitySlotId()] * 3;
+    }
+
+    @Override
+    public int getProtectionAmount(EquipmentSlot slot) {
+        return PROTECTION_VALUES[slot.getEntitySlotId()];
+    }
+
+    @Override
+    public int getEnchantability() {
+        return 30;
+    }
+
+    @Override
+    public SoundEvent getEquipSound() {
+        return SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE;
+    }
+
+    @Override
+    public Ingredient getRepairIngredient() {
+        return Ingredient.ofItems(ItemInput.FABRIC_ITEM);
+    }
+
+    @Override
+    public String getName() {
+        return "fabric";
+    }
+
+    @Override
+    public float getToughness() {
+        return 5.0F;
+    }
+
+    @Override
+    public float getKnockbackResistance() {
+        return 0.5F;
+    }
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://fabricmc.net/wiki/_media/favicon.ico" class="site-icon" width="16" height="16">
+      <a href="https://fabricmc.net/wiki/tutorial:armor" target="_blank" rel="noopener nofollow ugc">fabricmc.net</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="690" height="376">
+
+<h3><a href="https://fabricmc.net/wiki/tutorial:armor" target="_blank" rel="noopener nofollow ugc">tutorial:armor [Fabric Wiki]</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>别人没有义务快速解答你的问题，不管你是住校生也好，不是住校生也好。</li>
+<li>请你补充你资源文件的目录结构。</li>
+<li>这个问题，错误提示很清楚了，游戏没有找到你的材质。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>Failed to load texture<br>
+很明显是加载错误，怎么是找不到材质</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">java.io.FileNotFoundException: minecraft:textures/models/armor/fabric_layer_1.png
+</code></pre>
+<p>File Not Found: 没有找到文件。</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8fc963d2ae2438123e92c30bce983562fccfcd22.png" data-download-href="../uploads/default/8fc963d2ae2438123e92c30bce983562fccfcd22" title="1"><img src="../uploads/default/original/1X/8fc963d2ae2438123e92c30bce983562fccfcd22.png" alt="1" data-base62-sha1="kvZKLcXXLCx0kegdWyuf5hz5BbY" width="280" height="500" data-small-upload="../uploads/default/optimized/1X/8fc963d2ae2438123e92c30bce983562fccfcd22_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">1</span><span class="informations">469×837 9.56 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你这个目录结构当然是找不到材质的……<br>
+盔甲的材质需要放到<code>minecraft</code>这个domain下面去。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://boson.v2mcdev.com/item/armor.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://boson.v2mcdev.com/item/armor.html" target="_blank" rel="noopener">boson.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://boson.v2mcdev.com/item/armor.html" target="_blank" rel="noopener">装备 - Boson 1.16 Modding Tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何给物品添加tag</title>
+</head>
+<body>
+    <div class="title"><h1>如何给物品添加tag</h1></div>
+    <div class="post-user" class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+使用的系统：win10 x64<br>
+是用的JDK: 8u251 x64<br>
+使用的IDE：IntelliJ IDEA<br>
+使用的IDE版本:2020.1.4<br>
+Forge版本: 31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200904</p>
+<p><strong>情况简述</strong><br>
+想要给物品添加tag，在Item类中只找到了onCreated方法，可以在工作台制作或烧制出物品时调用，然而使用这个方法去添加tag的话，用其他途径获取物品，例如从创造模式物品栏中取出的itemStack是无法直接拥有tag的。<br>
+请问如何让物品的itemstack无论以何种方式获得都可以添加指定tag。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个不是一个Mod开发的问题，这是一个对原版熟悉程度还不够的问题……</p>
+<blockquote>
+<p>为了使用方块、物品、流体、实体类型或函数标签，标签JSON文件必须分别放置于数据包的 <code>data/(命名空间)/tags/blocks</code> 、 <code>data/(命名空间)/tags/items</code> 、 <code>data/(命名空间)/tags/fluids</code> 、 <code>data/(命名空间)/tags/entity_types</code> 或 <code>data/(命名空间)/tags/functions</code> 目录下。<br>
+<a href="https://minecraft-zh.gamepedia.com/%E6%A0%87%E7%AD%BE">Minecraft Wiki</a></p>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>原来如此，受教了</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>我看了一下资料，我觉的你可能理解错我的意思了，我要添加的是NBTtag，用来储存数据的那种</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有这种办法，如果何种方式取出都应该有NBT值的话，那么说明这个值不应该存放在ItemStack里也不应该用NBT存。这个不是NBT应该干的事。<br>
+这个问题是个<a href="https://www.aqee.net/post/xy-problem.html">XY问题</a>。<br>
+请说清楚你究竟想实现什么功能。</p>
+    </div>
+    <br />
+    <div class="user"><h4>镜界开放</h4></div>
+    <br />
+    <div class="post">
+        <p>我想给物品添加不同的级别档位，当我将这个物品放入自制的slot中时，我需要读取这个级别数据来实现不同等级的方法，而且这个数据是可以修改的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那你在你的Item类里新增一个字段就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>可以通过断点debug来看原版物品如何实现的，比如重写物品的onItemUseFinish并添加一个断点，debug启动。比如说想要看原版的附魔实现，就给这个物品用铁砧上个附魔，再右击使用就可以在debug窗口查看这个item的所有属性。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你在说什么……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你在说什么……</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

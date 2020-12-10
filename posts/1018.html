@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2弓新增各种属性问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2弓新增各种属性问题</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：window 64<br>
+你用的JDK是: 1.8<br>
+你使用的IDE：idea<br>
+你使用的IDE版本:2020<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200514-1.15.1</p>
+<p>为什么我这么写拿弓射人 那个人不会中毒</p>
+<pre><code class="lang-auto">package com.tutorial.neutrino.instantiation.items;
+
+import com.tutorial.neutrino.groups.ModGroup;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.*;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
+
+
+
+public class ObsidianBow extends BowItem {
+    private static final EffectInstance _effectInstance = new EffectInstance(Effects.POISON, 10 * 20, 1);
+
+    public ObsidianBow() {
+        super(new Properties().group(ModGroup.itemGroup));
+    }
+
+
+    @Override
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+        if (entityLiving instanceof PlayerEntity) {//判断entityLiving是否为PlayerEntity实体 判断entityLiving是否为玩家
+            PlayerEntity playerentity = (PlayerEntity) entityLiving;//向上转型
+            //是创造或者游戏难度简单赋值flag为true
+            boolean flag = playerentity.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) &gt; 0;
+
+            ItemStack itemstack = playerentity.findAmmo(stack);//找到stack的弹药赋值为itemstack
+
+            int i = this.getUseDuration(stack) - timeLeft;//获取蓄力了多久赋值i
+            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i, !itemstack.isEmpty() || flag);//不知道
+            //如果没有蓄力则跳出方法
+            if (i &lt; 0) {
+                return;
+            }
+
+            //如果有弹药或者在创造模式执行的语句
+            if (!itemstack.isEmpty() || flag) {
+                if (itemstack.isEmpty()) {
+                    itemstack = new ItemStack(Items.ARROW);
+                }
+
+                //现在的变量f是箭的伤害
+                float f = getArrowVelocity(i);
+                //如果箭伤害大于0.1执行语句
+                if (!((double) f &lt; 0.1D)) {
+                    boolean flag1 = playerentity.abilities.isCreativeMode || (itemstack.getItem() instanceof ArrowItem &amp;&amp; ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, playerentity));
+                    if (!worldIn.isRemote) {
+
+                        ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
+
+                        playerentity.addPotionEffect(_effectInstance);
+//                        entityLiving.addPotionEffect(_effectInstance);
+
+
+                        AbstractArrowEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+                        abstractarrowentity = customeArrow(abstractarrowentity);
+                        abstractarrowentity.shoot(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+
+
+                        if (f == 1.0F) {
+                            abstractarrowentity.setIsCritical(true);
+                        }
+
+                        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+                        if (j &gt; 0) {
+                            abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
+                        }
+
+                        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+                        if (k &gt; 0) {
+                            abstractarrowentity.setKnockbackStrength(k);
+                        }
+
+                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) &gt; 0) {
+                            abstractarrowentity.setFire(100);
+                        }
+
+                        stack.damageItem(1, playerentity, (p_220009_1_) -&gt; {
+                            p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
+                        });
+                        if (flag1 || playerentity.abilities.isCreativeMode &amp;&amp; (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+                            abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                        }
+
+                        worldIn.addEntity(abstractarrowentity);
+                    }
+
+                    worldIn.playSound((PlayerEntity) null, playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    if (!flag1 &amp;&amp; !playerentity.abilities.isCreativeMode) {
+                        itemstack.shrink(1);
+                        if (itemstack.isEmpty()) {
+                            playerentity.inventory.deleteStack(itemstack);
+                        }
+                    }
+
+                    playerentity.addStat(Stats.ITEM_USED.get(this));
+                }
+            }
+        }
+    }
+
+
+}</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我估计你只需要继承<code>BowItem</code>然后重写<code>customArrow</code>方法就行了，不需要复制这么多代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>不行啊 好像得重写onPlayerStoppedUsing方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>怎么就不行了？<br>
+你在这个函数里判断一下是不是<code>ArrowEntity</code>这个子类，然后调用<code>ArrowEntity</code>下的<code>addEffect</code>不就行了……</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请你用补充在评论里，论坛支持markdown格式。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>请你发代码，不要发截图。<br>
+Markdown 小学生都学得会。<br>
+<a href="../t/topic/881" class="inline-onebox">Markdown 简明教程</a>
+</li>
+<li>我不知道，你要自己运行，看看出什么bug了。</li>
+<li>不要写一段代码问别人，别人不是人脑解析器。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">package com.tutorial.neutrino.instantiation.items;
+
+import com.tutorial.neutrino.groups.ModGroup;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.item.*;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
+
+
+/**
+ * 黑曜弓
+ *
+ * @author 李昌瑞
+ * @email 1924097082@qq.com
+ * @Date 2020/12/7 14:30
+ */
+public class ObsidianBow extends BowItem {
+    private static final EffectInstance _effectInstance = new EffectInstance(Effects.POISON, 6 * 40, 2);
+
+    public ObsidianBow() {
+        super(new Properties().group(ModGroup.itemGroup));
+    }
+
+
+    /**
+     * @param stack        弓
+     * @param worldIn      这个方法被调用时所在的 World
+     * @param entityLiving 使用这个物品的实体（注意，不一定是玩家）
+     * @param timeLeft     剩余蓄力时间？ 数值越小蓄力时间越久？
+     * @author lichangrui
+     * @date 2020/12/8 9:16
+     */
+    @Override
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+        if (entityLiving instanceof PlayerEntity) {//判断entityLiving是否为PlayerEntity实体 判断entityLiving是否为玩家
+            PlayerEntity playerentity = (PlayerEntity) entityLiving;//向上转型
+            //是创造或者游戏难度简单赋值flag为true
+            boolean flag = playerentity.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) &gt; 0;
+
+            ItemStack itemstack = playerentity.findAmmo(stack);//找到stack的弹药赋值为itemstack
+
+            int i = this.getUseDuration(stack) - timeLeft;//获取蓄力了多久赋值i
+            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i, !itemstack.isEmpty() || flag);//不知道
+            //如果没有蓄力则跳出方法
+            if (i &lt; 0) {
+                return;
+            }
+
+            //如果有弹药或者在创造模式执行的语句
+            if (!itemstack.isEmpty() || flag) {
+                if (itemstack.isEmpty()) {
+                    itemstack = new ItemStack(Items.ARROW);
+                }
+
+                //现在的变量f是箭的伤害
+                float f = getArrowVelocity(i);
+                //如果箭伤害大于0.1执行语句
+                if (!((double) f &lt; 0.1D)) {
+                    boolean flag1 = playerentity.abilities.isCreativeMode || (itemstack.getItem() instanceof ArrowItem &amp;&amp; ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, playerentity));
+                    if (!worldIn.isRemote) {
+
+                        ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
+
+//                        playerentity.addPotionEffect(_effectInstance);
+//                        entityLiving.addPotionEffect(_effectInstance);
+
+                        ArrowEntity arrowEntity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack, playerentity);
+//                        AbstractArrowEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+                        arrowEntity.addEffect(_effectInstance);
+//                        ((ArrowEntity) abstractarrowentity).addEffect(_effectInstance);//新增 有时候好使
+
+                        arrowEntity = (ArrowEntity) customeArrow(arrowEntity);
+                        arrowEntity.shoot(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+
+
+                        if (f == 1.0F) {
+                            arrowEntity.setIsCritical(true);
+                        }
+
+                        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+                        if (j &gt; 0) {
+                            arrowEntity.setDamage(arrowEntity.getDamage() + (double) j * 0.5D + 0.5D);
+                        }
+
+                        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+                        if (k &gt; 0) {
+                            arrowEntity.setKnockbackStrength(k);
+                        }
+
+                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) &gt; 0) {
+                            arrowEntity.setFire(100);
+                        }
+
+                        stack.damageItem(1, playerentity, (p_220009_1_) -&gt; {
+                            p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
+                        });
+                        if (flag1 || playerentity.abilities.isCreativeMode &amp;&amp; (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+                            arrowEntity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                        }
+
+                        worldIn.addEntity(arrowEntity);
+                    }
+
+                    worldIn.playSound((PlayerEntity) null, playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    if (!flag1 &amp;&amp; !playerentity.abilities.isCreativeMode) {
+                        itemstack.shrink(1);
+                        if (itemstack.isEmpty()) {
+                            playerentity.inventory.deleteStack(itemstack);
+                        }
+                    }
+
+                    playerentity.addStat(Stats.ITEM_USED.get(this));
+                }
+            }
+        }
+    }
+
+//    @Override
+//    public AbstractArrowEntity customeArrow(AbstractArrowEntity arrow) {
+//        ((ArrowEntity) arrow).addEffect(_effectInstance);
+//        return arrow;
+//    }
+
+}
+</code></pre>
+<p>现在呢 我这样写刚开始射蘑菇牛一次或者几次可以中毒  然后之后就一直不会中毒了 求助</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我说过了你没有必要重写这个方法。<br>
+我写了一个测试了一下，运作非常正常</p>
+<pre><code class="lang-java">public class TestBow extends BowItem {
+    public TestBow(Properties builder) {
+        super(builder);
+    }
+
+    @Override
+    public AbstractArrowEntity customArrow(AbstractArrowEntity arrow) {
+        if (arrow instanceof ArrowEntity) {
+            ((ArrowEntity) arrow).addEffect(new EffectInstance(Effects.POISON, 3000, 10));
+        }
+        return super.customArrow(arrow);
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请不要用<code>铁的</code>这种词。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>那你知道怎么添加 爆炸和被雷劈的效果吗<br>
+我这样写没有雷劈的效果 而且DamageSource里没有爆炸的效果呀</p>
+<pre><code class="lang-auto">package com.tutorial.neutrino.instantiation.items;
+
+import com.tutorial.neutrino.groups.ModGroup;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.item.*;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
+
+
+/**
+ * 黑曜弓
+ *
+ * @author 李昌瑞
+ * @email 1924097082@qq.com
+ * @Date 2020/12/7 14:30
+ */
+public class ObsidianBow extends BowItem {
+    public ObsidianBow() {
+        super(new Properties().group(ModGroup.itemGroup));
+    }
+
+    @Override
+    public AbstractArrowEntity customeArrow(AbstractArrowEntity arrow) {
+        if (arrow instanceof ArrowEntity) {
+            ((ArrowEntity) arrow).addEffect(new EffectInstance(Effects.POISON, 6 * 20, 6));
+        }
+//        arrow.attackEntityFrom(DamageSource.LIGHTNING_BOLT,2.0F);
+        return super.customeArrow(arrow);
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>求回复…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这是另外的问题，一个帖子是一个问题。</p>
+    </div>
+    <br />
+</body>
+</html>

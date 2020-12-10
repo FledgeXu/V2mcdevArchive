@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于transferStackInSlot方法</title>
+</head>
+<body>
+    <div class="title"><h1>关于transferStackInSlot方法</h1></div>
+    <div class="post-user" class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：Eclipse<br>
+你使用的IDE版本:最新<br>
+Forge版本: 1.12.2<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>错误情况简述</strong><br>
+该方法是我根据找到的资料写出来的，但是有个问题当返回值为null的时候就会报错，甚至崩服，但是根据资料显示是可以为null，后来我改成直接返回空气之后，各方面发现都没问题了,<br>
+但是不知道这样写是不是正确的，所以想请教一下熟悉这方面的人解答一下这样写会不会有什么错？</p>
+<p><strong>相关代码</strong><br>
+<code>如下</code></p>
+<pre><code class="lang-auto">    @Override
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        Slot slot = inventorySlots.get(index);
+
+        if (slot == null || !slot.getHasStack()) {
+            return Items.AIR.getDefaultInstance();
+        }
+
+        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+
+        boolean isMerged = false;
+
+        if (index == 0 || index == 2) {
+            isMerged = mergeItemStack(newStack, 4, 40, true);
+        } else if (index &gt;= 4 &amp;&amp; index &lt; 31) {
+            isMerged = !goldSlot.getHasStack() &amp;&amp; newStack.getCount() &lt;= 16 &amp;&amp; mergeItemStack(newStack, 0, 1, false)
+                    || !emeraldSlot.getHasStack() &amp;&amp; mergeItemStack(newStack, 2, 3, false)
+                    || mergeItemStack(newStack, 31, 40, false);
+        } else if (index &gt;= 31 &amp;&amp; index &lt; 40) {
+            isMerged = !goldSlot.getHasStack() &amp;&amp; newStack.getCount() &lt;= 16 &amp;&amp; mergeItemStack(newStack, 0, 1, false)
+                    || !emeraldSlot.getHasStack() &amp;&amp; mergeItemStack(newStack, 2, 3, false)
+                    || mergeItemStack(newStack, 4, 31, false);
+        }
+
+        if (!isMerged) {
+            return Items.AIR.getDefaultInstance();
+        }
+
+        if (newStack.getCount() == 0) {
+            slot.putStack(Items.AIR.getDefaultInstance());
+        } else {
+            slot.onSlotChanged();
+        }
+
+//        slot.onPickupFromSlot(playerIn, newStack);
+        slot.onTake(playerIn, newStack);
+        return oldStack;
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>新版本建议返回<em><strong>ItemStack.EMPTY</strong></em>而不是<strong>null</strong>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>MC_KTD</h4></div>
+    <br />
+    <div class="post">
+        <p>多谢，已经生效了</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="MC_KTD" data-post="1" data-topic="157">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/MC_KTD" class="avatar"> MC_KTD:</div>
+<blockquote>
+<p>Items.AIR.getDefaultInstance();</p>
+</blockquote>
+</aside>
+<p>这么写会在服务端崩溃。</p>
+<p>新版本ItemStack永远不为null。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14.4构建失败</title>
+</head>
+<body>
+    <div class="title"><h1>1.14.4构建失败</h1></div>
+    <div class="post-user" class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：.IdeaIC2019.3<br>
+你使用的IDE版本:&lt;2019.3.5&gt;<br>
+Forge版本:  28.1.0<br>
+Minecraft版本: 1.14.4</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942.png" data-download-href="../uploads/default/2a7abca8b98aad9b0a2ac7cf803421be088fd942" title="QQ截图20200522215330"><img src="../uploads/default/optimized/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942_2_689x352.png" alt="QQ截图20200522215330" data-base62-sha1="63N11gZqygpOJqKIFxn1soSYPD4" width="689" height="352" srcset="../uploads/default/optimized/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942_2_689x352.png, ../uploads/default/optimized/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942_2_1033x528.png 1.5x, ../uploads/default/original/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942.png 2x" data-small-upload="../uploads/default/optimized/1X/2a7abca8b98aad9b0a2ac7cf803421be088fd942_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200522215330</span><span class="informations">1346×688 82.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+看图</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>以后记得把错误日志粘贴出来，而不是发截图。<br>
+这个错误好像是SSL不匹配导致的，看上去你在用一个旧版本的JDK，请你检查一下你使用的JDK是什么版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <p>用的离线包</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <p>是jdk1.8.0_45</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那就是JDK版本太低的缘故。<br>
+你至少需要JDK8u101的JDK<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://adoptopenjdk.net/dist/assets/favicon.ico" class="site-icon" width="32" height="32">
+      <a href="https://adoptopenjdk.net/" target="_blank">adoptopenjdk.net</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:690/362;"><img src="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_690x362.png" class="thumbnail" width="690" height="362" srcset="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_690x362.png, ../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_1035x543.png 1.5x, ../uploads/default/original/1X/72672e158cb750201f11144d2411840a85bfa8eb.png 2x" data-small-upload="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_10x10.png"></div>
+
+<h3><a href="https://adoptopenjdk.net/" target="_blank">AdoptOpenJDK</a></h3>
+
+<p>AdoptOpenJDK provides prebuilt OpenJDK binaries from a fully open source set of build scripts and infrastructure. Supported platforms include Linux, macOS, Windows, ARM, Solaris, and AIX.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+把你原来的JDK卸载掉，到这里去下载JDK8的HotSpot版本。
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有就是作为新用户，每日发帖和回复数量是有限的。<br>
+请珍惜你每次回复机会。</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">Daemon process.
+This problem might be caused by incorrect configuration of the daemon.
+For example, an unrecognized jvm option is used.
+Please refer to the user guide chapter on the daemon at https://docs.gradle.org/4.9/userguide/gradle_daemon.html
+Please read the following process output to find out more:
+-----------------------
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+Invalid maximum heap size: -Xmx5G
+The specified size exceeds the maximum representable size.
+
+-----------------------
+Check the JVM arguments defined for the gradle process in:
+ - gradle.properties in project root directory
+</code></pre>
+<p>现在少了一个错误，还剩一个</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>论坛默认是Markdown格式输入的，请去学习一下markdown格式，半个小时就能学会。发错误日志和代码请先格式化。</li>
+<li>看上去是你修改安装JDK之后，没有修改IntelliJ里的项目与Gradle JDK导致的。<br>
+你可以参照这个教程配置。<br>
+<a href="https://neutrino.v2mcdev.com/devenvironment/setup.html" class="inline-onebox">Forge开发环境的配置 - Minecraft Forge Mod Dev tutorial</a><br>
+如果你想要添加新的JDK，可以在这里添加，选择你JDK安装目录就行。<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4.png" data-download-href="../uploads/default/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4" title="image"><img src="../uploads/default/optimized/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4_2_690x401.png" alt="image" data-base62-sha1="jjnsvfEskg72jwb5HR0QGbYaDYw" width="690" height="401" srcset="../uploads/default/optimized/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4_2_690x401.png, ../uploads/default/optimized/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4_2_1035x601.png 1.5x, ../uploads/default/optimized/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4_2_1380x802.png 2x" data-small-upload="../uploads/default/optimized/1X/875a1529ecf9b9b8e25f0b91370fc4420aac4ed4_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1816×1058 259 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div>
+</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>确保你安装的是 64 位的 JDK，以及确保你电脑的物理内存大于 5 GB，否则到项目目录下的 <code>gradle.properties</code> 文件里把 <code>org.gradle.jvmargs</code> 后的 <code>-Xmx5G</code> 修改得小一点，至少小于你拥有的物理内存大小</p>
+    </div>
+    <br />
+    <div class="user"><h4>hanpi</h4></div>
+    <br />
+    <div class="post">
+        <p>已经好了，谢谢你们了</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

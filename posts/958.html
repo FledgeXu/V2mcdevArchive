@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何才能向游戏文件夹中写入文件</title>
+</head>
+<body>
+    <div class="title"><h1>如何才能向游戏文件夹中写入文件</h1></div>
+    <div class="post-user" class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：&lt;windows 10 x64&gt;<br>
+你用的JDK是: &lt;Orancle jdk 1.8.0_221 x64&gt;<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.2 Community Edition&gt;<br>
+Forge版本:  &lt;31.2.27&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;<br>
+Mapping 文件版本: &lt;snapshot 20200514-1.15.1&gt;</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571.png" data-download-href="../uploads/default/38e3ff6d43a09bc7bef8438b9190827c7f52c571" title="QQ截图20201022195136"><img src="../uploads/default/optimized/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571_2_690x415.png" alt="QQ截图20201022195136" data-base62-sha1="87hdIEQkfTigkJYPN1X4vHztMcx" width="690" height="415" srcset="../uploads/default/optimized/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571_2_690x415.png, ../uploads/default/optimized/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571_2_1035x622.png 1.5x, ../uploads/default/optimized/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571_2_1380x830.png 2x" data-small-upload="../uploads/default/optimized/1X/38e3ff6d43a09bc7bef8438b9190827c7f52c571_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20201022195136</span><span class="informations">1426×859 91.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/55940c40e761104be3edaa69999da52bf8d5070d.png" data-download-href="../uploads/default/55940c40e761104be3edaa69999da52bf8d5070d" title="QQ截图20201022195107"><img src="../uploads/default/optimized/1X/55940c40e761104be3edaa69999da52bf8d5070d_2_690x101.png" alt="QQ截图20201022195107" data-base62-sha1="cd3M7ePRh5ks3UYRy8RUbZf0nQ9" width="690" height="101" srcset="../uploads/default/optimized/1X/55940c40e761104be3edaa69999da52bf8d5070d_2_690x101.png, ../uploads/default/optimized/1X/55940c40e761104be3edaa69999da52bf8d5070d_2_1035x151.png 1.5x, ../uploads/default/optimized/1X/55940c40e761104be3edaa69999da52bf8d5070d_2_1380x202.png 2x" data-small-upload="../uploads/default/optimized/1X/55940c40e761104be3edaa69999da52bf8d5070d_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20201022195107</span><span class="informations">1845×272 77 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<em>(这是我自己尝试写的,因为权限不足而失败.)</em><br>
+<strong>错误情况简述</strong><br>
+想要把自定义的多方块结构序列化到硬盘中,然后找不到方法。</p>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/mfrf/dbydd/micro_machinery/command/ReadMultiBlockCommand.java
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>直接用用原版的结构方块，或者早操原版的结构方块不行吗？<br>
+而且你这个路径的写法也有问题，只支持Windows…… Minecraft 可是个跨平台的游戏。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <p>并不是为了自定义多方块…只是单纯的为了导出结构而已,而原版的结构方块那套系统又不好用.</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得只是你的代码写错了……<br>
+而且你也不用写的这么麻烦，Minecraft的依赖里有 Apache Common IO的。<br>
+试试这么写，下面的是个例子：</p>
+<pre><code class="lang-java">    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (!worldIn.isRemote) {
+            File file = new File("test" + File.separator + "test.txt");
+            try {
+                FileUtils.writeStringToFile(file, "test", Charset.defaultCharset());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.onItemRightClick(worldIn, playerIn, handIn);
+    }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

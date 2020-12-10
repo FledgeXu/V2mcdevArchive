@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何在一个循环里面加入一个延迟的功能？</title>
+</head>
+<body>
+    <div class="title"><h1>如何在一个循环里面加入一个延迟的功能？</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>我给方块设置了一个特性，但是这个特性同时作用的对象过多时，会导致游戏崩溃，怎么样在一个循环里面加入一个延迟的功能，使得有关特性的循环执行得慢一些？我用了try…catch语句，结果导致了循环中的功能不起作用了，也就是方块的“特性”消失了。这个是我的代码：</p>
+<pre><code>private boolean absorb(World worldIn, BlockPos pos) {
+    Queue&lt;Tuple&lt;BlockPos, Integer&gt;&gt; queue = Lists.newLinkedList();
+    queue.add(new Tuple&lt;&gt;(pos, 0));
+    int i = 0;
+
+    while(!queue.isEmpty()) {
+        Tuple&lt;BlockPos, Integer&gt; tuple = queue.poll();
+        BlockPos blockpos = tuple.getA();
+        int j = tuple.getB();
+
+        for(Direction direction : Direction.values()) {
+            BlockPos blockpos1 = blockpos.offset(direction);
+            BlockState blockstate = worldIn.getBlockState(blockpos1);
+
+            if (blockstate.getBlock() == Blocks.OBSIDIAN) {
+                TileEntity tileentity = blockstate.getBlock().hasTileEntity() ? worldIn.getTileEntity(blockpos1) : null;
+                spawnDrops(blockstate, worldIn, blockpos1, tileentity);
+                worldIn.setBlockState(blockpos1, BlockHelper.obsidianRemover.getDefaultState(), 3);
+                ++i;
+                if (j &lt; 6) {
+                    queue.add(new Tuple&lt;&gt;(blockpos1, j + 1));
+                }
+            }
+
+            try{
+                Thread.currentThread().sleep(100);
+            }
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
+
+        }
+
+        if (i &gt; 1) {
+            break;
+        }
+    }
+
+    return i &gt; 0;
+}
+</code></pre>
+<p>}</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我不认为在循环里加入一个延时是一个好主意，你可以试试用事件机制来代替循环。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以试着监听 <code>net.minecraftforge.fml.common.gameevent.TickEvent</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>如何进行监听的操作？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>就是正常的注册事件处理器啊。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我在解决其他问题的时候发现一个可能对你有所帮助的函数。<br>
+<code>worldIn.getPendingBlockTicks().scheduleTick();</code></p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>可以直接放进那个方法里面吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这我就不知道了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>MC是个单线程游戏。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么创建单向玻璃和中空方块（不使用obj）？</title>
+</head>
+<body>
+    <div class="title"><h1>怎么创建单向玻璃和中空方块（不使用obj）？</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.46<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>情况简述</strong><br>
+我想创建一个包含类似单向玻璃（从前面看过去是黑色的 后面看过去像普通的玻璃）和一个窗框的方块：<br>
+形状如下图：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d.png" data-download-href="../uploads/default/d6bcc7101f638f2e04fc19b8590230bf0a47113d" title="image"><img src="../uploads/default/optimized/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d_2_324x249.png" alt="image" data-base62-sha1="uDEDetcIezsDW99VB9nhoCEGSmx" width="324" height="249" srcset="../uploads/default/optimized/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d_2_324x249.png, ../uploads/default/optimized/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d_2_486x373.png 1.5x, ../uploads/default/optimized/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d_2_648x498.png 2x" data-small-upload="../uploads/default/optimized/1X/d6bcc7101f638f2e04fc19b8590230bf0a47113d_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">804×620 23.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+不太想用OBJ模型，请问原版的模型能做到吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>用TER，一面正常的Translucent渲染，另一面用不透明的渲染。<br>
+不过原版的玻璃的Rendertype应该是Cutout，看你需求吧。<br>
+至于方块部分都是正常的立方体，用不上OBJ模型，直接用BlockBench做Json格式的模型就够了。<br>
+<a href="https://neutrino.v2mcdev.com/specialrender/ter.html" class="onebox" target="_blank">https://neutrino.v2mcdev.com/specialrender/ter.html</a><br>
+<a href="https://www.bilibili.com/video/BV14a4y1e7xg" class="onebox" target="_blank">https://www.bilibili.com/video/BV14a4y1e7xg</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>另外OBJ模型应该也做不到这点。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>OBJ模型贴单向贴图应该可以吧？就是不知道forge支不支持 <img src="../images/emoji/apple/thinking.png?v=9" title=":thinking:" class="emoji" alt=":thinking:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不清楚，Forge对OBJ模型只有有限的支持。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>噢噢 那好吧 <img src="../images/emoji/apple/sweat_smile.png?v=9" title=":sweat_smile:" class="emoji" alt=":sweat_smile:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

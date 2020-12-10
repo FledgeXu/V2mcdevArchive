@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.12 监听火焰方块生成的事件</title>
+</head>
+<body>
+    <div class="title"><h1>1.12 监听火焰方块生成的事件</h1></div>
+    <div class="post-user" class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Minecraft版本: 1.12.2</p>
+<p>我想在有火焰方块生成时执行一个方法，就像原版地狱传送门生成一样。<br>
+原版是在火焰方块的onBlockAdded中执行的trySpawnPortal。<br>
+请问我有什么方法实现这个目的？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>首先火焰不是一个方块。<br>
+其次你应该去翻看<code>Event</code>类的子类，看看有没有你需要的方法，mod 开发是事件驱动的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>火焰不是方块吗？我确实看到了Block类下的BlockFire子类。<br>
+对于Event子类来说，我只找到玩家放置方块的事件，没有找到自然生成方块的事件。所以我不知道该怎么监听。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那是我弄错了。<br>
+看上去没有直接的火焰生成的方法，那你只能hack原版的<code>BlcokFire</code>类了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>好的。请问有什么方法能够操作原版源码？看起来我只需要在原版的方法后加一句话就行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>因为你要修改的是原版的方法，估计得用ASM了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>我去大致了解了一下ASM，并模仿一个范例MOD写好了这一段的代码部分。<br>
+但是。。我不太会配置它的环境。。不会将它变成依赖库。<br>
+我使用的是IDE是Eclipse。<br>
+请问您能提供一些帮助吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你要把它变成依赖库得修改<code>build.gradle</code>。<br>
+你去看一眼默认的<code>build.gradle</code>里有一个<code>dependencies</code>按照注释填进去就好了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://github.githubassets.com/favicons/favicon.svg" class="site-icon" width="32" height="32">
+      <a href="https://github.com/xfl03/CoreModTutor" target="_blank" rel="nofollow noopener">GitHub</a>
+  </header>
+  <article class="onebox-body">
+    <img src="https://avatars3.githubusercontent.com/u/3205159?s=400&amp;v=4" class="thumbnail onebox-avatar" width="100" height="100">
+
+<h3><a href="https://github.com/xfl03/CoreModTutor" target="_blank" rel="nofollow noopener">xfl03/CoreModTutor</a></h3>
+
+<p>Minecraft 1.3.2-1.15.2 Vanilla and FML CoreMod Development Tutorial. - xfl03/CoreModTutor</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢！</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>不过我想知道你在实现什么功能？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>有火焰方块生成时能触发一个事件，检测周围的方块，就像地狱门生成一样。我不知道有什么简单方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>如果周围的方块是你自己的，可以覆写neighborChanged方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>是原版的方块<img src="https://www.v2mcdev.com/images/emoji/apple/frowning_face.png?v=9" title=":frowning_face:" class="emoji" alt=":frowning_face:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>确实用Mixin的Inject实现了我的目标。<br>
+不过我打算改成自己的方块了。总感觉改原版不是那么稳定，兼容性也会差一点。<br>
+谢谢提供覆写neighborChanged这个方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>解决了的话，选个楼层作为答案吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

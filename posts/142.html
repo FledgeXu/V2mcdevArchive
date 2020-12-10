@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Gui莫名出现bug</title>
+</head>
+<body>
+    <div class="title"><h1>Gui莫名出现bug</h1></div>
+    <div class="post-user" class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2018.1.5&gt;<br>
+Forge版本:  &lt;14.23.5.2847&gt;<br>
+Minecraft版本: &lt;1.12.2&gt;<br>
+Mapping 文件版本: &lt;snapshot_20171003&gt;</p>
+<p><strong>错误情况简述</strong><br>
+写了个非常简单的类箱子gui，然而出现了数组越界的bug</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[23:16:46] [Server thread/FATAL] [minecraft/MinecraftServer]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.IndexOutOfBoundsException: Index: 50, Size: 46
+	at java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:1.8.0_151]
+	at java.util.concurrent.FutureTask.get(FutureTask.java:192) ~[?:1.8.0_151]
+	at net.minecraft.util.Util.runTask(Util.java:54) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:798) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_151]
+Caused by: java.lang.IndexOutOfBoundsException: Index: 50, Size: 46
+	at java.util.ArrayList.rangeCheck(ArrayList.java:657) ~[?:1.8.0_151]
+	at java.util.ArrayList.get(ArrayList.java:433) ~[?:1.8.0_151]
+	at net.minecraft.inventory.Container.slotClick(Container.java:283) ~[Container.class:?]
+	at net.minecraft.network.NetHandlerPlayServer.processClickWindow(NetHandlerPlayServer.java:1222) ~[NetHandlerPlayServer.class:?]
+	at net.minecraft.network.play.client.CPacketClickWindow.processPacket(CPacketClickWindow.java:47) ~[CPacketClickWindow.class:?]
+	at net.minecraft.network.play.client.CPacketClickWindow.processPacket(CPacketClickWindow.java:12) ~[CPacketClickWindow.class:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:21) ~[PacketThreadUtil$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) ~[?:1.8.0_151]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[?:1.8.0_151]
+	at net.minecraft.util.Util.runTask(Util.java:53) ~[Util.class:?]
+	... 5 more
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>GuiHandler.java </code></p>
+<pre><code class="lang-auto">public class GuiHandler implements IGuiHandler {
+   private static final Map&lt;Integer,GuiElement&gt; ELEMENTS =new HashMap&lt;&gt;();
+
+   private static final Map&lt;String,Integer&gt; E_ID=new HashMap&lt;&gt;();
+
+    public static void registry(String id,GuiElement guiElement){
+        ELEMENTS.put(ELEMENTS.size(),guiElement);
+        E_ID.put(id,E_ID.size());
+    }
+
+    public static int getGuiId(String id){
+        return E_ID.get(id);
+    }
+    @Nullable
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+        return ELEMENTS.get(ID).getServerGuiElement(player,world,x,y,z);
+    }
+
+    @Nullable
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+        return ELEMENTS.get(ID).getClientGuiElement(player,world,x,y,z);
+    }
+}
+</code></pre>
+<p><code>DimContainer.java</code></p>
+<pre><code class="lang-auto">public class DimContainer extends ContainerChest {
+
+
+    private final EntityPlayer player;
+
+    public DimContainer(EntityPlayer player) {
+        super(player.inventory,new DimInventory(DimensionInventory.inv),player);
+        this.player=player;
+    }
+
+}
+</code></pre>
+<p><code>DimGuiContainer.java</code></p>
+<pre><code class="lang-auto">public class DimGuiContainer extends GuiContainer
+{
+    public DimGuiContainer(Container inventorySlotsIn) {
+        super(inventorySlotsIn);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+
+    }
+}
+</code></pre>
+<p><code>注册</code></p>
+<pre><code class="lang-auto">NetworkRegistry.INSTANCE.registerGuiHandler(DimensionInventory.instance,new GuiHandler());
+        GuiHandler.registry("dinv", new IGuiElement() {
+I
+
+            @Override
+            public Object getServerGuiElement(EntityPlayer player, World world, int x, int y, int z) {
+                return new DimContainer(player);
+            }
+
+            @Override
+            public Object getClientGuiElement(EntityPlayer player, World world, int x, int y, int z) {
+                return new DimGuiContainer(new DimContainer(player));
+            }
+        }); //这是写了一个IGuiHandler类的自动化id处理，改为string类型的id，使用callback
+</code></pre>
+<p>使用了player.opengui();来调出gui<br>
+因为想按快捷键调出gui，所以使用网络数据包传到逻辑服务端进行召唤gui</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="dawnflyc" data-post="1" data-topic="142">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/dawnflyc" class="avatar"> dawnflyc:</div>
+<blockquote>
+<p>new DimInventory(DimensionInventory.inv)</p>
+</blockquote>
+</aside>
+<p>这是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>这是一个复制的BaseInventory类的可改变格子数组的Inventory类，因为我使用capability来保存库存，所以每次进入箱子都读取一下玩家身上capability存储的库存。因为出bug了，所以暂时使用静态变量来储存。</p>
+<p>·临时格子储存·<br>
+····<br>
+public static  NonNullList inv=NonNullList.withSize(27,ItemStack.EMPTY);<br>
+····</p>
+<p>·DimInventory.java·</p>
+<pre><code class="lang-auto">public class DimInventory implements IInventory {
+
+    private String inventoryTitle;
+    private final   NonNullList&lt;ItemStack&gt; inventoryContents;
+    private List&lt;IInventoryChangedListener&gt; changeListeners;
+    private final int slotsCount;
+    private boolean hasCustomName;
+
+    public DimInventory( NonNullList&lt;ItemStack&gt; inventoryContents) {
+        this.inventoryTitle = "dinv";
+        this.inventoryContents = inventoryContents;
+        this.slotsCount = inventoryContents.size();
+    }
+
+    public NonNullList&lt;ItemStack&gt; getInventoryContents() {
+        return inventoryContents;
+    }
+
+    public void addInventoryChangeListener(IInventoryChangedListener listener)
+    {
+        if (this.changeListeners == null)
+        {
+            this.changeListeners = Lists.&lt;IInventoryChangedListener&gt;newArrayList();
+        }
+
+        this.changeListeners.add(listener);
+    }
+
+    /**
+     * removes the specified IInvBasic from receiving further change notices
+     */
+    public void removeInventoryChangeListener(IInventoryChangedListener listener)
+    {
+        this.changeListeners.remove(listener);
+    }
+
+    /**
+     * Returns the stack in the given slot.
+     */
+    @Override
+    public ItemStack getStackInSlot(int index)
+    {
+        return index &gt;= 0 &amp;&amp; index &lt; this.inventoryContents.size() ? (ItemStack)this.inventoryContents.get(index) : ItemStack.EMPTY;
+    }
+
+    /**
+     * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     */
+    @Override
+    public ItemStack decrStackSize(int index, int count)
+    {
+        ItemStack itemstack = ItemStackHelper.getAndSplit(this.inventoryContents, index, count);
+
+        if (!itemstack.isEmpty())
+        {
+            this.markDirty();
+        }
+
+        return itemstack;
+    }
+
+    public ItemStack addItem(ItemStack stack)
+    {
+        ItemStack itemstack = stack.copy();
+
+        for (int i = 0; i &lt; this.slotsCount; ++i)
+        {
+            ItemStack itemstack1 = this.getStackInSlot(i);
+
+            if (itemstack1.isEmpty())
+            {
+                this.setInventorySlotContents(i, itemstack);
+                this.markDirty();
+                return ItemStack.EMPTY;
+            }
+
+            if (ItemStack.areItemsEqual(itemstack1, itemstack))
+            {
+                int j = Math.min(this.getInventoryStackLimit(), itemstack1.getMaxStackSize());
+                int k = Math.min(itemstack.getCount(), j - itemstack1.getCount());
+
+                if (k &gt; 0)
+                {
+                    itemstack1.grow(k);
+                    itemstack.shrink(k);
+
+                    if (itemstack.isEmpty())
+                    {
+                        this.markDirty();
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+        }
+
+        if (itemstack.getCount() != stack.getCount())
+        {
+            this.markDirty();
+        }
+
+        return itemstack;
+    }
+
+    /**
+     * Removes a stack from the given slot and returns it.
+     */
+    @Override
+    public ItemStack removeStackFromSlot(int index)
+    {
+        ItemStack itemstack = this.inventoryContents.get(index);
+
+        if (itemstack.isEmpty())
+        {
+            return ItemStack.EMPTY;
+        }
+        else
+        {
+            this.inventoryContents.set(index, ItemStack.EMPTY);
+            return itemstack;
+        }
+    }
+
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
+
+    @Override
+    public void setInventorySlotContents(int index, ItemStack stack)
+    {
+        this.inventoryContents.set(index, stack);
+
+        if (!stack.isEmpty() &amp;&amp; stack.getCount() &gt; this.getInventoryStackLimit())
+        {
+            stack.setCount(this.getInventoryStackLimit());
+        }
+
+        this.markDirty();
+    }
+
+    /**
+     * Returns the number of slots in the inventory.
+     */
+    @Override
+    public int getSizeInventory()
+    {
+        return this.slotsCount;
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        for (ItemStack itemstack : this.inventoryContents)
+        {
+            if (!itemstack.isEmpty())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    @Override
+    public String getName()
+    {
+        return this.inventoryTitle;
+    }
+
+    /**
+     * Returns true if this thing is named
+     */
+    @Override
+    public boolean hasCustomName()
+    {
+        return this.hasCustomName;
+    }
+
+    /**
+     * Sets the name of this inventory. This is displayed to the client on opening.
+     */
+    public void setCustomName(String inventoryTitleIn)
+    {
+        this.hasCustomName = true;
+        this.inventoryTitle = inventoryTitleIn;
+    }
+
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    @Override
+    public ITextComponent getDisplayName()
+    {
+        return (ITextComponent)(this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+    }
+
+    /**
+     * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended.
+     */
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return 64;
+    }
+
+    /**
+     * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
+     * hasn't changed and skip it.
+     */
+    @Override
+    public void markDirty()
+    {
+        if (this.changeListeners != null)
+        {
+            for (int i = 0; i &lt; this.changeListeners.size(); ++i)
+            {
+                ((IInventoryChangedListener)this.changeListeners.get(i)).onInventoryChanged(this);
+            }
+        }
+    }
+
+    /**
+     * Don't rename this method to canInteractWith due to conflicts with Container
+     */
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player)
+    {
+        return true;
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player)
+    {
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player)
+    {
+    }
+
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot. For
+     * guis use Slot.isItemValid
+     */
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack)
+    {
+        return true;
+    }
+
+    @Override
+    public int getField(int id)
+    {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value)
+    {
+    }
+
+    @Override
+    public int getFieldCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public void clear()
+    {
+        this.inventoryContents.clear();
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>我目前的疑惑在于为什么格子数是46，玩家的4*9=36个加上你的27个应该是63个，无论如何都不应该出现46这个数。可以多调试调试</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>原来是因为我是在逻辑客户端召唤gui导致的，我写了数据包，但是忘记了。还有就是您知道怎么可以让一个箱子拥有动态容量吗，就像匠魂的模具箱一样，是不是要新增一个格子就得更替一下NonNullList？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>当格子数量变动时发包同步客户端。</p>
+<p>如果格子数量有一个最大值，可以把多余的格子隐藏。如果没有的话，可能要写额外的代码解决数组越界问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果问题解决了，请选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>能不能自己实现一个集合？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>听不懂……</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>就是自己实现一个list，一个数量可变的list，新增一个add一下。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dawnflyc</h4></div>
+    <br />
+    <div class="post">
+        <p>我看看匠魂的代码，还有就是，您知道mc的滚动条如何弄吗，如同ae那样。有没有封装库什么的，我看了mc的创造栏代码，但是太乱了，根本看不懂，不管怎么说，谢谢您了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

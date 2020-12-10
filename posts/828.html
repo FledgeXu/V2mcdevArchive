@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>根据BlockState改变TileEntityRenderer的内容</title>
+</head>
+<body>
+    <div class="title"><h1>根据BlockState改变TileEntityRenderer的内容</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 1909 x64<br>
+你是用的JDK: 8u251 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  31.2.36<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200901</p>
+<p><strong>简述</strong><br>
+怎么根据一个Block的不同State改变TileEntityRenderer呢？我有两个State:<em>left</em>和<em>broken</em>，想在<em>left</em>为true和false时渲染出不同的效果，在<em>broken</em>为true时什么也不渲染（只保留json模型）。bing了一圈没找到什么例子的样子。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得你可以在你的TE上加一个字段，然后在改变BlockState的时候改变TE相关字段的内容。<br>
+我建议是不要在TER里调用<code>world.getBlcokState</code>先不说会有性能的问题，渲染很有可能在另一个线程的（我需要确认）还会有跨线程冲突的问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>哈哈哈我第一个试的就是在里面加了if(…getBlockstate…) XD<br>
+确实没用 但是看起来并没有副作用（</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我看了一眼<code>TileEntity</code>类，<code>TileEntity</code>里有个<code>getBlockState()</code>的方法，你可以用这个方法获取一个缓存过的<code>BlockState</code>。</p>
+<pre><code class="lang-java">   public BlockState getBlockState() {
+      if (this.cachedBlockState == null) {
+         this.cachedBlockState = this.world.getBlockState(this.pos);
+      }
+
+      return this.cachedBlockState;
+   }
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>噢噢可以了 谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>这种方法可能需要在BlockState变动时更新一下</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>至少我这里暂时不需要，基本都用的是setblockstate（</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

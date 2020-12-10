@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何才能制作一个楼梯？</title>
+</head>
+<body>
+    <div class="title"><h1>如何才能制作一个楼梯？</h1></div>
+    <div class="post-user" class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>我试图使用原版的模型来制作，但是发现碰撞箱写的不对，<br>
+wiki上的内容也有些老旧</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>碰撞箱不对？</p>
+    </div>
+    <br />
+    <div class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post">
+        <p>我不知道该如何注册，应该说要传入一个settings方法,然后按照平常的方法注册<br>
+但是出现报错，</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>setting方法？</p>
+    </div>
+    <br />
+    <div class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post">
+        <p>打错了。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post">
+        <p>我是先继承了原版的楼梯<br>
+public class MudBrick extends Block {<br>
+public void MudBrickStair(BlockState blockState, Block.Settings settings) {<br>
+super(blockState, settings);<br>
+}<br>
+}</p>
+    </div>
+    <br />
+    <div class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post">
+        <p>然后，注册的时候是<br>
+public static final Block MUDBRICKSTAIR = new MudBrickStair();<br>
+Registry.register(Registry.BLOCK, new Identifier(“advri”, “mudbrick_stair”), MUDBRICKSTAIR);<br>
+Registry.register(Registry.ITEM, new Identifier(“advri”, “mudbrick_stair”), new BlockItem(MUDBRICKSTAIR, new Item.Settings().group((ItemGroup.MISC))));</p>
+    </div>
+    <br />
+    <div class="user"><h4>国际barryq25</h4></div>
+    <br />
+    <div class="post">
+        <p>然后报错说需要参数</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>请先学习Java</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>获取属性值时的NullPointerException</title>
+</head>
+<body>
+    <div class="title"><h1>获取属性值时的NullPointerException</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.46<br>
+Minecraft版本:1.15.2<br>
+Mapping 文件版本:20200520</p>
+<p><strong>错误情况简述</strong><br>
+我给原版玩家增加了两个属性<code>job</code>和<code>team</code>来进行一些判定，但是在使用<code>.getAttributeMap().getEntityAttribute(...).getValue()</code>的时候报错。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[14:48:47] [Render thread/FATAL] [minecraft/Minecraft]: Reported exception thrown!
+net.minecraft.crash.ReportedException: Colliding entity with block
+	at net.minecraft.world.World.guardEntityTick(World.java:591) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.world.ClientWorld.tickEntities(ClientWorld.java:152) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1457) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:942) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:559) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:177) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+Caused by: java.lang.NullPointerException
+	at com.uss_shenzhou.rainbow6.blocks.BarbedWire.onEntityCollision(BarbedWire.java:41) ~[main/:?] {re:classloading}
+	at net.minecraft.block.BlockState.onEntityCollision(BlockState.java:282) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.Entity.doBlockCollisions(Entity.java:877) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.entity.Entity.move(Entity.java:615) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.move(ClientPlayerEntity.java:917) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.entity.LivingEntity.travel(LivingEntity.java:2040) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.travel(PlayerEntity.java:1622) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.entity.LivingEntity.livingTick(LivingEntity.java:2453) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.livingTick(PlayerEntity.java:534) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.livingTick(ClientPlayerEntity.java:835) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.entity.LivingEntity.tick(LivingEntity.java:2264) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.tick(PlayerEntity.java:237) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.tick(ClientPlayerEntity.java:220) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.world.ClientWorld.updateEntity(ClientWorld.java:182) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.world.World.guardEntityTick(World.java:586) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	... 16 more
+[14:48:47] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:110]: ---- Minecraft Crash Report ----
+// Who set us up the TNT?
+
+Time: 20-5-21 下午2:48
+Description: Colliding entity with block
+
+java.lang.NullPointerException: Colliding entity with block
+	at com.uss_shenzhou.rainbow6.blocks.BarbedWire.onEntityCollision(BarbedWire.java:41) ~[main/:?] {re:classloading}
+	at net.minecraft.block.BlockState.onEntityCollision(BlockState.java:282) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.Entity.doBlockCollisions(Entity.java:877) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.entity.Entity.move(Entity.java:615) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.move(ClientPlayerEntity.java:917) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.entity.LivingEntity.travel(LivingEntity.java:2040) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.travel(PlayerEntity.java:1622) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.entity.LivingEntity.livingTick(LivingEntity.java:2453) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.livingTick(PlayerEntity.java:534) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.livingTick(ClientPlayerEntity.java:835) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.entity.LivingEntity.tick(LivingEntity.java:2264) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.entity.player.PlayerEntity.tick(PlayerEntity.java:237) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.entity.player.ClientPlayerEntity.tick(ClientPlayerEntity.java:220) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.world.ClientWorld.updateEntity(ClientWorld.java:182) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.world.World.guardEntityTick(World.java:586) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.world.ClientWorld.tickEntities(ClientWorld.java:152) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1457) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:942) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:559) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:177) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at com.uss_shenzhou.rainbow6.blocks.BarbedWire.onEntityCollision(BarbedWire.java:41)
+	at net.minecraft.block.BlockState.onEntityCollision(BlockState.java:282)
+
+-- Block being collided with --
+Details:
+	Block: Block{rainbow6:barbedwire}
+	Block location: World: (209,4,-315), Chunk: (at 1,0,5 in 13,-20; contains blocks 208,0,-320 to 223,255,-305), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+Stacktrace:
+	at net.minecraft.entity.Entity.doBlockCollisions(Entity.java:877)
+
+-- Entity being checked for collision --
+Details:
+	Entity Type: minecraft:player (net.minecraft.client.entity.player.ClientPlayerEntity)
+	Entity ID: 19
+	Entity Name: Dev
+	Entity's Exact location: 209.98, 4.16, -313.72
+	Entity's Block location: World: (209,4,-314), Chunk: (at 1,0,6 in 13,-20; contains blocks 208,0,-320 to 223,255,-305), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+	Entity's Momentum: -0.09, -0.00, -0.19
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.entity.Entity.move(Entity.java:615)
+	at net.minecraft.client.entity.player.ClientPlayerEntity.move(ClientPlayerEntity.java:917)
+	at net.minecraft.entity.LivingEntity.travel(LivingEntity.java:2040)
+	at net.minecraft.entity.player.PlayerEntity.travel(PlayerEntity.java:1622)
+	at net.minecraft.entity.LivingEntity.livingTick(LivingEntity.java:2453)
+	at net.minecraft.entity.player.PlayerEntity.livingTick(PlayerEntity.java:534)
+	at net.minecraft.client.entity.player.ClientPlayerEntity.livingTick(ClientPlayerEntity.java:835)
+	at net.minecraft.entity.LivingEntity.tick(LivingEntity.java:2264)
+	at net.minecraft.entity.player.PlayerEntity.tick(PlayerEntity.java:237)
+	at net.minecraft.client.entity.player.ClientPlayerEntity.tick(ClientPlayerEntity.java:220)
+	at net.minecraft.client.world.ClientWorld.updateEntity(ClientWorld.java:182)
+
+-- Entity being ticked --
+Details:
+	Entity Type: minecraft:player (net.minecraft.client.entity.player.ClientPlayerEntity)
+	Entity ID: 19
+	Entity Name: Dev
+	Entity's Exact location: 209.98, 4.16, -313.72
+	Entity's Block location: World: (209,4,-314), Chunk: (at 1,0,6 in 13,-20; contains blocks 208,0,-320 to 223,255,-305), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+	Entity's Momentum: -0.09, -0.00, -0.19
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.world.World.guardEntityTick(World.java:586)
+	at net.minecraft.client.world.ClientWorld.tickEntities(ClientWorld.java:152)
+
+-- Affected level --
+Details:
+	All players: 1 total; [ClientPlayerEntity['Dev'/19, l='MpServer', x=209.98, y=4.16, z=-313.72]]
+	Chunk stats: Client Chunk Cache: 529, 324
+	Level dimension: DimensionType{minecraft:overworld}
+	Level name: MpServer
+	Level seed: 5923470984027960334
+	Level generator: ID 01 - flat, ver 0. Features enabled: false
+	Level generator options: {}
+	Level spawn location: World: (176,4,-192), Chunk: (at 0,0,0 in 11,-12; contains blocks 176,0,-192 to 191,255,-177), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+	Level time: 492605 game time, 1163 day time
+	Known server brands: 
+	Level was modded: false
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Server brand: forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.world.ClientWorld.fillCrashReport(ClientWorld.java:457)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:1840)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:573)
+	at net.minecraft.client.main.Main.main(Main.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.15.2
+	Minecraft Version ID: 1.15.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_241, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 1235695208 bytes (1178 MB) / 2050490368 bytes (1955 MB) up to 3793747968 bytes (3618 MB)
+	CPUs: 4
+	JVM Flags: 1 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump
+	ModLauncher: 5.0.0-milestone.4+67+b1a340b
+	ModLauncher launch target: fmluserdevclient
+	ModLauncher naming: mcp
+	ModLauncher services: 
+		/eventbus-2.0.0-milestone.1-service.jar eventbus PLUGINSERVICE 
+		/forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-launcher.jar object_holder_definalize PLUGINSERVICE 
+		/forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-launcher.jar runtime_enum_extender PLUGINSERVICE 
+		/accesstransformers-2.0.4-shadowed.jar accesstransformer PLUGINSERVICE 
+		/forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-launcher.jar capability_inject_definalize PLUGINSERVICE 
+		/forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-launcher.jar runtimedistcleaner PLUGINSERVICE 
+		/forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-launcher.jar fml TRANSFORMATIONSERVICE 
+	FML: 31.1
+	Forge: net.minecraftforge:31.1.46
+	FML Language Providers: 
+		javafml@31.1
+		minecraft@1
+	Mod List: 
+		client-extra.jar Minecraft {minecraft@1.14.4 DONE}
+		forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar Forge {forge@28.2.3 DONE}
+		main Rainbow6siege {rainbow6@0.1.0 DONE}
+	Launched Version: MOD_DEV
+	Backend library: LWJGL version 3.2.2 build 10
+	Backend API: GeForce GTX 1050 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 442.59, NVIDIA Corporation
+	GL Caps: Using framebuffer using OpenGL 3.0
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: 简体中文 (中国)
+	CPU: 4x Intel(R) Core(TM) i5-4460 CPU @ 3.20GHz
+[14:48:47] [Render thread/INFO] [STDOUT/]: [net.minecraft.util.registry.Bootstrap:printToSYSOUT:110]: #@!@# Game crashed! Crash report saved to: #@!@# F:\MC mod\forge-1.14.4-28.2.3-mdk\run\.\crash-reports\crash-2020-05-21_14.48.47-client.txt
+AL lib: (EE) alc_cleanup: 1 device not closed
+
+Process finished with exit code -1
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>BarbedWire.java</code> team判定有关部分<br>
+参考了原版的浆果<code>SweetBerryBushBlock.java</code></p>
+<pre><code class="lang-auto">    @Override
+    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        if (entityIn instanceof PlayerEntity &amp;&amp; ((PlayerEntity) entityIn).getAttributes().getAttributeInstance(OPERATOR_TEAM).getValue()==1){
+                entityIn.setMotionMultiplier(state, new Vec3d(0.85d, 0.4D,0.85d));
+
+        }
+    }
+</code></pre>
+<p><code>Utils.java</code>增加属性的部分</p>
+<pre><code class="lang-auto">    public static final IAttribute OPERATOR_JOB = new RangedAttribute(null,"r6_operator_job",0,0,54);
+    //0:has not chose &amp; spectator;    1~27:Attackers in turn;    28~54:Defenders in turn
+    public static final IAttribute OPERATOR_TEAM = new RangedAttribute(null,"r6_operator_team",0,-1,1);
+    //-1:defender    0:spectator    1:attacker
+    @SubscribeEvent
+    public static void entityInit(PlayerEvent.PlayerLoggedInEvent event){
+        final PlayerEntity player = event.getPlayer();
+        player.getAttributes().registerAttribute(OPERATOR_JOB);
+        player.getAttributes().registerAttribute(OPERATOR_TEAM);
+        }
+</code></pre>
+<p><strong>查到的资料</strong><br>
+主要参照<a href="https://harbinger.covertdragon.team/chapter-08/attribute/" rel="nofollow noopener">https://harbinger.covertdragon.team/chapter-08/attribute/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>PlayerEvent.PlayerLoggedInEvent</code>下过断点吗？<br>
+确定属性已经添加进去了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>刚刚试了，没有。。。<br>
+PS:在Harbinger中有用到<code>EntityLivingBase</code>这个东西，但是1.15.2貌似没了？我就做了一点改动，但是感觉不是这个的原因。</p>
+    </div>
+    <br />
+    <div class="user"><h4>RoitoLeonine</h4></div>
+    <br />
+    <div class="post">
+        <p>PlayerLoggedInEvent 这个事件的触发是在服务端，所以这会导致客户端的玩家实体属性未注册，从而导致空指。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>根据Harbinger的</p>
+<pre><code class="lang-auto">// setShouldWatch(false) 会令逻辑客户端看不到该属性的变化。
+// 如果你不希望客户端看到这个值，或者客户端不需要知道这个值，可以用它
+// 来稍微节约一点点带宽。
+public static final IAttribute MAGIC_POWER = new RangedAttribute(null, "my_mod.attribute.magic", 0.0, 0.0, 20.0).setShouldWatch(false); 
+</code></pre>
+<p>看起来这个<code>setShouldWatch</code>为<code>ture</code>的话会进行同步的啊？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>EntityLivingBase -&gt; LivingEntity</code><br>
+<code>EntityLiving -&gt; MobEntity</code><br>
+—3T</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你根本没有注册进去……<br>
+注册的代码就没有执行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>另外，我看你的变量名，实现这个功能用Capability可能更适合，当然用不用取决于你。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>感觉这两个job和team用capability有点大材小用了。我只是想在触发一些东西时（比如在tick、onImpact、onEntityCollision等）用来判定，而且应该也不会有别人用这个 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"><br>
+另外，折腾了半天，还是不知道为什么没注册上？不过Harbinger里面用的<code>EntityLivingBase</code>大概明白了，但是我获取的直接是player，应该就不用去<code>if</code>了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>阅读 Neutrino 中的<a href="https://neutrino.v2mcdev.com/event/intro.html">事件部分</a>
+</li>
+<li>贴出注册部分的完整代码。</li>
+<li>按照下图排查错误（图片 by 3T）<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885.jpeg" data-download-href="../uploads/default/b38cd140426aa051fd11cf0aed6b84a4a8ecc885" title="2B49FC4A6067EB3A65311736480F58C0"><img src="../uploads/default/optimized/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885_2_690x188.jpeg" alt="2B49FC4A6067EB3A65311736480F58C0" data-base62-sha1="pCnamdu7LPsOX71M3eV8tCTykOV" width="690" height="188" srcset="../uploads/default/optimized/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885_2_690x188.jpeg, ../uploads/default/optimized/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885_2_1035x282.jpeg 1.5x, ../uploads/default/original/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/b38cd140426aa051fd11cf0aed6b84a4a8ecc885_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2B49FC4A6067EB3A65311736480F58C0</span><span class="informations">1172×321 79.7 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div>
+</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>左弄右弄还是不行…现在是这样的：</p>
+<pre><code class="lang-auto">package com.uss_shenzhou.rainbow6.util;
+
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber
+public class ModEventListener {
+    public static final IAttribute OPERATOR_JOB = new RangedAttribute(null,"r6_operator_job",0,0,54).setShouldWatch(true);
+    //-10~-6:recruit Attacker    -5~-1:recruit Defender    0:has not chose &amp; spectator;    1~28:Attackers in turn;    29~56:Defenders in turn
+    public static final IAttribute OPERATOR_TEAM = new RangedAttribute(null,"r6_operator_team",0,-1,1).setShouldWatch(true);
+    //-1:defender    0:spectator    1:attacker
+    @SubscribeEvent
+    public static void R6AlliesAndEnemies(PlayerEvent.PlayerLoggedInEvent event){
+        final PlayerEntity player = event.getPlayer();
+        player.getAttributes().registerAttribute(OPERATOR_JOB);
+        player.getAttributes().registerAttribute(OPERATOR_TEAM);
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>根据查找到的资料<br>
+<code>IAttribute</code> 是服务端才有的属性，你只能在服务端调用。<br>
+建议直接用Cap实现这个功能。<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="../uploads/default/original/1X/a691f8c8313a750654dbf1be4839ffd01be466cb.png" class="site-icon" width="32" height="32">
+      <a href="https://www.minecraftforge.net/forum/topic/39914-194adding-custom-attribute-to-entityplayer/" target="_blank">Minecraft Forge Forums</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://www.minecraftforge.net/forum/topic/39914-194adding-custom-attribute-to-entityplayer/" target="_blank">[1.9.4]Adding custom attribute to EntityPlayer</a></h3>
+
+<p>Hey guys, Im really new to modding so please go easy on me Im currently making a mod purely for educational purposes. So my question: Id like to add a custom attribute (which i already made) to the player. How would I go about this? Here is the...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>RoitoLeonine</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你真的要用 Attribute ，建议更换事件。或者通过自己发包解决客户端未注册的问题。</p>
+<p>目前的测试似乎是如果客户端未注册，则即便<code>shouldWatch</code>为<code>true</code>，也不能够同步。</p>
+<p>目前实测可行的事件是 EntityConstructing（Harbinger用的不就是这个么？！），如下</p>
+<pre><code class="lang-auto">    @SubscribeEvent
+    public static void onEntityConstructing(EntityEvent.EntityConstructing event)
+    {
+        if (event.getEntity() instanceof PlayerEntity)
+            ((PlayerEntity) event.getEntity()).getAttributes().registerAttribute(OPERATOR_TEAM);
+    }
+</code></pre>
+<p>便于日后维护和拓展的话，Capability会是更好的选择。（有这个时间，Cap早写完了！）</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>一并 <a class="mention" href="/u/roitoleonine">@RoitoLeonine</a> ，谢谢两位的解答！看起来还是用capability吧 <img src="../images/emoji/apple/ghost.png?v=9" title=":ghost:" class="emoji" alt=":ghost:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何创建一个模组专有定制的工具类</title>
+</head>
+<body>
+    <div class="title"><h1>如何创建一个模组专有定制的工具类</h1></div>
+    <div class="post-user" class="user"><h4>思念</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3.2<br>
+fabric版本:  0.7.8+build.186<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: net.fabricmc<img src="https://www.v2mcdev.com/images/emoji/apple/yarn.png?v=9" title=":yarn:" class="emoji" alt=":yarn:">1.15.2+build.14:v2</p>
+<p><strong>错误情况简述</strong><br>
+我看了很多教程帖子，并没有这个代码的具体写法，自己琢磨的代码都是错误的不能运行，有没有大佬有这种方面的例子或者帖子，就是让mc创建一个新的工具类，如扳手。某些机器方块需要扳手进行拆卸。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>扳手就是特殊的物品。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>
+<p>首先工具物品是一种物品，我们首先 new 一个 Item</p>
+</li>
+<li>
+<p>然后思考这个物品能干什么。比如这是个扳手能拆机器，那么对应的机器在被右击时，应检查玩家手持物品是不是你的那个扳手，如果是，直接 World.setAir，然后掉物品</p>
+</li>
+<li>
+<p>重复过程 2 直到功能完备</p>
+</li>
+<li>
+<p>注册</p>
+</li>
+</ol>
+<p>Thus spoke  3T</p>
+    </div>
+    <br />
+    <div class="user"><h4>思念</h4></div>
+    <br />
+    <div class="post">
+        <p>虽然这个方法的确有效不过我要制作的是右键调流体出口，shift右键调朝向，右击事件已经没法完全使用，不过还是非常感谢你的帮助</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>论如何使用数据包的形式注册自定义的机器合成(1.15.2)</title>
+</head>
+<body>
+    <div class="title"><h1>论如何使用数据包的形式注册自定义的机器合成(1.15.2)</h1></div>
+    <div class="post-user" class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post" class="main">
+        <hr>
+<p>1.15的数据包为编写mod提供了不小的方便。本篇教程讲的是如何使用数据包内json的形式制作自定义配方。<br>
+<code>注意：此处所指的配方是指自己写的配方类型。</code></p>
+<p>拿我正在写的一个mod做例子。</p>
+<p>首先注册一个DeferredRegister，如下，位置自定:<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/registery_lists/RegisteredRecipeSerializers.java#L14" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/registery_lists/RegisteredRecipeSerializers.java#L14</a><br>
+*记得给DeferredRegister注册进事件总线。</p>
+<p>然后创建一个配方类，使他实现IRecipe接口，泛型填RecipeWrapper，如下：<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java</a></p>
+<p>配方类应当有一个类型为ResourceLocation的成员变量作为id。</p>
+<p>然后创建一个配方的Serializer，作用是从json中读取并创建配方以及网络通信。例子中我直接做成了内部类。<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java#L119" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java#L119</a></p>
+<p>查看第121行，这个方法的作用就是从json中读取配方，关于物品建议使用原版的Ingredient类。需要注意的是：Ingredient类并没有读取数量的功能，所以还得自己读取数量并保存。<br>
+关于读取流体我并没有发现轮子，可能是我眼瞎了，自己搓吧</p>
+<p>还有下面的两个方法，read和write，分别要把配方写进buffer里面以及从buffer中读取配方，这个看一眼就懂了，就不再多说。</p>
+<p>然后去注册你的Serializer和RecipeType<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/registery_lists/RegisteredRecipeSerializers.java" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/registery_lists/RegisteredRecipeSerializers.java</a><br>
+这里我就直接给他塞进一个类里面了。</p>
+<p>然后返回你的配方类，在getSerializer()和getType()这两个方法中返回你注册好了的Serializer和RecipeType。<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/42e7d3de149b3b58cac2a6e41fb72c0c95078710/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java#L109" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/42e7d3de149b3b58cac2a6e41fb72c0c95078710/src/main/java/com/dbydd/micro_machinery/recipes/klin/KlinItemToFluidRecipe.java#L109</a></p>
+<p>就这样，就注册好了。用的时候在world类的变量中获取到recipeManager就能访问到当前注册好了的配方。用datapack的好处还有一点就是支持热重载。在游戏中/reload就能重新加载数据包了。</p>
+<p>以下为使用例，早期代码，写的很难看，献丑了。<br>
+TierEntity部分：<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/RecipeHelper.java#L25" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/RecipeHelper.java#L25</a><br>
+查找配方并返回：<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/RecipeHelper.java#L25" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/java/com/dbydd/micro_machinery/recipes/RecipeHelper.java#L25</a></p>
+<p>json部分：<br>
+recipe文件夹应当创建在 resource/data/模组名 下，并且每种配方都会有不同的文件夹区分，文件夹名是对应的Serializer注册时填进去的第一个参数。</p>
+<p>样例：<br>
+<a href="https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/resources/data/micro_machinery/recipes/klin_item_to_fluid/molten_bronze.json" rel="nofollow noopener">https://github.com/dbydd/micro_machinery/blob/1.15.2/src/main/resources/data/micro_machinery/recipes/klin_item_to_fluid/molten_bronze.json</a><br>
+注：tag就是高版本的矿物词典，在forge的data/tag目录下面应该能找到，将tag换成item就是使用指定物品</p>
+    </div>
+    <br />
+    <div class="user"><h4>hqyzsy</h4></div>
+    <br />
+    <div class="post">
+        <p>事实上，我尝试了一下热重载，只要涉及了mod物品的配方，都无法完成热重载，必须关闭客户端再开，具体原因不知</p>
+    </div>
+    <br />
+</body>
+</html>

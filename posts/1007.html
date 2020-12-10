@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于resources-->META-INF下的mods.toml修改失败问题</title>
+</head>
+<body>
+    <div class="title"><h1>关于resources-->META-INF下的mods.toml修改失败问题</h1></div>
+    <div class="post-user" class="user"><h4>living snowman</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64位<br>
+你用的JDK是：1.8.0_271<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.3<br>
+Forge版本:  forge-1.15.2-31.2.0-mdk<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200514-1.15.1</p>
+<p><strong>出错图</strong></p>
+<ol>
+<li>我的项目结构和困惑点<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4.png" data-download-href="../uploads/default/78226cbc6bb293b71a50315f2d91c80b7ccf12c4" title="image"><img src="../uploads/default/optimized/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4_2_251x500.png" alt="image" data-base62-sha1="h8L3aAh4XoJcq2MYsAJzmZo9pEo" width="251" height="500" srcset="../uploads/default/optimized/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4_2_251x500.png, ../uploads/default/optimized/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4_2_376x750.png 1.5x, ../uploads/default/optimized/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4_2_502x1000.png 2x" data-small-upload="../uploads/default/optimized/1X/78226cbc6bb293b71a50315f2d91c80b7ccf12c4_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">751×1493 73.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>简述</strong><br>
+我参照教程在上图1位置处尝试修改mods.toml，但出现如下报错，尝试在位置2处重新修改mods.toml，runClient能正常启动</li>
+<li>报错信息：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566.png" data-download-href="../uploads/default/b8e14b46a34e3edac32d44e83e3a6fe19f74a566" title="image"><img src="../uploads/default/optimized/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566_2_690x228.png" alt="image" data-base62-sha1="qnwxMkyEAx58QaOEWSl9MgFwAAe" width="690" height="228" srcset="../uploads/default/optimized/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566_2_690x228.png, ../uploads/default/optimized/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566_2_1035x342.png 1.5x, ../uploads/default/optimized/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566_2_1380x456.png 2x" data-small-upload="../uploads/default/optimized/1X/b8e14b46a34e3edac32d44e83e3a6fe19f74a566_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">2807×931 528 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>简述</strong><br>
+情况大致如上，我的理解是对位置1处的mods.toml修改没有被识别，尝试过rebuild，但依然没有帮助。之前有参照 <a href="../t/topic/304" class="inline-onebox">解决1.13+forge在idea启动慢 - 模组开发教程 - V2MCdev</a> 进行过过相关的配置操作，不知道是不是由于这个原因导致</li>
+</ol>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[23十一月2020 00:32:51.133] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.2.2 build 10
+[23十一月2020 00:32:51.538] [Render thread/DEBUG] [net.minecraftforge.fml.ForgeI18n/CORE]: Loading I18N data entries: 4535
+[23十一月2020 00:32:51.692] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/CORE]: Loading Network data for FML net version: FML2
+[23十一月2020 00:32:51.718] [Render thread/DEBUG] [net.minecraftforge.fml.ModList/LOADING]: Using 16 threads for parallel mod-loading
+[23十一月2020 00:32:51.721] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.728] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.731] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@456abb66 - got cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.731] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Creating FMLModContainer instance for net.minecraftforge.common.ForgeMod with classLoader cpw.mods.modlauncher.TransformingClassLoader@456abb66 &amp; cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.743] [Render thread/DEBUG] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Loaded modclass net.minecraftforge.common.ForgeMod with cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.743] [Render thread/DEBUG] [net.minecraftforge.fml.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@456abb66
+[23十一月2020 00:32:51.743] [Render thread/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: File D:\Projects\minecraft\build\resources\main constructed 0 mods: [], but had 1 mods specified: [testmod]
+[23十一月2020 00:32:51.743] [Render thread/FATAL] [net.minecraftforge.fml.ModLoader/CORE]: Failed to initialize mod containers
+net.minecraftforge.fml.ModLoadingException: mods.toml missing metadata for modid firstmod
+	at net.minecraftforge.fml.ModLoader.lambda$buildModContainerFromTOML$30(ModLoader.java:250) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at java.util.Optional.orElseThrow(Optional.java:290) ~[?:1.8.0_271]
+	at net.minecraftforge.fml.ModLoader.buildModContainerFromTOML(ModLoader.java:250) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModLoader.lambda$buildMods$27(ModLoader.java:231) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[?:1.8.0_271]
+	at java.util.HashMap$EntrySpliterator.forEachRemaining(HashMap.java:1699) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472) ~[?:1.8.0_271]
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[?:1.8.0_271]
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499) ~[?:1.8.0_271]
+	at net.minecraftforge.fml.ModLoader.buildMods(ModLoader.java:233) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$19(ModLoader.java:189) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[?:1.8.0_271]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[?:1.8.0_271]
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1384) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472) ~[?:1.8.0_271]
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708) ~[?:1.8.0_271]
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[?:1.8.0_271]
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499) ~[?:1.8.0_271]
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:191) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+[23十一月2020 00:32:51.754] [Render thread/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_271]
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?]
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?]
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?]
+[23十一月2020 00:32:51.839] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\livingsnowman\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar
+[23十一月2020 00:32:51.840] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:testmod for mod file D:\Projects\minecraft\build\resources\main
+[23十一月2020 00:32:51.847] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\livingsnowman\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1\forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar
+[23十一月2020 00:32:51.847] [Render thread/DEBUG] [net.minecraftforge.fml.client.ClientModLoader/CORE]: Generating PackInfo named mod:testmod for mod file D:\Projects\minecraft\build\resources\main
+[23十一月2020 00:32:51.856] [Render thread/DEBUG] [net.minecraftforge.fml.ForgeI18n/CORE]: Loading I18N data entries: 0
+[23十一月2020 00:32:54.369] [Render thread/INFO] [com.mojang.text2speech.NarratorWindows/]: Narrator library for x64 successfully loaded
+[23十一月2020 00:32:54.440] [Render thread/INFO] [net.minecraft.resources.SimpleReloadableResourceManager/]: Reloading ResourceManager: Default, Mod Resources
+[23十一月2020 00:32:54.461] [Server-Worker-7/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Loading configs type CLIENT
+[23十一月2020 00:32:54.463] [Server-Worker-7/DEBUG] [net.minecraftforge.fml.config.ConfigTracker/CONFIG]: Loading configs type COMMON
+[23十一月2020 00:32:54.470] [Server-Worker-7/ERROR] [net.minecraftforge.fml.ModLoader/LOADING]: Skipping lifecycle event SETUP, 2 errors found.
+[23十一月2020 00:32:54.470] [Server-Worker-7/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event SETUP, 2 errors found
+[23十一月2020 00:32:54.470] [Server-Worker-7/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.startModLoading(ClientModLoader.java:123) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$3(ClientModLoader.java:105) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[?:?]
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1640) [?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1632) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1067) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1703) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:172) [?:1.8.0_271]
+[23十一月2020 00:32:57.203] [Server-Worker-7/ERROR] [net.minecraftforge.fml.ModLoader/LOADING]: Skipping lifecycle event ENQUEUE_IMC, 2 errors found.
+[23十一月2020 00:32:57.203] [Server-Worker-7/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event ENQUEUE_IMC, 2 errors found
+[23十一月2020 00:32:57.203] [Server-Worker-7/FATAL] [net.minecraftforge.eventbus.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.2.0-service.jar:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.finishModLoading(ClientModLoader.java:137) ~[?:?]
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$4(ClientModLoader.java:107) ~[?:?]
+	at java.util.concurrent.CompletableFuture.uniRun(CompletableFuture.java:719) [?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:701) [?:1.8.0_271]
+	at java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:457) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1067) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1703) [?:1.8.0_271]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:172) [?:1.8.0_271]
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>mods.toml</code>（上图位置1处）</p>
+<pre><code class="lang-auto"># This is an example mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+# A URL to refer people to when problems occur with this mod
+###issueTrackerURL="http://my.issue.tracker/" #optional---可选
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]] #mandatory
+# The modid of the mod
+modId="firstmod" #mandatory
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+version="${file.jarVersion}" #mandatory
+ # A display name for the mod
+displayName="testMod" #mandatory
+# A URL to query for updates for this mod. See the JSON update specification &lt;here&gt;
+###updateJSONURL="http://myurl.me/" #optional--可选
+# A URL for the "homepage" for this mod, displayed in the mod UI
+###displayURL="http://example.com/" #optional--可选
+# A file name (in the root of the mod JAR) containing a logo for display
+###ogoFile="examplemod.png" #optional--可选
+# A text field displayed in the mod UI
+###credits="Thanks for this example mod goes to Java" #optional--可选
+# A text field displayed in the mod UI
+authors="livingsnowman" #optional
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+test mod...
+'''
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.examplemod]] #optional
+# the modid of the dependency
+modId="forge" #mandatory
+# Does this dependency have to exist - if not, ordering below must be specified
+mandatory=true #mandatory
+# The version range of the dependency
+versionRange="[31,)" #mandatory
+# An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+ordering="NONE"
+# Side this dependency is applied on - BOTH, CLIENT or SERVER
+side="BOTH"
+# Here's another dependency
+[[dependencies.examplemod]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.15.2]"
+ordering="NONE"
+side="BOTH"
+</code></pre>
+<p><code>mods.toml</code>(上图2位置处)</p>
+<pre><code class="lang-auto"># This is an example mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="http://my.issue.tracker/" #optional
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]] #mandatory
+# The modid of the mod
+modId="testmod" #mandatory
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+version="${file.jarVersion}" #mandatory
+ # A display name for the mod
+displayName="First Mod" #mandatory
+# A URL to query for updates for this mod. See the JSON update specification &lt;here&gt;
+#updateJSONURL="http://myurl.me/" #optional
+# A URL for the "homepage" for this mod, displayed in the mod UI
+#displayURL="http://example.com/" #optional
+# A file name (in the root of the mod JAR) containing a logo for display
+#logoFile="examplemod.png" #optional
+# A text field displayed in the mod UI
+#credits="Thanks for this example mod goes to Java" #optional
+# A text field displayed in the mod UI
+authors="livingsnowman" #optional
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+这是第一个教学Mod...
+
+'''
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.examplemod]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[31,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.examplemod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"
+</code></pre>
+<hr>
+<p><code>FirstMod</code></p>
+<pre><code class="lang-auto">@Mod("firstmod")
+public class FirstMod {
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>living snowman</h4></div>
+    <br />
+    <div class="post">
+        <p>今早尝试将 <a href="../t/topic/304" class="inline-onebox">解决1.13+forge在idea启动慢 - 模组开发教程 - V2MCdev</a> 中的改动取消，问题解决了 <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:">   应该是在尝试配置的时候出现了某些的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个教程有点老了。建议跟着这个配置走。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://boson.v2mcdev.com/devenvironment/setup.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://boson.v2mcdev.com/devenvironment/setup.html" target="_blank" rel="noopener">boson.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://boson.v2mcdev.com/devenvironment/setup.html" target="_blank" rel="noopener">Forge开发环境的配置 - Boson 1.16 Modding Tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>living snowman</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>living snowman</h4></div>
+    <br />
+    <div class="post">
+        <p>多谢，想顺便请问一下1.15和1.16是否有更换的必要？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>其实1.15和1.16的差别不大，除了地形生成部分有变动，其他其实没有特别大的变化。<br>
+看目前的趋势，1.16.4有大概率成为下一个大版本。</p>
+<p>这里有个迁移指南：<br>
+<aside class="quote quote-modified" data-post="1" data-topic="890">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/890">1.15 到 1.16 更新指南</a> <a class="badge-wrapper  bullet" href="/c/19-category/19"><span class="badge-category-bg" style="background-color: #0088CC;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里你可以讨论有关 Minecraft 和本论坛的内容。">综合讨论区</span></a>
+  </div>
+  <blockquote>
+    <a href="https://forums.minecraftforge.net/topic/91710-forge-341-minecraft-1163/">Forge 官方更新日志</a> 
+Mod信息相关的改动
+现在mods.toml新增一个强制字段：license，数据类型字符串，这里填入的是你Mod的许可证。 
+FML 相关的改动
+DistExecutor.callWhenOn等方法被弃用，请改用同一个类下带safe前缀的方法例如DistExecutor.safeCallWhenOn。 
+FMLCommonSetupEvent等会并行执行的FML生命周…
+  </blockquote>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

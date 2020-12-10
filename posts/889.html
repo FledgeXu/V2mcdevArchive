@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2药水效果制作教程</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2药水效果制作教程</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>这个教程是为了填补neutrino在药水方面的空缺写的。</p>
+<p>为了感谢v2mcdev对我的帮助，本教程所有权完全属于v2mcdev站长。其可以任意引用、修改并且无须注明作者。我保留修改权限。<br>
+<em>我没有用ObsidianEffect这个名字您可别骂我呀</em><br>
+<em>骂我代码写得烂倒是可以</em></p>
+<p>我将会在这篇教程中讲述两种最常见的药水，“隔一段时间就做某件事情”型（原版中毒效果之类的）和“属性增加”（力量，虚弱之类的）型。</p>
+<p>首先是我异想天开的效果，“嗝儿”效果<br>
+这个效果将会每过一段时间让玩家发出打嗝的声音，<br>
+并且获得一个随机方向的随机速度，<br>
+而且还有几率扔掉手上的物品<br>
+或者受到伤害。<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/bede5409fd6cd2af69f021414f69d75ee9890041.png" data-download-href="../uploads/default/bede5409fd6cd2af69f021414f69d75ee9890041" title="2020-09-25_18.17.31"><img src="../uploads/default/optimized/1X/bede5409fd6cd2af69f021414f69d75ee9890041_2_690x387.png" alt="2020-09-25_18.17.31" data-base62-sha1="rev3rqENuJfDNlJPDC6rI5RNvcR" width="690" height="387" srcset="../uploads/default/optimized/1X/bede5409fd6cd2af69f021414f69d75ee9890041_2_690x387.png, ../uploads/default/original/1X/bede5409fd6cd2af69f021414f69d75ee9890041.png 1.5x, ../uploads/default/original/1X/bede5409fd6cd2af69f021414f69d75ee9890041.png 2x" data-small-upload="../uploads/default/optimized/1X/bede5409fd6cd2af69f021414f69d75ee9890041_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-09-25_18.17.31</span><span class="informations">854×480 189 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+……不许笑！<br>
+再笑你也会在笑的时候呛死！</p>
+<p>进入正题，首先创建common/effect包，在这个包里新建EffectHipCup.java类:</p>
+<ul>
+<li>注意你的mod命名应该有统一的风格。教程的名字仅供参考。</li>
+</ul>
+<pre><code class="lang-auto">public class EffectHipCup extends Effect {
+    public static final DamageSource hipCup = new DamageSource(YourMod.MOD_ID+".hip_cup");
+    public EffectHipCup() {
+        /*第一个参数代表药水的类别，一共有HARMFUL,NEUTRAL,BENEFICIAL 三种
+        * BENEFICIAL药水将会在HUD上优先显示
+        * 第二个参数是十六进制药水颜色，你可以把你PS上的颜色代码直接弄过来*/
+        super(EffectType.HARMFUL, 0X123456);
+       
+    }
+    @Override
+    public void performEffect(@NotNull LivingEntity entityLivingBaseIn, int amplifier) {
+        //参照neutrino去添加声音吧，把你自己的打嗝声录下来效果更佳
+        amplifier ++;//游戏中1级的药水在代码中是0级，所以要+1
+        entityLivingBaseIn.playSound(ModSoundTypes.hipCup, 2.0F,1.0F);
+        Random random = new Random();
+        //希望这一行能帮助到可能不会为实体赋予速度的你
+        entityLivingBaseIn.setMotion(
+                entityLivingBaseIn.getMotion().add(
+                0.3*amplifier*random.nextFloat()-0.15 ,0.25*amplifier,0.3*amplifier*random.nextFloat()-0.15));
+        switch (random.nextInt(5)){
+            case 1:
+                //只有玩家才能扔东西
+                if (entityLivingBaseIn instanceof PlayerEntity){
+                    PlayerEntity player = (PlayerEntity) entityLivingBaseIn;
+                    player.dropItem(player.getHeldItemMainhand(),true,false);
+                    //不加这一行的话会导致扔出物品还在的效果
+                    player.setHeldItem(Hand.MAIN_HAND,new ItemStack(Items.AIR));
+                }
+            case 2:
+                //当你打嗝姿势不对的时候
+                entityLivingBaseIn.attackEntityFrom(hipCup, random.nextInt(3*amplifier));
+        }
+
+        super.performEffect(entityLivingBaseIn, amplifier);
+    }
+
+    @Override
+	public boolean isReady(int duration, int amplifier) {
+        /*有药水效果的生物每时每刻都会检测isReady，如果返回true就会执行performEffect
+        * 很明显这里的意思是每隔40ticks执行一次的意思
+        * 利用好了也可以成为黑科技
+        * Rustic模组（虽然还没更新到1.15.2,不过思想都是相同的嘛）的炽烈足迹效果就在这里检测了玩家脚底下的方块是不是空气
+        * 如果是的话就放置一个火方块*/
+		return duration % 40 == 0;
+    }
+}
+</code></pre>
+<p>创建下一个类EffectTurtle.java<br>
+<em>千年王八万年龟，当回王八不吃亏。</em></p>
+<pre><code class="lang-auto">public class EffectTurtle extends Effect {
+    protected EffectTurtle() {
+        super(EffectType.BENEFICIAL, 654321);
+        /*AttributeModifier随着药水等级的变化是依靠getAttributeModifierAmount方法实现的，默认为你设置的数乘以（药水等级+1）。
+        * 如果喜欢的话可以复写这个方法，我这里感觉没啥必要就没用
+        * 值得一提的是，不要直接复制别人的UUID，你得花钱买，100块钱一个
+        * 逗你玩呢，你想要多少就有多少。这里有一个网站给你
+        * https://1024tools.com/uuid
+        * 当然在这里你还可以添加更多AttributesModifier
+        */
+
+        this.addAttributesModifier(SharedMonsterAttributes.ARMOR, "d41f581c-f53b-440e-ba68-c8ec88ed5337", 10D, AttributeModifier.Operation.ADDITION);
+    }
+}
+</code></pre>
+<p>某些效果用这些常规方法没法制作的，可以订阅事件。这里不举例子了，因为我认为你已经在neutrino学会这个了。<br>
+记得检测生物是否具有药水效果。</p>
+<pre><code class="lang-auto">好了效果有了，接下来，在effect包再建一个ModPotions.java用来注册
+
+public class ModPotions {
+    public static final DeferredRegister&lt;Effect&gt; EFFECTS = new DeferredRegister&lt;&gt;(ForgeRegistries.POTIONS,YourMod.MOD_ID);
+    public static final Effect HIP_CUP = register("hip_cup",new EffectHipCup());
+    public static final Effect TURTLE = register("turtle",new EffectTurtle());
+
+    private static Effect register(String name, Effect effect) {
+        EFFECTS.register(name, () -&gt; effect);
+        return effect;
+    }
+}
+</code></pre>
+<p>之后别忘了在你的mod主类加上这行</p>
+<pre><code class="lang-auto">public class YourMod{
+    ......
+    public YourMod(){
+        ......
+        ModPotions.EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ......
+    }
+}```
+
+材质文件是resources/assets/textures/mob_effects文件夹里的 *你的药水注册名* .png文件。
+不需要为此专门写注册材质的代码。
+
+语言文件中的键是effect.*你的modid*.*你的药水注册名*
+去试试吧。    
+我自己试了是正常的。</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>挺好的。<br>
+我一直没写药水效果是因为感觉实体缺了attribute部分没有介绍（</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>因为这个我读了好几个mod的源码……<br>
+话说，投掷实体的章节什么时候会加入啊</p>
+    </div>
+    <br />
+</body>
+</html>

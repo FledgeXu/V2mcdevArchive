@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>无法绘制文字</title>
+</head>
+<body>
+    <div class="title"><h1>无法绘制文字</h1></div>
+    <div class="post-user" class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  2838<br>
+Minecraft版本: 1.12<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>问题</strong><br>
+监听RenderGameOverlayEvent时，绘制文字却没有任何反馈，但是经过测试是正常运行的。</p>
+<p><strong>相关代码</strong><br>
+<code>HudCompass用于在屏幕上绘制图形和文字</code></p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(modid = MidgardReborn.MODID)
+public class HudCompass {
+	private static Minecraft mc = Minecraft.getMinecraft();
+	private static ScaledResolution scaled = new ScaledResolution(mc);
+	private static FontRenderer fontrender = mc.fontRenderer;
+	
+	private final static int WIDTH = 200;
+	private final static int HEIGHT = 50;
+	private final static int OFFSETX = (scaled.getScaledWidth() - WIDTH) / 2;
+	private final static int OFFSETY = 10;
+	
+	private static boolean S = true;
+	private static boolean W = true;
+	private static boolean N = true;
+	private static boolean E = true;
+	/** agree must be 20 - 70*/
+	private static float perspective = 0.5463024898F;
+	
+	public HudCompass() {
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void onHudCompassPrint(RenderGameOverlayEvent.Text event)
+	{
+		if(event.getType() == RenderGameOverlayEvent.ElementType.ALL)
+		{
+			if(hasCompass())
+			{
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.F);
+				EntityPlayer player =  Minecraft.getMinecraft().player;
+				float yaw = player.rotationYaw;
+				drawFont(yaw);
+				drawBackGround();
+			}
+		}
+		return;
+	}
+	
+	private static void drawBackGround()
+	{
+		//TODO
+	}
+	
+	private static void drawFont(float yaw)
+	{
+		reset();
+		float min = yaw - perspective;
+		float max = yaw + perspective;
+		
+		if(min &lt; -3.141592653589793F)
+		{
+			float temp = min;
+			min = max;
+			max = temp + perspective * 2;
+		}
+		
+		if(max &gt; -3.141592653589793F)
+		{
+			float temp = max;
+			max = min;
+			min = temp - perspective * 2;
+		}
+		
+		EnumCompassFacing minCompassFacing = EnumCompassFacing.NORTH;
+		
+		for(int agree = -180; agree &lt; 180; agree += 90)
+		{
+			if(EnumCompassFacing.getFacingForAgree(agree).radian &lt; min)
+			{
+				setFacingFlag(EnumCompassFacing.getFacingForAgree(agree), false);
+			}
+			else
+			{
+				minCompassFacing = EnumCompassFacing.getFacingForAgree(agree);
+				break;
+			}
+		}
+		
+		for(int agree = 180; agree &gt; -180; agree -= 90)
+		{
+			if(EnumCompassFacing.getFacingForAgree(agree).radian &gt; max)
+			{
+				setFacingFlag(EnumCompassFacing.getFacingForAgree(agree), false);
+			}
+			else
+			{
+				break;
+			}
+		}
+		
+		int y = OFFSETY + HEIGHT / 2;
+		if(Math.toDegrees(perspective * 2) &lt; 90)
+		{
+			int x = (int) (OFFSETX + 200 * (minCompassFacing.radian - min / perspective * 2));
+			fontrender.drawString(minCompassFacing.getInitials(), x, y, 14737632);
+		}
+	}
+	
+	private static void reset()
+	{
+		W = true;
+		E = true;
+		S = true;
+		W = true;
+	}
+
+	private static void setFacingFlag(EnumCompassFacing facing, boolean active)
+	{
+		if(facing == EnumCompassFacing.NORTH)
+		{
+			N = active;
+		}
+		else if(facing == EnumCompassFacing.EAST)
+		{
+			E = active;
+		}
+		else if(facing == EnumCompassFacing.SOUTH)
+		{
+			S = active;
+		}
+		else
+		{
+			W = active;
+		}
+	}
+	
+	private static boolean hasCompass()
+	{
+		//TODO
+		return true;
+	}
+	
+	public static enum EnumCompassFacing
+	{
+		NORTH(3.141592653589793F),
+		EAST(1.570796326794897F),
+		SOUTH(0.0F),
+		WEST(-1.570796326794897F);
+		
+		public float radian;
+		private EnumCompassFacing(float radian) {
+			this.radian = radian;
+		}
+		
+		/**
+		 * @param agree agree value &lt;b&gt;-180&lt;/b&gt; between &lt;b&gt;180&lt;/b&gt;
+		 * &lt;br&gt; enter the wrong parameter &lt;b&gt;WILL RETURN NULL&lt;/b&gt;
+		 * @return 
+		 * -180 - {@link EnumCompassFacing#NORTH} &lt;br&gt;
+		 * -90  - {@link EnumCompassFacing#EAST}  &lt;br&gt;
+		 * 0    - {@link EnumCompassFacing#SORTH} &lt;br&gt;
+		 * 90   - {@link EnumCompassFacing#EAST}  &lt;br&gt;
+		 * 180  - {@link EnumCompassFacing#NORTH} &lt;br&gt;
+		 */
+		@Nullable
+		public static EnumCompassFacing getFacingForAgree(int agree)
+		{
+			switch(agree)
+			{
+				case 0:
+					return SOUTH;
+				case 90:
+					return EAST;
+				case -90:
+					return WEST;
+				case 180:
+				case -180:
+					return NORTH;
+				default:
+					return null;
+			}
+		}
+		
+		public String getInitials()
+		{
+			switch(this)
+			{
+				case NORTH:
+					return "N";
+				case EAST:
+					return "E";
+				case SOUTH:
+					return "S";
+				case WEST:
+					return "W";
+				default:
+					return "";
+			}
+		}
+		
+		public float getMiniMumCritical()
+		{
+			return this.radian - perspective; 
+		}
+		
+		public float getMaxMumCritical()
+		{
+			return this.radian + perspective; 
+		}
+	}
+	
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+去论坛和查阅教程时都是使用<strong>FontRenderer#drawString</strong>来绘制文字，甚至也尝试将Post事件改成Text，但是感觉没有任何变化</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>是不是你的文字选的颜色有问题……改成<code>0x000000</code>试试。<br>
+如果还是有问题，把</p>
+<pre><code class="lang-java">	private static FontRenderer fontrender = mc.fontRenderer;
+</code></pre>
+<p>移动到<code>onHudCompassPrint</code>方法里，每次渲染的时候都获取一遍试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>我第一次尝试的时候就写了0</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那试试在<code>onHudCompassPrint</code>方法里调用<code>Minecraft.getMinecraft().fontRenderer</code><br>
+还有我不是很清楚什么叫做「正常运行」，是指<code>fontrender.drawString</code>被调用到了吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>正常运行</strong>是指执行到 <strong>onHudCompassPrint</strong>这个方法中if(hasCompass)里了</p>
+<p>噢，请原谅我的疏忽，我忘记检查这步了，我是用计算器转化得到的值，我以为它仍然小于90</p>
+<pre><code class="lang-auto">if(Math.toDegrees(perspective * 2) &lt; 90)
+		{
+			int x = (int) (OFFSETX + 200 * (minCompassFacing.radian - min / perspective * 2));
+			fontrender.drawString(minCompassFacing.getInitials(), x, y, 14737632);
+		}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先在<code>fontrender.drawString</code>打个断点看看是不是调用到了。<br>
+然后检查<code>minCompassFacing.getInitials()</code>是不是在调用的时候返回的是<code>""</code>。我注意到<code>minCompassFacing#getInitials</code>是有可能返回空值的。<br>
+你可试试把<code>minCompassFacing.getInitials()</code>换成一个确定的字符串，比如<code>"Test"</code>看看是否被渲染出来了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的问题解决了吗？解决了请选择一个楼层作为答案，或者自己补充信息作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>kabuki_</h4></div>
+    <br />
+    <div class="post">
+        <p>很抱歉我这么晚回复您的消息，这本该是昨天就做的事，但是我的pc端无法登陆V2McDev</p>
+<p>问题已经得到了解决，原因是<br>
+<code>int x = (int) (OFFSETX + 200 * (minCompassFacing.radian - min / perspective * 2));</code><br>
+这个算法得到的值超出了屏幕的范围，我正在修改算法使它变得更好</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

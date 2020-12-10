@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何给投掷物注册一个像生物一样的模型</title>
+</head>
+<body>
+    <div class="title"><h1>如何给投掷物注册一个像生物一样的模型</h1></div>
+    <div class="post-user" class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win7 64bit<br>
+你是用的JDK: jdk1_8_0<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.2.2&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>错误情况简述</strong><br>
+想要制作一个具有模型并且在飞行的时候自转的投掷物<br>
+继承MobRenderer的时候提示<br>
+<code>Type parameter 'com.dasffafa.lemon.client.render.entity.FlyingShitRenderer' is not within its bound; should extend 'net.minecraft.entity.MobEntity'</code></p>
+<p><strong>查到的资料</strong><br>
+我只查到了ChromeBall模组和MineCraftByExample模组，他们都没有这么干</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>因为投掷物的模型应该是写死的，会直接渲染物品的模型。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>刚才我制作投掷物的时候出了一个错误</p>
+<pre><code class="lang-auto">[22:07:15] [Render thread/FATAL] [minecraft/ThreadTaskExecutor]: Error executing task on Client
+java.lang.IllegalStateException: Invalid entity data item type for field 7 on entity PigEntity['��'/807, l='MpServer', x=-64.88, y=238.52, z=-73.01]: old=0(class java.lang.Byte), new=1 flying_shit(class net.minecraft.item.ItemStack)
+	at net.minecraft.network.datasync.EntityDataManager.setEntryValue(EntityDataManager.java:246) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.network.datasync.EntityDataManager.setEntryValues(EntityDataManager.java:234) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.client.network.play.ClientPlayNetHandler.handleEntityMetadata(ClientPlayNetHandler.java:587) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.network.play.server.SEntityMetadataPacket.processPacket(SEntityMetadataPacket.java:50) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.network.play.server.SEntityMetadataPacket.processPacket(SEntityMetadataPacket.java:12) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.network.PacketThreadUtil.lambda$checkThreadAndEnqueue$0(PacketThreadUtil.java:19) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.run(ThreadTaskExecutor.java:140) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.RecursiveEventLoop.run(RecursiveEventLoop.java:22) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.driveOne(ThreadTaskExecutor.java:110) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.util.concurrent.ThreadTaskExecutor.drainTasks(ThreadTaskExecutor.java:97) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:934) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.run(Minecraft.java:558) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:177) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_131] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_131] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_131] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_131] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.1.2.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.1.2.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.2.0_mapped_snapshot_20200514-1.15.1-recomp.jar:?] {}
+</code></pre>
+<p>这个错误将会使模型无法成功注册，并且在渲染投掷物的时候渲染出一只猪<br>
+真的不可以吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="Dasffafa" data-post="3" data-topic="901">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="../user_avatar/v2mcdev.com/dasffafa/40/465_2.png" class="avatar"> Dasffafa:</div>
+<blockquote>
+<p>这个错误将会使模型无法成功注册，并且在渲染投掷物的时候渲染出一只猪<br>
+真的不可以吗？</p>
+</blockquote>
+</aside>
+<p>我不知道你在写什么……</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>其实我想说投掷物使用实体的模型是可能的<br>
+我是这么写的</p>
+<pre><code class="lang-auto">public class FlyingShitRenderer implements IRenderFactory&lt;FlyingShitEntity&gt; {
+    @Override
+    public EntityRenderer&lt;? super FlyingShitEntity&gt; createRenderFor(EntityRendererManager manager) {
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        return new SpriteRenderer&lt;&gt;(manager, itemRenderer);
+    }
+}
+RenderingRegistry.registerEntityRenderingHandler(ModEntities.FLYING_SHIT_ENTITY_ENTITY_TYPE, new FlyingShitRenderer());
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那你可以试试自定义<code>EntityRende</code>r和<code>EntityModel</code>，绑定到你的Entity上，我以为继承了<code>ThrowableEntity</code>。<br>
+</p><aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/entity/scratchentity.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/entity/scratchentity.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/entity/scratchentity.html" target="_blank" rel="noopener">从零构建一个实体和数据同步 - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<aside class="onebox allowlistedgeneric">
+  <header class="source">
+      <img src="https://neutrino.v2mcdev.com/entity/passiveentityandai.html/../favicon.svg" class="site-icon" width="" height="">
+      <a href="https://neutrino.v2mcdev.com/entity/passiveentityandai.html" target="_blank" rel="noopener">neutrino.v2mcdev.com</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="" height="">
+
+<h3><a href="https://neutrino.v2mcdev.com/entity/passiveentityandai.html" target="_blank" rel="noopener">创建一个动物和AI - Minecraft Forge Mod Dev tutorial</a></h3>
+
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

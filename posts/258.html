@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何制作半透明的流体方块？</title>
+</head>
+<body>
+    <div class="title"><h1>如何制作半透明的流体方块？</h1></div>
+    <div class="post-user" class="user"><h4>LucunJi</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IDEA<br>
+你使用的IDE版本: 2019.3 x64<br>
+Forge版本:  1.15.2-31.1.17<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200225-1.15.1(snapshot)</p>
+<p><strong>错误情况简述</strong><br>
+想制作一个像水一样半透明渲染的流体，但是实际效果是不透明的。</p>
+<p><strong>相关代码</strong><br>
+方块注册：</p>
+<pre><code class="lang-java">@ObjectHolder(NoitaCraft.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class NoitaBlocks {
+     @ObjectHolder("berserkium") public static FlowingFluidBlock BERSERKIUM;
+
+    @SubscribeEvent
+    public static void onBlockRegistry(final RegistryEvent.Register&lt;Block&gt; event) {
+        event.getRegistry().register(new FlowingFluidBlock(() -&gt; NoitaFluids.BERSERKIUM,
+                Block.Properties.create(Material.WATER).doesNotBlockMovement().notSolid().hardnessAndResistance(100).noDrops()) {
+            @Override
+            public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+                if (entityIn instanceof LivingEntity) {
+                    ((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.STRENGTH, 30));
+                }
+            }
+        }
+                .setRegistryName(NoitaCraft.MOD_ID, "berserkium"));
+    }
+}
+</code></pre>
+<p>流体注册：</p>
+<pre><code class="lang-java">@ObjectHolder(NoitaCraft.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class NoitaFluids {
+    @ObjectHolder("berserkium") public static FlowingFluid BERSERKIUM;
+    @ObjectHolder("flowing_berserkium") public static FlowingFluid FLOWING_BERSERKIUM;
+
+    @SubscribeEvent
+    public static void onFluidRegistry(final RegistryEvent.Register&lt;Fluid&gt; event) {
+        ForgeFlowingFluid.Properties berserkiumProperties = new ForgeFlowingFluid.Properties(
+                () -&gt; BERSERKIUM,
+                () -&gt; FLOWING_BERSERKIUM,
+                FluidAttributes.builder(
+                        new ResourceLocation("block/water_still"),
+                        new ResourceLocation("block/water_flow"))
+                        .overlay(new ResourceLocation("block/water_overlay"))
+                        .color(new Color(241, 97, 63).getRGB() + 0xFF000000)
+                .luminosity(3)
+        ).block(() -&gt; NoitaBlocks.BERSERKIUM);
+        event.getRegistry().registerAll(
+                new ForgeFlowingFluid.Source(berserkiumProperties).setRegistryName(NoitaCraft.MOD_ID, "berserkium"),
+                new ForgeFlowingFluid.Flowing(berserkiumProperties).setRegistryName(NoitaCraft.MOD_ID, "flowing_berserkium")
+        );
+    }
+}
+</code></pre>
+<p><code>berserkium.json</code></p>
+<pre><code class="lang-json">{
+  "variants": {
+    "": { "model": "block/water" }
+  }
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+试过 Forge 论坛上的 RenderTypeLookup，<code>RenderTypeLookup.setRenderLayer(NoitaBlocks.BERSERKIUM, RenderType.getTranslucent());</code> 没用。</p>
+    </div>
+    <br />
+    <div class="user"><h4>LucunJi</h4></div>
+    <br />
+    <div class="post">
+        <p>应当在客户端启动时对静止和流动的流体用</p>
+<pre><code class="lang-java">RenderTypeLookup.setRenderLayer(NoitaFluids.BERSERKIUM, RenderType.getTranslucent());
+RenderTypeLookup.setRenderLayer(NoitaFluids.FLOWING_BERSERKIUM, RenderType.getTranslucent());
+</code></pre>
+<p>而非对方块调用，错误示范：<br>
+<code>RenderTypeLookup.setRenderLayer(NoitaBlocks.BERSERKIUM, RenderType.getTranslucent());</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

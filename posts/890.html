@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15 到 1.16 更新指南</title>
+</head>
+<body>
+    <div class="title"><h1>1.15 到 1.16 更新指南</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><a href="https://forums.minecraftforge.net/topic/91710-forge-341-minecraft-1163/">Forge 官方更新日志</a></p>
+<h2>Mod信息相关的改动</h2>
+<p>现在<code>mods.toml</code>新增一个强制字段：<code>license</code>，数据类型字符串，这里填入的是你Mod的许可证。</p>
+<h2>FML 相关的改动</h2>
+<p><code>DistExecutor.callWhenOn</code>等方法被弃用，请改用同一个类下带<code>safe</code>前缀的方法例如<code>DistExecutor.safeCallWhenOn</code>。</p>
+<p><code>FMLCommonSetupEvent</code>等会并行执行的FML生命周期事件，需要被执行的代码要放到<code>enqueueWork</code>中。</p>
+<h2>注册系统</h2>
+<pre><code class="lang-auto">new DeferredRegister =&gt; DeferredRegister.create
+</code></pre>
+<h2>事件系统</h2>
+<p>现在如果你的事件注册到错误的总线中，将会有报错和错误提示。</p>
+<h2>方块实体</h2>
+<pre><code class="lang-auto">read(CompoundNBT compound) =&gt; read(BlockState state, CompoundNBT nbt)
+
+handleUpdateTag(CompoundNBT tag) =&gt; handleUpdateTag(BlockState state, CompoundNBT tag)
+</code></pre>
+<h2>特殊渲染</h2>
+<pre><code class="lang-auto">getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) =&gt; getModelData(IBlockDisplayReader world, BlockPos pos, BlockState state, IModelData tileData)
+
+func_230044_c_() =&gt; isSideLit()
+</code></pre>
+<h2>实体</h2>
+<p><code>LivingEntity</code>必须要设置一个<code>Attributes.MAX_HEALTH</code>，<code>attributes</code>设置方法：</p>
+<pre><code class="lang-java">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class AttributesSetEvent {
+    @SubscribeEvent
+    public static void setupAttributes(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -&gt; {
+            GlobalEntityTypeAttributes.put(EntityTypeRegistry.obsidianAnimal.get(), MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 10.0D).create());
+        });
+    }
+}
+</code></pre>
+<h2>GUI</h2>
+<p>GUI 在 1.16 之后也改成了 batch 模式的渲染，所以基本上GUI内置的方法都需要加上一个MatrixStack参数。</p>
+<p><code>Widget</code>的构造函数中的<code>title</code>改成了<code>ITextComponent</code>，所有子类都要传入一个<code>ITextComponent</code>，建议传入<code>TranslationTextComponent</code>.</p>
+<pre><code class="lang-auto">drawString =&gt; drawCenteredString
+</code></pre>
+<h2>世界生成</h2>
+<p>随着1.16允许json文件自定义地形生成，地形生成相关的改动相较于其他部分幅度较大。具体的改动还没有研究完毕。</p>
+<h3>Biome相关的内容</h3>
+<p>Forge现在提供了一个新的事件用于对Biome进行修改：<code>BiomeLoadingEvent</code>。<br>
+根据<a href="https://github.com/MinecraftForge/MinecraftForge/blob/03082c361aecf4c57d51494258a51e548e5c234e/src/main/java/net/minecraftforge/event/world/BiomeLoadingEvent.java#L37">文档</a>，这个事件有三个优先级：</p>
+<ol>
+<li>
+<code>EventPriority#HIGH</code>，用于向Biome内添加内容</li>
+<li>
+<code>EventPriority#NORMAL</code>，用于向Biome删除内容</li>
+<li>
+<code>EventPriority#LOW</code>，其他类型的更改。</li>
+</ol>
+<p>此外<code>Feature</code>, <code>Structure</code>等，都放在了<code>Biome</code>下等<code>BiomeGenerationSettings</code>中。<br>
+下面是一个利用这个事件添加矿物生成的例子:</p>
+<pre><code class="lang-java">@Mod.EventBusSubscriber()
+public class OreGen {
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onSetUpEvent(BiomeLoadingEvent event) {
+        event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                Feature.ORE.withConfiguration(
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a,
+                                BlockRegistry.obsidianBlock.get().getDefaultState(),
+                                9)
+                ).withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(0, 0, 64)))
+                        .withPlacement(Placement.field_242903_g.configure(NoPlacementConfig.field_236556_b_))
+                        .withPlacement(Placement.field_242899_c.configure(new FeatureSpreadConfig(FeatureSpread.func_242252_a(20))))
+        );
+    }
+}
+</code></pre>
+<h2>命令</h2>
+<p>命令现在将在<code>RegisterCommandsEvent</code>事件下注册</p>
+<h2>粒子效果</h2>
+<p><code>ParticleType</code>类现在必须要实现一个<code>Codec&lt;T IParticleData&gt; func_230522_e_()</code>方法，直接在这个方法里返回一个你的<code>IParticleData</code>实例就行：</p>
+<pre><code class="lang-java">@Override
+ public Codec&lt;ObsidianParticleData&gt; func_230522_e_() {
+    return Codec.unit(new ObsidianParticleData(new Vector3d(0, 0, 0), new Color(0), 0));
+}
+</code></pre>
+<h2>物品属性覆盖 Item Property Override</h2>
+<p><code>ItemModelsProperties.registerProperty</code>现在不能写在<code>item</code>的构造器中了。建议放到<code>FMLClientSetUpEvent</code>事件的<code>enqueueWork</code>中。原来的语句不需要额外的改动。简单的例子：</p>
+<pre><code class="lang-auto">@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
+public class ModItemPropertyOverride {
+    @SubscribeEvent
+    public static void itemPropertyOverride(FMLClientSetupEvent event){
+        event.enqueueWork(()-&gt;{
+            //from BOW's part in ItemModelsProperties.java
+            ItemModelsProperties.registerProperty(ModItems.ExampleItem,new ResourceLocation("pulling"),(itemStack, clientWorld, livingEntity) -&gt; {
+                return livingEntity != null &amp;&amp; livingEntity.isHandActive() &amp;&amp; livingEntity.getActiveItemStack() == itemStack ? 1.0F : 0.0F;
+            });
+        });
+    }
+}
+</code></pre>
+<h2>总结</h2>
+<p>总体而言如果你的Mod不涉及到世界生成的内容，1.15到1.16的迁移量并不大，如果你是从1.12开始迁移而且你的Mod涉及到世界生成相关的内容，可以直接迁移到1.16版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>dasffafa</h4></div>
+    <br />
+    <div class="post">
+        <p>只需要这么点工作量啊，太棒了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有，我还在写……</p>
+    </div>
+    <br />
+    <div class="user"><h4>dbydd</h4></div>
+    <br />
+    <div class="post">
+        <p>世界生成真的是每个版本都在变。。。</p>
+    </div>
+    <br />
+</body>
+</html>

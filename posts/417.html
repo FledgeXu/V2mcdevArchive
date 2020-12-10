@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于如何创建Fabric的能量系统</title>
+</head>
+<body>
+    <div class="title"><h1>关于如何创建Fabric的能量系统</h1></div>
+    <div class="post-user" class="user"><h4>tangguo</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>关于Fabric的能量系统，我想了解一下有没有类似的教程，或者一个指导。<br>
+如果像做一个以V为名称的能量，具体怎么做呢？</p>
+<p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Fabric版本: 1_15_ 2.1.15.2+build.15 v2<br>
+Minecraft版本: MC1.15.2</p>
+<p><strong>查到的资料</strong><br>
+并没有查到</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Fabric目前来说没有能量系统的例子。<br>
+但是Forge有，这里是ustc-zzzz写的Forge能量系统的例子。<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://blog.ustc-zzzz.net/favicon.ico?v=0.5.0" class="site-icon" width="16" height="16">
+      <a href="https://blog.ustc-zzzz.net/forge-energy-demo-1/" target="_blank" title="04:15PM - 19 April 2020">ustc-zzzz's blog – 19 Apr 20</a>
+  </header>
+  <article class="onebox-body">
+    <img src="" class="thumbnail" width="16" height="16">
+
+<h3><a href="https://blog.ustc-zzzz.net/forge-energy-demo-1/" target="_blank">ustc-zzzz's blog</a></h3>
+
+<p>虽然夹杂着众多争议，但 Forge 最终仍然决定在 1.10.2 加入官方的能量系统，并一直将其延续到现在。该系统参考了 CoFH 团队的众多设计，因此和在此前已经拥有鼎鼎大名的 Redstone Flux 能量系统有着众多的相似之处。 在本系列教程中，各位读者将走入 Forge 能量系统所带来的奇妙世界。由于本文将使用 Minecraft 1.14.4 和 Forge 28.2.4 进行讲解，因此如果读者想要顺畅阅读本教程，那么有一些要求是需要满足的： 已能够相对熟练地使用 Java 8...</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+Forge是通过Capability实现能量系统的，Capability其实就是对接口的抽象，你完全可以在Fabric里用接口实现一个类似的系统（或者干脆重新实现一遍Forge的Capability）。
+    </div>
+    <br />
+    <div class="user"><h4>tangguo</h4></div>
+    <br />
+    <div class="post">
+        <p>有没有更具体的呢？或者是一些开源的例子</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个已经很具体了，更为具体的，据我所知应该没有了。<br>
+我对Fabric的生态不是很熟悉，如果你要更具体的例子，可能得去看已经实现的好的项目的代码了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>其实逻辑上来说，能量系统只是一个数字游戏，你需要用某种方式让一个方块的数字能转移到另一个方块上。<br>
+这和用Forge还是用Fabric是无关的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

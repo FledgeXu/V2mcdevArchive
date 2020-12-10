@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.12.2]使指定Gl模型对象使用原版方法渲染</title>
+</head>
+<body>
+    <div class="title"><h1>[1.12.2]使指定Gl模型对象使用原版方法渲染</h1></div>
+    <div class="post-user" class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IDE：<code>&lt;Eclipse Java 2019-12&gt;</code><br>
+Forge版本:  <code>&lt;1.12.2-14.23.5.2847&gt;</code><br>
+Minecraft版本: <code>&lt;1.12.2&gt;</code></p>
+<p><strong>情况简述</strong><br>
+我还原了Minecraft中末影龙死亡时的射线，在原版中显示正常。但当加载了Optifine之类的光影着色器后，此射线会被着色器绘制，导致视觉效果削弱（有的光影着色器完全没法看见绘制出的光线）。我想要让我的射线强制使用原版的方法绘制，其他的物体正常保持不变，该用光影就用光影。</p>
+<p>另：想问一下有什么方法可以阻止因为方块碰撞箱离开屏幕导致的不绘制？我想过的方法有修改渲染箱，有人跟我提起过<code>isGlobal()</code>等方法，但我并没有在Block类中找到相关的变量/方法。</p>
+<p><strong>相关代码</strong><br>
+<code>&lt;client.renderer.Ray.java&gt;</code></p>
+<pre><code class="lang-auto">//在原版末影龙死亡光线上稍作修改封装而成
+package net.tealing.studiocraft.client.renderer;
+
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
+public class Ray {
+	Tessellator tessellator;
+	BufferBuilder bufferBuilder;
+	float x, y, z;
+	double length, angle;
+	double d1, d2, d3;
+	
+	int firstRed = 255;
+	int firstGreen = 255;
+	int firstBlue = 255;
+	int firstAlpha = 255;
+	
+	int afterRed = 255;
+	int afterGreen = 0;
+	int afterBlue = 255;
+	int afterAlpha = 0;
+	
+	public Ray(float x, float y, float z, double length, double angle) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.length = length;
+		this.angle = angle;
+	}
+	
+	public void setPosition(float x, float y, float z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public void setFirstColor(int red, int green, int blue, int alpha) {
+		this.firstRed = red;
+		this.firstGreen = green;
+		this.firstBlue = blue;
+		this.firstAlpha = alpha;
+	}
+	
+	public void setAfterColor(int red, int green, int blue, int alpha) {
+		this.afterRed = red;
+		this.afterGreen = green;
+		this.afterBlue = blue;
+		this.afterAlpha = alpha;
+	}
+	
+	public void setLength(double length) {
+		this.length = length;
+	}
+	
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+	
+	public void render(float devX, float devY, float devZ) {
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+		
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableTexture2D();
+		GlStateManager.shadeModel(7425);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+		GlStateManager.disableAlpha();
+		GlStateManager.enableCull();
+		GlStateManager.depthMask(false);
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.translate(x, y, z);
+		
+		GlStateManager.rotate(devX, 1F, 0F, 0F);
+		GlStateManager.rotate(devY, 0F, 1F, 0F);
+		GlStateManager.rotate(devZ, 0F, 0F, 1F);
+		
+		d1 = length * Math.tan(Math.toRadians(angle / 2D));
+		d2 = d1 / Math.tan(Math.toRadians(60D));
+		d3 = d2 * 2D;
+		
+		bufferBuilder.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+		bufferBuilder.pos(0D, 0D, 0D).color(firstRed, firstGreen, firstBlue, firstAlpha).endVertex();
+		bufferBuilder.pos(-d1, -length, -d2).color(afterRed, afterGreen, afterBlue, afterAlpha).endVertex();
+		bufferBuilder.pos(d1, -length, -d2).color(afterRed, afterGreen, afterBlue, afterAlpha).endVertex();
+		bufferBuilder.pos(0D, -length, d3).color(afterRed, afterGreen, afterBlue, afterAlpha).endVertex();
+		bufferBuilder.pos(-d1, -length, -d2).color(afterRed, afterGreen, afterBlue, afterAlpha).endVertex();
+		tessellator.draw();
+		
+		GlStateManager.popMatrix();
+		GlStateManager.disableCull();
+		GlStateManager.depthMask(true);
+		GlStateManager.disableBlend();
+		GlStateManager.shadeModel(7424);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableAlpha();
+		RenderHelper.enableStandardItemLighting();
+	}
+}
+</code></pre>
+<p><code>&lt;client.renderer.tileentity.TileEntityBeamLampRenderer.java&gt;</code></p>
+<pre><code class="lang-auto">//实际调用绘制射线的地方
+//我想要做一个类似光束灯的效果，这个是一个名为"beam_lamp"的方块的TileEntity的渲染器
+package net.tealing.studiocraft.client.renderer.tileentity;
+
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.tealing.studiocraft.client.model.ModelBeamLampBulb;
+import net.tealing.studiocraft.client.renderer.Ray;
+import net.tealing.studiocraft.tileentity.TileEntityBeamLamp;
+
+public class TileEntityBeamLampRenderer extends TileEntitySpecialRenderer&lt;TileEntityBeamLamp&gt;{
+	private static final ResourceLocation TEXTURE_BEAM_LAMP_BULB = new ResourceLocation("studiocraft:textures/entity/beam_lamp_bulb.png");
+	private final ModelBeamLampBulb modelBeamLampBulb = new ModelBeamLampBulb();
+	private float devX, devY, devZ;
+	private Ray ray;
+	
+	public TileEntityBeamLampRenderer() {
+		 ray = new Ray(0F, 18/16F, 0F, 10D, 5D);
+		 ray.setFirstColor(0, 0, 100, 255);
+	}
+	
+	public void render(TileEntityBeamLamp tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		tileEntity.getUpdateTag();
+		devX = tileEntity.devX;
+		devY = tileEntity.devY;
+		devZ = tileEntity.devY;
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float)x + 8/16F, (float)y + 3/16F, (float)z + 8/16F);
+        GlStateManager.rotate(180F, 1.0F, 0F, 1.0F);
+        //这个方块是具有朝向的，此处旋转是为了使TileEntity对准在方块上
+        this.bindTexture(TEXTURE_BEAM_LAMP_BULB);
+        GlStateManager.enableCull();
+        modelBeamLampBulb.render((Entity) null, devX, devY, devZ, 0.0625F);
+        ray.render(tileEntity.devX, tileEntity.devY, tileEntity.devZ);
+        //在这里调用了射线的绘制
+        GlStateManager.popMatrix();
+	}
+}
+
+</code></pre>
+<p><strong>游戏内实装预览图</strong><br>
+未使用任何光影<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/6QMYqbS8vdhJwjH.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/6QMYqbS8vdhJwjH.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>OPTIFINE内置<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/BevNLEarTO3zfgh.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/BevNLEarTO3zfgh.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>Chocapic13 V7 Low<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/D5pXgYJql4ZcV9a.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/D5pXgYJql4ZcV9a.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>Wisdom-Shaders-V3.2-Release-Build3230-白天<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/Dc8vEdep9RmGACh.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/Dc8vEdep9RmGACh.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>Wisdom-Shaders-V3.2-Release-Build3230-夜间<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/Sbh9pKfAlukZqYg.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/Sbh9pKfAlukZqYg.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>Ziipzaaps Shaders V2-白天<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/XMVepga3tGDYCkF.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/XMVepga3tGDYCkF.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>Ziipzaaps Shaders V2-夜间<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/25/uykhmHIN9nCVsFG.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/25/uykhmHIN9nCVsFG.png" alt="" width="690" height="387"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">854×480</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>其他相关的信息</strong><br>
+使用的Optifine版本：<code>&lt;OptiFine HD E3 Ultra&gt;</code><br>
+使用的资源包：<code>&lt;BitBetter MC11 OPT 3.9.8&gt;</code><br>
+顶点缓冲器：<code>开启</code><br>
+GPU型号：<code>AMD Radeon R7 200 Series</code></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对不起这方面我也不是很清楚，我们可以讨论一下。<br>
+原版的末影龙的会被削弱吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>关于末影龙的射线我还在测试，稍后我会编辑结果并@您，谢谢。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="TeaLing" data-post="3" data-topic="108" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p>我会编辑结果并@您，谢谢。</p>
+</blockquote>
+</aside>
+<p>私估计，应该是没有办法强制使用原版的方法渲染的。<br>
+因为OptiFine是直接hack了底层的渲染代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="2" data-topic="108" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>对不起这方面我也不是很清楚，我们可以讨论一下。<br>
+原版的末影龙的会被削弱吗？</p>
+</blockquote>
+</aside>
+<p>预料之中，相同的结果。因为我的代码与末影龙死亡的代码几乎完全一致。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="4" data-topic="108">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>私估计，应该是没有办法强制使用原版的方法渲染的。<br>
+因为OptiFine是直接hack了底层的渲染代码。</p>
+</blockquote>
+</aside>
+<p>其实相同的情况也发生在烟花火箭的爆炸光上，那个的视觉效果也不好。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得预期强制用原版的方法渲染（先不说可不可行），一个更好的做法可能是你在那些光影显示效果差的光影下把渲染效果调整到看得过去。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这种显示效果差，我个人觉得其实是光影包的问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这种显示效果差，我个人觉得其实是光影包的问题……</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>我也是这样认为的。但是我对光影着色器方面不是很了解，不清楚Gl有没有提供什么方法可以让我选择着色方法什么的。其实只让玩家能够在加载光影的情况下很好的显示射线都是可以的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这我也不是很清楚。<br>
+但是以神秘这类特效多的mod在光影下显示都有问题，有这种方法的可能性会很小。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="11" data-topic="108" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>这我也不是很清楚。<br>
+但是以神秘这类特效多的mod在光影下显示都有问题，有这种方法的可能性会很小。</p>
+</blockquote>
+</aside>
+<p>那我自己再想想办法吧。<br>
+另外，有什么方法使模型保持渲染呢？</p>
+<aside class="quote no-group" data-username="TeaLing" data-post="1" data-topic="108">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p>想问一下有什么方法可以阻止因为方块碰撞箱离开屏幕导致的不绘制？我想过的方法有修改渲染箱，有人跟我提起过 <code>isGlobal()</code> 等方法，但我并没有在Block类中找到相关的变量/方法。</p>
+</blockquote>
+</aside>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="TeaLing" data-post="12" data-topic="108">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/TeaLing" class="avatar"> TeaLing:</div>
+<blockquote>
+<p><code>isGlobal()</code></p>
+</blockquote>
+</aside>
+<p>具体我也不是很清楚，但是我觉得你要的要求和原版信标实现的效果很像。<br>
+你可以看看原版信标是怎么实现的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="FledgeXu" data-post="13" data-topic="108">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://www.v2mcdev.com/user_avatar/www.v2mcdev.com/fledgexu/40/14_2.png" class="avatar"> FledgeXu:</div>
+<blockquote>
+<p>具体我也不是很清楚，但是我觉得你要的要求和原版信标实现的效果很像。<br>
+你可以看看原版信标是怎么实现的。</p>
+</blockquote>
+</aside>
+<p>一时才想起来信标，谢谢啦。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没事，那你选一个回复作为回答吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你也可以参照一下信标是如何实现光柱渲染的。<br>
+因为信标的光柱渲染在光影里显示应该是正常的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>信标似乎使用的是贴图。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>单纯用光线显示颜色可能效果是会差，因为在光影里「光线」的显示颜色的功能被削弱了，如果你要保证「光柱的颜色」用贴图实现应该是一个更合理的选择。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>因为我的光线是支持玩家自定义颜色的，而且它的张角，大小，长度都可以调节。使用贴图恐怕会增加很多的代码量。我应该可以试试把不透明度调高一点点。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这个具体说下，在minecraft中的tileentity他的renderer都是在自己定义的renderer中进行绘制的，对于普通的renderer，是使用原版的OpenGL固定管线，至少到1.12.2为止，简单的renderer每次绘制完进行一次上传，fastrenderer收集后进行上传，在cull部分，原版的剔除顺序首先对于非global的tileentitiy的renderer，他的绘制受到几个因素影响：1，te是否在被绘制的renderchunk中，2，te是否在maxdistance里，3，te是否在视锥体里，最后一个还依赖于他的renderBound设置。那么要保证其被渲染，例如原版的信标你可以发现即使离得很远也能看到，那么就要满足以上几个条件 ，1，te要被加载在可视的renderchunk中，2，te返回的maxdistance要足够大（默认24），3，te返回的renderbound要包裹整个被绘制部分，那么如果没有被加载怎么办，这时候就是isGlobal发挥作用，当你设置此项为true时，在单例globalreder中会检测所有renderer是否为isGloabl来缓存,即使其renderChunk没有被绘制也会执行。</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>`&lt;</p>
+<aside class="quote no-group" data-username="nowandfuture" data-post="20" data-topic="108" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/nowandfuture" class="avatar"> nowandfuture:</div>
+<blockquote>
+<p>这个具体说下，在minecraft中的tileentity他的renderer都是在自己定义的renderer中进行绘制的，对于普通的renderer，是使用原版的OpenGL固定管线，至少到1.12.2为止，简单的renderer每次绘制完进行一次上传，fastrenderer收集后进行上传，在cull部分，原版的剔除顺序首先对于非global的tileentitiy的renderer，他的绘制受到几个因素影响：1，te是否在被绘制的renderchunk中，2，te是否在maxdistance里，3，te是否在视锥体里，最后一个还依赖于他的renderBound设置。那么要保证其被渲染，例如原版的信标你可以发现即使离得很远也能看到，那么就要满足以上几个条件 ，1，te要被加载在可视的renderchunk中，2，te返回的maxdistance要足够大（默认24），3，te返回的renderbound要包裹整个被绘制部分，那么如果没有被加载怎么办，这时候就是isGlobal发挥作用，当你设置此项为true时，在单例globalreder中会检测所有renderer是否为isGloabl来缓存,即使其renderChunk没有被绘制也会执行。</p>
+</blockquote>
+</aside>
+<blockquote></blockquote>
+<p>十分感谢您的解读！这些我在今天稍早的时候也注意到了，并且我对于isGloabl()，getRenderBound()，getMaxDistance()都进行了设置。令人不解的是，我的TileEntity在重新进入游戏后不会主动渲染（只有方块模型，没有TileEntity），只有玩家看见了TileEntity的RenderBound才会突然正常渲染，是我的设置有什么问题嘛？另附上此TileEntity的Block类。</p>
+<p><code>&lt;block.BlockBeamLamp.java&gt;</code></p>
+<pre><code class="lang-auto">//这个现象从我添加TileEntity开始后就一直存在，与我对于isGloabl()，getRenderBound()，getMaxDistance()的修改应该是无关的
+package net.tealing.studiocraft.block;
+
+import java.util.Random;
+
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.tealing.studiocraft.StudioCraft;
+import net.tealing.studiocraft.inventory.GuiContainerLoader;
+import net.tealing.studiocraft.item.Items;
+import net.tealing.studiocraft.tileentity.TileEntityBeamLamp;
+
+public class BlockBeamLamp extends BlockContainer {
+	public static final AxisAlignedBB BEAM_LAMP_AABB = new AxisAlignedBB(4/16D, 0, 4/16D, 12/16D, 13/16D, 12/16D);
+	public BlockBeamLamp() {
+		super(Material.IRON, MapColor.IRON);
+	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BEAM_LAMP_AABB;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
+	}
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Items.BEAM_LAMP;
+	}
+	
+	@Override
+	public int quantityDropped(Random random) {
+		return 1;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (worldIn.isRemote) {
+			return true;
+		}
+		else {
+			playerIn.openGui(StudioCraft.instance, GuiContainerLoader.BEAM_LAMP, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			return true;
+		}
+	}
+	
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		return new TileEntityBeamLamp();
+	}
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>没有看到当然不会被渲染…想要自己看不到的时候渲染，直接把renderbox设成无穷大，在renderer中或者在gerMaxDistance做逻辑判断</p>
+    </div>
+    <br />
+    <div class="user"><h4>茶凌儿</h4></div>
+    <br />
+    <div class="post">
+        <p>可能我描述的有问题。我指的是必须视角准星对准RenderBound才会渲染，如果在屏幕外没有渲染那倒是没有问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>不太清楚你遇到的情况，这个需要具体得调试下，首先确认tileentity是不是被正确创建了，其次再看下，你的renderbound是不是有问题，设成无穷大试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

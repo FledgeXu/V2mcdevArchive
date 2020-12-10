@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>修改物品在创造物品栏的排列顺序</title>
+</head>
+<body>
+    <div class="title"><h1>修改物品在创造物品栏的排列顺序</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10 64<br>
+你用的JDK是: 8 64<br>
+你使用的IDE：idea<br>
+你使用的IDE版本:2020.2<br>
+Forge版本:  1.16.3-34.1.0<br>
+Minecraft版本: 1.16.3</p>
+<p>如何修改物品在创造物品栏中的顺序<br>
+经过测试和物品注册的顺序没什么关系</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>ItemGroup#fill</code>重写这个方法，应该就可以了。<br>
+我印象中好像用事件注册的注册顺序和出现的ItemGroup里的顺序是一致的，或许可以用这种办法。事件注册的方法很多教程都写了，这里就不重复了，和1.12.2是注册方法是一样的。</p>
+<p>如果问题被解答了的话，请你选择一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

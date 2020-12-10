@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.12-1.15]Minecraft Forge 离线包</title>
+</head>
+<body>
+    <div class="title"><h1>[1.12-1.15]Minecraft Forge 离线包</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <h2>离线包原理</h2>
+<p>在Forge开发环境的配置过程中，需要下载很多的依赖库，还需要下载反编译前的Minecraft以及Minecraft资源文件。这些内容都会被放在Gradle的缓存文件夹中也就是<code>.gradle</code>文件夹中，而离线包的作用就是预先配置了一遍开发环境，下载好了这些依赖，并且将其打包。而你下载下来的就是这些环境依赖。</p>
+<h2>离线包覆盖的范围</h2>
+<p><strong>此离线包是Windows专供</strong><br>
+1.12 的最新版本，1.14-1.15的每一个版本<br>
+目前来说Github上没有每一个版本的构建，但是因为基于IPFS和GitHub，本项目可以实现每一个Forge版本都有一个离线包。<br>
+如果有需要1.14以上特定版本的离线包，请在本帖下方留言，或者在Github上发issue。</p>
+<hr>
+<h2>本项目的优势</h2>
+<ol>
+<li>可以实现每一个版本的Forge都有相对应的离线包可以下载。</li>
+<li>因为离线包有上传到IPFS上，所以可以享受到IPFS众多网关的下载加速，并且很多网关是是支持多线程下载的，利用多线程下载（比如IDM和aria2)有时候可以跑满宽带的最高下载速度。</li>
+<li>本项目基于脚本自动化构建，如果有需要构建的版本，只要我已经写好了此版本的脚本，只需要修改一个<code>version.txt</code>文件里的值就可以自动构建，并且所有人都可以自行构建自己需要的离线包。</li>
+</ol>
+<hr>
+<h2>下载方法</h2>
+<p><strong>下载链接：<a href="https://github.com/FledgeXu/ForgeGradleOffline/tags">Github</a></strong></p>
+<ol>
+<li>点击进入下载链接，点击选择你需要的离线包版本（名字的含义：游戏版本-Forge版本号-构建时间）</li>
+<li>进入到具体的<code>Release</code>页面，选择下载，<strong>有两种方式一种是选择<code>Assets</code>文件中的zip文件下载，另一种是点击<code>IPFS 网络下载</code>利用IPFS网络下载。推荐使用IPFS网络下载。</strong>
+</li>
+<li>如果你选择<code>IPFS 网络下载</code>，那么选择一个绿色的可以下载的链接下载就行（请注意因为延时和同步的原因你点击下载链接以后可能有很长一段时间没有反应，你可以选择等待一会或者换一个下载链接）</li>
+</ol>
+<p><em><strong>注：如果<code>IPFS网络下载</code>速度比较慢，可以使用类似aria2或者IDM这样的多线程下载工具加速下载，如果你不知道该用什么下载器，这里推荐<a href="https://github.com/Xmader/aria-ng-gui">aria-ng-gui</a>。</strong></em></p>
+<hr>
+<h2>使用方法</h2>
+<p>解压之后将 <code>gradlehome</code> 移动到 <code>C:\Users\&lt;你的用户名&gt;</code>文件夹下，然后将 <code>gradlehome</code> 改名为 <code>.gradle</code>（请注意这里有个点不是句号），如果提示有冲突请选择全部替换。<br>
+其他依照教程正常导入即可。</p>
+<hr>
+<h2>问题反馈。</h2>
+<p>请在本帖下方反馈问题，或者在Github issue中反馈问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>zh1162287966</h4></div>
+    <br />
+    <div class="post">
+        <p>没太看懂怎么用，请问一下 是要修改哪里的gradlehome</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>你的系统盘下的用户的账户名里</p>
+    </div>
+    <br />
+    <div class="user"><h4>zh1162287966</h4></div>
+    <br />
+    <div class="post">
+        <p>是把这个整个解压到同名build文件夹，然后再修改，还是说只要把这一部分拖进去修改就行了？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Oo0</h4></div>
+    <br />
+    <div class="post">
+        <p>你下载对应版本压缩包 解压他 把里面以gradlehome命名的文件夹移动到这个目录下C:\Users\Administrator，并把gradlehome改名成.gradle,如果弹出窗口就全部点替换。gradlehome在解压出来的build文件夹里面。你也可以把gradlehome单独解压出来，然后把它移到对应目录里并命名成.gradle</p>
+    </div>
+    <br />
+    <div class="user"><h4>砖需</h4></div>
+    <br />
+    <div class="post">
+        <p>我需要一个1.16.3的forge的离线包<br>
+版本：1.16.3forge34.1.0<br>
+谢谢了<br>
+github上为什么不能提交问题？？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个项目已经被存档，不会再有更新。<br>
+请改用：<a href="../t/topic/589" class="inline-onebox">ForgeGradleCN—Forge 环境配置新解决方案</a></p>
+    </div>
+    <br />
+</body>
+</html>

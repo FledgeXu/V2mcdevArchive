@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>加载Mod时出错（在load_registries事件阶段遇到错误）</title>
+</head>
+<body>
+    <div class="title"><h1>加载Mod时出错（在load_registries事件阶段遇到错误）</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:31.1.46<br>
+Minecraft版本:1.15.2<br>
+Mapping 文件版本:20200507</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/9b2f22ac12a62d9dc6850f3b369b5f6c26771d83.png" data-download-href="../uploads/default/9b2f22ac12a62d9dc6850f3b369b5f6c26771d83" title="image"><img src="../uploads/default/original/1X/9b2f22ac12a62d9dc6850f3b369b5f6c26771d83.png" alt="image" data-base62-sha1="m8OZHhlKySBYIn3q63Xff3vhl3J" width="690" height="156" data-small-upload="../uploads/default/optimized/1X/9b2f22ac12a62d9dc6850f3b369b5f6c26771d83_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">855×194 7.55 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div><br>
+<strong>错误情况简述</strong><br>
+我不知道这个报错是为什么…日志里面讲的<code>barricade_bottom.java</code>、<code>Modblocks.java</code>自从上次正常运行之后就没有动过…</p>
+<p><strong>报错日志</strong><br>
+太长不看版：</p>
+<pre><code class="lang-auto">[15:24:42] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/]: Exception caught during firing event: null
+	Index: 2
+	Listeners:
+		0: NORMAL
+		1: ASM: class com.uss_shenzhou.rainbow6.rainbow6$RegistryEvents onBlocksRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		2: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onBlocksRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		3: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onItemsRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		4: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onEntityTypeRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		5: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onContainerRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+java.lang.ExceptionInInitializerError
+	at com.uss_shenzhou.rainbow6.blocks.barricade_bottom.&lt;init&gt;(barricade_bottom.java:36)
+	at com.uss_shenzhou.rainbow6.blocks.Modblocks.&lt;clinit&gt;(Modblocks.java:5)
+	at com.uss_shenzhou.rainbow6.util.RegistryHandler.onBlocksRegistry(RegistryHandler.java:22)
+	at net.minecraftforge.eventbus.ASMEventHandler_3_RegistryHandler_onBlocksRegistry_Register.invoke(.dynamic)
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112)
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:125)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:125)
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96)
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71)
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:197)
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$24(ModLoader.java:189)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:972)
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:189)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113)
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398)
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30)
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:39)
+	at com.uss_shenzhou.rainbow6.util.ModSounds.&lt;clinit&gt;(ModSounds.java:19)
+	... 35 more
+
+[15:24:42] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Caught exception during event RegistryEvent.Register&lt;minecraft:block&gt; dispatch for modid rainbow6
+java.lang.ExceptionInInitializerError: null
+	at com.uss_shenzhou.rainbow6.blocks.barricade_bottom.&lt;init&gt;(barricade_bottom.java:36) ~[main/:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.blocks.Modblocks.&lt;clinit&gt;(Modblocks.java:5) ~[main/:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.util.RegistryHandler.onBlocksRegistry(RegistryHandler.java:22) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_3_RegistryHandler_onBlocksRegistry_Register.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:31.1] {re:classloading}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_241] {}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_241] {}
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:125) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at java.util.ArrayList.forEach(ArrayList.java:1257) ~[?:1.8.0_241] {}
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:125) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:197) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$24(ModLoader.java:189) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:972) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:189) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30) ~[?:?] {re:classloading}
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:39) ~[?:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.util.ModSounds.&lt;clinit&gt;(ModSounds.java:19) ~[?:?] {re:classloading}
+	... 35 more
+[15:24:42] [Render thread/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event LOAD_REGISTRIES, 1 errors found
+[15:24:42] [Render thread/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\86136\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1\forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:rainbow6 for mod file F:\MC mod\forge-1.14.4-28.2.3-mdk\build\resources\main
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\86136\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1\forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:rainbow6 for mod file F:\MC mod\forge-1.14.4-28.2.3-mdk\build\resources\main
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.ForgeI18n/CORE]: Loading I18N data entries: 0
+[15:24:48] [Render thread/INFO] [mojang/NarratorWindows]: Narrator library for x64 successfully loaded
+[15:24:48] [Render thread/INFO] [minecraft/SimpleReloadableResourceManager]: Reloading ResourceManager: Default, Mod Resources
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type CLIENT
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading config file type CLIENT at forge-client.toml for forge
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Built TOML config for F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Loaded TOML config file F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Watching TOML config file F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml for changes
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.co.ForgeConfig/FORGEMOD]: Loaded forge config file forge-client.toml
+[15:24:49] [Thread-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Config file forge-client.toml changed, sending notifies
+[15:24:49] [Thread-1/DEBUG] [ne.mi.co.ForgeConfig/FORGEMOD]: Forge config just got changed on the file system!
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type COMMON
+[15:24:49] [Server-Worker-3/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event SETUP, 1 errors found.
+[15:24:49] [Server-Worker-3/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event SETUP, 1 errors found
+[15:24:49] [Server-Worker-3/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.startModLoading(ClientModLoader.java:123) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$3(ClientModLoader.java:105) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1640) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1632) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+[15:24:50] [Server-Worker-2/WARN] [minecraft/SoundHandler]: Invalid sounds.json in resourcepack: 'Mod Resources'
+net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:35) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.client.audio.Sound.&lt;init&gt;(Sound.java:19) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserializeSound(SoundListSerializer.java:58) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserializeSounds(SoundListSerializer.java:38) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserialize(SoundListSerializer.java:23) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserialize(SoundListSerializer.java:17) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at com.google.gson.internal.bind.TreeTypeAdapter.read(TreeTypeAdapter.java:69) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.read(TypeAdapterRuntimeTypeWrapper.java:41) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:187) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:145) ~[gson-2.8.0.jar:?] {}
+	at net.minecraft.util.JSONUtils.fromJson(JSONUtils.java:377) ~[?:?] {re:classloading}
+	at net.minecraft.util.JSONUtils.fromJson(JSONUtils.java:396) ~[?:?] {re:classloading}
+	at net.minecraft.client.audio.SoundHandler.getSoundMap(SoundHandler.java:129) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundHandler.prepare(SoundHandler.java:76) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundHandler.prepare(SoundHandler.java:35) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.resources.ReloadListener.lambda$reload$0(ReloadListener.java:12) ~[?:?] {re:classloading}
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1604) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1596) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+[15:24:55] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/conduit/wind.png : java.io.FileNotFoundException: minecraft:textures/entity/conduit/wind.png
+[15:24:55] [Server-Worker-2/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/conduit/wind_vertical.png : java.io.FileNotFoundException: minecraft:textures/entity/conduit/wind_vertical.png
+[15:24:56] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/trapped_left.png : java.io.FileNotFoundException: textures/entity/chest/trapped_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/trapped_right.png : java.io.FileNotFoundException: textures/entity/chest/trapped_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/christmas_right.png : java.io.FileNotFoundException: textures/entity/chest/christmas_double.png
+[15:24:56] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/normal_right.png : java.io.FileNotFoundException: textures/entity/chest/normal_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/normal_left.png : java.io.FileNotFoundException: textures/entity/chest/normal_double.png
+[15:24:56] [Server-Worker-5/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/christmas_left.png : java.io.FileNotFoundException: textures/entity/chest/christmas_double.png
+[15:24:56] [Server-Worker-1/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event ENQUEUE_IMC, 1 errors found.
+[15:24:56] [Server-Worker-1/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event ENQUEUE_IMC, 1 errors found
+[15:24:56] [Server-Worker-1/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.finishModLoading(ClientModLoader.java:137) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$4(ClientModLoader.java:107) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.util.concurrent.CompletableFuture.uniRun(CompletableFuture.java:719) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:701) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:457) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+</code></pre>
+<p>完整log在二楼</p>
+<p><strong>相关代码</strong><br>
+我不知道log中提到的哪个文件才是关键，全部贴又太多了。请在楼下讲需要哪个文件。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>超字数可还行 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:"><br>
+忽略掉了前面SCAN的部分：</p>
+<pre><code class="lang-auto">[15:24:23] [Render thread/INFO] [minecraft/Minecraft]: Setting user: Dev
+[15:24:24] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/FlowingFluidBlock
+[15:24:25] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/StairsBlock
+[15:24:25] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/block/FlowerPotBlock
+[15:24:33] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/item/BucketItem
+[15:24:33] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/item/FishBucketItem
+[15:24:34] [Render thread/DEBUG] [ne.mi.co.tr.CoreModBaseTransformer/COREMOD]: Transforming net/minecraft/potion/EffectInstance
+[15:24:39] [Render thread/INFO] [minecraft/Minecraft]: Backend library: LWJGL version 3.2.2 build 10
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ForgeI18n/CORE]: Loading I18N data entries: 4533
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModLoader/CORE]: Loading Network data for FML net version: FML2
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Using 4 threads for parallel mod-loading
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@2d72f75e - got cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Creating FMLModContainer instance for net.minecraftforge.common.ForgeMod with classLoader cpw.mods.modlauncher.TransformingClassLoader@2d72f75e &amp; cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded modclass net.minecraftforge.common.ForgeMod with cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModLoader/LOADING]: ModContainer is cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLJavaModLanguageProvider/LOADING]: Loading FMLModContainer from classloader cpw.mods.modlauncher.TransformingClassLoader@2d72f75e - got cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Creating FMLModContainer instance for com.uss_shenzhou.rainbow6.rainbow6 with classLoader cpw.mods.modlauncher.TransformingClassLoader@2d72f75e &amp; cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded modclass com.uss_shenzhou.rainbow6.rainbow6 with cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching parallel event LifecycleEvent:CONSTRUCT
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loading mod instance forge of type net.minecraftforge.common.ForgeMod
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Forge Version package package net.minecraftforge.versions.forge, Forge, version 31.1 from cpw.mods.modlauncher.TransformingClassLoader@2d72f75e
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge version 31.1.46
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge spec 31.1
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.fo.ForgeVersion/CORE]: Found Forge group net.minecraftforge
+[15:24:41] [modloading-worker-3/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loading mod instance rainbow6 of type com.uss_shenzhou.rainbow6.rainbow6
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.mc.MCPVersion/CORE]: Found MC version information 1.15.2
+[15:24:41] [modloading-worker-1/DEBUG] [ne.mi.ve.mc.MCPVersion/CORE]: Found MCP version information 20200414.225201
+[15:24:41] [modloading-worker-1/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 31.1.46, for MC 1.15.2 with MCP 20200414.225201
+[15:24:41] [modloading-worker-1/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v31.1.46 Initialized
+[15:24:41] [modloading-worker-3/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded mod instance rainbow6 of type com.uss_shenzhou.rainbow6.rainbow6
+[15:24:41] [modloading-worker-3/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Injecting Automatic event subscribers for rainbow6
+[15:24:41] [modloading-worker-3/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for rainbow6
+[15:24:42] [modloading-worker-3/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.uss_shenzhou.rainbow6.entities.ModRenderRegistry to MOD
+[15:24:42] [modloading-worker-3/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.uss_shenzhou.rainbow6.rainbow6$RegistryEvents to MOD
+[15:24:42] [modloading-worker-3/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing com.uss_shenzhou.rainbow6.util.RegistryHandler to MOD
+[15:24:42] [modloading-worker-3/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Completed Automatic event subscribers for rainbow6
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Config file forge-client.toml for forge tracking
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Config file forge-server.toml for forge tracking
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Loaded mod instance forge of type net.minecraftforge.common.ForgeMod
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Injecting Automatic event subscribers for forge
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Attempting to inject @EventBusSubscriber classes into the eventbus for forge
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.AutomaticEventSubscriber/LOADING]: Auto-subscribing net.minecraftforge.client.model.ModelDataManager to FORGE
+[15:24:42] [modloading-worker-1/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Completed Automatic event subscribers for forge
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:CREATE_REGISTRIES
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.NewRegistry
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.NewRegistry
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid rainbow6 : RegistryEvent.NewRegistry
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid rainbow6 : RegistryEvent.NewRegistry
+[15:24:42] [Render thread/DEBUG] [ne.mi.re.ObjectHolderRegistry/REGISTRIES]: Processing ObjectHolder annotations
+[15:24:42] [Render thread/DEBUG] [ne.mi.re.ObjectHolderRegistry/REGISTRIES]: Found 2583 ObjectHolder annotations
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ModList/LOADING]: Dispatching synchronous event LifecycleEvent:LOAD_REGISTRIES
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid forge : RegistryEvent.Register&lt;minecraft:block&gt;
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Fired event for modid forge : RegistryEvent.Register&lt;minecraft:block&gt;
+[15:24:42] [Render thread/DEBUG] [ne.mi.fm.ja.FMLModContainer/LOADING]: Firing event for modid rainbow6 : RegistryEvent.Register&lt;minecraft:block&gt;
+[15:24:42] [Render thread/INFO] [co.us.ra.rainbow6/]: HELLO from Register Block
+[15:24:42] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/]: Exception caught during firing event: null
+	Index: 2
+	Listeners:
+		0: NORMAL
+		1: ASM: class com.uss_shenzhou.rainbow6.rainbow6$RegistryEvents onBlocksRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		2: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onBlocksRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		3: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onItemsRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		4: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onEntityTypeRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+		5: ASM: class com.uss_shenzhou.rainbow6.util.RegistryHandler onContainerRegistry(Lnet/minecraftforge/event/RegistryEvent$Register;)V
+java.lang.ExceptionInInitializerError
+	at com.uss_shenzhou.rainbow6.blocks.barricade_bottom.&lt;init&gt;(barricade_bottom.java:36)
+	at com.uss_shenzhou.rainbow6.blocks.Modblocks.&lt;clinit&gt;(Modblocks.java:5)
+	at com.uss_shenzhou.rainbow6.util.RegistryHandler.onBlocksRegistry(RegistryHandler.java:22)
+	at net.minecraftforge.eventbus.ASMEventHandler_3_RegistryHandler_onBlocksRegistry_Register.invoke(.dynamic)
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112)
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:125)
+	at java.util.ArrayList.forEach(ArrayList.java:1257)
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:125)
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96)
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71)
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:197)
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$24(ModLoader.java:189)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:972)
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:189)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113)
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398)
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30)
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:39)
+	at com.uss_shenzhou.rainbow6.util.ModSounds.&lt;clinit&gt;(ModSounds.java:19)
+	... 35 more
+
+[15:24:42] [Render thread/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Caught exception during event RegistryEvent.Register&lt;minecraft:block&gt; dispatch for modid rainbow6
+java.lang.ExceptionInInitializerError: null
+	at com.uss_shenzhou.rainbow6.blocks.barricade_bottom.&lt;init&gt;(barricade_bottom.java:36) ~[main/:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.blocks.Modblocks.&lt;clinit&gt;(Modblocks.java:5) ~[main/:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.util.RegistryHandler.onBlocksRegistry(RegistryHandler.java:22) ~[main/:?] {re:classloading}
+	at net.minecraftforge.eventbus.ASMEventHandler_3_RegistryHandler_onBlocksRegistry_Register.invoke(.dynamic) ~[?:?] {}
+	at net.minecraftforge.eventbus.ASMEventHandler.invoke(ASMEventHandler.java:80) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:31.1] {re:classloading}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_241] {}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_241] {}
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:125) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at java.util.ArrayList.forEach(ArrayList.java:1257) ~[?:1.8.0_241] {}
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:125) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:197) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$24(ModLoader.java:189) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:972) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:189) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30) ~[?:?] {re:classloading}
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:39) ~[?:?] {re:classloading}
+	at com.uss_shenzhou.rainbow6.util.ModSounds.&lt;clinit&gt;(ModSounds.java:19) ~[?:?] {re:classloading}
+	... 35 more
+[15:24:42] [Render thread/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event LOAD_REGISTRIES, 1 errors found
+[15:24:42] [Render thread/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:398) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.client.main.Main.main(Main.java:141) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_241] {}
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_241] {}
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_241] {}
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_241] {}
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65) [modlauncher-5.0.0-milestone.4.jar:?] {}
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102) [forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {}
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\86136\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1\forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:rainbow6 for mod file F:\MC mod\forge-1.14.4-28.2.3-mdk\build\resources\main
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:forge for mod file C:\Users\86136\.gradle\caches\forge_gradle\minecraft_user_repo\net\minecraftforge\forge\1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1\forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.cl.ClientModLoader/CORE]: Generating PackInfo named mod:rainbow6 for mod file F:\MC mod\forge-1.14.4-28.2.3-mdk\build\resources\main
+[15:24:43] [Render thread/DEBUG] [ne.mi.fm.ForgeI18n/CORE]: Loading I18N data entries: 0
+[15:24:48] [Render thread/INFO] [mojang/NarratorWindows]: Narrator library for x64 successfully loaded
+[15:24:48] [Render thread/INFO] [minecraft/SimpleReloadableResourceManager]: Reloading ResourceManager: Default, Mod Resources
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type CLIENT
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading config file type CLIENT at forge-client.toml for forge
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Built TOML config for F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Loaded TOML config file F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Watching TOML config file F:\MC mod\forge-1.14.4-28.2.3-mdk\run\config\forge-client.toml for changes
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.co.ForgeConfig/FORGEMOD]: Loaded forge config file forge-client.toml
+[15:24:49] [Thread-1/DEBUG] [ne.mi.fm.co.ConfigFileTypeHandler/CONFIG]: Config file forge-client.toml changed, sending notifies
+[15:24:49] [Thread-1/DEBUG] [ne.mi.co.ForgeConfig/FORGEMOD]: Forge config just got changed on the file system!
+[15:24:49] [Server-Worker-3/DEBUG] [ne.mi.fm.co.ConfigTracker/CONFIG]: Loading configs type COMMON
+[15:24:49] [Server-Worker-3/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event SETUP, 1 errors found.
+[15:24:49] [Server-Worker-3/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event SETUP, 1 errors found
+[15:24:49] [Server-Worker-3/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.startModLoading(ClientModLoader.java:123) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$3(ClientModLoader.java:105) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1640) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1632) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+[15:24:50] [Server-Worker-2/WARN] [minecraft/SoundHandler]: Invalid sounds.json in resourcepack: 'Mod Resources'
+net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:30) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.util.ResourceLocation.&lt;init&gt;(ResourceLocation.java:35) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading}
+	at net.minecraft.client.audio.Sound.&lt;init&gt;(Sound.java:19) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserializeSound(SoundListSerializer.java:58) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserializeSounds(SoundListSerializer.java:38) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserialize(SoundListSerializer.java:23) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundListSerializer.deserialize(SoundListSerializer.java:17) ~[forge-1.15.2-31.1.46_mapped_snapshot_20200508-1.15.1-recomp.jar:?] {re:classloading,pl:runtimedistcleaner:A}
+	at com.google.gson.internal.bind.TreeTypeAdapter.read(TreeTypeAdapter.java:69) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.read(TypeAdapterRuntimeTypeWrapper.java:41) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:187) ~[gson-2.8.0.jar:?] {}
+	at com.google.gson.internal.bind.MapTypeAdapterFactory$Adapter.read(MapTypeAdapterFactory.java:145) ~[gson-2.8.0.jar:?] {}
+	at net.minecraft.util.JSONUtils.fromJson(JSONUtils.java:377) ~[?:?] {re:classloading}
+	at net.minecraft.util.JSONUtils.fromJson(JSONUtils.java:396) ~[?:?] {re:classloading}
+	at net.minecraft.client.audio.SoundHandler.getSoundMap(SoundHandler.java:129) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundHandler.prepare(SoundHandler.java:76) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.audio.SoundHandler.prepare(SoundHandler.java:35) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraft.client.resources.ReloadListener.lambda$reload$0(ReloadListener.java:12) ~[?:?] {re:classloading}
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1604) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1596) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+[15:24:55] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/conduit/wind.png : java.io.FileNotFoundException: minecraft:textures/entity/conduit/wind.png
+[15:24:55] [Server-Worker-2/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/conduit/wind_vertical.png : java.io.FileNotFoundException: minecraft:textures/entity/conduit/wind_vertical.png
+[15:24:56] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/trapped_left.png : java.io.FileNotFoundException: textures/entity/chest/trapped_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/trapped_right.png : java.io.FileNotFoundException: textures/entity/chest/trapped_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/christmas_right.png : java.io.FileNotFoundException: textures/entity/chest/christmas_double.png
+[15:24:56] [Server-Worker-3/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/normal_right.png : java.io.FileNotFoundException: textures/entity/chest/normal_double.png
+[15:24:56] [Server-Worker-4/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/normal_left.png : java.io.FileNotFoundException: textures/entity/chest/normal_double.png
+[15:24:56] [Server-Worker-5/ERROR] [minecraft/AtlasTexture]: Using missing texture, unable to load minecraft:textures/entity/chest/christmas_left.png : java.io.FileNotFoundException: textures/entity/chest/christmas_double.png
+[15:24:56] [Server-Worker-1/ERROR] [ne.mi.fm.ModLoader/LOADING]: Skipping lifecycle event ENQUEUE_IMC, 1 errors found.
+[15:24:56] [Server-Worker-1/FATAL] [ne.mi.fm.ModLoader/LOADING]: Failed to complete lifecycle event ENQUEUE_IMC, 1 errors found
+[15:24:56] [Server-Worker-1/FATAL] [ne.mi.ev.EventBus/EVENTBUS]: EventBus 0 shutting down - future events will not be posted.
+java.lang.Exception: stacktrace
+	at net.minecraftforge.eventbus.EventBus.shutdown(EventBus.java:278) ~[eventbus-2.0.0-milestone.1-service.jar:?] {}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:115) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.finishModLoading(ClientModLoader.java:137) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$onreload$4(ClientModLoader.java:107) ~[?:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.util.concurrent.CompletableFuture.uniRun(CompletableFuture.java:719) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:701) [?:1.8.0_241] {}
+	at java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:457) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_241] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_241] {}
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.death
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.hurt
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.loop_aggressive
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.loop
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.sting
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.bee.pollinate
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.beehive.drip
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.beehive.enter
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.beehive.exit
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.beehive.shear
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.beehive.work
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.break
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.fall
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.hit
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.place
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.slide
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:block.honey_block.step
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:item.honey_bottle.drink
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.iron_golem.damage
+[15:24:56] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.iron_golem.repair
+[15:24:56] [Render thread/INFO] [minecraft/SoundSystem]: OpenAL initialized.
+[15:24:56] [Render thread/INFO] [minecraft/SoundEngine]: Sound engine started
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 128x128x4 minecraft:textures/atlas/signs.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x128x4 minecraft:textures/atlas/chest.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[15:24:57] [Render thread/INFO] [minecraft/AtlasTexture]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[15:25:52] [Render thread/INFO] [minecraft/Minecraft]: Stopping!
+
+Process finished with exit code 0
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9/._-] character in path of location: rainbow6:RemoteGasGrenade_explode
+</code></pre>
+<p>你的<code>rainbow6:RemoteGasGrenade_explode</code>注册名用到大写字符了。<br>
+<strong>这是基础中的基础，请好好的学习基础。</strong></p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我的注册名没有用到大写字符啊…路径也不行么…请问此外还有什么名称不能使用大写字符呀？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请贴出你注册部分的代码，以及<code>RemoteGasGrenade_explode</code>类的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p><code>       RemoteGasGrenade_explode</code>是一个声音事件，如图<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc.png" data-download-href="../uploads/default/ed0051df1b5cfa74d440cfe6470c71a994406bbc" title="image"><img src="../uploads/default/optimized/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc_2_690x99.png" alt="image" data-base62-sha1="xOBQqP00xN6zAeRDJJSeQV2pQE4" width="690" height="99" srcset="../uploads/default/optimized/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc_2_690x99.png, ../uploads/default/optimized/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc_2_1035x148.png 1.5x, ../uploads/default/optimized/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc_2_1380x198.png 2x" data-small-upload="../uploads/default/optimized/1X/ed0051df1b5cfa74d440cfe6470c71a994406bbc_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1420×205 13.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div><br>
+蓝箭头指的就是原来用了大写的地方。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对，路径也不能用大写字符。<br>
+严格来说<code>ResourceLocation</code>内的所有内容允许的值就是<code>[a-z0-9/._-]</code>这个正则表达式。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

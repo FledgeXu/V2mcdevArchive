@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>方块的obj模型不显示</title>
+</head>
+<body>
+    <div class="title"><h1>方块的obj模型不显示</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：win10 x64<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.46<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>情况简述</strong><br>
+我想添加一个OBJ模型的方块，但是一直不成功：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002.png" data-download-href="../uploads/default/3042921ebc43c8e1f93b69e2a1d47deb478d1002" title="image"><img src="../uploads/default/optimized/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002_2_344x250.png" alt="image" data-base62-sha1="6SVxQ8VtizxB89y6JaScCRffYYO" width="344" height="250" srcset="../uploads/default/optimized/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002_2_344x250.png, ../uploads/default/optimized/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002_2_516x375.png 1.5x, ../uploads/default/optimized/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002_2_688x500.png 2x" data-small-upload="../uploads/default/optimized/1X/3042921ebc43c8e1f93b69e2a1d47deb478d1002_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1254×911 191 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+它正确的样子：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/e08be383af61532ea32541a84a92740915128de0.png" data-download-href="../uploads/default/e08be383af61532ea32541a84a92740915128de0" title="image"><img src="../uploads/default/optimized/1X/e08be383af61532ea32541a84a92740915128de0_2_517x285.png" alt="image" data-base62-sha1="w2qF8S3vljYWgbsVkC1lKbz88Kc" width="517" height="285" srcset="../uploads/default/optimized/1X/e08be383af61532ea32541a84a92740915128de0_2_517x285.png, ../uploads/default/optimized/1X/e08be383af61532ea32541a84a92740915128de0_2_775x427.png 1.5x, ../uploads/default/optimized/1X/e08be383af61532ea32541a84a92740915128de0_2_1034x570.png 2x" data-small-upload="../uploads/default/optimized/1X/e08be383af61532ea32541a84a92740915128de0_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1920×1058 288 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p>我试过用<a href="https://neutrino.v2mcdev.com/specialmodel/obj.html">neutrino</a>的示例文件（更改了对应的地址），但是还是没用。。。。<br>
+这个block的model：<br>
+<code>barbedwire.json</code></p>
+<pre><code class="lang-auto">{
+ "loader": "forge:obj",
+ "model": "rainbow6:textures/obj/barbedwire.obj",
+ "flip-v": true
+}
+</code></pre>
+<p><code>    barbedwire.mtl</code></p>
+<pre><code class="lang-auto"># 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+
+newmtl Material__47
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8549 0.8549 0.8549
+	Kd 0.8549 0.8549 0.8549
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka rainbow6:textures/obj/barbedwire
+	map_Kd rainbow6:textures/obj/barbedwire
+
+newmtl Material__48
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka rainbow6:textures/obj/barbedwire2
+	map_Kd rainbow6:textures/obj/barbedwire2
+
+newmtl Material__49
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5647 0.4902 0.0000
+	Kd 0.5647 0.4902 0.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请补充错误日志。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>没有任何warn或者error。。。。。。latest.log和debug.log我都看了。。。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>看起来是3DS MAX的问题。。。重新导出了一遍又好了。 <img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:">要不麻烦把这帖删一下。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

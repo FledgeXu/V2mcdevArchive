@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于一个复杂方块实体的材质</title>
+</head>
+<body>
+    <div class="title"><h1>关于一个复杂方块实体的材质</h1></div>
+    <div class="post-user" class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  14.23.5.2768<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>目的</strong><br>
+我创建了一个方块，这个方块会根据对应方块实体的nbt来添加贴图。<br>
+该方块的nbt中有8个值，每个值共有24种情况。<br>
+即使我使用multipart来制作材质，也仍拥有近200个json文件在models/block文件夹下。<br>
+这样看上去十分杂乱，也难以整理。<br>
+是否能够做到更加简洁地管理这些文件？或者有没有更好的材质制作方案？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>该方块nbt的一个值代表对应的一个角上的三个面各自4x4的区域<br>
+每个值的24种情况只是区域内贴图不同，区域的大小和位置是相同的<br>
+因为图片可以重复利用，所以只是model下的json文件多到离谱</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以使用TESR( [Tile Entity Special Renderer)来动态的渲染。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Billy_tang</h4></div>
+    <br />
+    <div class="post">
+        <p>请问哪里能够找到这个的教程？我实在没有看懂源码中几个使用的例子。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a href="https://wiki.mcjty.eu/modding/index.php?title=Render_Block_TESR_/_OBJ-1.12" class="onebox" target="_blank">https://wiki.mcjty.eu/modding/index.php?title=Render_Block_TESR_/_OBJ-1.12</a><br>
+<a href="https://mcforge.readthedocs.io/en/latest/tileentities/tesr/" class="onebox" target="_blank">https://mcforge.readthedocs.io/en/latest/tileentities/tesr/</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

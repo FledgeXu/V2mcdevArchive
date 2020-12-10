@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>开发过程中一些细枝末节的问题的参考解决方法</title>
+</head>
+<body>
+    <div class="title"><h1>开发过程中一些细枝末节的问题的参考解决方法</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <ul>
+<li>修改 Windows 下运行 Java 程序的编码</li>
+</ul>
+<blockquote>
+<p>默认的编码是 GBK，如果需要都修改成 UTF-8，可以按如下操作（对全部的 Java 程序都有效）：</p>
+<ol>
+<li>在系统环境变量中添加一项：变量名为 <code>JAVA_TOOL_OPTIONS</code>；变量值为 <code>-Dfile.encoding=UTF-8</code>
+</li>
+<li>如果在 cmd 或者 PowerShell 中运行 Java 程序，那么需要先输入命令 <code>chcp 65001</code>，会将此时的活动代码页设置为 UTF-8，否则运行的 Java 程序如果输出中含有非 ASCII 字符，那么还是会乱码。</li>
+</ol>
+</blockquote>
+<ul>
+<li>修改 Gradle 缓存位置</li>
+</ul>
+<blockquote>
+<p>Windows 下的默认的位置是 <code>%USERPROFILE%\.gradle</code>， UN*X 下的默认位置是 <code>~/.gradle</code>。<br>
+如果需要修改，可以在环境变量中添加一项：变量名为 <code>GRADLE_USER_HOME</code>；变量值为你想修改到的位置，如 <code>D:\Gradle\.gradle</code>。</p>
+</blockquote>
+<ul>
+<li>修改 Gradle 版本</li>
+</ul>
+<blockquote>
+<p>由于 IntelliJ IDEA 2020.1 开始不再支持使用 JDK8 启动，而且如果使用 JDK11 启动，那么将不再支持使用 Gradle 4.7 及更低版本。目前对于 Forge 1.8 ~ 1.12.2 所使用的 ForgeGradle 2.x 最高能兼容 Gradle 4.10.3，可以按照以下方法修改：</p>
+<ol>
+<li>找到位于项目目录下的 <code>./gradle/wrapper/gradle.properties</code>
+</li>
+<li>将其中的 <code>distributionUrl</code> 后的地址修改为 <code>https\://services.gradle.org/distributions/gradle-4.10.3-all.zip</code>
+</li>
+</ol>
+<p>对于 Forge 1.7.10 或更老版本所使用的 ForgeGradle 1.x，目前最高只能兼容 Gradle 4.4.1</p>
+</blockquote>
+<ul>
+<li>正版登录</li>
+</ul>
+<blockquote>
+<p>对于 Forge，以 IntelliJ IDEA 为例，在菜单栏 <code>Run -- Edit Configurations... -- Application -- runClient -- Program Arguments</code> 中添加参数： <code>--username &lt;邮箱&gt; --password &lt;密码&gt;</code>，对于离线登录，可以仅添加 <code>--username &lt;用户名&gt;</code>，否则就是由 Minecraft 自动分配 ID (Player***)。</p>
+<p>对于 Fabric，<s>可以参考 <a href="https://github.com/MinecraftForge/MinecraftForge/blob/0512a47ebac3dcc30c34372a2b7a6ce1815f77d7/src/userdev/java/net/minecraftforge/userdev/LaunchTesting.java#L143-L165" rel="nofollow noopener">LaunchTesting</a> 搓一套轮子</s></p>
+</blockquote>
+<ul>
+<li>引用 CurseForge 上的 Mods</li>
+</ul>
+<blockquote>
+<p>可以使用 <a href="https://github.com/Wyn-Price/CurseMaven" rel="nofollow noopener">CurseMaven</a> 插件，具体用法参考它的 README。<br>
+Mods 的 fileid 可以按如下方法找到：（以 JEI 为例）</p>
+<ol>
+<li>进入 JEI 的 CurseForge 页面： <a href="https://www.curseforge.com/minecraft/mc-mods/jei" rel="nofollow noopener">https://www.curseforge.com/minecraft/mc-mods/jei</a>
+</li>
+<li>进入 <code>Files -- View All</code>，找到你想引用的具体版本，并进入详细页面（以 jei-1.15.2-6.0.0.3 为例）</li>
+<li>此时地址栏 <code>https://www.curseforge.com/minecraft/mc-mods/jei/files/2928469</code> 中的 <code>2928469</code> 即为它的 fileid</li>
+</ol>
+</blockquote>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>LittleboyHarry</h4></div>
+    <br />
+    <div class="post">
+        <p>今天遇到一个问题：在 Intellij IDEA 下打开 Kotlin DSL for Gradle 构建脚本 build.gradle.kts 时，处处检测出语法错误。</p>
+<blockquote>
+<p>Cannot access ‘java.lang.Object’ which is a supertype of ‘org.gradle.kotlin.dsl.KotlinBuildScript’.<br>
+Check your module classpath for missing or conflicting dependencies.</p>
+</blockquote>
+<p>出现这个问题的原因是因为你项目 IDEA 配置文件检测不到有效的 Java SDK (由于升级切换sdk、.idea 文件丢失导致)，重新指定一下项目采用 SDK  即可。</p>
+<p><a href="https://discuss.kotlinlang.org/t/cannot-access-java-io-serializable-which-is-a-supertype-of/16595/4" rel="nofollow noopener">https://discuss.kotlinlang.org/t/cannot-access-java-io-serializable-which-is-a-supertype-of/16595/4</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>LittleboyHarry</h4></div>
+    <br />
+    <div class="post">
+        <ul>
+<li>
+<p>修改 gradle 使用的 JDK 版本 —— 设置环境变量</p>
+<pre><code class="lang-bash">set JAVA_HOME = &lt; 你的 JDK 安装目录 &gt;
+</code></pre>
+</li>
+<li>
+<p>gradle 证书问题报错</p>
+<p>在 Windows 环境下，修改用户根目录下 <code>.gradle/gradle.properties</code> 添加：</p>
+<pre><code class="lang-auto">org.gradle.jvmargs=-Djavax.net.ssl.trustStoreType=Windows-ROOT 
+</code></pre>
+<p>这样可以强制使用系统内置的证书库，而非 JDK 自己的证书库</p>
+<blockquote>
+<p>如果系统证书库还是不能满足，需要导入证书库：可以使用这个命令行工具项目<br>
+<a href="https://github.com/escline/InstallCert" rel="nofollow noopener">https://github.com/escline/InstallCert</a><br>
+按 README 操作：（编译）运行输入网址，确认后用新证书代替 jdk 下的老证书</p>
+</blockquote>
+</li>
+</ul>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>你可以把这些内容添加到 <a href="../t/topic/182/5" class="inline-onebox">模组开发提问区常见问题维基</a> 中去，不必在这个帖子下追加</p>
+    </div>
+    <br />
+    <div class="user"><h4>LittleboyHarry</h4></div>
+    <br />
+    <div class="post">
+        <p>这张帖子已关闭没法回复 <img src="../images/emoji/apple/sob.png?v=9" title=":sob:" class="emoji" alt=":sob:"><br>
+干脆我待会开个新帖，系统的研究一下代理配置问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>那个帖子你可以直接编辑，而不是回复</p>
+    </div>
+    <br />
+</body>
+</html>

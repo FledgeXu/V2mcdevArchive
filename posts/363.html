@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何正确地在持有某物品右键时对附近的某实体产生作用？</title>
+</head>
+<body>
+    <div class="title"><h1>如何正确地在持有某物品右键时对附近的某实体产生作用？</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本:  31.1.46<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200422-1.15.1</p>
+<p>我尝试创建一个c4(<code>ThrowableEntity</code>)和对应的引爆器(<code>Item</code>)，但是在最后阶段遇到了困难：我不知道如何正确的在拿着引爆器右键时使附近的c4爆炸。我在我的C4Entity的类中写好了与爆炸有关的方法<code>exploder</code>，并且尝试在<code>c4_exploder</code>的<code>onItemRightClick</code>中使用它，就像这样：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8cea4024f765cc2cef6ce3e780b74aa579c90eed.png" data-download-href="../uploads/default/8cea4024f765cc2cef6ce3e780b74aa579c90eed" title="image"><img src="../uploads/default/original/1X/8cea4024f765cc2cef6ce3e780b74aa579c90eed.png" alt="image" data-base62-sha1="k6AIYmM8ueV2dkeJZK3Zl0QALlX" width="690" height="283" data-small-upload="../uploads/default/optimized/1X/8cea4024f765cc2cef6ce3e780b74aa579c90eed_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">958×393 24.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div>  然而第一个问题出现了：当我拿着它右键时，爆炸发生在玩家的手上而不是附近的<code>c4</code>实体。我大概意识到了我所犯的错误，但是不知道怎么样去修正它。<br>
+我尝试了另一种办法：我想要监听事件：玩家拿着物品时右键(<code>PlayerInteractEvent.RightClickItem</code>)，且拿的是起爆器<code>c4_exploder</code>时，调用<code>exploder</code>使其爆炸：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/38ed16463df46ab6c3fcd11183f9e8a09c9e123e.png" data-download-href="../uploads/default/38ed16463df46ab6c3fcd11183f9e8a09c9e123e" title="image"><img src="../uploads/default/original/1X/38ed16463df46ab6c3fcd11183f9e8a09c9e123e.png" alt="image" data-base62-sha1="87AH5gSdf9mC2wFksqcv4av1jwa" width="690" height="216" data-small-upload="../uploads/default/optimized/1X/38ed16463df46ab6c3fcd11183f9e8a09c9e123e_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">970×305 11.4 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div> 但是我不知道如何正确的注册它（已阅读forge文档，我的问题在于这个监听器是写在<code>c4entity.class</code>而不是单独的类中的），也不知道是否会出现同第一个方法一样的错误。我该怎么做才能达到我想要的效果？<br>
+以下是<code>c4_exploder</code>和<code>c4entity</code>的完整代码（在尝试第二种方法时）：<br>
+<code>c4_exploder</code>:</p>
+<pre><code class="lang-auto">public class c4_exploder extends Item {
+    public c4_exploder(){
+        super(new Properties().group(Utils.ItemGroup));
+        this.setRegistryName("c4_exploder");
+    }
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        return new ActionResult&lt;&gt;(ActionResultType.SUCCESS, itemstack);
+    }
+}
+</code></pre>
+<p><code>c4entity</code>：</p>
+<pre><code class="lang-auto">    public class c4entity extends ProjectileItemEntity {
+    public c4entity(EntityType&lt;? extends c4entity&gt; type, LivingEntity playerIn, World worldIn) {
+        super(type, playerIn, worldIn);
+    }
+    public c4entity(EntityType&lt;c4entity&gt; c4entityEntityType, World world) {
+        super(c4entityEntityType, world);
+    }
+
+    @Nullable
+    private BlockState inBlockState;
+
+    public c4entity(LivingEntity throwerIn, World worldIn) {
+        super(ModEntityTypes.c4entitytype,throwerIn, worldIn);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return ModItems.c4;
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult raytraceResultIn) {
+        if (raytraceResultIn.getType() == RayTraceResult.Type.BLOCK) {
+            BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) raytraceResultIn;
+            BlockState blockstate = this.world.getBlockState(blockraytraceresult.getPos());
+            this.inBlockState = blockstate;
+            Vec3d vec3d = blockraytraceresult.getHitVec().subtract(this.getPosX(), this.getPosY(), this.getPosZ());
+            this.setMotion(vec3d);
+            Vec3d vec3d1 = vec3d.normalize().scale((double) 0.05F);
+            this.prevPosX -= vec3d1.x;
+            this.prevPosY -= vec3d1.y;
+            this.prevPosZ -= vec3d1.z;
+            this.playSound(ModSounds.c4_hit, 0.8f, 1.0f);
+            this.inGround = true;
+            this.setNoGravity(true);
+            blockstate.onProjectileCollision(this.world, blockstate, blockraytraceresult, this);
+        }
+    }
+
+    @Override
+    public IPacket&lt;?&gt; createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+
+    private static final DataParameter&lt;Boolean&gt; IGNITED = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter&lt;Integer&gt; STATE = EntityDataManager.createKey(CreeperEntity.class, DataSerializers.VARINT);
+    private int fuseTime = 8;
+    private int explosionRadius = 2;
+    private int timeSinceIgnited = 1;
+
+    @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(STATE, -1);
+        this.dataManager.register(IGNITED, false);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putShort("Fuse", (short) this.fuseTime);
+        compound.putByte("ExplosionRadius", (byte) this.explosionRadius);
+        compound.putBoolean("ignited", this.hasIgnited());
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        if (compound.contains("Fuse", 99)) {
+            this.fuseTime = compound.getShort("Fuse");
+        }
+
+        if (compound.contains("ExplosionRadius", 99)) {
+            this.explosionRadius = compound.getByte("ExplosionRadius");
+        }
+
+        if (compound.getBoolean("ignited")) {
+            this.ignite();
+        }
+    }
+
+    public boolean hasIgnited() {
+        return this.dataManager.get(IGNITED);
+    }
+
+    public void ignite() {
+        this.dataManager.set(IGNITED, true);
+    }
+
+    public int getc4state() {
+        return this.dataManager.get(STATE);
+    }
+
+    public void setc4state(int state) {
+        this.dataManager.set(STATE, state);
+    }
+
+    private void explode() {
+        if (!this.world.isRemote) {
+            this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), (float) this.explosionRadius, Explosion.Mode.DESTROY);
+            this.remove();
+            this.spawnLingeringCloud();
+        }
+    }
+
+    private void spawnLingeringCloud() {
+        AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ());
+        areaeffectcloudentity.setRadius(1.0F);
+        areaeffectcloudentity.setRadiusOnUse(-0.5F);
+        areaeffectcloudentity.setWaitTime(10);
+        areaeffectcloudentity.setDuration(areaeffectcloudentity.getDuration() / 2);
+        areaeffectcloudentity.setRadiusPerTick(-areaeffectcloudentity.getRadius() / (float) areaeffectcloudentity.getDuration());
+        this.world.addEntity(areaeffectcloudentity);
+    }
+    public void exploder() {
+        this.ignite();
+            this.setc4state(1);
+            int i = this.getc4state();
+            this.timeSinceIgnited += i;
+            if (this.timeSinceIgnited &lt; 0) {
+                this.timeSinceIgnited = 0;
+            }
+            if (this.timeSinceIgnited &gt;= this.fuseTime) {
+                this.timeSinceIgnited = this.fuseTime;
+                this.explode();
+            }
+    }
+    @SubscribeEvent
+    public void getexplode(PlayerInteractEvent.RightClickItem event){
+        if(this.getThrower().getHeldItemMainhand().getItem()==ModItems.c4_exploder){
+            this.exploder();
+        }
+    }
+</code></pre>
+<p>其中的延时爆炸功能还不太能起作用，不过这并不是重点。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>建议把<code>explode</code>改成public的。<br>
+在<code>World类</code>下面有个叫做<code>getEntitiesWithinAABB</code>，可以通过这个方法获取周围的实体。<br>
+你可以在<code>onItemRightClick</code>里调用这个方法，获取周围有没有你想要的<code>C4Entity</code>，然后调用它的<code>explode</code>方法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>获取范围内的c4实体确实解决了<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cead96c0a1aae2ed726dec4fa44d6d0bbf6045fb.png" data-download-href="../uploads/default/cead96c0a1aae2ed726dec4fa44d6d0bbf6045fb" title="image"><img src="../uploads/default/original/1X/cead96c0a1aae2ed726dec4fa44d6d0bbf6045fb.png" alt="image" data-base62-sha1="tumgP855IRa6hvawuOwukRAChOH" width="690" height="313" data-small-upload="../uploads/default/optimized/1X/cead96c0a1aae2ed726dec4fa44d6d0bbf6045fb_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1089×495 32.3 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div><br>
+但是怎么才能让c4实体爆炸呢？现在是玩家在爆炸…<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059.png" data-download-href="../uploads/default/f90832fcdeeb3c07727a8614ffafe16d89f58059" title="image"><img src="../uploads/default/optimized/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059_2_690x447.png" alt="image" data-base62-sha1="zx2sjSzKxzxUIkpvN5RsGj8TrFn" width="690" height="447" srcset="../uploads/default/optimized/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059_2_690x447.png, ../uploads/default/optimized/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059_2_1035x670.png 1.5x, ../uploads/default/original/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059.png 2x" data-small-upload="../uploads/default/optimized/1X/f90832fcdeeb3c07727a8614ffafe16d89f58059_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1377×894 409 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div> 我知道应该不能简单地调用exploder 但是不知道具体怎么办…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-java"> public &lt;T extends Entity&gt; List&lt;T&gt; getEntitiesWithinAABB(@Nullable EntityType&lt;T&gt; type, AxisAlignedBB boundingBox, Predicate&lt;? super T&gt; predicate)
+</code></pre>
+<p>…你看看这个函数的签名，返回值是个List，你遍历一遍过滤出你的C4Entity不就行了……</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>不是检测范围的问题 是爆炸的问题 我想要的是右键之后旁边地上的<code>c4entity</code>爆炸 现在是我steve在爆炸。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你先说清楚你的逻辑「什么叫做附近的Entity爆炸？」<br>
+你是要投出一个C4Entity，然后让他爆炸？</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>是的 <img src="../images/emoji/apple/sweat.png?v=9" title=":sweat:" class="emoji" alt=":sweat:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我还是不懂你的逻辑。你如果要右键引爆周围的C4Entity，那么周围的这些C4Entity是怎么来的？<br>
+我觉得你连整个运行逻辑都还没有弄清。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我的整个逻辑是：玩家丢出一个c4entity，然后拿着c4引爆器右键，使范围内的c4entity爆炸</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>那你写错了，你<code>list</code>变量里装着的是<code>C4Entity</code>的实例，你应该让<code>list</code>变量里的元素爆炸而不是让<code>exploder</code>爆炸。</p>
+<pre><code class="lang-auto">for(C4entity entity: list){
+    entity.exploder();
+}
+</code></pre>
+<p>类似这样写。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢提醒！</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

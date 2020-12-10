@@ -1,0 +1,1173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>火焰的材质贴图出错，虽反复确认但找不到原因。</title>
+</head>
+<body>
+    <div class="title"><h1>火焰的材质贴图出错，虽反复确认但找不到原因。</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息：</strong><br>
+你使用的系统：Windows10，64位系统<br>
+你是用的JDK: 1.8.0_162，64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2019.3.2.0<br>
+Forge版本:  forge-31.1.0<br>
+Minecraft版本: 1.15.2</p>
+<p><strong>出错图：</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87.png" data-download-href="../uploads/default/d6905050f4eda1a93efa58ea80f1e97955c2db87" title="2020-07-17_17.20.12"><img src="../uploads/default/optimized/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87_2_690x357.png" alt="2020-07-17_17.20.12" data-base62-sha1="uC7mU52orI21mMOKf3wu0HSbn27" width="690" height="357" srcset="../uploads/default/optimized/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87_2_690x357.png, ../uploads/default/optimized/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87_2_1035x535.png 1.5x, ../uploads/default/original/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87.png 2x" data-small-upload="../uploads/default/optimized/1X/d6905050f4eda1a93efa58ea80f1e97955c2db87_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-07-17_17.20.12</span><span class="informations">1360×705 420 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/ef1eee506679e36a68ec2923807c14d098e53bfc.png" data-download-href="../uploads/default/ef1eee506679e36a68ec2923807c14d098e53bfc" title="2020-07-13_23.01.57"><img src="../uploads/default/optimized/1X/ef1eee506679e36a68ec2923807c14d098e53bfc_2_690x387.png" alt="2020-07-13_23.01.57" data-base62-sha1="y7mnQsFpAvlmOQSJgEuklcKZ1lG" width="690" height="387" srcset="../uploads/default/optimized/1X/ef1eee506679e36a68ec2923807c14d098e53bfc_2_690x387.png, ../uploads/default/original/1X/ef1eee506679e36a68ec2923807c14d098e53bfc.png 1.5x, ../uploads/default/original/1X/ef1eee506679e36a68ec2923807c14d098e53bfc.png 2x" data-small-upload="../uploads/default/optimized/1X/ef1eee506679e36a68ec2923807c14d098e53bfc_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-07-13_23.01.57</span><span class="informations">854×480 193 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述：</strong><br>
+我添加了一个新的火焰方块，并且确认贴图是抠干净的，但是不知道为什么，贴图却显示出这样子的效果，我用我的文件与原版火焰方块的代码逐个进行对比，发现好像也没有什么错误，除了贴图文件的路径改了一下，其它的都是照搬原版的。但是反复进行修改，就是没有效果。<br>
+材质就像没有抠干净一样。然而，拿在手上却不会出现这样子的情况。</p>
+<p><strong>相关代码：</strong><br>
+主要是json的代码问题，由于火焰是动态方块，所以相关的文件以及代码的数量比较多。<br>
+我所添加的火焰方块的代码：<code>PhosphorescentFire.java</code></p>
+<pre><code class="lang-auto">package com.glyceryl.specialitem.objects.blocks.ChemicalsBlocks.FireBlocks;
+
+import com.glyceryl.specialitem.Init.BlockInit;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.*;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Random;
+
+public class PhosphorescentFire extends Block {
+
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_0_15;
+    public static final BooleanProperty NORTH = SixWayBlock.NORTH;
+    public static final BooleanProperty EAST = SixWayBlock.EAST;
+    public static final BooleanProperty SOUTH = SixWayBlock.SOUTH;
+    public static final BooleanProperty WEST = SixWayBlock.WEST;
+    public static final BooleanProperty UP = SixWayBlock.UP;
+    private static final Map&lt;Direction, BooleanProperty&gt; FACING_TO_PROPERTY_MAP =
+            SixWayBlock.FACING_TO_PROPERTY_MAP.entrySet().stream().filter((p_199776_0_)
+            -&gt; p_199776_0_.getKey() != Direction.DOWN).collect(Util.toMapCollector());
+    private final Object2IntMap&lt;Block&gt; encouragements = new Object2IntOpenHashMap&lt;&gt;();
+    private final Object2IntMap&lt;Block&gt; flammabilities = new Object2IntOpenHashMap&lt;&gt;();
+
+    public PhosphorescentFire(Properties properties) {
+        super(properties);
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(AGE, 0)
+                .with(NORTH, Boolean.FALSE)
+                .with(EAST, Boolean.FALSE)
+                .with(SOUTH, Boolean.FALSE)
+                .with(WEST, Boolean.FALSE)
+                .with(UP, Boolean.FALSE));
+    }
+
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.empty();
+    }
+
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        return this.isValidPosition(stateIn, worldIn, currentPos) ? this.getStateForPlacement(worldIn, currentPos).with(AGE, stateIn.get(AGE)) : Blocks.AIR.getDefaultState();
+    }
+
+    @Nullable
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getStateForPlacement(context.getWorld(), context.getPos());
+    }
+
+    public BlockState getStateForPlacement(IBlockReader p_196448_1_, BlockPos p_196448_2_) {
+        BlockPos blockpos = p_196448_2_.down();
+        BlockState blockstate = p_196448_1_.getBlockState(blockpos);
+        if (!this.canCatchFire(p_196448_1_, p_196448_2_, Direction.UP) &amp;&amp; !Block.hasSolidSide(blockstate, p_196448_1_, blockpos, Direction.UP)) {
+            BlockState blockstate1 = this.getDefaultState();
+
+            for(Direction direction : Direction.values()) {
+                BooleanProperty booleanproperty = FACING_TO_PROPERTY_MAP.get(direction);
+                if (booleanproperty != null) {
+                    blockstate1 = blockstate1.with(booleanproperty, this.canCatchFire(p_196448_1_, p_196448_2_.offset(direction), direction.getOpposite()));
+                }
+            }
+
+            return blockstate1;
+        } else {
+            return this.getDefaultState();
+        }
+    }
+
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        BlockPos blockpos = pos.down();
+        return worldIn.getBlockState(blockpos).func_224755_d(worldIn, blockpos, Direction.UP) || this.areNeighborsFlammable(worldIn, pos);
+    }
+
+    public int tickRate(IWorldReader worldIn) {
+        return 20;
+    }
+
+    public void func_225534_a_(BlockState p_225534_1_, ServerWorld p_225534_2_, BlockPos p_225534_3_, Random p_225534_4_) {
+        if (p_225534_2_.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
+            if (!p_225534_2_.isAreaLoaded(p_225534_3_, 2)) return; // Forge: prevent loading unloaded chunks when spreading fire
+            if (!p_225534_1_.isValidPosition(p_225534_2_, p_225534_3_)) {
+                p_225534_2_.removeBlock(p_225534_3_, false);
+            }
+
+            Block block = p_225534_2_.getBlockState(p_225534_3_.down()).getBlock();
+            BlockState other = p_225534_2_.getBlockState(p_225534_3_.down());
+            boolean flag = other.isFireSource(p_225534_2_, p_225534_3_.down(), Direction.UP);
+            int i = p_225534_1_.get(AGE);
+            if (!flag &amp;&amp; p_225534_2_.isRaining() &amp;&amp; this.canDie() &amp;&amp; p_225534_4_.nextFloat() &lt; 0.2F + (float)i * 0.03F) {
+                p_225534_2_.removeBlock(p_225534_3_, false);
+            } else {
+                int j = Math.min(15, i + p_225534_4_.nextInt(3) / 2);
+                if (i != j) {
+                    p_225534_1_ = p_225534_1_.with(AGE, j);
+                    p_225534_2_.setBlockState(p_225534_3_, p_225534_1_, 4);
+                }
+
+                if (!flag) {
+                    p_225534_2_.getPendingBlockTicks().scheduleTick(p_225534_3_, this, this.tickRate(p_225534_2_) + p_225534_4_.nextInt(10));
+                    if (!this.areNeighborsFlammable(p_225534_2_, p_225534_3_)) {
+                        BlockPos blockpos = p_225534_3_.down();
+                        if (!p_225534_2_.getBlockState(blockpos).func_224755_d(p_225534_2_, blockpos, Direction.UP) || i &gt; 3) {
+                            p_225534_2_.removeBlock(p_225534_3_, false);
+                        }
+
+                        return;
+                    }
+
+                    if (i == 15 &amp;&amp; p_225534_4_.nextInt(4) == 0 &amp;&amp; !this.canCatchFire(p_225534_2_, p_225534_3_.down(), Direction.UP)) {
+                        p_225534_2_.removeBlock(p_225534_3_, false);
+                        return;
+                    }
+                }
+
+                boolean flag1 = p_225534_2_.isBlockinHighHumidity(p_225534_3_);
+                int k = flag1 ? -50 : 0;
+                this.tryCatchFire(p_225534_2_, p_225534_3_.east(), 300 + k, p_225534_4_, i, Direction.WEST);
+                this.tryCatchFire(p_225534_2_, p_225534_3_.west(), 300 + k, p_225534_4_, i, Direction.EAST);
+                this.tryCatchFire(p_225534_2_, p_225534_3_.down(), 250 + k, p_225534_4_, i, Direction.UP);
+                this.tryCatchFire(p_225534_2_, p_225534_3_.up(), 250 + k, p_225534_4_, i, Direction.DOWN);
+                this.tryCatchFire(p_225534_2_, p_225534_3_.north(), 300 + k, p_225534_4_, i, Direction.SOUTH);
+                this.tryCatchFire(p_225534_2_, p_225534_3_.south(), 300 + k, p_225534_4_, i, Direction.NORTH);
+                BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+
+                for(int l = -1; l &lt;= 1; ++l) {
+                    for(int i1 = -1; i1 &lt;= 1; ++i1) {
+                        for(int j1 = -1; j1 &lt;= 4; ++j1) {
+                            if (l != 0 || j1 != 0 || i1 != 0) {
+                                int k1 = 100;
+                                if (j1 &gt; 1) {
+                                    k1 += (j1 - 1) * 100;
+                                }
+
+                                blockpos$mutable.setPos(p_225534_3_).move(l, j1, i1);
+                                int l1 = this.getNeighborEncouragement(p_225534_2_, blockpos$mutable);
+                                if (l1 &gt; 0) {
+                                    int i2 = (l1 + 40 + p_225534_2_.getDifficulty().getId() * 7) / (i + 30);
+                                    if (flag1) {
+                                        i2 /= 2;
+                                    }
+
+                                    if (i2 &gt; 0 &amp;&amp; p_225534_4_.nextInt(k1) &lt;= i2 &amp;&amp; (!p_225534_2_.isRaining() || !this.canDie())) {
+                                        int j2 = Math.min(15, i + p_225534_4_.nextInt(5) / 4);
+                                        p_225534_2_.setBlockState(blockpos$mutable, this.getStateForPlacement(p_225534_2_, blockpos$mutable).with(AGE, j2), 3);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    protected boolean canDie() {
+        return false;
+    }
+
+    @Deprecated //Forge: Use IForgeBlockState.getFlammability, Public for default implementation only.
+    public int func_220274_q(BlockState p_220274_1_) {
+        return p_220274_1_.has(BlockStateProperties.WATERLOGGED) &amp;&amp; p_220274_1_.get(BlockStateProperties.WATERLOGGED) ? 0 : this.flammabilities.getInt(p_220274_1_.getBlock());
+    }
+
+    @Deprecated //Forge: Use IForgeBlockState.getFireSpreadSpeed
+    public int func_220275_r(BlockState p_220275_1_) {
+        return p_220275_1_.has(BlockStateProperties.WATERLOGGED) &amp;&amp; p_220275_1_.get(BlockStateProperties.WATERLOGGED) ? 0 : this.encouragements.getInt(p_220275_1_.getBlock());
+    }
+
+    private void tryCatchFire(World worldIn, BlockPos pos, int chance, Random random, int age, Direction face) {
+        int i = worldIn.getBlockState(pos).getFlammability(worldIn, pos, face);
+        if (random.nextInt(chance) &lt; i) {
+            BlockState blockstate = worldIn.getBlockState(pos);
+            if (random.nextInt(age + 10) &lt; 5 &amp;&amp; !worldIn.isRainingAt(pos)) {
+                int j = Math.min(age + random.nextInt(5) / 4, 15);
+                worldIn.setBlockState(pos, this.getStateForPlacement(worldIn, pos).with(AGE, j), 3);
+            } else {
+                worldIn.removeBlock(pos, false);
+            }
+
+            blockstate.catchFire(worldIn, pos, face, null);
+        }
+
+    }
+
+    private boolean areNeighborsFlammable(IBlockReader worldIn, BlockPos pos) {
+        for(Direction direction : Direction.values()) {
+            if (this.canCatchFire(worldIn, pos.offset(direction), direction.getOpposite())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int getNeighborEncouragement(IWorldReader worldIn, BlockPos pos) {
+        if (!worldIn.isAirBlock(pos)) {
+            return 0;
+        } else {
+            int i = 0;
+
+            for(Direction direction : Direction.values()) {
+                BlockState blockstate = worldIn.getBlockState(pos.offset(direction));
+                i = Math.max(blockstate.getFlammability(worldIn, pos.offset(direction), direction.getOpposite()), i);
+            }
+
+            return i;
+        }
+    }
+
+    @Deprecated //Forge: Use canCatchFire with more context
+    public boolean canBurn(BlockState p_196446_1_) {
+        return this.func_220275_r(p_196446_1_) &gt; 0;
+    }
+
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (oldState.getBlock() != state.getBlock()) {
+            if (worldIn.dimension.getType() != DimensionType.OVERWORLD &amp;&amp; worldIn.dimension.getType() != DimensionType.THE_NETHER || !((NetherPortalBlock)Blocks.NETHER_PORTAL).trySpawnPortal(worldIn, pos)) {
+                if (!state.isValidPosition(worldIn, pos)) {
+                    worldIn.removeBlock(pos, false);
+                } else {
+                    worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn) + worldIn.rand.nextInt(10));
+                }
+            }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (rand.nextInt(24) == 0) {
+            worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
+        }
+
+        BlockPos blockpos = pos.down();
+        BlockState blockstate = worldIn.getBlockState(blockpos);
+        if (!this.canCatchFire(worldIn, blockpos, Direction.UP) &amp;&amp; !Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP)) {
+            if (this.canCatchFire(worldIn, blockpos.west(), Direction.EAST)) {
+                for(int j = 0; j &lt; 2; ++j) {
+                    double d3 = (double)pos.getX() + rand.nextDouble() * (double)0.1F;
+                    double d8 = (double)pos.getY() + rand.nextDouble();
+                    double d13 = (double)pos.getZ() + rand.nextDouble();
+                    worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d3, d8, d13, 0.0D, 0.0D, 0.0D);
+                }
+            }
+
+            if (this.canCatchFire(worldIn, pos.east(), Direction.WEST)) {
+                for(int k = 0; k &lt; 2; ++k) {
+                    double d4 = (double)(pos.getX() + 1) - rand.nextDouble() * (double)0.1F;
+                    double d9 = (double)pos.getY() + rand.nextDouble();
+                    double d14 = (double)pos.getZ() + rand.nextDouble();
+                    worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d4, d9, d14, 0.0D, 0.0D, 0.0D);
+                }
+            }
+
+            if (this.canCatchFire(worldIn, pos.north(), Direction.SOUTH)) {
+                for(int l = 0; l &lt; 2; ++l) {
+                    double d5 = (double)pos.getX() + rand.nextDouble();
+                    double d10 = (double)pos.getY() + rand.nextDouble();
+                    double d15 = (double)pos.getZ() + rand.nextDouble() * (double)0.1F;
+                    worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d5, d10, d15, 0.0D, 0.0D, 0.0D);
+                }
+            }
+
+            if (this.canCatchFire(worldIn, pos.south(), Direction.NORTH)) {
+                for(int i1 = 0; i1 &lt; 2; ++i1) {
+                    double d6 = (double)pos.getX() + rand.nextDouble();
+                    double d11 = (double)pos.getY() + rand.nextDouble();
+                    double d16 = (double)(pos.getZ() + 1) - rand.nextDouble() * (double)0.1F;
+                    worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d6, d11, d16, 0.0D, 0.0D, 0.0D);
+                }
+            }
+
+            if (this.canCatchFire(worldIn, pos.up(), Direction.DOWN)) {
+                for(int j1 = 0; j1 &lt; 2; ++j1) {
+                    double d7 = (double)pos.getX() + rand.nextDouble();
+                    double d12 = (double)(pos.getY() + 1) - rand.nextDouble() * (double)0.1F;
+                    double d17 = (double)pos.getZ() + rand.nextDouble();
+                    worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d7, d12, d17, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        } else {
+            for(int i = 0; i &lt; 3; ++i) {
+                double d0 = (double)pos.getX() + rand.nextDouble();
+                double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
+                double d2 = (double)pos.getZ() + rand.nextDouble();
+                worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+    }
+
+    protected void fillStateContainer(StateContainer.Builder&lt;Block, BlockState&gt; builder) {
+        builder.add(AGE, NORTH, EAST, SOUTH, WEST, UP);
+    }
+
+    public void setFireInfo(Block blockIn, int encouragement, int flammability) {
+        if (blockIn == Blocks.AIR) throw new IllegalArgumentException("Tried to set air on fire... This is bad.");
+        this.encouragements.put(blockIn, encouragement);
+        this.flammabilities.put(blockIn, flammability);
+    }
+
+    public boolean canCatchFire(IBlockReader world, BlockPos pos, Direction face) {
+        return world.getBlockState(pos).isFlammable(world, pos, face);
+    }
+
+    public static void init() {
+       .....省略无关代码.....
+    }
+}
+</code></pre>
+<p>原版火焰方块的代码：<code>FireBlock.java</code></p>
+<pre><code class="lang-auto">package net.minecraft.block;
+
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import java.util.Map;
+import java.util.Random;
+import javax.annotation.Nullable;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.EndDimension;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+public class FireBlock extends Block {
+   public static final IntegerProperty AGE = BlockStateProperties.AGE_0_15;
+   public static final BooleanProperty NORTH = SixWayBlock.NORTH;
+   public static final BooleanProperty EAST = SixWayBlock.EAST;
+   public static final BooleanProperty SOUTH = SixWayBlock.SOUTH;
+   public static final BooleanProperty WEST = SixWayBlock.WEST;
+   public static final BooleanProperty UP = SixWayBlock.UP;
+   private static final Map&lt;Direction, BooleanProperty&gt; FACING_TO_PROPERTY_MAP = SixWayBlock.FACING_TO_PROPERTY_MAP.entrySet().stream().filter((p_199776_0_) -&gt; {
+      return p_199776_0_.getKey() != Direction.DOWN;
+   }).collect(Util.toMapCollector());
+   private final Object2IntMap&lt;Block&gt; encouragements = new Object2IntOpenHashMap&lt;&gt;();
+   private final Object2IntMap&lt;Block&gt; flammabilities = new Object2IntOpenHashMap&lt;&gt;();
+
+   protected FireBlock(Block.Properties builder) {
+      super(builder);
+      this.setDefaultState(this.stateContainer.getBaseState().with(AGE, Integer.valueOf(0)).with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(UP, Boolean.valueOf(false)));
+   }
+
+   public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+      return VoxelShapes.empty();
+   }
+
+   /**
+    * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
+    * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
+    * returns its solidified counterpart.
+    * Note that this method should ideally consider only the specific face passed in.
+    */
+   public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+      return this.isValidPosition(stateIn, worldIn, currentPos) ? this.getStateForPlacement(worldIn, currentPos).with(AGE, stateIn.get(AGE)) : Blocks.AIR.getDefaultState();
+   }
+
+   @Nullable
+   public BlockState getStateForPlacement(BlockItemUseContext context) {
+      return this.getStateForPlacement(context.getWorld(), context.getPos());
+   }
+
+   public BlockState getStateForPlacement(IBlockReader p_196448_1_, BlockPos p_196448_2_) {
+      BlockPos blockpos = p_196448_2_.down();
+      BlockState blockstate = p_196448_1_.getBlockState(blockpos);
+      if (!this.canCatchFire(p_196448_1_, p_196448_2_, Direction.UP) &amp;&amp; !Block.hasSolidSide(blockstate, p_196448_1_, blockpos, Direction.UP)) {
+         BlockState blockstate1 = this.getDefaultState();
+
+         for(Direction direction : Direction.values()) {
+            BooleanProperty booleanproperty = FACING_TO_PROPERTY_MAP.get(direction);
+            if (booleanproperty != null) {
+               blockstate1 = blockstate1.with(booleanproperty, Boolean.valueOf(this.canCatchFire(p_196448_1_, p_196448_2_.offset(direction), direction.getOpposite())));
+            }
+         }
+
+         return blockstate1;
+      } else {
+         return this.getDefaultState();
+      }
+   }
+
+   public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+      BlockPos blockpos = pos.down();
+      return worldIn.getBlockState(blockpos).func_224755_d(worldIn, blockpos, Direction.UP) || this.areNeighborsFlammable(worldIn, pos);
+   }
+
+   /**
+    * How many world ticks before ticking
+    */
+   public int tickRate(IWorldReader worldIn) {
+      return 30;
+   }
+
+   public void func_225534_a_(BlockState p_225534_1_, ServerWorld p_225534_2_, BlockPos p_225534_3_, Random p_225534_4_) {
+      if (p_225534_2_.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
+         if (!p_225534_2_.isAreaLoaded(p_225534_3_, 2)) return; // Forge: prevent loading unloaded chunks when spreading fire
+         if (!p_225534_1_.isValidPosition(p_225534_2_, p_225534_3_)) {
+            p_225534_2_.removeBlock(p_225534_3_, false);
+         }
+
+         Block block = p_225534_2_.getBlockState(p_225534_3_.down()).getBlock();
+         BlockState other = p_225534_2_.getBlockState(p_225534_3_.down());
+         boolean flag = other.isFireSource(p_225534_2_, p_225534_3_.down(), Direction.UP);
+         int i = p_225534_1_.get(AGE);
+         if (!flag &amp;&amp; p_225534_2_.isRaining() &amp;&amp; this.canDie(p_225534_2_, p_225534_3_) &amp;&amp; p_225534_4_.nextFloat() &lt; 0.2F + (float)i * 0.03F) {
+            p_225534_2_.removeBlock(p_225534_3_, false);
+         } else {
+            int j = Math.min(15, i + p_225534_4_.nextInt(3) / 2);
+            if (i != j) {
+               p_225534_1_ = p_225534_1_.with(AGE, Integer.valueOf(j));
+               p_225534_2_.setBlockState(p_225534_3_, p_225534_1_, 4);
+            }
+
+            if (!flag) {
+               p_225534_2_.getPendingBlockTicks().scheduleTick(p_225534_3_, this, this.tickRate(p_225534_2_) + p_225534_4_.nextInt(10));
+               if (!this.areNeighborsFlammable(p_225534_2_, p_225534_3_)) {
+                  BlockPos blockpos = p_225534_3_.down();
+                  if (!p_225534_2_.getBlockState(blockpos).func_224755_d(p_225534_2_, blockpos, Direction.UP) || i &gt; 3) {
+                     p_225534_2_.removeBlock(p_225534_3_, false);
+                  }
+
+                  return;
+               }
+
+               if (i == 15 &amp;&amp; p_225534_4_.nextInt(4) == 0 &amp;&amp; !this.canCatchFire(p_225534_2_, p_225534_3_.down(), Direction.UP)) {
+                  p_225534_2_.removeBlock(p_225534_3_, false);
+                  return;
+               }
+            }
+
+            boolean flag1 = p_225534_2_.isBlockinHighHumidity(p_225534_3_);
+            int k = flag1 ? -50 : 0;
+            this.tryCatchFire(p_225534_2_, p_225534_3_.east(), 300 + k, p_225534_4_, i, Direction.WEST);
+            this.tryCatchFire(p_225534_2_, p_225534_3_.west(), 300 + k, p_225534_4_, i, Direction.EAST);
+            this.tryCatchFire(p_225534_2_, p_225534_3_.down(), 250 + k, p_225534_4_, i, Direction.UP);
+            this.tryCatchFire(p_225534_2_, p_225534_3_.up(), 250 + k, p_225534_4_, i, Direction.DOWN);
+            this.tryCatchFire(p_225534_2_, p_225534_3_.north(), 300 + k, p_225534_4_, i, Direction.SOUTH);
+            this.tryCatchFire(p_225534_2_, p_225534_3_.south(), 300 + k, p_225534_4_, i, Direction.NORTH);
+            BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+
+            for(int l = -1; l &lt;= 1; ++l) {
+               for(int i1 = -1; i1 &lt;= 1; ++i1) {
+                  for(int j1 = -1; j1 &lt;= 4; ++j1) {
+                     if (l != 0 || j1 != 0 || i1 != 0) {
+                        int k1 = 100;
+                        if (j1 &gt; 1) {
+                           k1 += (j1 - 1) * 100;
+                        }
+
+                        blockpos$mutable.setPos(p_225534_3_).move(l, j1, i1);
+                        int l1 = this.getNeighborEncouragement(p_225534_2_, blockpos$mutable);
+                        if (l1 &gt; 0) {
+                           int i2 = (l1 + 40 + p_225534_2_.getDifficulty().getId() * 7) / (i + 30);
+                           if (flag1) {
+                              i2 /= 2;
+                           }
+
+                           if (i2 &gt; 0 &amp;&amp; p_225534_4_.nextInt(k1) &lt;= i2 &amp;&amp; (!p_225534_2_.isRaining() || !this.canDie(p_225534_2_, blockpos$mutable))) {
+                              int j2 = Math.min(15, i + p_225534_4_.nextInt(5) / 4);
+                              p_225534_2_.setBlockState(blockpos$mutable, this.getStateForPlacement(p_225534_2_, blockpos$mutable).with(AGE, Integer.valueOf(j2)), 3);
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+
+         }
+      }
+   }
+
+   protected boolean canDie(World worldIn, BlockPos pos) {
+      return worldIn.isRainingAt(pos) || worldIn.isRainingAt(pos.west()) || worldIn.isRainingAt(pos.east()) || worldIn.isRainingAt(pos.north()) || worldIn.isRainingAt(pos.south());
+   }
+
+   @Deprecated //Forge: Use IForgeBlockState.getFlammability, Public for default implementation only.
+   public int func_220274_q(BlockState p_220274_1_) {
+      return p_220274_1_.has(BlockStateProperties.WATERLOGGED) &amp;&amp; p_220274_1_.get(BlockStateProperties.WATERLOGGED) ? 0 : this.flammabilities.getInt(p_220274_1_.getBlock());
+   }
+
+   @Deprecated //Forge: Use IForgeBlockState.getFireSpreadSpeed
+   public int func_220275_r(BlockState p_220275_1_) {
+      return p_220275_1_.has(BlockStateProperties.WATERLOGGED) &amp;&amp; p_220275_1_.get(BlockStateProperties.WATERLOGGED) ? 0 : this.encouragements.getInt(p_220275_1_.getBlock());
+   }
+
+   private void tryCatchFire(World worldIn, BlockPos pos, int chance, Random random, int age, Direction face) {
+      int i = worldIn.getBlockState(pos).getFlammability(worldIn, pos, face);
+      if (random.nextInt(chance) &lt; i) {
+         BlockState blockstate = worldIn.getBlockState(pos);
+         if (random.nextInt(age + 10) &lt; 5 &amp;&amp; !worldIn.isRainingAt(pos)) {
+            int j = Math.min(age + random.nextInt(5) / 4, 15);
+            worldIn.setBlockState(pos, this.getStateForPlacement(worldIn, pos).with(AGE, Integer.valueOf(j)), 3);
+         } else {
+            worldIn.removeBlock(pos, false);
+         }
+
+         blockstate.catchFire(worldIn, pos, face, null);
+      }
+
+   }
+
+   private boolean areNeighborsFlammable(IBlockReader worldIn, BlockPos pos) {
+      for(Direction direction : Direction.values()) {
+         if (this.canCatchFire(worldIn, pos.offset(direction), direction.getOpposite())) {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   private int getNeighborEncouragement(IWorldReader worldIn, BlockPos pos) {
+      if (!worldIn.isAirBlock(pos)) {
+         return 0;
+      } else {
+         int i = 0;
+
+         for(Direction direction : Direction.values()) {
+            BlockState blockstate = worldIn.getBlockState(pos.offset(direction));
+            i = Math.max(blockstate.getFlammability(worldIn, pos.offset(direction), direction.getOpposite()), i);
+         }
+
+         return i;
+      }
+   }
+
+   @Deprecated //Forge: Use canCatchFire with more context
+   public boolean canBurn(BlockState p_196446_1_) {
+      return this.func_220275_r(p_196446_1_) &gt; 0;
+   }
+
+   public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+      if (oldState.getBlock() != state.getBlock()) {
+         if (worldIn.dimension.getType() != DimensionType.OVERWORLD &amp;&amp; worldIn.dimension.getType() != DimensionType.THE_NETHER || !((NetherPortalBlock)Blocks.NETHER_PORTAL).trySpawnPortal(worldIn, pos)) {
+            if (!state.isValidPosition(worldIn, pos)) {
+               worldIn.removeBlock(pos, false);
+            } else {
+               worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn) + worldIn.rand.nextInt(10));
+            }
+         }
+      }
+   }
+
+   /**
+    * Called periodically clientside on blocks near the player to show effects (like furnace fire particles). Note that
+    * this method is unrelated to {@link randomTick} and {@link #needsRandomTick}, and will always be called regardless
+    * of whether the block can receive random update ticks
+    */
+   @OnlyIn(Dist.CLIENT)
+   public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+      if (rand.nextInt(24) == 0) {
+         worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
+      }
+
+      BlockPos blockpos = pos.down();
+      BlockState blockstate = worldIn.getBlockState(blockpos);
+      if (!this.canCatchFire(worldIn, blockpos, Direction.UP) &amp;&amp; !Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP)) {
+         if (this.canCatchFire(worldIn, blockpos.west(), Direction.EAST)) {
+            for(int j = 0; j &lt; 2; ++j) {
+               double d3 = (double)pos.getX() + rand.nextDouble() * (double)0.1F;
+               double d8 = (double)pos.getY() + rand.nextDouble();
+               double d13 = (double)pos.getZ() + rand.nextDouble();
+               worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d3, d8, d13, 0.0D, 0.0D, 0.0D);
+            }
+         }
+
+         if (this.canCatchFire(worldIn, pos.east(), Direction.WEST)) {
+            for(int k = 0; k &lt; 2; ++k) {
+               double d4 = (double)(pos.getX() + 1) - rand.nextDouble() * (double)0.1F;
+               double d9 = (double)pos.getY() + rand.nextDouble();
+               double d14 = (double)pos.getZ() + rand.nextDouble();
+               worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d4, d9, d14, 0.0D, 0.0D, 0.0D);
+            }
+         }
+
+         if (this.canCatchFire(worldIn, pos.north(), Direction.SOUTH)) {
+            for(int l = 0; l &lt; 2; ++l) {
+               double d5 = (double)pos.getX() + rand.nextDouble();
+               double d10 = (double)pos.getY() + rand.nextDouble();
+               double d15 = (double)pos.getZ() + rand.nextDouble() * (double)0.1F;
+               worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d5, d10, d15, 0.0D, 0.0D, 0.0D);
+            }
+         }
+
+         if (this.canCatchFire(worldIn, pos.south(), Direction.NORTH)) {
+            for(int i1 = 0; i1 &lt; 2; ++i1) {
+               double d6 = (double)pos.getX() + rand.nextDouble();
+               double d11 = (double)pos.getY() + rand.nextDouble();
+               double d16 = (double)(pos.getZ() + 1) - rand.nextDouble() * (double)0.1F;
+               worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d6, d11, d16, 0.0D, 0.0D, 0.0D);
+            }
+         }
+
+         if (this.canCatchFire(worldIn, pos.up(), Direction.DOWN)) {
+            for(int j1 = 0; j1 &lt; 2; ++j1) {
+               double d7 = (double)pos.getX() + rand.nextDouble();
+               double d12 = (double)(pos.getY() + 1) - rand.nextDouble() * (double)0.1F;
+               double d17 = (double)pos.getZ() + rand.nextDouble();
+               worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d7, d12, d17, 0.0D, 0.0D, 0.0D);
+            }
+         }
+      } else {
+         for(int i = 0; i &lt; 3; ++i) {
+            double d0 = (double)pos.getX() + rand.nextDouble();
+            double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
+            double d2 = (double)pos.getZ() + rand.nextDouble();
+            worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+         }
+      }
+
+   }
+
+   protected void fillStateContainer(StateContainer.Builder&lt;Block, BlockState&gt; builder) {
+      builder.add(AGE, NORTH, EAST, SOUTH, WEST, UP);
+   }
+
+   public void setFireInfo(Block blockIn, int encouragement, int flammability) {
+      if (blockIn == Blocks.AIR) throw new IllegalArgumentException("Tried to set air on fire... This is bad.");
+      this.encouragements.put(blockIn, encouragement);
+      this.flammabilities.put(blockIn, flammability);
+   }
+
+   /**
+    * Side sensitive version that calls the block function.
+    *
+    * @param world The current world
+    * @param pos Block position
+    * @param face The side the fire is coming from
+    * @return True if the face can catch fire.
+    */
+   public boolean canCatchFire(IBlockReader world, BlockPos pos, Direction face) {
+      return world.getBlockState(pos).isFlammable(world, pos, face);
+   }
+
+   public static void init() {
+      ......省略无关代码......
+   }
+}
+</code></pre>
+<p>我自己的火焰的blockstate：</p>
+<pre><code class="lang-auto">{
+  "multipart": [
+    {   "when": {"north": false, "east": false, "south": false, "west": false, "up": false},
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_floor0" },
+        { "model": "specialitem:block/phosphorescent_fire_floor1" }
+      ]
+    },
+    {   "when": {
+      "OR": [
+      {"north": true},
+      {"north": false, "east": false, "south": false, "west": false, "up": false}
+    ]
+    },
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_side0" },
+        { "model": "specialitem:block/phosphorescent_fire_side1" },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt0" },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt1" }
+      ]
+    },
+    {   "when": {
+      "OR": [
+      {"east": true},
+        {"north": false, "east": false, "south": false, "west": false, "up": false}
+      ]
+    },
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_side0", "y": 90 },
+        { "model": "specialitem:block/phosphorescent_fire_side1", "y": 90 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt0", "y": 90 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt1", "y": 90 }
+      ]
+    },
+    {   "when": {
+      "OR": [
+        {"south": true},
+        {"north": false, "east": false, "south": false, "west": false, "up": false}
+      ]
+    },
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_side0", "y": 180 },
+        { "model": "specialitem:block/phosphorescent_fire_side1", "y": 180 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt0", "y": 180 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt1", "y": 180 }
+      ]
+    },
+    {   "when": {
+      "OR": [
+        {"west": true},
+        {"north": false, "east": false, "south": false, "west": false, "up": false}
+      ]
+    },
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_side0", "y": 270 },
+        { "model": "specialitem:block/phosphorescent_fire_side1", "y": 270 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt0", "y": 270 },
+        { "model": "specialitem:block/phosphorescent_fire_side_alt1", "y": 270 }
+      ]
+    },
+    {   "when": {"up": true},
+      "apply": [
+        { "model": "specialitem:block/phosphorescent_fire_up0" },
+        { "model": "specialitem:block/phosphorescent_fire_up1" },
+        { "model": "specialitem:block/phosphorescent_fire_up_alt0" },
+        { "model": "specialitem:block/phosphorescent_fire_up_alt1" }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>原版的火焰的blockstate：</p>
+<pre><code class="lang-auto">{
+    "multipart": [
+        {   "when": {"north": false, "east": false, "south": false, "west": false, "up": false},
+            "apply": [
+                { "model": "block/fire_floor0" },
+                { "model": "block/fire_floor1" }
+            ]
+        },
+        {   "when": {"OR": [{"north": true}, {"north": false, "east": false, "south": false, "west": false, "up": false}]},
+            "apply": [
+                { "model": "block/fire_side0" },
+                { "model": "block/fire_side1" },
+                { "model": "block/fire_side_alt0" },
+                { "model": "block/fire_side_alt1" }
+            ]
+        },
+        {   "when": {"OR": [{"east": true}, {"north": false, "east": false, "south": false, "west": false, "up": false}]},
+            "apply": [
+                { "model": "block/fire_side0", "y": 90 },
+                { "model": "block/fire_side1", "y": 90 },
+                { "model": "block/fire_side_alt0", "y": 90 },
+                { "model": "block/fire_side_alt1", "y": 90 }
+            ]
+        },
+        {   "when": {"OR": [{"south": true}, {"north": false, "east": false, "south": false, "west": false, "up": false}]},
+            "apply": [
+                { "model": "block/fire_side0", "y": 180 },
+                { "model": "block/fire_side1", "y": 180 },
+                { "model": "block/fire_side_alt0", "y": 180 },
+                { "model": "block/fire_side_alt1", "y": 180 }
+            ]
+        },
+        {   "when": {"OR": [{"west": true}, {"north": false, "east": false, "south": false, "west": false, "up": false}]},
+            "apply": [
+                { "model": "block/fire_side0", "y": 270 },
+                { "model": "block/fire_side1", "y": 270 },
+                { "model": "block/fire_side_alt0", "y": 270 },
+                { "model": "block/fire_side_alt1", "y": 270 }
+            ]
+        },
+        {   "when": {"up": true},
+            "apply": [
+                { "model": "block/fire_up0" },
+                { "model": "block/fire_up1" },
+                { "model": "block/fire_up_alt0" },
+                { "model": "block/fire_up_alt1" }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>以下文件是我的方块模型部分（10个文件）</p>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_floor0.json
+
+{
+    "parent": "block/fire_floor",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_0",
+        "fire": "specialitem:block/phosphorescent_fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_floor1.json
+
+{
+    "parent": "block/fire_floor",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_1",
+        "fire": "specialitem:block/phosphorescent_fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_side0.json
+
+{
+    "parent": "block/fire_side",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_0",
+        "fire": "specialitem:block/phosphorescent_fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_side1.json
+
+{
+    "parent": "block/fire_side",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_1",
+        "fire": "specialitem:block/phosphorescent_fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_side_alt0.json
+
+{
+    "parent": "block/fire_side_alt",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_0",
+        "fire": "specialitem:block/phosphorescent_fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_side_alt1.json
+
+{
+    "parent": "block/fire_side_alt",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_1",
+        "fire": "specialitem:block/phosphorescent_fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_up0.json
+
+{
+    "parent": "block/fire_up",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_0",
+        "fire": "specialitem:block/phosphorescent_fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_up1.json
+
+{
+    "parent": "block/fire_up",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_1",
+        "fire": "specialitem:block/phosphorescent_fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_up_alt0.json
+
+{
+    "parent": "block/fire_up_alt",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_0",
+        "fire": "specialitem:block/phosphorescent_fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：phosphorescent_fire_up_alt1.json
+
+{
+    "parent": "block/fire_up_alt",
+    "textures": {
+        "particle": "specialitem:block/phosphorescent_fire_1",
+        "fire": "specialitem:block/phosphorescent_fire_1"
+    }
+}
+</code></pre>
+<p>然后，还有原版火焰的方块模型（也是10个文件）：</p>
+<pre><code class="lang-auto">文件名：fire_floor0.json
+
+{
+    "parent": "block/fire_floor",
+    "textures": {
+        "particle": "block/fire_0",
+        "fire": "block/fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_floor1.json
+
+{
+    "parent": "block/fire_floor",
+    "textures": {
+        "particle": "block/fire_1",
+        "fire": "block/fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side0.json
+
+{
+    "parent": "block/fire_side",
+    "textures": {
+        "particle": "block/fire_0",
+        "fire": "block/fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side1.json
+
+{
+    "parent": "block/fire_side",
+    "textures": {
+        "particle": "block/fire_1",
+        "fire": "block/fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side_alt0.json
+
+{
+    "parent": "block/fire_side_alt",
+    "textures": {
+        "particle": "block/fire_0",
+        "fire": "block/fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side_alt1.json
+
+{
+    "parent": "block/fire_side_alt",
+    "textures": {
+        "particle": "block/fire_1",
+        "fire": "block/fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up0.json
+
+{
+    "parent": "block/fire_up",
+    "textures": {
+        "particle": "block/fire_0",
+        "fire": "block/fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up1.json
+
+{
+    "parent": "block/fire_up",
+    "textures": {
+        "particle": "block/fire_1",
+        "fire": "block/fire_1"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up_alt0.json
+
+{
+    "parent": "block/fire_up_alt",
+    "textures": {
+        "particle": "block/fire_0",
+        "fire": "block/fire_0"
+    }
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up_alt1.json
+
+{
+    "parent": "block/fire_up_alt",
+    "textures": {
+        "particle": "block/fire_1",
+        "fire": "block/fire_1"
+    }
+}
+</code></pre>
+<p>最后还有几个与火相关联的json文件（共5个）：</p>
+<pre><code class="lang-auto">文件名：fire_floor.json
+
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 0, 0, 8.8 ],
+            "to": [ 16, 22.4, 8.8 ],
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "x", "angle": -22.5, "rescale": true },
+            "shade": false,
+            "faces": { "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }}
+        },
+        {   "from": [ 0, 0, 7.2 ],
+            "to": [ 16, 22.4, 7.2 ],
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "x", "angle": 22.5, "rescale": true },
+            "shade": false,
+            "faces": { "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }}
+        },
+        {   "from": [ 8.8, 0, 0 ],
+            "to": [ 8.8, 22.4, 16 ],
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "z", "angle": -22.5, "rescale": true },
+            "shade": false,
+            "faces": { "west": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }}
+        },
+        {   "from": [ 7.2, 0, 0 ],
+            "to": [ 7.2, 22.4, 16 ],
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "z", "angle": 22.5, "rescale": true },
+            "shade": false,
+            "faces": { "east": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }}
+        }
+    ]
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side.json
+
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 0, 0, 0.01 ],
+            "to": [ 16, 22.4, 0.01 ],
+            "shade": false,
+            "faces": {
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }
+            }
+        }
+    ]
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_side_alt.json
+
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 0, 0, 0.01 ],
+            "to": [ 16, 22.4, 0.01 ],
+            "shade": false,
+            "faces": {
+                "south": { "uv": [ 16, 0, 0, 16 ], "texture": "#fire" },
+                "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#fire" }
+            }
+        }
+    ]
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up.json
+
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 0, 16, 0 ],
+            "to": [ 16, 16, 16 ],
+            "rotation": { "origin": [ 16, 16, 8 ], "axis": "z", "angle": 22.5, "rescale": true },
+            "shade": false,
+            "faces": { "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire", "rotation": 270 }}
+        },
+        {   "from": [ 0, 16, 0 ],
+            "to": [ 16, 16, 16 ],
+            "rotation": { "origin": [ 0, 16, 8 ], "axis": "z", "angle": -22.5, "rescale": true },
+            "shade": false,
+            "faces": { "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire", "rotation": 90 }}
+        }
+    ]
+}
+</code></pre>
+<pre><code class="lang-auto">文件名：fire_up_alt.json
+
+{
+    "ambientocclusion": false,
+    "elements": [
+        {   "from": [ 0, 16, 0 ],
+            "to": [ 16, 16, 16 ],
+            "rotation": { "origin": [ 8, 16, 16 ], "axis": "x", "angle": -22.5, "rescale": true },
+            "shade": false,
+            "faces": { "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire", "rotation": 180 }}
+        },
+        {   "from": [ 0, 16, 0 ],
+            "to": [ 16, 16, 16 ],
+            "rotation": { "origin": [ 8, 16, 0 ], "axis": "x", "angle": 22.5, "rescale": true },
+            "shade": false,
+            "faces": { "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#fire" }}
+        }
+    ]
+}
+
+</code></pre>
+<p><strong>再说一些废话：</strong><br>
+呃呃，好了，就是这么多了。由于火焰方块拿在手上可以正确显示材质，说明不是物品模型的问题，Java代码也是复制粘贴、然后自己进行修改的，初步判断不是Java代码的问题。因为是材质原因，那一定是方块模型的json文件的某个地方出错了。由于涉及的文件数目比较多，比较繁乱，修改过好多遍、对比过好几遍，把能改的地方都尝试进行了修改，但依旧没有能够解决问题。当局者迷，旁观者清，希望有人能够找出其中的原因。还有，这是我的材质文件：<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/a87e6701bfeeff1be2c6af82316572e77f433ede.png" data-download-href="../uploads/default/a87e6701bfeeff1be2c6af82316572e77f433ede" title="phosphorescent_fire_1"><img src="../uploads/default/original/1X/a87e6701bfeeff1be2c6af82316572e77f433ede.png" alt="phosphorescent_fire_1" data-base62-sha1="o2z1UE1EJJGcRIhAdKKOjcCG5iu" width="15" height="500" data-small-upload="../uploads/default/optimized/1X/a87e6701bfeeff1be2c6af82316572e77f433ede_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">phosphorescent_fire_1</span><span class="informations">16×512 5.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div> <div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cb37236dabc07a864d719915567cda2d2cb9077c.png" data-download-href="../uploads/default/cb37236dabc07a864d719915567cda2d2cb9077c" title="phosphorescent_fire_0"><img src="../uploads/default/original/1X/cb37236dabc07a864d719915567cda2d2cb9077c.png" alt="phosphorescent_fire_0" data-base62-sha1="sZJ3IuwTRCBZHMwSjquYSXpfMqU" width="15" height="500" data-small-upload="../uploads/default/optimized/1X/cb37236dabc07a864d719915567cda2d2cb9077c_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">phosphorescent_fire_0</span><span class="informations">16×512 5.28 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>你大可不必复制这么多原版火焰的代码，直接继承原版火焰就行。</li>
+<li>看上去好像模型没有什么问题，你设置了火焰的<code>RenderType</code>了没？</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>对应代码如下</strong></p>
+<pre><code class="lang-auto">private void doClientStuff(final FMLClientSetupEvent event) {
+        RenderTypeLookup.setRenderLayer(&lt;Your Block&gt;, RenderType.getCutout());
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Hud渲染时出现乱码</title>
+</head>
+<body>
+    <div class="title"><h1>Hud渲染时出现乱码</h1></div>
+    <div class="post-user" class="user"><h4>Chlamydomonos</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Windows 64位<br>
+你用的JDK是: JDK 1.8.0_261 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.2.2<br>
+Forge版本:  1.16.3-34.1.35<br>
+Minecraft版本: 1.16.3<br>
+Mapping 文件版本: 20201028-1.16.3</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0.jpeg" data-download-href="../uploads/default/a3ffc7e632dd77c6d39f694e52788334fac6ceb0" title="2020-10-31_12.01.50"><img src="../uploads/default/optimized/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0_2_690x360.jpeg" alt="2020-10-31_12.01.50" data-base62-sha1="noNPOcvUFk0XxOl2Q5mmMbKPoic" width="690" height="360" srcset="../uploads/default/optimized/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0_2_690x360.jpeg, ../uploads/default/optimized/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0_2_1035x540.jpeg 1.5x, ../uploads/default/optimized/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0_2_1380x720.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/a3ffc7e632dd77c6d39f694e52788334fac6ceb0_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">2020-10-31_12.01.50</span><span class="informations">1920×1002 726 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+我正在实现一个San值条，但在上面使用<code>Minecraft.getInstance().fontRenderer.drawString</code>方法渲染文字时出现乱码，若删去该语句则不会出现乱码</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">无报错
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>SanityHud.java</code></p>
+<pre><code class="lang-auto">package xyz.chlamydomonos.clmcore.gui.hud;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.LazyOptional;
+import xyz.chlamydomonos.clmcore.api.capabilities.ClmcoreCapabilities;
+import xyz.chlamydomonos.clmcore.api.capabilities.ISanityCapability;
+import xyz.chlamydomonos.clmcore.core.ChlamydomonosiaCore;
+
+public class SanityHud extends AbstractGui
+{
+    private abstract class Layer extends AbstractGui
+    {
+        abstract void render(MatrixStack stack);
+    }
+    private Layer layerSanity = new Layer()
+    {
+        private final ResourceLocation image = new ResourceLocation(ChlamydomonosiaCore.MODID, "textures/gui/sanity_hud/layer_sanity.png");
+        public void render(MatrixStack stack)
+        {
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getInstance().getTextureManager().bindTexture(image);
+            LazyOptional&lt;ISanityCapability&gt; sanityCap = Minecraft.getInstance().player.getCapability(ClmcoreCapabilities.SANITY_CAPABILITY);
+            sanityCap.ifPresent((s) -&gt; {
+                this.blit(stack, 4, 4, 0, 0, (int)((s.getSanity() / 99.0) * 128), 16, (int)((s.getSanity() / 99.0) * 128), 16);
+            });
+        }
+    };
+    private Layer layerMaxSanity = new Layer()
+    {
+        private final ResourceLocation image = new ResourceLocation(ChlamydomonosiaCore.MODID, "textures/gui/sanity_hud/layer_max_sanity.png");
+        public void render(MatrixStack stack)
+        {
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getInstance().getTextureManager().bindTexture(image);
+            LazyOptional&lt;ISanityCapability&gt; sanityCap = Minecraft.getInstance().player.getCapability(ClmcoreCapabilities.SANITY_CAPABILITY);
+            sanityCap.ifPresent((s) -&gt; {
+                this.blit(stack, 4, 4, 0, 0, (int)((s.getMaxSanity() / 99.0) * 128), 16, (int)((s.getMaxSanity() / 99.0) * 128), 16);
+            });
+        }
+    };
+    private MatrixStack matrixStack;
+    private final ResourceLocation image = new ResourceLocation(ChlamydomonosiaCore.MODID, "textures/gui/sanity_hud/layer_background.png");
+
+    public SanityHud(MatrixStack stack)
+    {
+        this.matrixStack = stack;
+    }
+
+    public void setMatrixStack(MatrixStack stack) {
+        this.matrixStack = stack;
+    }
+
+    public void render()
+    {
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getInstance().getTextureManager().bindTexture(image);
+        this.layerMaxSanity.render(this.matrixStack);
+        this.layerSanity.render(this.matrixStack);
+        LazyOptional&lt;ISanityCapability&gt; sanityCap = Minecraft.getInstance().player.getCapability(ClmcoreCapabilities.SANITY_CAPABILITY);
+        sanityCap.ifPresent((s) -&gt; {
+            Minecraft.getInstance().fontRenderer.drawString(this.matrixStack, "Sanity: " + s.getSanity() + "/" + s.getMaxSanity(), 24, 24, 0xe0e0e0);
+        });
+        this.blit(this.matrixStack,4, 4, 0, 0, 128, 16, 128, 16);
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你试试不硬编码内容（顺便一提，任何时候硬编码内容都是不应该的），用<code>I18n.format</code>来在语言文件里写你的文字。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Chlamydomonos</h4></div>
+    <br />
+    <div class="post">
+        <p>问题解决了，只要把drawString放到blit之后就可以</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

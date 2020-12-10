@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14.4版本的notSolid方法如何调用</title>
+</head>
+<body>
+    <div class="title"><h1>1.14.4版本的notSolid方法如何调用</h1></div>
+    <div class="post-user" class="user"><h4>Roystain</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 28.2.0<br>
+Minecraft版本: 1.14.4<br>
+Mapping 文件版本: 20190719-1.14.3</p>
+<p><strong>出错图</strong><br>
+<a href="https://sm.ms/image/5DHIqStKAXsWUgz" target="_blank" rel="nofollow noopener"><img src="../uploads/default/original/1X/15dac6dcb72ec4cb61225f645091938f0572b6ea.png" alt data-base62-sha1="37kKKsPqpHlo1Y4tAWlagzpF0gy" width="629" height="500"></a><br>
+<a href="https://sm.ms/image/Nvlqn2hEe9iy7Tm" target="_blank" rel="nofollow noopener"><img src="../uploads/default/original/1X/22808d810ed8e72f59f25be75d520444725da842.png" alt data-base62-sha1="4VdEJtPzgvYihOwT8wYv86SoBhM" width="690" height="385"></a></p>
+<p><strong>错误情况简述</strong><br>
+如图，想找到一个会让周围方块渲染的方法，或者可以取而代之的方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>请使用文字而不截图的来贴你的代码</strong><br>
+1.14 你需要复写</p>
+<pre><code class="lang-java">@Override
+public boolean isSolid(BlockState state) {
+    return false;
+}
+</code></pre>
+<p>这个方法，并把返回值设置成<code>false</code>即可。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不小心关闭了帖子，现在已经打开。</p>
+    </div>
+    <br />
+</body>
+</html>

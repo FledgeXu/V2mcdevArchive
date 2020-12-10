@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何让物品在物品栏和手里使用不同的模型</title>
+</head>
+<body>
+    <div class="title"><h1>如何让物品在物品栏和手里使用不同的模型</h1></div>
+    <div class="post-user" class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Forge版本: 1.12.2-14.21.1.2387<br>
+Minecraft版本: 1.12.2</p>
+<p><strong>情况简述</strong><br>
+我给自己的物品写了个模型，如图<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/24/6U4F5EqoeDu7cK1.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/24/6U4F5EqoeDu7cK1.png" alt="" width="690" height="373"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">1920×1040</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+我该怎么做才能让物品在gui中使用别的纹理</p>
+<p><strong>比如</strong><br>
+像拔刀剑mod一样<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="https://i.loli.net/2020/02/24/JCkmoeblVivrYAq.png" title="" rel="nofollow noopener"><img src="https://i.loli.net/2020/02/24/JCkmoeblVivrYAq.png" alt="" width="690" height="374"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename"></span><span class="informations">1920×1041</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+firstperson_righthand一个模型<br>
+而在物品栏中使用别的纹理</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>你开发的是1.12的模组，不是1.12.2</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢提醒<br>
+我才发现自己的版本下错了（捂脸）</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>记得使用最新版，而不是推荐版。</p>
+    </div>
+    <br />
+    <div class="user"><h4>ArcoWave</h4></div>
+    <br />
+    <div class="post">
+        <p>好的<br>
+谢谢您指导</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>哈哈哈，你的确是1.12。<br>
+要实现这个功能你要自定义物品的model。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Snownee</h4></div>
+    <br />
+    <div class="post">
+        <p>回到问题。大概有两种方法：</p>
+<ol>
+<li>自己实现 IBakedModel，覆写 handlePerspective 方法（推荐）</li>
+<li>订阅 RenderHandEvent 事件</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

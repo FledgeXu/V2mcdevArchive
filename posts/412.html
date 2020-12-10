@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>关于火焰(Block)渲染错误</title>
+</head>
+<body>
+    <div class="title"><h1>关于火焰(Block)渲染错误</h1></div>
+    <div class="post-user" class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本:20200514</p>
+<p>如图：<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2.png" data-download-href="../uploads/default/cf47e7e5caf241f8a11ccee453e2af66330dc3e2" title="fire"><img src="../uploads/default/optimized/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2_2_690x410.png" alt="fire" data-base62-sha1="tzGTqmOLi50O0BCmyx0rBIH5HyO" width="690" height="410" srcset="../uploads/default/optimized/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2_2_690x410.png, ../uploads/default/original/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2.png 1.5x, ../uploads/default/original/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2.png 2x" data-small-upload="../uploads/default/optimized/1X/cf47e7e5caf241f8a11ccee453e2af66330dc3e2_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">fire</span><span class="informations">870×518 143 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+火焰渲染但是有黑色阴影，代码如下：</p>
+<pre><code class="lang-java">public class BloodSeaFire extends Block {
+    public BloodSeaFire() {
+        super(Properties.create(Material.FIRE).sound(SoundType.GROUND).hardnessAndResistance(1f, 5f).lightValue(0).doesNotBlockMovement());
+    }
+
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+        return true;
+    }
+}
+</code></pre>
+<p>渲染问题，不知道怎么改，求助！</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>第一件事，论坛的发帖是Markdown格式的，请去学习一下Markdown的用法，以后不要发没有格式化过的代码。<br>
+如果，你想要写一个火焰，为什么不直接继承<code>FireBlock</code>？<br>
+如果你一定要继承<code>Block</code>，这个看上去好像没有指定碰撞箱引起的。<br>
+试试</p>
+<pre><code class="lang-java">public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+      return VoxelShapes.empty();
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>代码如以下所示：</p>
+<pre><code class="lang-auto">private void doClientStuff(final FMLClientSetupEvent event) {
+RenderTypeLookup.setRenderLayer( [你的火焰方块的对象] , RenderType.getCutout());
+}
+</code></pre>
+<p>回复时有点急，所以可能讲的有些不清楚，请见谅。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不用这个……<br>
+把这个删了，按照我说的改试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有，拜托你去学一下Markdown，你的符号全部用错了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post">
+        <p>OK，多谢多谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post">
+        <p>这个不行，只是取消了碰撞箱…</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Sorry，我弄错人了……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你试试在<code>Properties</code>，加上<code>.notSolid()</code>，或者按照 <a class="mention" href="/u/shaguaredstone">@ShaGuaRedstone</a> 提及的方法，修改渲染类型试试。<br>
+既然不生效，就不要设置为正确答案……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Eroslon_黎明</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

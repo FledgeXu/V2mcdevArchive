@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Out of memory 与jdk的选择</title>
+</head>
+<body>
+    <div class="title"><h1>Out of memory 与jdk的选择</h1></div>
+    <div class="post-user" class="user"><h4>科林酱</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：WINDOWS 64位<br>
+你是用的JDK: JDK1.8 32位<br>
+你使用的IDE：IDEA<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200514-1.15.1</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/4b7090b8c2c9475994b66cedb38a0d27b6a1de66.png" data-download-href="../uploads/default/4b7090b8c2c9475994b66cedb38a0d27b6a1de66" title="NLD)%0OR)WG)07AW@SBWQ"><img src="../uploads/default/original/1X/4b7090b8c2c9475994b66cedb38a0d27b6a1de66.png" alt="NLD)%0OR)WG)07AW@SBWQ" data-base62-sha1="aLmYMx6T8sVsUs9myyMrXiyQmPQ" width="690" height="384" data-small-upload="../uploads/default/optimized/1X/4b7090b8c2c9475994b66cedb38a0d27b6a1de66_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">NLD)%0OR)WG)07AW@SBWQ</span><span class="informations">1334×744 57.3 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+<p><strong>错误情况简述</strong><br>
+在进入世界的时候，读条会很慢。<br>
+然后一直进不去，会报 out of memory<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/a7397987316ee2ea8cd9f7031bf1582d37096c43.png" data-download-href="../uploads/default/a7397987316ee2ea8cd9f7031bf1582d37096c43" title="image"><img src="../uploads/default/original/1X/a7397987316ee2ea8cd9f7031bf1582d37096c43.png" alt="image" data-base62-sha1="nRkSlAekgfcKQ4bh6MM0H8b8yeD" width="690" height="55" data-small-upload="../uploads/default/optimized/1X/a7397987316ee2ea8cd9f7031bf1582d37096c43_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">703×57 2.48 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>查到的资料</strong><br>
+经过查询，得知是电脑系统和jdk版本不匹配<br>
+<em>最后的解决方案就是点<a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.htm" rel="nofollow noopener">这里</a>，WIN10的64位操作系统选择WINDOWS X64,32位的选择WINDOWS X86</em><br>
+重新安装后，还需要配置环境，在idea中更改JDK就行了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你的JDK版本有问题，不是64位的<br>
+请卸载掉你的JDK，到下面这个地址去下载安装64位HotSpot的JDK。<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://adoptopenjdk.net/dist/assets/favicon.ico" class="site-icon" width="32" height="32">
+      <a href="https://adoptopenjdk.net/" target="_blank">adoptopenjdk.net</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:690/362;"><img src="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_690x362.png" class="thumbnail" width="690" height="362" srcset="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_690x362.png, ../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_1035x543.png 1.5x, ../uploads/default/original/1X/72672e158cb750201f11144d2411840a85bfa8eb.png 2x" data-small-upload="../uploads/default/optimized/1X/72672e158cb750201f11144d2411840a85bfa8eb_2_10x10.png"></div>
+
+<h3><a href="https://adoptopenjdk.net/" target="_blank">AdoptOpenJDK</a></h3>
+
+<p>AdoptOpenJDK provides prebuilt OpenJDK binaries from a fully open source set of build scripts and infrastructure. Supported platforms include Linux, macOS, Windows, ARM, Solaris, and AIX.</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+因为Orcale许可证更改的缘故，现在比较推荐安装OpenJDK。
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>IDEA里无法在@Mod(name=Reference.NAME)的指令</title>
+</head>
+<body>
+    <div class="title"><h1>IDEA里无法在@Mod(name=Reference.NAME)的指令</h1></div>
+    <div class="post-user" class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;2020.1&gt;<br>
+Forge版本:  &lt;31.1.0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0.png" data-download-href="../uploads/default/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0" title="3"><img src="../uploads/default/optimized/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0_2_690x321.png" alt="3" data-base62-sha1="7n4i5Y5r8BwDgFof7gxbcJiGsDu" width="690" height="321" srcset="../uploads/default/optimized/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0_2_690x321.png, ../uploads/default/optimized/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0_2_1035x481.png 1.5x, ../uploads/default/original/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0.png 2x" data-small-upload="../uploads/default/optimized/1X/33aacd3a021b1f07c08afe9c2fb5a8cfef636cb0_2_10x10.png"><div class="meta">
+<svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">3</span><span class="informations">1321×615 67 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg>
+</div></a></div></p>
+<p><strong>出错图</strong><br>
+![](<a href="/uploads/short-url/7CQFRVbzXESz6QRxJlR8kBob8KR.png">4|690x332</a></p>
+<p><strong>错误情况简述</strong><br>
+我在一个叫Reference的类中定义了字符串类型常量NAME="Soil Craft’,MODID="SC"和VERSION=“0.1.0”，然后我在另一个类写@Mod(name=Reference.NAME,modid=Reference.MODID,version=Reference.VERSION)然后发现name,modid和version变成了红色，也就是错误的。这段代码是我从某视频网站中视频中看到的。我想实现能显示Mod的名称、ID和版本号</p>
+<pre><code class="lang-auto">package minecraft.mods.sc;
+
+import net.minecraftforge.fml.common.Mod;
+import until.Reference;
+
+
+@Mod(name = Reference.NAME, modid = Reference.MODID, version)
+public class Main {
+}
+</code></pre>
+<pre><code class="lang-auto">package minecraft.mods.sc;
+
+import net.minecraftforge.fml.common.Mod;
+import until.Reference;
+
+
+@Mod(name = Reference.NAME, modid = Reference.MODID, version)
+public class Main {
+}
+
+
+package until;
+
+public class Reference {
+    public static final String NAME = "Soil Craft";
+    public static final String MODID="SC";
+    public static final String VERSION="0.1.0";
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>………抄代码前看一下别人的游戏版本和你游戏版本匹配不匹配再抄好吗？<br>
+1.15 的<code>@mod</code>注释，只需要填写<code>modid</code>就行了，其他几个参数不存在了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>emmm…我也是第一次接触到这个，之前就只学了一点C#，对这个完全是不知道…。也就是说我写成@mod(modid=Reference.MODID)就可以了是吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>对，不同版本的代码有共同的地方但是不能互相兼容。<br>
+看寻找教程的时候要注意教程对应的版本。</p>
+    </div>
+    <br />
+    <div class="user"><h4>晓圣xs</h4></div>
+    <br />
+    <div class="post">
+        <p>您可以写一个完整的代码段吗，我设置成答案，非常感谢~</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>写成如下形式就行了。</p>
+<pre><code class="lang-auto">@Mod(Utils.MOD_ID)
+public class SpiritCraft {
+    public SpiritCraft() {
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

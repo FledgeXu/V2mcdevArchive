@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[1.15]附属mod开发问题</title>
+</head>
+<body>
+    <div class="title"><h1>[1.15]附属mod开发问题</h1></div>
+    <div class="post-user" class="user"><h4>Aminor_z</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Forge版本:  1.15<br>
+Minecraft版本: 1.15.2</p>
+<h1>由来</h1>
+<p>我在编写mod-A时应用了另一个mod-B（我自己写的，已被混淆回去），因而在build.gradle处编辑了如下内容：</p>
+<pre><code class="lang-auto">dependencies {
+minecraft 'net.minecraftforge:forge:1.15.2-31.2.36'
+compile fg.deobf(files('mod-B.jar'))//👈
+}
+</code></pre>
+<p>于是在<code>buildDependents</code>阶段遇到了如下问题：</p>
+<blockquote>
+<p>files(…) dependencies are not deobfuscated. Use a flatDir repository instead.<br>
+Cannot deobfuscate dependency of type DefaultSelfResolvingDependency_Decorated, using obfuscated version!</p>
+</blockquote>
+<p>显然直接跳过了反混淆而直接编译运行，从而出现了各种函数，field错误</p>
+<h1>问题</h1>
+<p>如何在build.gradle中正常地compile一个mod.<br>
+或者说，如何开发一个附属mod.</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><code>fg.deobf</code>应该得填入一个maven 坐标(coordinate)。如果你不想上传的东西的话，你可以添加一个Gradle 的 <code>flatDir</code>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

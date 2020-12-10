@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>资源文件无法加载</title>
+</head>
+<body>
+    <div class="title"><h1>资源文件无法加载</h1></div>
+    <div class="post-user" class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA 2020.1<br>
+Forge版本:  14.23.5.2847<br>
+Minecraft版本: 1.12.2<br>
+Mapping 文件版本: stable_39</p>
+<p><strong>出错图</strong><br>
+<img src="../uploads/default/original/1X/0d37eeda978926ffd67b0a5104ca0d09a459b90f.png" alt="nyIYSlioHa.png" data-base62-sha1="1SW2FxylMl6KRVLQmjR6o57ka75" width="220" height="88"><br>
+<img src="../uploads/default/original/1X/85814a6dbaba494ba4a0976a101642902cefd737.png" alt="wAsh459jLr.png" data-base62-sha1="j32vtA8KZi8Pr90eUWR2E7CnroP" width="529" height="48"><br>
+<img src="../uploads/default/original/1X/ae240f2b9fe8dd4326b8b863e0dcddd2e4d504c0.png" alt="SMfs8BmNiH.png" data-base62-sha1="oQwkRn3BxvwS3dTYwqd375jF1pC" width="646" height="333"></p>
+<p><strong>错误情况简述</strong><br>
+ResourceLocation定义的gui 中的图片资源加载不出来<br>
+后来发现assets中的所有资源都读取不到（语言文件等）<br>
+我怀疑是不是编译时资源文件没放进去，但是找到了build文件夹发现里面有那些文件，不知道是不是我找错了。</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[07:54:34] [Client thread/WARN] [minecraft/TextureManager]: Failed to load texture: integratedcontrol:textures/gui/bg2.png
+java.io.FileNotFoundException: integratedcontrol:textures/gui/bg2.png
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:69) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.texture.SimpleTexture.loadTexture(SimpleTexture.java:34) ~[SimpleTexture.class:?]
+	at net.minecraft.client.renderer.texture.TextureManager.loadTexture(TextureManager.java:69) [TextureManager.class:?]
+	at net.minecraft.client.renderer.texture.TextureManager.bindTexture(TextureManager.java:44) [TextureManager.class:?]
+	at shBLOCK.integratedcontrol.gui.RemoteControlGui.CustomBackground.drawBackground(CustomBackground.java:46) [CustomBackground.class:?]
+	at shBLOCK.integratedcontrol.gui.RemoteControlGui.RemoteControlUseGui.drawScreen(RemoteControlUseGui.java:23) [RemoteControlUseGui.class:?]
+	at net.minecraftforge.client.ForgeHooksClient.drawScreen(ForgeHooksClient.java:396) [ForgeHooksClient.class:?]
+	at net.minecraft.client.renderer.EntityRenderer.updateCameraAndRender(EntityRenderer.java:1177) [EntityRenderer.class:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1209) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:442) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_201]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_201]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_201]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_201]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_201]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_201]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_201]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_201]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>&lt;zh_cn.lang&gt;</code></p>
+<pre><code class="lang-auto">itemGroup.integratedcontrol=集成控制
+
+item.integratedcontrol.remote_control.name=远程控制终端
+
+key.integratedcontrol.category=集成控制
+key.integratedcontrol.edit_remote_hotkey=编辑远程控制终端
+</code></pre>
+<p><code>&lt;RemoteControlItem.java&gt;</code></p>
+<pre><code class="lang-auto">package shBLOCK.integratedcontrol;
+
+import shBLOCK.integratedcontrol.gui.RemoteControlGui.RemoteControlEditGui;
+import shBLOCK.integratedcontrol.gui.RemoteControlGui.RemoteControlUseGui;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
+
+public class RemoteControlItem extends Item {
+    public static final String NAME = "remote_control";
+    public static final String REGISTRY_NAME = IntegratedControl.MODID + ":" + NAME;
+
+    public RemoteControlItem() {
+        this.setMaxStackSize(1);
+        this.setTranslationKey(IntegratedControl.MODID + "." + NAME);
+        this.setRegistryName(REGISTRY_NAME);
+        this.setCreativeTab(IntegratedControl.INTEGRATED_CONTROL_TAB);
+    }
+
+    public void openEditGui() {
+        Minecraft.getMinecraft().displayGuiScreen(new RemoteControlEditGui());
+    }
+
+    @Override
+    public ActionResult&lt;ItemStack&gt; onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        System.out.println();
+        ItemStack item = player.getHeldItem(hand);
+        Minecraft.getMinecraft().displayGuiScreen(new RemoteControlUseGui());
+        return new ActionResult&lt;&gt;(EnumActionResult.SUCCESS, item);
+    }
+}
+</code></pre>
+<p><code>&lt;RemoteControlUseGui.java&gt;</code></p>
+<pre><code class="lang-auto">package shBLOCK.integratedcontrol.gui.RemoteControlGui;
+
+import shBLOCK.integratedcontrol.IntegratedControl;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+
+public class RemoteControlUseGui extends GuiScreen {
+    public CustomBackground Background;
+
+    public RemoteControlUseGui() {
+        Background = new CustomBackground(new ResourceLocation(IntegratedControl.MODID, "textures/gui/bg2.png"), 5, 10, 16, 16, 16, 16);
+    }
+
+    @Override
+    public void initGui() {
+        this.buttonList.add(new GuiButton(0, 100, 0, "Test Button"));
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.Background.drawBackground(this.mc);
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    @Override
+    public void actionPerformed(GuiButton button) {
+        button.width += 10;
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><strong>请注意，1.12 Forge官方已经放弃支持，不会再有Bug修复，添加特性，请尽早迁移到1.14/1.15</strong></p>
+<p>应该是由于IDEA和MDK不互相兼容导致的。<br>
+论坛里有类似的问题：<br>
+<aside class="quote quote-modified" data-post="1" data-topic="18">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/Redpred" class="avatar">
+    <a href="../t/topic/18">Mod 材质无法加载？</a> <a class="badge-wrapper  bullet" href="/c/5-category"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    <a class="lightbox" href="https://www.v2mcdev.com/uploads/default/original/1X/b9727a6298cf79d662c6ec77e46f1ad8a21b18e9.png" data-download-href="https://www.v2mcdev.com/uploads/default/b9727a6298cf79d662c6ec77e46f1ad8a21b18e9" title="YMCMJITZ_99~E0EG2PA(3Q">[YMCMJITZ_99~E0EG2PA(3Q]</a> 
+没有头绪 
+求解
+  </blockquote>
+</aside>
+<br>
+解决办法：<br>
+<aside class="quote quote-modified" data-post="8" data-topic="425">
+  <div class="title">
+    <div class="quote-controls"></div>
+    <img alt="" width="20" height="20" src="/user_avatar/v2mcdev.com/fledgexu/40/14_2.png" class="avatar">
+    <a href="../t/topic/425/8">Idea中运行我的世界出现问题</a> <a class="badge-wrapper  bullet" href="/c/5-category"><span class="badge-category-bg" style="background-color: #BF1E2E;"></span><span style="" data-drop-close="true" class="badge-category clear-badge" title="这里是提问模组开发中遇到问题的地方
+提问原则：
+1.提供清晰完整的出错信息截图（如果有的话）
+2.提供自己认为的出错点
+3.提供自己搜索过的相关的问题和资料（请用Google）
+4.提供自己试过的方案">模组开发提问区</span></a>
+  </div>
+  <blockquote>
+    1.12 旧版 MDK 和最新版的IntelliJ IDEA不兼容，如果你一定要用旧版的MDK，不要点idea的自动升级，而是手动的将 MDK 解压目录下的gradle/wrapper/gradle-wrapper.properties中的distributionUrl的内容改成https\://services.gradle.org/distributions/gradle-4.9-bin.z…
+  </blockquote>
+</aside>
+</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>贴一下你的文件列表：</p>
+<pre><code class="lang-auto">build/classes
+build/classes/java
+build/classes/java/main
+</code></pre>
+<p><s>如果资源文件没缺的话</s><br>
+<s>在build.gradle添加</s></p>
+<pre><code class="lang-java">//已过时，参考后文
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
+}
+</code></pre>
+<p><s>重定向到你的classes目录</s><br>
+<s>不过这样做会导致jar打包出错，打包时，去掉classes内所有资源文件并去掉上述重定向代码</s></p>
+<hr>
+<p>上述方法已过时，参考下文：</p>
+<pre><code class="lang-auto">sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
+}
+//当需要reobf jar包时重新设置资源文件夹
+gradle.taskGraph.whenReady{
+    taskGraph -&gt;
+        if(taskGraph.hasTask(":reobfJar")){
+            clearSourcesDir
+            sourceSets.main.output.resourcesDir(new File("build/resources"))
+        }
+}
+
+task clearSourcesDir {
+    delete(sourceSets.main.output.classesDir)
+}
+</code></pre>
+<p>这样不需要再打包时（build时）删除一次classes文件夹和修改重定向内容</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我帮你改了格式化……<br>
+可以去学一下Markdown，论坛里支持Markdown的，这样看起来也清楚点。</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢您</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>但是前置mod还没更新到新版本…</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>我只是懒得没打```而已</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:">行吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8b8ac667f9f73145ed6ea65e7fc8ba2551e8ebe1.png" data-download-href="../uploads/default/8b8ac667f9f73145ed6ea65e7fc8ba2551e8ebe1" title="CR0EeMNgDs"><img src="../uploads/default/original/1X/8b8ac667f9f73145ed6ea65e7fc8ba2551e8ebe1.png" alt="CR0EeMNgDs" data-base62-sha1="jUrGW0zyyUM7wQYeXAxm4xAqycx" width="367" height="499" data-small-upload="../uploads/default/optimized/1X/8b8ac667f9f73145ed6ea65e7fc8ba2551e8ebe1_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">CR0EeMNgDs</span><span class="informations">407×554 13.2 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+我不确定这个算缺资源文件还是不缺</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p><code>build/classes/java/main</code><br>
+请问你运行的时候用gradle的任务runClient还是使用genIntellijRuns配置好的idea的application任务。</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>我刚才尝试使用forgegradle中的runClient启动，资源全部加载成功，谢谢大家的帮助！</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>我刚才再次用forgegradle运行的时候显示Task execution finished ‘runClient’.但是没有启动MC，我又用genIntellijRuns产生的那个运行了一次，但是又是无法加载资源。把它关掉后再用forgegradle的runClient运行的时候又可以了…</p>
+<p>然后我又试了几遍发现每次用forgegradle的runClient运行之后必须genIntellijRuns产生的那个运行一次之后才能再次用forgegradle的runClient运行（感觉我说得好啰嗦…）</p>
+<p>请问这是为什么呢？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>不知道，但是你可以分别运行两次（运行前先清空build文件夹）看下两者的output产物区别，我从来没用过runClient，因为每次都要重新构建一遍jar包，太慢了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧，那就只能先这样用然后等集成动力学更新到1.14或1.15之后升级了</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>使用forgegradle中的runClient启动，资源就能正常加载，但是每次用forgegradle的runClient运行之后必须genIntellijRuns产生的那个东西运行一次之后才能再次用forgegradle的runClient运行（感觉我说得好啰嗦…）</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>你重定向到classes目录也不行吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>emm，刚看到，我试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>shBLOCK</h4></div>
+    <br />
+    <div class="post">
+        <p>ohhhhhhhhhhhhhhhh竟然可以，谢谢您</p>
+    </div>
+    <br />
+    <div class="user"><h4>补心者</h4></div>
+    <br />
+    <div class="post">
+        <p>我有一个暴力做法，在加载早期使用ITweaker接口来实现暴力复制资源文件到 build\classes\java\main，<br>
+然后如果需要gradle build出来，先执行clean再build就不会出错。<br>
+附代码：（程序参数需设置–tweakClass 指向你的ITweaker 实现）</p>
+<pre><code class="lang-java">	@Override
+	public void injectIntoClassLoader(LaunchClassLoader classLoader)
+	{
+		//沙雕“特性”
+		try
+		{
+			byte[] a = classLoader.getClassBytes("net.minecraft.world.World");
+			if (a != null)
+			{
+				this.injectResources();
+			}
+		} catch (Throwable e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private void injectResources()
+	{
+		File code = new File(this.getClass().getResource("/").getPath());
+		File root = code.getParentFile().getParentFile().getParentFile();
+		File resources = new File(root, "resources\\main");
+		for (File file : resources.listFiles())
+		{
+			File res = new File(code, file.getName());
+			if (res.exists())
+				this.delResources(res);
+			this.copyResources(file, res);
+		}
+	}
+
+	private void copyResources(File from, File to)
+	{
+		try
+		{
+			System.err.println("复制：" + from.toString() + "到：" + to.toString());
+			Files.copy(from.toPath(), to.toPath());
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		if (from.isDirectory())
+		{
+			for (File sources : from.listFiles())
+				this.copyResources(sources, new File(to, sources.getName()));
+		}
+
+	}
+
+	private void delResources(File file)
+	{
+		if (file.isDirectory() &amp;&amp; file.listFiles().length != 0)
+		{
+			for (File sources : file.listFiles())
+				this.delResources(sources);
+		}
+		try
+		{
+			System.err.println("删除：" + file.toString());
+			Files.delete(file.toPath());
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

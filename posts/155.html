@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>Lss233's.Mirror(); // 一个Minecraft开发镜像源</title>
+</head>
+<body>
+    <div class="title"><h1>Lss233's.Mirror(); // 一个Minecraft开发镜像源</h1></div>
+    <div class="post-user" class="user"><h4>lss233</h4></div>
+    <br />
+    <div class="post" class="main">
+        <h1></h1><p>Lss233’s.Mirror();</p>
+<h2>0x00 写在前面</h2>
+<p>记得最开始使用Maven的时候，基本上大部分时间都花在寻找依赖和下载依赖上。<br>
+许多API的作者也都是把自己的工件放在自己的maven仓库上，<br>
+如果你使用Maven或者Gradle，那么你不仅要在pom.xml中写dependency，还要写一个repository。<br>
+有些仓库在国内访问还很慢、甚至无法打开，这大大降低了开发效率。</p>
+<p>如果你现在正为此苦恼的话，那么试试我搭建的源吧！ （<a href="https://afdian.net/p/2d53e102565e11eaa39752540025c377" rel="nofollow noopener">事实</a>证明本镜像也可以帮助到国外开发者。）</p>
+<p>提示：如果使用HTTPS访问，本镜像源需要的最低Java版本：</p>
+<ul>
+<li>Java 7 &gt;= 7u111</li>
+<li>Java 8 &gt;= 8u101</li>
+</ul>
+<p>更高的Java版本暂时没有收到不支持的反馈。其他程序的兼容性问题未知，如无法使用，望请告知，谢谢！</p>
+<p><img src="https://lss233-readme.vercel.app/api/crystal" width="495" height="195"></p>
+<h2>0x01 介绍!</h2>
+<blockquote>
+<p><strong>源地址：</strong> <code>https://lss233.littleservice.cn/repositories/minecraft</code><br>
+<strong>备用地址1：</strong> <code>https://crystal.app.lss233.com/repositories/minecraft</code><br>
+<strong>备用地址2：</strong> <code>http://nossl.lss233.com/artifactory/minecraft</code></p>
+</blockquote>
+<p>这个源镜像了以下内容：</p>
+<ul>
+<li>spigot的snapshots （主要包含了spigot-api, bukkit-api）</li>
+<li>spongepowered (主要包含了spongeapi, spongecommon 以及其他开发sponge插件可能用到的工件)</li>
+<li>forge(镜像了 <a href="http://files.minecraftforge.net/maven" class="inline-onebox" rel="nofollow noopener">maven</a> )</li>
+<li>fabric(主要包含farbic)</li>
+<li>herocraft-repo(主要包含了vault-api, heroes, Residence等工件)</li>
+<li>placeholderapi-repo（主要包含了PlaceholderAPI）</li>
+<li>sk89q-repo (主要包含了worldedit, worldguard, craftbook,dynmap-api 等工件 )</li>
+<li>dmulloy2-snapshots（主要包含了ProtocolLib等工件）</li>
+<li>ess3-repo （主要包含了Essentials插件的一些工件）</li>
+<li>dakanilabs-repo (主要包含了SQLibrary, PlayerPoints等一些工件)</li>
+<li>kk-central （主要包含了KCauldron等一些工件）</li>
+<li>Phoenix(主要包含了PhoenixAPI)</li>
+<li>destroystokyo-repo（主要包含paper-api, paperclip, waterfall等工件)</li>
+<li>lex-snapshots(主要包含了NeptuneLib）</li>
+<li>sonatype（主要包含了bungeecord-api等一大堆工件）</li>
+<li>codemc(主要包含了craftbukkit、spigot服务端)</li>
+<li>nukkit (主要包含了nukkit, nukkit-parent)</li>
+<li>
+<a href="http://libraries.minecraft.net" rel="nofollow noopener">libraries.minecraft.net</a> (可以用于加速Minecraft启动器/Forge调试环境的下载)</li>
+<li>Gradle Distributions (可以用于加速Gradle Wrapper的下载，具体见下)</li>
+</ul>
+<h2>0x02 使用方法</h2>
+<p>虽然本镜像为Maven服务器，但使用的方式并没有限制。<br>
+下面介绍几种常见的使用情景.</p>
+<h3>1. 对于使用Maven进行开发的小伙伴</h3>
+<p>打开pom.xml ，在<code>&lt;repositories&gt; ... &lt;/repositories&gt;</code>代码块中加入：</p>
+<pre><code class="lang-xml"> &lt;repository&gt;
+   &lt;id&gt; lss233-minecraft &lt;/id&gt;
+   &lt;name&gt; Lss233's Minecraft Repository &lt;/name&gt;
+   &lt;url&gt;http://lss233.littleservice.cn/repositories/minecraft&lt;/url&gt;
+ &lt;/repository&gt;
+</code></pre>
+<p>然后就可以把其他已经在本仓库中的 <code>&lt;repository&gt; ... &lt;/repository&gt; </code>删除啦。</p>
+<h3>2. Gradle Wrapper加速</h3>
+<p>通常首次使用 gradlew 的时候总会从Gradle官网缓慢地下载gradle.<br>
+本人对此也提供了一个简单的镜像。<br>
+<strong>加速方法</strong>:<br>
+打开项目中的 <code>gradle/wrapper/gradle-wrapper.properties </code>文件，<br>
+将 <code> services.gradle.org/distributions</code>替换为 <code>lss233.littleservice.cn/repositories/gradle-dist</code> 即可。</p>
+<h3>3. 对于使用Gradle进行Forge Mod开发的小伙伴</h3>
+<p>把<code>build.gradle</code>里：</p>
+<pre><code class="lang-auto"> maven {  
+ name = "forge"  
+  url = "http://files.minecraftforge.net/maven"  
+ }
+</code></pre>
+<p>替换成</p>
+<pre><code class="lang-auto">maven {  
+ name = "forge"  
+ url = "http://lss233.littleservice.cn/repositories/minecraft"  
+}
+</code></pre>
+<p>就可以提升下载速度啦，还能避免下载失败的问题呢。</p>
+<h3>3.1 高版本MDK</h3>
+<p>如果使用高版本的MDK，可能还会遇到 <code>jcenter</code> 无法访问的现象。<br>
+解决方法:<br>
+由于仓库中已经包含JCenter，您可以直接将<code>build.gradle</code>中的 <code>jcenter()</code> 删除。</p>
+<h3>3.2 完整版的build.gradle参考</h3>
+<h4>1.12.2</h4>
+<pre><code class="lang-auto">buildscript {
+    repositories {
+        jcenter()
+        maven { url = "https://lss233.littleservice.cn/repositories/minecraft" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "1.0"
+group= "com.yourname" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "modid"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.12.2-14.23.5.2808"
+    runDir = "run"
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+</code></pre>
+<h4>1.7.10：</h4>
+<pre><code class="lang-auto">buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+        maven {
+            url = "https://lss233.littleservice.cn/repositories/minecraft"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+version = "1.0"
+group= "com.yourname" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "modid"
+
+minecraft {
+    version = "1.7.10-10.13.4.1558-1.7.10"
+    runDir = "eclipse"
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    compile project(':PokeMarketCommon')
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+</code></pre>
+<h3>3.3 加速MCP、Assets等调试环境资源的下载</h3>
+<p>ForgeGradle对这些资源的下载地址是写死在代码中的。<br>
+然而，ForgeGradle没有打算对咱大陆开发者的网络情况提供帮助(见<a href="https://github.com/MinecraftForge/ForgeGradle/issues/558" rel="nofollow noopener">issue#558</a>)。<br>
+你可以考虑使用<a href="http://blog.hakugyokurou.net/?page_id=1337" rel="nofollow noopener">FGOW</a>，<br>
+或者在遵守<a href="https://github.com/MinecraftForge/ForgeGradle/blob/FG_3.0/LICENSE" rel="nofollow noopener">ForgeGradle的开源协议</a>情况下，<br>
+修改ForgeGradle的相关代码并编译一份仅供自己使用的Gradle插件来解决这个问题。<br>
+FGOW参考配置（使用bmclapi下载游戏资源）:</p>
+<h4>BMCLAPI2 - Lss233’s.Mirror()</h4>
+<pre><code class="lang-auto">repos {
+mcJsonUrl = "http://bmclapi2.bangbang93.com/versions/{MC_VERSION}/{MC_VERSION}.json"mcClientUrl = "http://bmclapi2.bangbang93.com/versions/{MC_VERSION}/{MC_VERSION}.jar";mcServerUrl = "http://bmclapi2.bangbang93.com/versions/{MC_VERSION}/minecraft_server.{MC_VERSION}.jar";;assestIndexUrl = "http://bmclapi2.bangbang93.com/indexes/{ASSET_INDEX}.json";assestUrl = "http://bmclapi2.bangbang93.com/assets"mcpUrl = "http://lss233.com/artifactory/repositories/minecraft/fernflower-fix-1.0.zip"}
+</code></pre>
+<h3>4. 对于使用Gradle进行插件开发的小伙伴</h3>
+<p>在<code>build.gradle</code>里的 <code>repositories { .... }</code> 里面加入一行:</p>
+<pre><code class="lang-auto"> maven {  
+ url 'http://lss233.littleservice.cn/repositories/minecraft/'  
+ }
+</code></pre>
+<h3>5. 对于啥都不用的小伙伴</h3>
+<p>你可以用浏览器直接打开本源的<a href="https://crystal.app.lss233.com/repositories/minecraft" rel="nofollow noopener">网址</a>，自行寻找你想要的依赖。</p>
+<h2>0x03 更新日志&amp;更多使用介绍</h2>
+<p><img src="../uploads/default/original/1X/b0b02ddfc36ba581a1c749072e7915bbd73aa0b7.png" alt="{:fireworks:}" data-base62-sha1="pd3uOpobNLPNmWAZvUUxjCAt2sf" width="16" height="16"> 2018年8月27日: 增加了对libraries.minecraft.net的镜像。详情: <a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=800729&amp;pid=13268543" rel="nofollow noopener">13#</a><br>
+<img src="../uploads/default/original/1X/b0b02ddfc36ba581a1c749072e7915bbd73aa0b7.png" alt="{:fireworks:}" data-base62-sha1="pd3uOpobNLPNmWAZvUUxjCAt2sf" width="16" height="16"> 2018年9月22日: 加入了spigot和craftbukkit服务端核心。详情/使用方法: <a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=800729&amp;pid=13340617" rel="nofollow noopener">22#</a><br>
+<img src="../uploads/default/original/1X/b0b02ddfc36ba581a1c749072e7915bbd73aa0b7.png" alt="{:fireworks:}" data-base62-sha1="pd3uOpobNLPNmWAZvUUxjCAt2sf" width="16" height="16"> 2019年2月04日: 增加了对Gradle程序的镜像。详情/使用方法: <a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=800729&amp;pid=13825628" rel="nofollow noopener">29#</a></p>
+<p>如果您有什么需要补充的仓库，或者想要提交自己的工件，也可以告诉我喔。<br>
+另外，如果出现 504 Gateway Time-out 的情况，应该是不会影响你的构建程序自动下载文件的。<br>
+如果本仓库无法正常使用，<strong>请提醒我</strong>，我会尽快修复。<br>
+本人所在QQ群：<code>495882048</code></p>
+<h2>0x04 写在后面</h2>
+<p>本人是没有稳定收入的学生，维护这个镜像服务需要不小的开销。如果这个东西对您有帮助、想支持我继续下去，可以了解一下我在<a href="https://afdian.net/@lss233" rel="nofollow noopener">爱发电</a>的主页喔~</p>
+<p>友情赞助： <a href="http://LittleSkin.cn" rel="nofollow noopener">LittleSkin.cn</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        
+    </div>
+    <br />
+</body>
+</html>

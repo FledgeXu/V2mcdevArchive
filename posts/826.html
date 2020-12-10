@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 方块实体问题</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 方块实体问题</h1></div>
+    <div class="post-user" class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：&lt;windows 64&gt;<br>
+你是用的JDK: &lt;1.8.0_251&gt;<br>
+你使用的IDE：<br>
+你使用的IDE版本:&lt;IntelliJ IDEA 2020.1.2 (Community Edition)&gt;<br>
+Forge版本:  &lt; 1.15.2-31.2.0&gt;<br>
+Minecraft版本: &lt;1.15.2&gt;</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73.png" data-download-href="../uploads/default/aa1f6e98621f713c349c64e841a9c2934dfcad73" title="QQ截图20200903195736"><img src="../uploads/default/optimized/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73_2_690x370.png" alt="QQ截图20200903195736" data-base62-sha1="ogYvN1nDxNifXzHVZnYsJPsv8I3" width="690" height="370" srcset="../uploads/default/optimized/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73_2_690x370.png, ../uploads/default/optimized/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73_2_1035x555.png 1.5x, ../uploads/default/optimized/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73_2_1380x740.png 2x" data-small-upload="../uploads/default/optimized/1X/aa1f6e98621f713c349c64e841a9c2934dfcad73_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">QQ截图20200903195736</span><span class="informations">1920×1030 356 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+为方块绑定了方块实体，并希望在右键点击方块时能触发一些事件，但并未生效，经过测试发现onBlockActivated()方法没有被运行.</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">没有找到报ERROR的地方
+</code></pre>
+<p><strong>相关代码</strong><br>
+<code>&lt;TestMachine.java&gt;</code></p>
+<pre><code class="lang-auto">package com.svanur.ripple_tech.block.machines;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+
+public class TestMachine extends Block {
+    public TestMachine(Properties properties) {
+        super(Properties.create(Material.ROCK).hardnessAndResistance(5));
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return new TestTileEntity();
+    }
+
+    /*
+        玩家点击该方块时将会发送一条消息
+     */
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        System.out.println("onBlockActivated11111111");
+
+        if (!worldIn.isRemote &amp;&amp; handIn == Hand.MAIN_HAND) {
+            System.out.println("onBlockActivated222222");
+
+            TestTileEntity testTileEntity = (TestTileEntity) worldIn.getTileEntity(pos);
+
+            //获取到消息
+            String say = testTileEntity.say();
+
+            //发送消息
+            TranslationTextComponent textComponents = new TranslationTextComponent("message.rippletech.test", say);
+            player.sendStatusMessage(textComponents, false);
+        }
+        return ActionResultType.SUCCESS;
+    }
+}
+</code></pre>
+<p><code>&lt;TestTileEntity.java&gt;</code></p>
+<pre><code class="lang-auto">package com.svanur.ripple_tech.block.machines;
+
+import net.minecraft.tileentity.TileEntity;
+
+public class TestTileEntity extends TileEntity {
+    
+    public TestTileEntity() {
+        super(TileEntityTypeRegistry.testTileEntity.get());
+    }
+
+    public String say() {
+        return "你好，我是测试方块";
+    }
+}
+</code></pre>
+<p><code>&lt;TileEntityTypeRegistry.java&gt;</code></p>
+<pre><code class="lang-auto">package com.svanur.ripple_tech.block.machines;
+
+import com.svanur.ripple_tech.block.BlockRegistry;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+public class TileEntityTypeRegistry {
+
+    public static final DeferredRegister&lt;TileEntityType&lt;?&gt;&gt; TILE_ENTITY_TYPE_DEFERRED_REGISTER
+            = new DeferredRegister&lt;&gt;(ForgeRegistries.TILE_ENTITIES, "rippletech");
+
+    public static RegistryObject&lt;TileEntityType&lt;TestTileEntity&gt;&gt; testTileEntity = TILE_ENTITY_TYPE_DEFERRED_REGISTER.register("test_tileentity", () -&gt; {
+        return TileEntityType.Builder.create(
+                () -&gt; {
+                    return new TestTileEntity();
+                }, BlockRegistry.testMachines.get()
+        ).build(null);
+    });
+}
+</code></pre>
+<p><code>&lt;RippleTech.java(此为mod的主类)&gt;</code></p>
+<pre><code class="lang-auto">package com.svanur.ripple_tech;
+
+import com.svanur.ripple_tech.block.BlockRegistry;
+import com.svanur.ripple_tech.block.machines.TileEntityTypeRegistry;
+import com.svanur.ripple_tech.item.ItemRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+@Mod("rippletech")
+public class RippleTech {
+    public RippleTech() {
+        ItemRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BlockRegistry.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntityTypeRegistry.TILE_ENTITY_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+}
+</code></pre>
+<p><strong>查到的资料</strong><br>
+根据教程https://neutrino.v2mcdev.com/tileentity/firsttileentity.html所写</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你指的没有被调用到是说<code>"onBlockActivated11111111"</code>没有输出？有点古怪。<br>
+看起来好像没有问题啊，你是不是测试错方块了<img src="../images/emoji/apple/joy.png?v=9" title=":joy:" class="emoji" alt=":joy:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>是的，那句话没有输出，我可以保证没有用错方块，我检查了很多遍也没有发现问题所在</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我测试了一下，同样的代码没有毛病啊……<br>
+你是不是用<a href="../search?q=1.13">这个帖子</a>里介绍的方法了，试试直接在gradle面板里运行<code>runClient</code> tasks，看看有没有解决问题。<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7.png" data-download-href="../uploads/default/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7" title="image"><img src="../uploads/default/optimized/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7_2_511x500.png" alt="image" data-base62-sha1="mjxDryO0Cpz1BXrjspUGb2ZqTen" width="511" height="500" srcset="../uploads/default/optimized/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7_2_511x500.png, ../uploads/default/optimized/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7_2_766x750.png 1.5x, ../uploads/default/optimized/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7_2_1022x1000.png 2x" data-small-upload="../uploads/default/optimized/1X/9c655aba50c20bb98f41c8a0e1d9dd962987f9d7_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1090×1066 78.9 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+顺便尽量不要用print语句作为调试，IntelliJ里下断点很方便的，直接下断点调试就行了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>不行啊依旧没反应</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>有没有可能是我的mdk的问题，我是使用的../t/topic/249这篇帖子里的离线包</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你既然可以运行MDK出错的可能性不大。<br>
+有个问题，你的方块是通过物品放置的吗？<br>
+请你补充一下，你物品注册的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>是通过物品放置的，代码如下</p>
+<pre><code class="lang-auto">    public static RegistryObject&lt;Item&gt; testMachine = ITEMS.register("test_machine",() -&gt; {
+        return new BlockItem(BlockRegistry.testMachines.get(), new Item.Properties().group(RippleTechItemGroup.itemGroup));
+    });
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>再补充一下你的方块注册的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>物品注册</p>
+<pre><code class="lang-auto">public class ItemRegistry {
+    public static final DeferredRegister&lt;Item&gt; ITEMS = new DeferredRegister&lt;&gt;(ForgeRegistries.ITEMS,"rippletech");
+    //测试方块
+    public static RegistryObject&lt;Item&gt; testMachine = ITEMS.register("test_machine",() -&gt; {
+        return new BlockItem(BlockRegistry.testMachines.get(), new Item.Properties().group(RippleTechItemGroup.itemGroup));
+    });
+}
+</code></pre>
+<p>方块注册</p>
+<pre><code class="lang-auto">public class BlockRegistry {
+    public static final DeferredRegister&lt;Block&gt; BLOCKS = new DeferredRegister&lt;&gt;(ForgeRegistries.BLOCKS,"rippletech");
+
+    public static RegistryObject&lt;Block&gt; testMachines = BLOCKS.register(
+            "test_machines",()-&gt;{
+                return new BaseBlock(Block.Properties.create(Material.ROCK)
+                        .hardnessAndResistance(10)
+                        .harvestTool(ToolType.PICKAXE)
+                        .harvestLevel(0)
+                );
+            }
+    );
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>（帖子被作者删除，如无标记将在 24 小时后自动删除）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你方块写错了……<br>
+你想要注册的是<code>TestMachine</code>，但是实际注册的是<code>BaseBlock</code></p>
+<pre><code class="lang-auto">return new BaseBlock(Block.Properties.create(Material.ROCK)
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>啊对！我改一下试试</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <ol>
+<li>作为你现在这个等级的用户，每天发言频率是有限制的，请珍惜你的发言机会</li>
+<li>我已经关注了这个帖子，这个帖子所有的回复都会发邮件给我的。</li>
+<li>@不能够加快别人回答的速度，除非你需要告知某个没有关注这个帖子的人需要Check一下这里的内容，请尽量不要@别人。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，我知道了</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>现在已经可以了，但是我要怎么解决这样的乱码问题啊？写这句话的类的文件已经是utf-8的编码了<br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01.png" data-download-href="../uploads/default/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01" title="image"><img src="../uploads/default/optimized/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01_2_690x370.png" alt="image" data-base62-sha1="y2ToxPxnzzmquHuQCXT3qYRrQOt" width="690" height="370" srcset="../uploads/default/optimized/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01_2_690x370.png, ../uploads/default/optimized/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01_2_1035x555.png 1.5x, ../uploads/default/optimized/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01_2_1380x740.png 2x" data-small-upload="../uploads/default/optimized/1X/ee9da5b9fe38d2e86d77cbb39ae5168edd01bb01_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1920×1030 304 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是很清楚，可能是你的语言文件的编码有问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>好的，谢谢您的帮助</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没事<br>
+记得，选择一个楼层作为答案，或者自己补充一个楼层作为答案。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>我还有一些问题，请问在哪里可以找到minecraft原版的代码呢？我想要制作一个科技向的mod，但是我现在还不知道那些机器应该如何实现，也不知道在哪里能找到相关的资料，请问可以帮忙指条路吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <blockquote>
+<p>在开发的过程中你得熟练使用开发工具，在这里我们的工具是IntelliJ IDEA。有两个快捷键对于理解代码有非常大的帮助。第一个快捷键是 <code>Ctrl+N(Windows)</code> ，这个快捷键可以让你搜索指定的类，这样你就可寻找原版类里在哪里，有什么内容了。另一个快捷键就是 <code>Ctrl+H</code> 当你把鼠标指针放在一个类上时，按下这个快捷键，会在右侧显示这个类的继承关系，也可查看某个接口的具体实现，大家可以自己上网搜索IDEA常用快捷键学习使用。</p>
+<p>另外一个技巧是，当你看到某个方法，想要知道这个方法在哪里调用时，可以右键然后点击 <code>Find Usages（查找使用）</code> ，你就可以看见所有调用这个方法的代码了。</p>
+<p>还有如果你想查看某个类的源代码，只需要按住 <code>Ctrl</code> 键，点击那个类就可以进入到那个类内部查看它的源代码。</p>
+</blockquote>
+<p><a href="https://neutrino.v2mcdev.com/item/meleeweapons.html#%E5%BC%80%E5%8F%91%E5%B0%8F%E8%AF%BE%E5%A0%82" class="onebox" target="_blank">https://neutrino.v2mcdev.com/item/meleeweapons.html#开发小课堂</a></p>
+<p>老实说，如果你连到哪里找原版到代码都不知道都话，我真的想劝退你，你现在的水平是支持不住你的想法的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Svanur</h4></div>
+    <br />
+    <div class="post">
+        <p>我知道我的水平不足，我想要的是一个好的学习方法</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

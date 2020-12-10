@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>加载模组时无法注册方块</title>
+</head>
+<body>
+    <div class="title"><h1>加载模组时无法注册方块</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：win10<br>
+你是用的JDK:  jdk8 64位<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2019.3.3<br>
+Forge版本:  1.15.2-31.2.0-mdk<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本: 20200514-1.15.1</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/cf7b8524af11dec011d25db2b6eb919134c862fb.png" data-download-href="../uploads/default/cf7b8524af11dec011d25db2b6eb919134c862fb" title="1"><img src="../uploads/default/original/1X/cf7b8524af11dec011d25db2b6eb919134c862fb.png" alt="1" data-base62-sha1="tBttzqj1v1xVLsItQviTkGCNNtp" width="690" height="411" data-small-upload="../uploads/default/optimized/1X/cf7b8524af11dec011d25db2b6eb919134c862fb_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">1</span><span class="informations">857×511 18.1 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+照着教程敲一个方块，进游戏时就这样了。我认为是注册方面出现了问题，但无论怎么敲，注册阶段总是会出现错误</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">[21七月2020 08:00:25.612] [Render thread/ERROR] [net.minecraftforge.fml.javafmlmod.FMLModContainer/]: Exception caught during firing event: Registry Object not present: crystal:obsidian_block
+	Index: 1
+	Listeners:
+		0: NORMAL
+		1: net.minecraftforge.eventbus.EventBus$$Lambda$2094/1909807998@f559c74
+java.lang.NullPointerException: Registry Object not present: crystal:obsidian_block
+	at java.util.Objects.requireNonNull(Objects.java:290)
+	at net.minecraftforge.fml.RegistryObject.get(RegistryObject.java:92)
+	at com.Github.craft.crystal.Registry.ItemRegistry.lambda$static$7(ItemRegistry.java:40)
+	at net.minecraftforge.registries.DeferredRegister.lambda$register$0(DeferredRegister.java:84)
+	at net.minecraftforge.registries.DeferredRegister.addEntries(DeferredRegister.java:117)
+	at net.minecraftforge.eventbus.EventBus.doCastFilter(EventBus.java:212)
+	at net.minecraftforge.eventbus.EventBus.lambda$addListener$11(EventBus.java:204)
+	at net.minecraftforge.eventbus.EventBus.post(EventBus.java:258)
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.fireEvent(FMLModContainer.java:106)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65)
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112)
+	at net.minecraftforge.fml.ModList.lambda$dispatchSynchronousEvent$5(ModList.java:126)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580)
+	at net.minecraftforge.fml.ModList.dispatchSynchronousEvent(ModList.java:126)
+	at net.minecraftforge.fml.ModList.lambda$static$1(ModList.java:96)
+	at net.minecraftforge.fml.LifecycleEventProvider.dispatch(LifecycleEventProvider.java:71)
+	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:214)
+	at net.minecraftforge.fml.ModLoader.lambda$gatherAndInitializeMods$25(ModLoader.java:206)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:976)
+	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:206)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$begin$2(ClientModLoader.java:97)
+	at net.minecraftforge.fml.client.ClientModLoader.lambda$createRunnableWithCatch$5(ClientModLoader.java:113)
+	at net.minecraftforge.fml.client.ClientModLoader.begin(ClientModLoader.java:97)
+	at net.minecraft.client.Minecraft.&lt;init&gt;(Minecraft.java:397)
+	at net.minecraft.client.main.Main.main(Main.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.userdev.FMLUserdevClientLaunchProvider.lambda$launchService$0(FMLUserdevClientLaunchProvider.java:55)
+	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+	at cpw.mods.modlauncher.Launcher.run(Launcher.java:81)
+	at cpw.mods.modlauncher.Launcher.main(Launcher.java:65)
+	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:102)
+日志位置`run/logs/debug.log`
+</code></pre>
+<p><strong>相关代码</strong></p>
+<pre><code class="lang-auto">public class BlockRegistry {
+    public static final DeferredRegister&lt;Block&gt; BLOCKS = new DeferredRegister&lt;&gt;(ForgeRegistries.BLOCKS, "crystal");
+//    public static RegistryObject&lt;Block&gt; grayCrystalOre = BLOCKS.register("grayCrystal_ore", () -&gt; {
+//        return new GrayCrystalOre();
+//    });
+    public static RegistryObject&lt;Block&gt; obsidianBlock = BLOCKS.register("obsidian_block", () -&gt; {
+        return new ObsidianBlock();
+    });
+}
+
+
+public class ItemRegistry {
+    .....
+//    public static RegistryObject&lt;Item&gt; grayCrystalOre = ITEMS.register("grayCrystal_ore", () -&gt; {
+//        return new BlockItem(BlockRegistry.grayCrystalOre.get(), new Item.Properties().group(Mod_Group.itemGroup));
+//    });
+    public static RegistryObject&lt;Item&gt; obsidianBlock = ITEMS.register("obsidian_block", () -&gt; {
+        return new BlockItem(BlockRegistry.obsidianBlock.get(), new Item.Properties().group(Mod_Group.itemGroup));
+    });
+
+public class ObsidianBlock extends Block {
+    public ObsidianBlock() {
+        super(Properties.create(Material.ROCK).hardnessAndResistance(5));
+    }
+}
+
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你没有把你方块注册的DeferredRegister写到Mod主类的构造方法里去。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

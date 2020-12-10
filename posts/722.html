@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>自定义方块模型与材质问题</title>
+</head>
+<body>
+    <div class="title"><h1>自定义方块模型与材质问题</h1></div>
+    <div class="post-user" class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：macOS High Sierra<br>
+你使用的JDK：1.8.0_251<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本：2020.2<br>
+Forge版本:  31.2.0<br>
+Minecraft版本：1.15.2<br>
+Mapping 文件版本：20200802-1.15.1</p>
+<p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f.png" data-download-href="../uploads/default/ed7f4662e89b2c50fc7abe89627591d6d1b9769f" title="Screen Shot 2020-08-03 at 8.10.17 PM"><img src="../uploads/default/optimized/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f_2_690x388.png" alt="Screen Shot 2020-08-03 at 8.10.17 PM" data-base62-sha1="xSZQriISwlCzzQHMOC3z8u87l9l" width="690" height="388" srcset="../uploads/default/optimized/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f_2_690x388.png, ../uploads/default/optimized/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f_2_1035x582.png 1.5x, ../uploads/default/optimized/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f_2_1380x776.png 2x" data-small-upload="../uploads/default/optimized/1X/ed7f4662e89b2c50fc7abe89627591d6d1b9769f_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Screen Shot 2020-08-03 at 8.10.17 PM</span><span class="informations">1920×1080 671 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<img src="../uploads/default/original/1X/77c66414495f8aa1b3351a0c4804b5e6c0f3a9a7.png" alt="Screen Shot 2020-08-03 at 9.41.30 PM" data-base62-sha1="h5zRUK7DVonxp8XigNoB3xGUR3p" width="238" height="148"><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/e4ef283a67299599bca17041e04624ee068dddc9.png" data-download-href="../uploads/default/e4ef283a67299599bca17041e04624ee068dddc9" title="Screen Shot 2020-08-03 at 9.49.39 PM"><img src="../uploads/default/optimized/1X/e4ef283a67299599bca17041e04624ee068dddc9_2_690x388.png" alt="Screen Shot 2020-08-03 at 9.49.39 PM" data-base62-sha1="wFffOvjWVcUE6Eo03WR2BBmayLL" width="690" height="388" srcset="../uploads/default/optimized/1X/e4ef283a67299599bca17041e04624ee068dddc9_2_690x388.png, ../uploads/default/optimized/1X/e4ef283a67299599bca17041e04624ee068dddc9_2_1035x582.png 1.5x, ../uploads/default/optimized/1X/e4ef283a67299599bca17041e04624ee068dddc9_2_1380x776.png 2x" data-small-upload="../uploads/default/optimized/1X/e4ef283a67299599bca17041e04624ee068dddc9_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Screen Shot 2020-08-03 at 9.49.39 PM</span><span class="informations">1920×1080 109 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+使用blockbench一个自定义模型的方块，但是模型无法加载，日志里面说好像需要我加一个材质包。。？方块拿在手里的时候可以正常显示材质，但是一旦放置以后，材质与模型都无法显示。<br>
+请问是我在blockbench中建模部分出问题了吗<br>
+我的json文件是由blockbench自动生成的<br>
+他还告诉我我的材质编码格式错误。。<br>
+望解答，谢谢<br>
+（此方块尚未完成）</p>
+<pre><code class="lang-auto">[21:07:43] [Server-Worker-3/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' missing model for variant: 'modid:sword_oven#facing=west'
+[21:07:43] [Server-Worker-3/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' missing model for variant: 'modid:sword_oven#facing=north'
+[21:07:43] [Server-Worker-3/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' missing model for variant: 'modid:sword_oven#facing=south'
+[21:07:43] [Server-Worker-3/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' missing model for variant: 'modid:sword_oven#facing=east'
+[21:07:43] [Server-Worker-3/WARN] [minecraft/ModelBakery]: Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' in resourcepack: 'Mod Resources': Non [a-z0-9/._-] character in path of location: modid:block/sword_oven 
+
+</code></pre>
+<p><code>SwordOven.java</code></p>
+<pre><code class="lang-auto">package com.authorname.modname.blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
+import net.minecraftforge.common.ToolType;
+import javax.annotation.Nullable;
+public class SwordOven extends Block
+{
+    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public SwordOven()
+    {
+        super(Block.Properties.create(Material.IRON)
+            .hardnessAndResistance(3.5F, 4.0F)
+            .sound(SoundType.ANVIL)
+            .harvestLevel(0)
+            .harvestTool(ToolType.PICKAXE));
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+    }
+    @Override
+    public BlockState rotate(BlockState state, Rotation rot) {
+        return state.with(FACING, rot.rotate(state.get(FACING)));
+    }
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+    }
+    @Override
+    protected void fillStateContainer(StateContainer.Builder&lt;Block, BlockState&gt; builder) {
+        builder.add(FACING);
+    }
+}
+</code></pre>
+<p><code>ModBlocks.java</code></p>
+<pre><code class="lang-auto">package com.authorname.modname.init;
+import com.authorname.modname.blocks.SwordBlock;
+import com.authorname.modname.blocks.SwordOre;
+import com.authorname.modname.blocks.SwordOven;
+import com.authorname.modname.modname;
+import net.minecraft.block.Block;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+public class ModBlocks
+{
+    public static final DeferredRegister&lt;Block&gt; BLOCKS = new DeferredRegister&lt;&gt;(ForgeRegistries.BLOCKS, modname.MOD_ID);
+    //Blocks
+    public static final RegistryObject&lt;Block&gt; SWORD_BLOCK = BLOCKS.register("sword_block", SwordBlock::new);
+    public static final RegistryObject&lt;Block&gt; SWORD_ORE =BLOCKS.register("sword_ore", SwordOre::new);
+    public static final RegistryObject&lt;Block&gt; SWORD_OVEN =BLOCKS.register("sword_oven", SwordOven::new);
+}
+</code></pre>
+<p><code>ModItems.java</code></p>
+<pre><code class="lang-auto">package com.authorname.modname.init;
+import com.authorname.modname.blocks.BlockItemBase;
+import com.authorname.modname.items.HealthBoostApple;
+import com.authorname.modname.items.ItemBase;
+import com.authorname.modname.modname;
+import com.authorname.modname.utility.enums.ModnameArmorMaterial;
+import com.authorname.modname.utility.enums.ModnameItemTier;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.*;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+public class ModItems
+{
+    public static final DeferredRegister&lt;Item&gt; ITEMS = new DeferredRegister&lt;&gt;(ForgeRegistries.ITEMS, modname.MOD_ID);
+    public static final RegistryObject&lt;Item&gt; SWORD_OVEN_ITEM = ITEMS.register("sword_oven",
+            () -&gt; new BlockItemBase(ModBlocks.SWORD_OVEN.get()));
+}
+</code></pre>
+<p><code>blockstates/sword_oven.json</code></p>
+<pre><code class="lang-auto">{
+  "variants": {
+    "facing=north": { "model": "modid:block/sword_oven" },
+    "facing=south": { "model": "modid:block/sword_oven", "y":  180},
+    "facing=west": { "model": "modid:block/sword_oven", "y":  270},
+    "facing=east": { "model": "modid:block/sword_oven ", "y":  90}
+  }
+}
+</code></pre>
+<p><code>models/block/sword_oven.json</code></p>
+<pre><code class="lang-auto">{
+  "credit": "Made with Blockbench",
+  "textures": {
+    "0": "modid:blocks/sword_oven",
+    "particle": "modid:blocks/sword_oven"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 13, 16],
+      "faces": {
+        "west": {"uv": [0, 0, 16, 13], "texture": "#0"},
+        "north": {"uv": [0, 0, 16, 13], "texture": "#0"},
+        "south": {"uv": [0, 0, 16, 13], "texture": "#0"},
+        "east": {"uv": [0, 0, 16, 13], "texture": "#0"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "scale": [0.3, 0.3, 0.3]
+    },
+    "thirdperson_lefthand": {
+      "scale": [0.3, 0.3, 0.3]
+    },
+    "firstperson_righthand": {
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "firstperson_lefthand": {
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "ground": {
+      "scale": [0.3, 0.3, 0.3]
+    },
+    "gui": {
+      "rotation": [21, -32.25, 0],
+      "translation": [0, 1, 0],
+      "scale": [0.5, 0.5, 0.5]
+    }
+  }
+}
+</code></pre>
+<p><code>models/item/sword_oven.json</code></p>
+<pre><code class="lang-auto">{
+  "parent": "modid:block/sword_oven"
+}
+</code></pre>
+<p>抱歉代码有一点多。。<br>
+我把所有关于这个方块的代码都放上来了。。<br>
+<img src="../uploads/default/original/1X/0bc0c7914ba1018f21eb25078c8bbebfd4944c8e.png" alt="Screen Shot 2020-08-03 at 10.06.16 PM" data-base62-sha1="1FYhoa0FTqNwahR3LN8xGoUx6Nw" width="234" height="107"> <div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/64336e34d87620fce6344834829405612f0820ec.png" data-download-href="../uploads/default/64336e34d87620fce6344834829405612f0820ec" title="Screen Shot 2020-08-03 at 10.05.55 PM"><img src="../uploads/default/optimized/1X/64336e34d87620fce6344834829405612f0820ec_2_250x499.png" alt="Screen Shot 2020-08-03 at 10.05.55 PM" data-base62-sha1="eipW3p8WxUGK4mYpoV5R1mDdqeo" width="250" height="499" srcset="../uploads/default/optimized/1X/64336e34d87620fce6344834829405612f0820ec_2_250x499.png, ../uploads/default/optimized/1X/64336e34d87620fce6344834829405612f0820ec_2_375x748.png 1.5x, ../uploads/default/original/1X/64336e34d87620fce6344834829405612f0820ec.png 2x" data-small-upload="../uploads/default/optimized/1X/64336e34d87620fce6344834829405612f0820ec_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">Screen Shot 2020-08-03 at 10.05.55 PM</span><span class="informations">492×981 25.6 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请你把asserts文件夹下所有目录都展开，然后截图截全来。</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>已经补上了</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-json">"facing=east": { "model": "modid:block/sword_oven ", "y":  90}
+</code></pre>
+<p>好像这个多了一个空格</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>…非常抱歉，确实是这个错误，因为代码太多确实比较难找。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看日志就知道了……</p>
+<pre><code class="lang-auto">Exception loading blockstate definition: 'modid:blockstates/sword_oven.json' in resourcepack: 'Mod Resources': Non [a-z0-9/._-] character in path of location: modid:block/sword_oven
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

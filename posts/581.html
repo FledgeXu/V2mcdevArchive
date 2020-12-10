@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>目前哪个版本最适合新人入手开发模组？</title>
+</head>
+<body>
+    <div class="title"><h1>目前哪个版本最适合新人入手开发模组？</h1></div>
+    <div class="post-user" class="user"><h4>Nyaruko</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统: WINDOWS7 64位<br>
+你是用的JDK: JDK8<br>
+你使用的IDE：IntelliJ IDEA or Eclipse or 其他<br>
+你使用的IDE版本:未知<br>
+Forge版本:  未知<br>
+Minecraft版本: 1.12.2, 1.14.4, 1.15.2, 1.16</p>
+<p>前几天刚高考结束，想在假期学习模组开发。关于Java已经在菜鸟教程，How2j，Java从入门到入土等资料中大致了解了一些。不知道哪个版本最容易入手模组开发，1.12.2有很多教学资料但版本较低，1.14.4及以上不能和optifine完美兼容，而我个人属于无光影不MC的玩家，因此有些纠结。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>本帖不适合出现的提问区，已移动至综合讨论区。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>以我个人观点来说，1.15是目前最适合的版本。<br>
+有以下几个原因：</p>
+<ol>
+<li>Forge团队已经放弃了1.12的技术支持，而本论坛马上也会停止对1.12的支持。</li>
+<li>主流的Mod已经开始了向1.15的迁移，因为1.14-1.15的渲染系统的变动，使得1.14成了一个被跳过的版本</li>
+<li>1.15 的开发教程丰富，如果限于中文教程，除去我写的Neutrino，Mcjty的1.15开发教程国内也有人翻译，你可以自行搜索。如果是英文的教程，那么内容就更多了。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>哦，还有一点，Forge在 Minecraft 1.13版本经历了重写，导致了1.12到1.14+的迁移困难。<br>
+如果对于熟练的开发者来说这不是什么大问题，但是如果你是新人的话，这个迁移也是一个坎。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>特奉 Fledge 之命前来解释 OptiFine 与 Forge for Minecraft 1.14.4+ 之问题；</p>
+<ol>
+<li>
+<p>为什么 OptiFine 不兼容 Forge 1.13 ~ 1.14.3：<br>
+由于 Forge 自 Minecraft 1.13+ 以来，摒弃了使用了长达五年之久的 <a href="https://github.com/Mojang/LegacyLauncher" rel="nofollow noopener">LegacyLauncher</a>，采用了 <a href="https://github.com/cpw" rel="nofollow noopener">cpw</a> 开发的新一代的启动入口程序 <a href="https://github.com/cpw/modlauncher" rel="nofollow noopener">modlauncher</a>。<br>
+然而由于 OptiFine 需要支持在无 Forge 纯原版环境下安装，并且 modlauncher 与 Forge 绑定紧密，脱离出来单独使用较为困难，因此 OptiFine 仍然在使用 <a href="https://github.com/sp614x" rel="nofollow noopener">sp614x</a> 单独修改后的 <a href="https://github.com/sp614x/LegacyLauncher" rel="nofollow noopener">LegacyLauncher</a> 作为启动入口程序。<br>
+并且 Forge 在重构早期并不希望 CoreMod 系统被滥用，所以开发了新一代<a href="https://github.com/MinecraftForge/CoreMods" rel="nofollow noopener">CoreMod 系统</a>，使用了 <a href="https://en.wikipedia.org/wiki/Nashorn_(JavaScript_engine)" rel="nofollow noopener">Nashorn 引擎</a>，用于加载使用 JavaScript 作为编写语言的 CoreMods ，<a href="https://github.com/MinecraftForge/CoreMods/blob/ca72757d5ff0c79341bdab03c8620cb3ad9c684b/src/main/java/net/minecraftforge/coremod/CoreModEngine.java#L19-L45" rel="nofollow noopener">限制非常大</a>，几乎只允许使用 <a href="https://javadoc.io/doc/org.ow2.asm/asm-tree/7.2/index.html" rel="nofollow noopener">ASM Tree API</a>，OptiFine 作为一个使用<a href="https://minecraft.gamepedia.com/Programs_and_editors/Mod_Coder_Pack" rel="nofollow noopener">传统 MCP 工程</a>的庞大项目，是几乎不可能使用 ASM 的，工作量非常大，因此让 OptiFine 兼容 Forge 1.13 ~ 1.14.3 比较困难。<br>
+后来，在 <a href="https://github.com/ichttt" rel="nofollow noopener">ichttt</a> 和 cpw 的<a href="https://github.com/cpw/modlauncher/issues/22" rel="nofollow noopener">协调</a>下，cpw 终于在 modlauncher 中<a href="https://github.com/cpw/modlauncher/commit/943824910f1320b6e131701835fe6471b4ef73dd#diff-d951ceed0ab00f5119f3c27ed0172dce" rel="nofollow noopener">添加</a>了对 mods 文件夹中识别 <a href="https://github.com/cpw/modlauncher/blob/79f13f769a8102c3426e4bef47930503cb2b710f/src/main/java/cpw/mods/modlauncher/api/ITransformationService.java" rel="nofollow noopener"><code>ITransformationService</code></a> 接口的支持，由于这个接口使用起来还有<a href="https://github.com/cpw/modlauncher/issues/31" rel="nofollow noopener">问题</a>，直到 2019 年 8 月 5 号才被<a href="https://github.com/cpw/modlauncher/commit/b86c1d479606ac0606028d75fa3c0fa52827321b" rel="nofollow noopener">修复</a>，此时对应的 Forge 版本为 <a href="https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.14.4-28.0.45/forge-1.14.4-28.0.45-changelog.txt" rel="nofollow noopener">1.14.4-28.0.45</a>。因此第一个<a href="https://www.mcbbs.net/thread-898194-1-1.html" rel="nofollow noopener">支持 Forge 1.13+ 的 OptiFine</a> 版本为 OptiFine 1.14.4 HD U F4 pre1，兼容的 Forge 版本为 28.0.45。</p>
+</li>
+<li>
+<p>为什么 OptiFine 1.14.4 之后对于 Forge 的兼容性依然不尽人意：<br>
+1.12.2 之前版本的 OptiFine 对的 Forge Mods 兼容性本来就不怎么样，从 OptiFine 的 <a href="https://www.optifine.net/changelog?f=preview_OptiFine_1.12.2_HD_U_F6_pre1.jar" rel="nofollow noopener">changelog</a> 即可窥见一斑。由于 modlauncher 使用的 ClassTransformer 有修改顺序的<a href="https://github.com/cpw/modlauncher/issues/37" rel="nofollow noopener">问题</a>，<a href="https://github.com/MinecraftForge/CoreMods/blob/ca72757d5ff0c79341bdab03c8620cb3ad9c684b/src/main/java/net/minecraftforge/coremod/transformer/CoreModMethodTransformer.java" rel="nofollow noopener"><code>MethodTransformer</code></a> 和 <a href="https://github.com/MinecraftForge/CoreMods/blob/ca72757d5ff0c79341bdab03c8620cb3ad9c684b/src/main/java/net/minecraftforge/coremod/transformer/CoreModFieldTransformer.java" rel="nofollow noopener"><code>FieldTransformer</code></a> 会在 OptiFine 在修改完原版类<a href="https://github.com/cpw/modlauncher/blob/79f13f769a8102c3426e4bef47930503cb2b710f/src/main/java/cpw/mods/modlauncher/ClassTransformer.java#L92-L113" rel="nofollow noopener">之前</a>运行，引起之前修改的内容全部被覆盖的问题，导致原本就差强人意的兼容性更是雪上加霜。</p>
+</li>
+<li>
+<p>OptiFine 是如何兼容 Forge 的：<br>
+最早期的 Mod 是通过替换 Minecraft jar 包中的 class 文件实现的，早期 OptiFine 和早期 Forge 也不例外。后来随着 Forge 与 Forge Mod Loader 的壮大，越来越多的 Mod 不再使用替换 class 文件的方式，然而 OptiFine 作为一款主打修改原版渲染的 Mod，很难作为普通的 Forge Mod 加载，因此虽然后来几乎没有 Mod 再使用替换整个类的方式修改 Minecraft，但是 OptiFine 还延续了这个传统，因此不可避免地会出现 OptiFine 和 Forge 替换了两个相同的类的情况。由于 OptiFine 需要对原版 Minecraft 进行支持，因此 OptiFine 的做法是：在修改原版与 OptiFine 相关功能的同时也照着 Forge 对原版的修改方式进行相应的修改，以达到兼容 Forge 的目的。然而 Forge 的更新频率比 OptiFine 快很多，有时候 Forge  对一个原版类进行了新的修改，这个类恰好也被 OptiFine 修改了，然而旧版 OptiFine 会覆盖掉 Forge 的新的修改，需要 sp614x 手动更新，OptiFine 1.14.4 HD U F5 和 Forge 1.14.4 28.2.2 一起安装会崩溃就是这个原因引起的。</p>
+</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>1.16我在写一些教程（虽然很菜）<br>
+要是想挑战一下就试试1.16.1（虽然好像现在forge还在测试版）<br>
+预计1.15.2会和1.12.2一样成为下一个稳定版本。<br>
+（连mcmodcn评为“名扬天下“的暮色森林都要支持1.15了，你还准备用1.12？）<br>
+要是第一次做mod，就1.15吧，bug少一些（1.16还有N多没mapping掉）</p>
+    </div>
+    <br />
+    <div class="user"><h4>Nyaruko</h4></div>
+    <br />
+    <div class="post">
+        <p>感谢各位大侠愿意码这么多字的回复！</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>我个人认为1.15～1.16最好。版本较新，适合后续的版本迁移。<br>
+其次，我觉得fabric对新人更友好，有较完整、且适合新手的开发文档。而且Forge开发体验越来越差(我是这么认为)，新手建议先学fabric的MOD开发。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Fabric 缺少很多开发大型mod的功能，而且多数量的Mod的兼容性有很大的问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>Fabric 缺少很多开发大型mod的功能，而且多数量的Mod的兼容性有很大的问题。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>是的，轮子不太多，而且做为玩家体验感非常不好：还要带api</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

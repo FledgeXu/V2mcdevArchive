@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>ForgeGradleCN—Forge 环境配置新解决方案</title>
+</head>
+<body>
+    <div class="title"><h1>ForgeGradleCN—Forge 环境配置新解决方案</h1></div>
+    <div class="post-user" class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post" class="main">
+        <h2>捐赠</h2>
+<p>这是我的<a href="https://afdian.net/@fledge">爱发电</a>地址，如果我的项目为你节约了时间，或者你想要支持我长久的运营这个项目，欢迎请我喝杯咖啡。</p>
+<h2>这是什么</h2>
+<p>ForgeGradleCN 是一个 ForgeGradle3 的 Fork，在保持与原有ForgeGradle的兼容下，添加了有助于大陆地区用户的镜像。</p>
+<h2>注意事项</h2>
+<p>ForgeGradleCN 仅支持 1.14+ 版本的Forge环境构建，且没有迁移到1.12版本的打算。</p>
+<h2>使用方法</h2>
+<ol>
+<li>
+<p>使用前强烈建议先清空你的Gradle缓存，在默认情况下Gradle缓存位于：<br>
+Windows: %HOMEPATH% 下的<code>.gradle</code></p>
+<p>macOS 和 Linux: <code>~/.gradle</code></p>
+</li>
+<li>
+<p>打开你的MDK解压目录下的<code>build.gradle</code>文件，修改<code>build.gradle</code><strong>首部</strong>的内容。</p>
+<p><strong>原版的内容（节选）</strong></p>
+<pre><code class="lang-auto">buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+</code></pre>
+<p><strong>修改后的</strong></p>
+<pre><code class="lang-auto">buildscript {
+    repositories {
+        maven { url = "https://maven.aliyun.com/repository/public"}
+        maven { url = "https://lss233.littleservice.cn/repositories/forgedev" }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'com.otakusaikou.fgcn', name: 'ForgeGradleCN', version: '3.+', changing: true
+    }
+}
+apply plugin: 'com.otakusaikou.fgcn'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+</code></pre>
+</li>
+<li>
+<p>在你的IDEA内重新导入项目，之后就能使用 ForgeGradleCN 了。</p>
+</li>
+<li>
+<p>其余的步骤请按照其他的教程进行。</p>
+</li>
+</ol>
+<h2>配置镜像</h2>
+<p>在新版的 ForgeGradleCN 中，加入的可配置镜像的功能。</p>
+<h2>使用方法</h2>
+<p>修改<code>gradle.properties</code>，大家可以按需添加配置项来替换FGCN内置的镜像</p>
+<p>配置项（区分大小写）有</p>
+<div class="md-table">
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>原版地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MINECRAFT_JAR</td>
+<td><code>https://launcher.mojang.com</code></td>
+</tr>
+<tr>
+<td>FORGE_MAVEN</td>
+<td><code>https://files.minecraftforge.net/maven</code></td>
+</tr>
+<tr>
+<td>MINECRAFT_LIB</td>
+<td><code>https://libraries.minecraft.net</code></td>
+</tr>
+<tr>
+<td>MINECRAFT_ASSETS</td>
+<td><code>https://resources.download.minecraft.net</code></td>
+</tr>
+</tbody>
+</table>
+</div><p>镜像列表<br>
+<a href="https://bmclapidoc.bangbang93.com/">BMCL</a>，<a href="../t/topic/155">LSS233</a>，<a href="https://www.mcbbs.net/thread-932755-1-1.html">TSS</a>，<a href="https://www.mcbbs.net/thread-1101170-1-1.html">纪华裕的maven仓库</a></p>
+<p>举例来说:</p>
+<p>你在开发目录下的 <code>gradle.properties</code> 文件中添加如下两行，就能启用<a href="https://www.mcbbs.net/thread-1101170-1-1.html">纪华裕的maven仓库</a>来下载 Forge 和 Minecraft 库文件。</p>
+<pre><code class="lang-auto">FORGE_MAVEN=http://maven.jihuayu.site/maven
+MINECRAFT_LIB=http://maven.jihuayu.site/maven
+</code></pre>
+<p>另外你可以通过 <code>MC_DIR</code> 环境变量指定 ForgeGradle 将要获取的<code>.minecraft</code>文件夹地址。</p>
+<h2>更新日志</h2>
+<p>迁移至 Maven Central 仓库。</p>
+<h2>Gradle Wrapper 镜像</h2>
+<p>在某些时候你可能会遇见 Gradle Wrapper 下载缓慢的问题，这里非常感谢 Lss233 提供了 Gradle Wrapper 镜像，你可以使用 Gradle Wrapper 镜像加速 Gradle Wrapper 的下载。</p>
+<p>使用方法:</p>
+<blockquote>
+<p>通常首次使用 gradlew 的时候总会从Gradle官网缓慢地下载gradle.<br>
+本人对此也提供了一个简单的镜像。<br>
+<strong>加速方法</strong> :<br>
+打开项目中的 <code>gradle/wrapper/gradle-wrapper.properties </code> 文件，<br>
+将 <code>services.gradle.org/distributions</code> 替换为 <code>lss233.littleservice.cn/repositories/gradle-dist</code> 即可。<br>
+— <a href="../t/topic/155">Lss233’s.Mirror(); // 一个Minecraft开发镜像源</a></p>
+</blockquote>
+<h2>项目信息</h2>
+<p><a href="https://github.com/FledgeXu/ForgeGradleCN">Github</a>，你都看到这里了，真的不打算给我点一个Star吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>补充：</p>
+<ol>
+<li>不要看Forge官方写的不要修改</li>
+<li>关掉代理（如果你用了ustc_zzzz大佬的代理）</li>
+<li>一定记得清空缓存</li>
+<li>可能只需要刷新Gradle项目而不必完全删除再重新导入</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>此外还有一点Bug：它似乎还是从ForgeGradle下载mapped jar，结果导致（刷新）总时长高达30s，相比之下使用了ustc_zzzz大佬的代理只需要16s，看来还有待提升。<br>
+能否直接镜像每天MCP的mapped jar呢（我觉得不亻亍）？这样可能可以使速度到10s左右（大部分的时间花在了download jar上面）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>？没有这个Jar</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有这个jar</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>还有请不用使用「大佬」这个词。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>奥好的谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p><img src="../uploads/default/original/1X/0f35ad8acf6dd22bbfd68bebd4d7703f4783048b.png" alt="image" data-base62-sha1="2ayajJTiMZpgDtUG5j4xLe4azmX" width="512" height="25"><br>
+就 这 东 西<br>
+（不要看名字，早就升级1.16了）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是本地生成的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="skjsjhb" data-post="2" data-topic="589">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/skjsjhb" class="avatar"> skjsjhb:</div>
+<blockquote>
+<p>不要看Forge官方写的不要修改</p>
+</blockquote>
+</aside>
+<p>这个是什么意思？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>这个是本地生成的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>有一行写着<br>
+//Only edit below this line什么的</p>
+    </div>
+    <br />
+</body>
+</html>

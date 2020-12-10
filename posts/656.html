@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>[Forge1.15.2]getDefaultState方法出现空指针问题</title>
+</head>
+<body>
+    <div class="title"><h1>[Forge1.15.2]getDefaultState方法出现空指针问题</h1></div>
+    <div class="post-user" class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的系统：Deepin15.11 x64<br>
+你是用的JDK: JDK 1.8.0_252<br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.2<br>
+Forge版本:  Forge 31.2.0-1.15.2<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本:20200717-1.15.1</p>
+<p><strong>出错图</strong><br>
+<div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/863f2e34fc22c18f749fd5d052e57c734d144501.png" data-download-href="../uploads/default/863f2e34fc22c18f749fd5d052e57c734d144501" title="深度截图_20200722232137"><img src="../uploads/default/original/1X/863f2e34fc22c18f749fd5d052e57c734d144501.png" alt="深度截图_20200722232137" data-base62-sha1="j9BlmKCYRa5nGXmFTeJhubHnsch" width="690" height="387" data-small-upload="../uploads/default/optimized/1X/863f2e34fc22c18f749fd5d052e57c734d144501_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">深度截图_20200722232137</span><span class="informations">854×480 9.5 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<strong>错误情况简述</strong><br>
+我想在MC中加入柠檬树，但是在指定原木和树叶后，启动游戏却报空指针。（错误的代码详见相关代码的注释）<br>
+一开始是报TreeFeatureConfig这一段代码有问题，我便将LOG换成Blocks.BIRCH_LOG.getDefaultState()，LEAVES换成Blocks.BIRCH_LEAVES.getDefaultState()后（即将原木换成白桦木，树叶换成白桦叶），却正常运行。<br>
+<strong>后来我查明，主要是getDefaultState()的问题，把LOG和LEAVES换成MC原版的任何方块都没有问题，但换成我自己MOD的方块就会出问题。一开始我认为只是方块没有setDefaultState而已，但我在方块的代码里加入setDefaultState()之后还是会出现问题。</strong><br>
+在我之前1.12.2的开发中也遇到过类似问题，但我现在不知道如何解决。</p>
+<p><strong>相关代码(仅关键代码)</strong><br>
+LemonTree.java</p>
+<pre><code class="lang-auto">private static final BlockState LOG = RegisterLoader.blockLemonLog.getDefaultState(); // 出错的代码
+private static final BlockState LEAVES = RegisterLoader.blockLemonLeaf.getDefaultState(); // 出错的代码
+public static final TreeFeatureConfig CONFIG = (new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(LOG), // 指定原木
+            new SimpleBlockStateProvider(LEAVES), // 指定叶子
+            new BlobFoliagePlacer(2, 0)))
+            .baseHeight(5)
+            .heightRandA(2)
+            .foliageHeight(3)
+            .ignoreVines()
+            .setSapling((IPlantable) RegisterLoader.blockLemonSapling)
+            .build();
+</code></pre>
+<p><strong>报错日志(仅关键信息)</strong></p>
+<pre><code class="lang-auto">[23:05:59] [modloading-worker-3/ERROR] [ne.mi.fm.ja.FMLModContainer/LOADING]: Failed to register automatic subscribers. ModID: hamburger, class bilibili.vvvbbbcz.hamburger.Hamburger
+java.lang.ExceptionInInitializerError: null
+	at bilibili.vvvbbbcz.hamburger.blocks.BlockLemonSapling.&lt;init&gt;(BlockLemonSapling.java:17) ~[?:?] {re:classloading}
+	at bilibili.vvvbbbcz.hamburger.loaders.RegisterLoader.&lt;clinit&gt;(RegisterLoader.java:27) ~[?:?] {re:classloading}
+	at java.lang.Class.forName0(Native Method) ~[?:1.8.0_252] {}
+	at java.lang.Class.forName(Class.java:348) ~[?:1.8.0_252] {}
+	at net.minecraftforge.fml.AutomaticEventSubscriber.lambda$inject$6(AutomaticEventSubscriber.java:75) ~[?:?] {re:classloading}
+	at java.util.ArrayList.forEach(ArrayList.java:1257) ~[?:1.8.0_252] {}
+	at net.minecraftforge.fml.AutomaticEventSubscriber.inject(AutomaticEventSubscriber.java:62) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.constructMod(FMLModContainer.java:141) ~[?:31.2] {re:classloading}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_252] {}
+	at java.util.function.Consumer.lambda$andThen$0(Consumer.java:65) ~[?:1.8.0_252] {}
+	at net.minecraftforge.fml.ModContainer.transitionState(ModContainer.java:112) ~[?:?] {re:classloading}
+	at net.minecraftforge.fml.ModList.lambda$null$10(ModList.java:135) ~[?:?] {re:classloading}
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183) [?:1.8.0_252] {}
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382) [?:1.8.0_252] {}
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482) [?:1.8.0_252] {}
+	at java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:290) [?:1.8.0_252] {}
+	at java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:731) [?:1.8.0_252] {}
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_252] {}
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_252] {}
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_252] {}
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157) [?:1.8.0_252] {}
+Caused by: java.lang.NullPointerException
+	at bilibili.vvvbbbcz.hamburger.blocks.trees.LemonTree.&lt;clinit&gt;(LemonTree.java:18) ~[?:?] {re:classloading}
+	... 21 more
+</code></pre>
+<p><strong>查到的资料</strong><br>
+neutrino的教程(我认为这并无卵用)</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请你补充一下<code>RegisterLoader</code>类的代码。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看你的写法，你好像没有用<code>DeferredRegister</code>，如果没有用<code>DeferredRegister</code>很容易遇见注册顺序的问题，从而导致空指针错误。</p>
+    </div>
+    <br />
+    <div class="user"><h4>vvvbbbcz</h4></div>
+    <br />
+    <div class="post">
+        <p>我用的是监听事件的方法注册的</p>
+<pre><code class="lang-auto">event.getRegistry.register(&lt;Block&gt;);
+</code></pre>
+<p>应该是注册顺序的问题，等我有空试一试</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>请不要使用「期末尻♂试」这种词汇，不能帮助讨论而且会使别人理解起来困难。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

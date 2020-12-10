@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>一些论坛建议</title>
+</head>
+<body>
+    <div class="title"><h1>一些论坛建议</h1></div>
+    <div class="post-user" class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>以下是本人对V2MCDEV的一些想法，<br>
+最早是看了FledgeXu的Neutrino，顺便转到了V2MCDEV，才发现这个不那么显眼的（小站？）论坛。<br>
+看到有的帖子说，这个论坛是想做MC圈的V2EX？（很支持奥）<br>
+我觉得首要可能是需要这些（作为用户急需的）：</p>
+<ul>
+<li>Mod教程，而且要坚持写完的，不是说没有，也不是说没有很好的，但是难以找到（某度根本找不到，还是谷大哥找到的），而且一般也很难看完…<br>
+我建议弄一个交互式教程系统，就想微软官网教C#那样，做完一步再做下一步，偶尔给一些评测。（这可能不需要太大的服务器开销，让读者做出来一个东西后，一定要让他好好看看他做出来的东西—游戏设计原理）</li>
+<li>此外就是资料整理问题。BBS很大的一个问题就是，虽然已经尽量进行了整理，但是仍然非常混乱，名字是很规律了，但是我想找（举个例子）以冰和雪为主题的Mod或者材质包，有那么容易找到？<br>
+建议添加一个标签功能，并让作者和读者共同进行标注，有利于知识共享。<br>
+每个有心得的Modder都可以把自己的想法和经验发上来，BBS上面也有很多这样碎片化的教程，最后（可能）我们可以整合出一个（举个例子）全版本教程，用上面提到的那个系统来展示。</li>
+<li>一个统一的、快速的Mod包管理发布平台，为什么Mod就不配拥有像NuGet、NPM、PiP、YUM这样方便的Mod安装呢（打个比方），如果没有，那么我们来做？（比较困难…）或者哪个启动器可以做到这一点啊！<br>
+（让Mod/材质包：有书可学，有资源可用，有平台可发，有地方可获取。就是感觉：所有地方全部找遍了，都没有，那么我知道而且确信，无论如何，这个东西一定在V2MCDEV有！）</li>
+<li>对玩家友好，做一个像appstore的端到端的服务，提供精选内容（包括Mod，服务器，材质包等），而且让想玩MC的玩家一眼就知道怎么获取盗版和正版。但是却不提供像茶馆、水、评论等版面，让东西丰富而不杂乱。</li>
+<li>团队合作，如果你心有余而力不足，可以把自己推荐到v2mcdev上，找更多人和你合作。</li>
+<li>实时更新！保持信息是最新的。</li>
+<li>（大胆的想法）弄一个像v2mcTools这样的东西（客户端？），让玩家可以以最快的方式获取他们需要的东西。</li>
+<li>反混淆，MCP和Yarn的速度实在是惨不忍睹，不是他们慢，而是人少，Modders看到的srg觉得有合适的mcp，就把它提交到v2mcdev来，然后（自己弄一个？）改进MCP。</li>
+</ul>
+<p>以上只是个人想法，言辞可能不当敬请谅解，如果说MC在全球哪里最好，那应该是我们中国！</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>关于Mod包发布的东西，没法做，原因很简单，这是一个没法稳定支持下去的东西，没有什么商业模式能支持这个东西稳定的存在。</p>
+<p>V2MCdev 和这个名字所预示的一样（Way to Minecraft Development），这个论坛的主要目的是为了存档中文社区中关于Minecraft相关内容的开发（目前主要是Mod）的提问与讨论，其他的东西不是这个论坛的职责。</p>
+<p>最后Yarn和MCP问题，先不论MCP有许可证的问题，在贡献人数明显更多的英文世界，Yarn都没法做到100%的反混淆，中文世界这点人是做不到什么更好的结果的。</p>
+<p>最后，我对民族自豪感不感冒。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>关于一步一步的教程，这个东西有可能，但是我不确定，还需要进一步的实验，而且以Mod开发的复杂度，维护这样一个教程所需要的精力和时间是非常大的。<br>
+关于资料整理，论坛有开放编辑的功能，可以实现一个类似百科的效果。<br>
+而标签功能，本来就有……</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>那…世界上那么多Java包，Maven不就做到了…就是个分布式管理系统，既然Maven是开源的，建立一套标准而非服务器网络应该相对会容易些…而且mod也是java的，相对应该容易。</p>
+<p>就像什么呢，启动器，点击：安装mod，输入：安装源，名称，按照统一的标准下载jar，自动检测modloader，安装，启动，整个过程，三分钟。<br>
+所有的步骤都能做到，唯独缺了那个标准。<br>
+没有办法自建服务器的，就发到mcbbs或者v2（或者后面可能的其它平台）来。<br>
+做好了管理工具后面的事情应该没多难…而且还不用像maven那样复杂…一个jar而已<br>
+注：不是什么民族自豪感，随便找句话结个尾（我一时想不到好的结束语）<br>
+Ps 明天我写一个试试，估计几天就能出原型，剩下的就是速度和可靠性了<br>
+既然是开发，关于发布难的解决方案是不是应该属开发范围？开发者都做好了但是却没法发（或者难以发——curseforge），明明有很好的设计，却因为名气不够二付诸东流，这些，都是我以前开发遇到过的困难，不论曾经给mysql写得.net数据查询系统（最后只能自用），还是不久之前为解决地形生成难写得一套地形生成器API，直到现在的放弃MCP手动翻译srg…都存在这样的问题</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>…维护是个问题。<br>
+专门搞一个ModWiki，把现有的资料整合起来？（我最怕整合…但是我觉得需要这样一个步骤）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不需要，这里不是mcbbs，没有锁帖，你随时可以用论坛左上角的搜索功能，或者任何你喜欢的搜索引擎搜索本站的内容。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>服务是一个大问题，宽带、流量和服务器本身都需要钱，而且是大量的钱。<br>
+至于你提到的Maven，Maven的确有Maven Central 和 JCenter 这两个免费的公共仓库，但是这两个仓库的背后都是有商业公司在支持，而且这些商业公司都是依赖于此相关的业务为生的。<br>
+Maven Central 是 <a href="https://www.sonatype.com/">snoatype</a>， Jcenter 是 <a>jfrog</a>。<br>
+你以为一个真的就是一个Jar吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>我不是这个意思，我的重点在软件而非硬件，开发者可利用国内的codingpages和国外的githubpages来完成发布，只是打个比方。<br>
+大可以不用什么中央仓库，我只是想搞一个轻量级的数据交换系统。<br>
+某种意义上来说，解决了pages和统一标准后，真的…就只是一个jar</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你指的是开发者自建服务器，在CurseForge没有流行起来就是这么做的。<br>
+但是就像我说的，服务器和带宽流量都是要钱的，开发者不会希望用户真的能免费下载的，在以前大部分的Mod下载都有广告的。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>而且开发者自建服务器还有其他的问题，如果开发者退圈了，关掉了服务器，那么你是没有办法再下载他的mod了。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>现在有了curseforge，但是中国区的用户体验也并不是很优秀…<br>
+个人，小团队，搞个pages完事。<br>
+大型团队，弄捐赠，开服，提供大型下载服务。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>哟我还真的忘了这个…<br>
+bt种子思想？（胡说的）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>如果你觉得是一件容易的事的话，大可试试。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>嗯，当然（没有别的语气）<br>
+试试看呗，就当练一练java/手动滑稽<br>
+成功…也没什么好吃<br>
+失败…更没什么影响</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><div class="lightbox-wrapper"><a class="lightbox" href="../uploads/default/original/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0.jpeg" data-download-href="../uploads/default/8f4e442f3010bbad705811ef4faf8a6634e1d3d0" title="image"><img src="../uploads/default/optimized/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0_2_690x402.jpeg" alt="image" data-base62-sha1="krJXIkrmgT1pNnH1apbSvhH0M36" width="690" height="402" srcset="../uploads/default/optimized/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0_2_690x402.jpeg, ../uploads/default/original/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0.jpeg 1.5x, ../uploads/default/original/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0.jpeg 2x" data-small-upload="../uploads/default/optimized/1X/8f4e442f3010bbad705811ef4faf8a6634e1d3d0_2_10x10.png"><div class="meta"><svg class="fa d-icon d-icon-far-image svg-icon" aria-hidden="true"><use xlink:href="#far-image"></use></svg><span class="filename">image</span><span class="informations">1000×584 112 KB</span><svg class="fa d-icon d-icon-discourse-expand svg-icon" aria-hidden="true"><use xlink:href="#discourse-expand"></use></svg></div></a></div><br>
+<a href="https://xkcd.tw/927" class="onebox" target="_blank">https://xkcd.tw/927</a></p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>不要嘲讽我…（手动滑稽无意冒犯）<br>
+我知道一人之力不可能改变世界，说说做做玩玩而已<br>
+mod几乎是为了好玩…很少有人靠mod为生吧？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>没有嘲讽你，我只是觉得这些想法非常不切合实际。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>害…说中了我这个人的特点<br>
+（论坛为什么没有表情包）手动斜眼笑<br>
+好吧，封顶，不说了，回到现实中来，好好地写教程</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>表情包不利于正经的讨论，如果你想好好讨论问题，请不要使用表情包。</p>
+    </div>
+    <br />
+    <div class="user"><h4>Twily</h4></div>
+    <br />
+    <div class="post">
+        <p>了解，（原来如此）</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>顺便，按照你的表述，你想发明的这个协议其实就是万维网。<br>
+你完全可以写一个html，把所有mod的下载地址的贴在这个html里，这样就是你说的这个协议了。</p>
+    </div>
+    <br />
+</body>
+</html>

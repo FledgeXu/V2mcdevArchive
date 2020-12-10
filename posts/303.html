@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>方块如何使用一个自定义工具进行挖掘？</title>
+</head>
+<body>
+    <div class="title"><h1>方块如何使用一个自定义工具进行挖掘？</h1></div>
+    <div class="post-user" class="user"><h4>GhostSkyV9</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2019.1.3<br>
+Forge版本:  14.23.5.2768<br>
+Minecraft版本: 1.12</p>
+<pre><code class="lang-auto">
+**相关代码**
+「public class ObsidianBlock extends Block implements IHasModel {
+    public ObsidianBlock(String name) {
+        super(Material.IRON);
+        setRegistryName(name);
+        setUnlocalizedName(name);
+        setHardness(3.0F);
+        setHarvestLevel("iceaxe",3);
+        setCreativeTab(Util.creativeTabs);
+        ModBlocks.BLOCKS.add(this);
+    }
+
+    @Override
+    public void registryItemRender() {
+        InitHelper.itemModelRegistry(Item.getItemFromBlock(this));
+    }
+}
+」
+public class ObsidianIceaxe extends ItemTool implements IHasModel {
+    private static final Set&lt;Block&gt; EFFECTIVE_ON = Sets.newHashSet(Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE,Blocks.ACTIVATOR_RAIL, Blocks.COAL_ORE, Blocks.COBBLESTONE, Blocks.DETECTOR_RAIL, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.DOUBLE_STONE_SLAB, Blocks.GOLDEN_RAIL, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.ICE, Blocks.IRON_BLOCK, Blocks.IRON_ORE, Blocks.LAPIS_BLOCK, Blocks.LAPIS_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.PACKED_ICE, Blocks.RAIL, Blocks.REDSTONE_ORE, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.STONE, Blocks.STONE_SLAB, Blocks.STONE_BUTTON, Blocks.STONE_PRESSURE_PLATE);
+    public ObsidianIceaxe(String name,ToolMaterial materialIn) {
+        super(materialIn,EFFECTIVE_ON);
+        InitHelper.itemInit(this,name, Util.creativeTabs);
+    }
+    @Override
+    public Set&lt;String&gt; getToolClasses(ItemStack stack) {
+        return Collections.singleton("iceaxe");
+    }</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>GhostSkyV9</h4></div>
+    <br />
+    <div class="post">
+        <p>我这样写的代码，进入游戏后，并没有效果。。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你也没有自定义工具啊。</p>
+<pre><code class="lang-java">setHarvestLevel("iceaxe",3);
+</code></pre>
+<p>这里的<code>iceaxe</code>是什么？</p>
+    </div>
+    <br />
+    <div class="user"><h4>GhostSkyV9</h4></div>
+    <br />
+    <div class="post">
+        <aside class="quote no-group" data-username="sky295" data-post="1" data-topic="303">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://avatar.v2mcdev.com/size/40/username/sky295" class="avatar"> sky295:</div>
+<blockquote>
+<p>ObsidianIceaxe</p>
+</blockquote>
+</aside>
+<p>ObsidianIceaxe这个类不是自定义工具嘛</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>在你的工具类里添加</p>
+<pre><code class="lang-java">    @Override
+    public Set&lt;String&gt; getToolClasses(ItemStack stack) {
+        return Collections.singleton("iceaxe");
+    }
+
+    @Override
+    public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
+        return 4;
+    }
+</code></pre>
+<p>然后在你的方块里添加:</p>
+<pre><code class="lang-java">setHarvestLevel("iceaxe",4);
+</code></pre>
+<p>顺别一提，请不要复制粘贴我的代码，哪怕要抄也要手打。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

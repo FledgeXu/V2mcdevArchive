@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.15.2 武器与工具无法修复耐久</title>
+</head>
+<body>
+    <div class="title"><h1>1.15.2 武器与工具无法修复耐久</h1></div>
+    <div class="post-user" class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的系统：macOS High Sierra<br>
+你是用的JDK: 1.8.0_251<br>
+你使用的IDE: IntelliJ IDEA<br>
+你使用的IDE版本: 2020.1.1<br>
+Forge版本:  31.2.0<br>
+Minecraft版本: 1.15.2!</p>
+<p><a href="/uploads/short-url/crot77HMHIdVUbuBZV1XgkPHefB.png">Screen Shot 2020-07-06 at 10.22.55 PM|536x500</a></p>
+<p>如图，物品无法被铁砧或砂轮修复。。<br>
+这只是一个用于学习写的一个mod，所以有些名称可能看起来很怪。。<br>
+望解答，谢谢！</p>
+<p>SwordItemTier.java</p>
+<pre><code class="lang-auto">package com.authorname.modname.tools;
+import com.authorname.modname.utility.RegistryHandler;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.crafting.Ingredient;
+import java.util.function.Supplier;
+public enum SwordItemTier implements IItemTier
+{
+    SWORD(3, 10, 10.0F, 11.0F, 12, () -&gt; {
+        return Ingredient.fromItems(RegistryHandler.SWORD_SWORD.get());
+    });
+    private final int harvestLevel;
+    private final int maxUses;
+    private final float efficiency;
+    private final float attackDamage;
+    private final int enchantability;
+    private final Supplier&lt;Ingredient&gt; repairMaterial;
+    SwordItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier&lt;Ingredient&gt; repairMaterial)
+    {
+        this.harvestLevel = harvestLevel;
+        this.maxUses = maxUses;
+        this.efficiency = efficiency;
+        this.attackDamage = attackDamage;
+        this.enchantability = enchantability;
+        this.repairMaterial = repairMaterial;
+    }
+    @Override
+    public int getMaxUses()
+    {
+        return maxUses;
+    }
+    @Override
+    public float getEfficiency()
+    {
+        return efficiency;
+    }
+    @Override
+    public float getAttackDamage()
+    {
+        return attackDamage;
+    }
+    @Override
+    public int getHarvestLevel()
+    {
+        return harvestLevel;
+    }
+    @Override
+    public int getEnchantability()
+    {
+        return enchantability;
+    }
+    @Override
+    public Ingredient getRepairMaterial()
+    {
+        return repairMaterial.get();
+    }
+}
+</code></pre>
+<p>RegistryHandler.java</p>
+<pre><code class="lang-auto">    public static final RegistryObject&lt;SwordItem&gt; SWORD_SWORD = ITEMS.register("sword_sword", () -&gt;
+            new SwordItem(SwordItemTier.SWORD, 2, -2.4F, new Item.Properties().group(modname.TAB)));
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>emmm…<br>
+我不知道这个图片为什么会变成一个下载链接。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>RoitoLeonine</h4></div>
+    <br />
+    <div class="post">
+        <p>我觉得是你 <code>repairMaterial</code> 的问题。</p>
+<blockquote>
+<p>SWORD(3, 10, 10.0F, 11.0F, 12, () -&gt; {<br>
+return Ingredient.fromItems(RegistryHandler.SWORD_SWORD.get());<br>
+});</p>
+</blockquote>
+<p>看起来你是需要用 <code>SWORD_SWORD</code> 这个物品才能修</p>
+    </div>
+    <br />
+    <div class="user"><h4>How.050228</h4></div>
+    <br />
+    <div class="post">
+        <p>非常感谢<img src="../images/emoji/apple/pray.png?v=9" title=":pray:" class="emoji" alt=":pray:"><br>
+没想到是这种错误。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

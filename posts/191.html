@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>如何放置一个nbt结构</title>
+</head>
+<body>
+    <div class="title"><h1>如何放置一个nbt结构</h1></div>
+    <div class="post-user" class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+Minecraft版本: 1.12.2</p>
+<p><strong>情况简述</strong><br>
+如何放置一个nbt结构。即在structures中的nbt结构。</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <pre><code class="lang-auto">Template i= ((WorldServer) event.getWorld()).getStructureTemplateManager().getTemplate(
+    event.getWorld().getMinecraftServer(),new ResourceLocation("endcity/ship"));
+ i.addBlocksToWorld(event.getWorld(),new BlockPos(0,0,0),new PlacementSettings());
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

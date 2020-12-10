@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>怎么进行“敌我识别”？</title>
+</head>
+<body>
+    <div class="title"><h1>怎么进行“敌我识别”？</h1></div>
+    <div class="post-user" class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>你使用的IDE：IntelliJ IDEA<br>
+你使用的IDE版本:2020.1<br>
+Forge版本: 31.1.46<br>
+Minecraft版本: 1.15.2<br>
+Mapping 文件版本:20200502</p>
+<p>我想让其他人踩到我的<code>ThrowableEntity</code>的时候获得debuff和一桶牛奶，但是我踩到的时候不会发生任何事情，这是我的<code>ThrowableEntity</code>中<code>Tick</code>方法：</p>
+<pre><code class="lang-auto">    @Override
+    public void tick() {
+        List&lt;PlayerEntity&gt; list = this.world.getEntitiesWithinAABB(PlayerEntity.class,this.getBoundingBox().grow(0.01d),ifexist);
+        list.remove(this.getThrower());
+        if(!list.isEmpty()){
+            for(PlayerEntity entity:list){
+                entity.addPotionEffect(new EffectInstance(Effects.WITHER,999999,1));
+                entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS,999999,1));
+                entity.addItemStackToInventory(stack);
+                this.remove();
+            }
+        }
+        super.tick();
+    }
+</code></pre>
+<p>如上，我想用<code>list.remove(this.getThrower())</code>来把我排除掉，但是没起作用。。。也不知道怎么改。。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>补充：如果能把队友一起排除掉就更好了（原版的<code>team</code>），我只找到了<code>getThrower().getTeam()</code>，没找到怎么获得队友。</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>1.具体要怎么筛选，这个逻辑是你自己应该思考的问题，而不是别人需要回答你的问题。<br>
+2. 你关于实体方面的知识概念还乱七八糟，请先理清楚有关实体的知识再来写实体。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>实体碰撞有对应的方法（可能叫onImpact之类的），里面提供了详细的rayTrace用于相关的判断。可以参考一下原版的投掷物的做法。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我知道onImapct而且在用，但是onImpact和这里的判断无关吧。。。写在tick里应该才是正确的 参考<a href="../t/topic/369">../t/topic/369</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我的逻辑这样应该没有问题：先获取投掷物范围内的玩家，再排除掉丢出者（和他的队友），如果list中还有其他人，就给他们debuff和牛奶。“有关实体的知识”在我看来太大了，目前只能学需要用的部分，而且我也没有找到完整的资料。。。。另一方面，我问这些问题可能在您看了很简单，但是它也是我学习实体的一个过程呀 <img src="../images/emoji/apple/ghost.png?v=9" title=":ghost:" class="emoji" alt=":ghost:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以参考原版船或者矿车的写法，里面有涉及到实体碰撞检测。<br>
+你需要的逻辑应该是，检测到你的实体和玩家实体碰撞以后然后给予玩家debuff和一桶牛奶。</p>
+<pre><code class="lang-java">        List&lt;Entity&gt; list = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow((double) 0.2F, (double) -0.01F, (double) 0.2F), EntityPredicates.pushableBy(this));
+        if (!list.isEmpty()) {
+            boolean flag = !this.world.isRemote &amp;&amp; !(this.getControllingPassenger() instanceof PlayerEntity);
+
+            for (int j = 0; j &lt; list.size(); ++j) {
+                Entity entity = list.get(j);
+                if (!entity.isPassenger(this)) {
+                    if (flag &amp;&amp; this.getPassengers().size() &lt; 2 &amp;&amp; !entity.isPassenger() &amp;&amp; entity.getWidth() &lt; this.getWidth() &amp;&amp; entity instanceof LivingEntity &amp;&amp; !(entity instanceof WaterMobEntity) &amp;&amp; !(entity instanceof PlayerEntity)) {
+                        entity.startRiding(this);
+                    } else {
+                        this.applyEntityCollision(entity);
+                    }
+                }
+            }
+        }
+</code></pre>
+<p>类似这样，但是这里的逻辑仅供参考。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢关于逻辑的提醒。然后我目前的主要问题是怎么排除自己（投掷者）和队友（如果原版team能做到）？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你可以在实体创建的时候设置一个值记录投掷者的UUID，然后每次碰撞检测的时候都比较一遍UUID，关于队友我不清楚，我没有用过相关的功能。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我回复了你之前的那个帖子。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>好吧 谢谢了 <img src="../images/emoji/apple/ghost.png?v=9" title=":ghost:" class="emoji" alt=":ghost:"></p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>我发现用team是个更好的办法：在右键投掷时取得队伍</p>
+<pre><code class="lang-auto">public static Team team;
+......
+team = playerIn.getTeam();
+</code></pre>
+<p>然后来和踩到它的人作比较</p>
+<pre><code class="lang-auto">for(PlayerEntity entity:list) {
+                if ( entity.getTeam() != gumine.team) {
+......
+                }
+            }
+</code></pre>
+<p>这样就比用UUID更好一些。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>好像我这样会导致两端不同步的问题。。。研究了很久，具体表现：</p>
+<pre><code class="lang-auto">A右键投掷后：
+在A客户端看来自己会立刻获得幽灵debuff和幽灵牛奶（/clear不能清除手中的牛奶），没有投掷出去任何物品；
+在B客户端看来A做出了投掷动作，但是看不见投掷物，而且走到相应位置上会获得（真）debuff和牛奶；
+在服务端看来A成功投掷，B正常踩雷；
+</code></pre>
+<p>可以确定是上面的队伍判定导致的问题。。。<br>
+补充：完整代码：</p>
+<pre><code class="lang-auto">    public class gumineentity extends ProjectileItemEntity {
+    public gumineentity(EntityType&lt;? extends c4entity&gt; type, LivingEntity playerIn, World worldIn) {
+        super(type, playerIn, worldIn);
+    }
+    public gumineentity(EntityType&lt;gumineentity&gt; gumineEntityType, World world) {
+        super(gumineEntityType, world);
+    }
+
+    @Nullable
+    private BlockState inBlockState;
+
+    public gumineentity(World world, double posX, double posY, double posZ) {
+        super(ModEntityTypes.gumineentitytype, posX, posY, posZ,world);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return ModItems.gumine;
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult raytraceResultIn) {
+        if (raytraceResultIn.getType() == RayTraceResult.Type.BLOCK) {
+            BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) raytraceResultIn;
+            BlockState blockstate = this.world.getBlockState(blockraytraceresult.getPos());
+            this.inBlockState = blockstate;
+            Vec3d vec3d = blockraytraceresult.getHitVec().subtract(this.getPosX(), this.getPosY(), this.getPosZ());
+            this.setMotion(vec3d);
+            Vec3d vec3d1 = vec3d.normalize().scale((double) 0.05F);
+            this.prevPosX -= vec3d1.x;
+            this.prevPosY -= vec3d1.y;
+            this.prevPosZ -= vec3d1.z;
+            this.playSound(ModSounds.gumine_set, 0.8f, 1.0f);
+            this.inGround = true;
+            this.setNoGravity(true);
+            blockstate.onProjectileCollision(this.world, blockstate, blockraytraceresult, this);
+        }
+    }
+    @Override
+    public IPacket&lt;?&gt; createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    private static final Predicate&lt;PlayerEntity&gt; ifexist = new Predicate&lt;PlayerEntity&gt;() {
+        @Override
+        public boolean test(PlayerEntity entity) {
+            return entity != null ;
+        }
+    };
+    ItemStack stack = new ItemStack(Items.MILK_BUCKET);
+    @Override
+    public void tick() {
+        List&lt;PlayerEntity&gt; list = this.world.getEntitiesWithinAABB(PlayerEntity.class,this.getBoundingBox().grow(0.01d),ifexist);
+        if(!list.isEmpty()){
+            for(PlayerEntity entity:list) {
+                if ( entity.getTeam() != gumine.team) {
+                    entity.playSound(ModSounds.gumine_step, 1.0f, 1.0f);
+                    entity.addPotionEffect(new EffectInstance(Effects.WITHER, 60*20, 0));
+                    entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60*20, 0));
+                    entity.addItemStackToInventory(stack);
+                    this.remove();
+                }
+            }
+        }
+        super.tick();
+    }
+}
+</code></pre>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不懂你的意思，如果数据不同步那你就同步啊……<br>
+实体数据同步的方法就那么几种……</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>看你的代码，我发现你连Mod开发中最为基础的「端」的概念都不是很了解。<br>
+建议你先从基础开始学起，再来写实体。</p>
+    </div>
+    <br />
+    <div class="user"><h4>USS.Shenzhou</h4></div>
+    <br />
+    <div class="post">
+        <p>谢谢你的提醒。我看了forge文档中sides部分的介绍，大概找到了原因，在代码中添加了一个world.isRemote的判断（我之前一直没有想到去看forge文档…<br>
+不过又会有丢出物品时物品卡顿的问题…看起来影响不大。，暂时解决不了，算了 <img src="../images/emoji/apple/rofl.png?v=9" title=":rofl:" class="emoji" alt=":rofl:">…</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>

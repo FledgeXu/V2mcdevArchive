@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>有个mod想法，但自己能力不够</title>
+</head>
+<body>
+    <div class="title"><h1>有个mod想法，但自己能力不够</h1></div>
+    <div class="post-user" class="user"><h4>鹩八哥</h4></div>
+    <br />
+    <div class="post" class="main">
+        <p>Level_of_details chunks mod,通过给mc加入LOD降低远景渲染消耗。虽然降低远景画质让人不爽，但是在外网参考过一些像素引擎的处理，我觉得LOD带来的视距增长仍然可以很好地提升整个画面效果体验。<br>
+（还有就是open cubic chunk和1：1地球计划的开展，再256米再也不是高度上限的今天，一部分人真的很需要一个能极大增加视距的mod）</p>
+<p>具体mod想法分两个部分：渲染层面的优化和内存层面的优化，先做渲染层面的，LOD参考此网站的办法https://0fps.net/2018/03/03/a-level-of-detail-method-for-blocky-voxels/，以区块作为单位进行计算。我目前的想法就是直接扔掉(2^n)^3-1个方块，在一个LOD网格中只渲染其中一个方块（虽然很粗糙但也是我目前能想到的我能实现的办法），渲染层面还有一种可能的优化是greedy meshing，但是由于mc的渲染流程，这东西恐怕不是很好实现，在处理贴图上会很麻烦，但我还是希望能使用此优化的。<br>
+另一个问题是区块顶点发送机制，这个我暂时还不太了解，但毫无疑问，LOD的重新渲染需要添加相应的事件去触发。<br>
+关于内存层面的优化，我想也是一样的方法，在一个LOD单元格中只保留一个方块被载入内存，节约空间。</p>
+<p>总而言之，我个人确实希望此mod可以实现，只是我能力不足，以及全网未见有人讨论过此事（事实上12年有个人做过类似的，但也仅此而已），所以非常希望能有其他小伙伴协助。如果你也感兴趣的话不妨交流交流</p>
+<p>关于LOD，我看过的其他一些参考资料：<br>
+</p><aside class="onebox whitelistedgeneric">
+  <header class="source">
+      <img src="https://s0.wp.com/i/favicon.ico" class="site-icon" width="32" height="32">
+      <a href="https://0fps.net/2012/06/30/meshing-in-a-minecraft-game/" target="_blank" rel="nofollow noopener" title="12:37PM - 30 June 2012">0 FPS – 30 Jun 12</a>
+  </header>
+  <article class="onebox-body">
+    <div class="aspect-image" style="--aspect-ratio:365/330;"><img src="http://0fps.files.wordpress.com/2012/06/stupid8x8x8.png?fit=440%2C330" class="thumbnail" width="365" height="330"></div>
+
+<h3><a href="https://0fps.net/2012/06/30/meshing-in-a-minecraft-game/" target="_blank" rel="nofollow noopener">Meshing in a Minecraft Game</a></h3>
+
+<p>The</p>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+<br>
+<a href="https://web.archive.org/web/20190206023309/http://www.sea-of-memes.com/LetsCode64/LetsCode64.html" class="onebox" target="_blank" rel="nofollow noopener">https://web.archive.org/web/20190206023309/http://www.sea-of-memes.com/LetsCode64/LetsCode64.html</a><br>
+<a href="https://web.archive.org/web/20200516065531/http://www.sea-of-memes.com/LetsCode67/LetsCode67.html" class="onebox" target="_blank" rel="nofollow noopener">https://web.archive.org/web/20200516065531/http://www.sea-of-memes.com/LetsCode67/LetsCode67.html</a><br>
+（最后两个网站因为原网站已404，故贴镜像网址）
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>mark</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>这两天实验做完了比较空，回来讨论下这个问题，在尽量不破坏原版渲染的前提下，我暂时可以考虑在这么几个方面优化：</p>
+<ol>
+<li>原版的剔除（cull）在renderchunk这个层级使用的是洪泛算法，就是路由里的那种，简单的说就是考虑面与面之间是否存在通路，但是没考虑光线是直线传播的，速度的话由于遍历时不会重复最坏遍历完所有方块耗时可以忽略不计，实测在1ms以下。这样虽然可以保证不产生假阳性的情况，但是会出现剔除性能低下。这里可以考虑进行优化，增加有效剔除比例。</li>
+<li>距离相关的LOD，这个实操的话可以换个思路，可以这么考虑（但是增加的操作不一定能真的带来性能提升），在每个render chunk创建时（对应于compile阶段）将16x16x16的立方体进行2次幂的切割，然后对每个立方体计算感官级的颜色（这里可以用统计学的参数，也可以用聚类算法等等），在不同的分辨率下创建替代面片来拓展原来的面片缓存，当距离比较远时，可以考虑使用地分辨率的缓存进行渲染。可以大量减少渲染顶点数，具体到细节上，可能有很多小问题。</li>
+</ol>
+    </div>
+    <br />
+    <div class="user"><h4>鹩八哥</h4></div>
+    <br />
+    <div class="post">
+        <p>原版面的剔除我记得1.15+的soldium mod有做过特殊的优化，可以剔除被前景遮挡的面片，我还没去研究过这个mod的源码，所以也不知是用什么办法实现的，但按照mod作者描述，我猜这个操作应该和原版的面片剔除流程差不多在同一个时候发生的。<br>
+另一个面片的剔除方法是greedy meshing（准确说是整合面片），也就是将原本的多个小面片组合成一张大面片。因为最近没在做这个mod的研究，所以我也没有尝试过这么做，但我猜greedy meshing的效率应该是不错的。之前我还在担心greedy meshing的兼容性问题，但现在想起来其实改变的只是发送往gpu的顶点数据，如果要兼容optifine的话问题应该不大（还可以参考no cube mod是如何实现的，这个mod对optifine有相当不错的兼容）。<br>
+然后是计算感官级的颜色。。。你提到用聚类算法，我记得这个好像涉及到人工智能方面的东西吗？这类算法一般都很吃性能吧？以及我不太确定你所指的替代面片具体会如何操作，如果这个替代面片只是很简单的一个大立方体的话，或许这个立方体的颜色可以直接用多贴图混合得出？</p>
+    </div>
+    <br />
+    <div class="user"><h4>nowandfuture</h4></div>
+    <br />
+    <div class="post">
+        <p>我说的剔除还是停留在mojang设计的chunk体素块上的，因为这个是比较容易立即实现和进行评估的，但是是频繁的在cpu上的计算，所以设计的话要有所考虑，这个具体是在创建vbo和发送顶点数据（忘了，可能是在后面）这一步，原版的面片剔除就是我前面说的那一步，也几乎是唯一的一步（当然不算视锥视距可见性这些最简单的剔除）。然后这几步实际是在多线程中的（至少在1.15+上是的），所以提到后面的计算颜色，我是不准备把原来所有方块的quad进行替换的，还是想用显存（或内存）来换速度，直接在一开始创建完所有分辨率下的可能“方块”，聚类算法的话，其实性能的话应该没什么太大的问题，可以先下采样再做聚类，只是一个想法而已，性能不行的话最简单的就是直接统计某个色彩空间中的直方图，rank下。网格聚合的话这个的话具体有很多方式，但会附带一些聚合时性能损耗，以及最后的效果能不能保留（比如使像素风格遭到破坏），这个不好评估。我说的代替就是在绘制chunk的时候注入点步骤来选择不同的面片缓存进行绘制，颜色得话我是希望在一开始计算出来，贴图混合的话这个还是要有一些策略的，同样要算法支持，这个就等价我之前说的颜色的选择策略。<br>
+soldium这部分剔除我大概看了下，改了挺多的，包括了整个流程 ：<a href="https://github.com/jellysquid3/sodium-fabric/blob/3ebf8ec7e4de5a1b343b008c97ab7c77dadbd427/src/main/java/me/jellysquid/mods/sodium/client/render/chunk/ChunkRenderManager.java#L35" rel="noopener nofollow ugc">soldium github</a>，不好做比较。</p>
+    </div>
+    <br />
+    <div class="user"><h4>鹩八哥</h4></div>
+    <br />
+    <div class="post">
+        <p>关于面片剔除，说实话我比较菜，除了mojang的剔除算法外，几乎不知道还有哪些方式进行优化 qwq<br>
+关于多级面片缓存在区块构建时一次性完成，我一开始确实是这么理解的，只是不清楚颜色聚类算法和网格聚合这两方面的操作而已。。在这之前我几乎没接触过这两样东西。比如说颜色聚类算法的话，比较近距离的区块，为了确保一定视觉质量，计算结果还是得用一定分辨率的贴图而不是单一颜色，所以或许要每级lod都需要计算一次？这样子带来的开销不知会如何？</p>
+    </div>
+    <br />
+</body>
+</html>

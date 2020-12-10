@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    <title>1.14.4构建失败</title>
+</head>
+<body>
+    <div class="title"><h1>1.14.4构建失败</h1></div>
+    <div class="post-user" class="user"><h4></h4></div>
+    <br />
+    <div class="post" class="main">
+        <p><strong>版本信息</strong><br>
+IntelliJ IDEA<br>
+IntelliJ IDEA 2019.3<br>
+Forge版本:  28.1.0<br>
+Minecraft版本: 1.14.4<br>
+Mapping 文件版本:</p>
+<p><strong>报错日志</strong></p>
+<pre><code class="lang-auto">
+&gt; Configure project :
+New Dep: net.minecraftforge:forge:1.14.4-28.1.0_mapped_snapshot_20200119-1.14.3
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'tour14'.
+&gt; Could not resolve dependency: net.minecraftforge:forge:1.14.4-28.1.0:userdev
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/4.9/userguide/command_line_interface.html#sec:command_line_warnings
+
+CONFIGURE FAILED in 24s
+
+</code></pre>
+<p><strong>出错图</strong><br>
+<img src="https://f0.mc.0sm.com/node0/2020/02/85E5626C38F9B11D-fe6ec0ae450a1987.png" alt="" width="" height=""></p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>网络问题，请挂代理。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>怎么挂代理，vnp吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>我在视频中有讲解过。<br>
+你可以去买V2ray的代理。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>就是那个gradle.properties吗？按照你视频里面的写？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>不是，你得先有代理。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>您能详细点说吗？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>你既然不会用代理就试试离线包吧。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>离线包怎么弄？</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p>耗子的<a href="https://www.mcbbs.net/thread-896542-1-1.html">离线包</a>。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>我去试试，谢谢</p>
+    </div>
+    <br />
+    <div class="user"><h4>FledgeXu</h4></div>
+    <br />
+    <div class="post">
+        <p><a class="mention" href="/u/mouse">@Mouse</a> 如果不麻烦的话，也在这里发一份吧。<br>
+之后我想想办法，看看能不能自动化的构建离线包。</p>
+    </div>
+    <br />
+    <div class="user"><h4>纪华裕</h4></div>
+    <br />
+    <div class="post">
+        <p>出现这个问题最大原因可能是某一次下载失败导致文件损坏，你需要删除<code>.gradle</code>目录下的对应文件。</p>
+    </div>
+    <br />
+    <div class="user"><h4></h4></div>
+    <br />
+    <div class="post">
+        <p>已经用离线包弄好了</p>
+    </div>
+    <br />
+    <div class="user"><h4>system</h4></div>
+    <br />
+    <div class="post">
+        <p>该主题在最后一个回复创建后7天后自动关闭。不再允许新的回复。</p>
+    </div>
+    <br />
+</body>
+</html>
